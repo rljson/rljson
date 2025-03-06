@@ -6,184 +6,224 @@
 
 import { Json } from '@rljson/hash';
 
-export type TableName = string;
-export type ItemId = string;
-export type ContainerRef = string;
-export type LayerRef = string;
-export type PropertyRef = string;
-export type PackageRef = string;
-export type ContainerId = string;
+// ..............................................................................
+/**
+ * A ref is a hash that references to another element
+ */
+export type Ref = string;
 
-// ...........................................................................
+/**
+ * An `id` is a *user defined* name or identifier of an item.
+ * It exists in parallel with the auto generated `_hash`.
+ */
+export type Id = string;
+
+// .............................................................................
+
+/**
+ * A table id reference to a table. The table ids are used as keys in the top
+ * level structure of an Rljson data object.
+ */
+export type TableId = Id;
+
+/**
+ * Types of tables that can be stored in an Rljson object
+ *
+ * - `buffets` Tables containing buffets
+ * - `cakes` Tables containing cakes
+ * - `collections` Tables containing collections
+ * - `ids` Tables containing item ids
+ * - `props` Tables containing item properties
+ */
+export type TableType = 'buffets' | 'cakes' | 'collections' | 'ids' | 'props';
+
 /** A table in the rljson format */
-export interface RljsonTable<T extends Json> extends Json {
+export interface RljsonTable<Data extends Json, Type extends TableType>
+  extends Json {
   /** The data rows of the table */
-  _data: T[];
+  _data: Data[];
+
+  /**  The type of the table */
+  _type: Type;
+}
+
+// .............................................................................
+/**
+ * A table containing item properties
+ */
+export type PropertiesTable = RljsonTable<Json, 'props'>;
+
+// .............................................................................
+/**
+ * An IdSetRef is a hash pointing to an IdSet
+ */
+export type IdSetRef = Ref;
+
+/**
+ * An IdSet manages list of item ids
+ */
+export interface IdSet extends Json {
+  /**
+   * The hash of another item id list which is extended by this one.
+   * Must be empty or null, when the list is the root.
+   */
+  base: IdSetRef | null;
 
   /**
-   * The type of the table
-   * - containers have packages
-   * - packages have items
-   * - items have layers
-   * - layers have properties
+   * The item ids added to base
    */
-  _type: 'containers' | 'packages' | 'items' | 'layers' | 'properties';
-}
+  add: Id[];
 
-// ...........................................................................
-/** Describes the properties of items */
-export interface RljsonProperties extends RljsonTable<Json> {
-  _type: 'properties';
-}
-
-// ...........................................................................
-/** A layer assigns ingredients to slices */
-export interface RljsonLayer extends Json {
-  /** Describes the properties of this layer */
-  properties: TableName;
-
-  /** Assigs properties to items */
-  assign: {
-    [itemId: ItemId]: PropertyRef;
-  };
-}
-
-/** Describes the layers in an Rljson file */
-export interface RljsonLayers extends RljsonTable<RljsonLayer> {
-  _type: 'layers';
-}
-
-// ...........................................................................
-/**
- * Assigns a layerRef to a containerId
- */
-export interface RljsonContainer extends Json {
-  /** The id of the container */
-  id: ContainerId;
-  assign: {
-    [containerId: string]: LayerRef;
-  };
-
-  _type: 'container';
+  /**
+   * The item ids removed from base
+   */
+  remove: Id[];
 }
 
 /**
- * A table containing packages
+ * A table containing item ids
  */
-export interface Rljsonpackages extends RljsonTable<RljsonContainer> {
-  _type: 'packages';
+export type IdSetsTable = RljsonTable<IdSet, 'ids'>;
+
+// .............................................................................
+/**
+ * A CollectionId is an id identifying a collection
+ */
+export type CollectionId = Id;
+
+/**
+ * A CollectionRef is a hash pointing to a collection
+ */
+export type CollectionRef = Ref;
+
+/**
+ * A collection assigns properties to item ids
+ */
+export interface Collection extends Json {
+  /**
+   * The id of the collection
+   */
+  id: CollectionId;
+
+  /**
+   * A reference to the ids of the items the collection is based on
+   */
+  idSetRef: IdSetRef;
+
+  /**
+   * `base` an optional base collection that is extended by this collection
+   */
+  base: CollectionRef | null;
+
+  /**
+   * The table containing the properties assigned to the items of this collection
+   */
+  propertyTableId: TableId;
+
+  /**
+   * Assign properties to each item of the collection
+   */
+  assign: Record<Id, Ref>;
 }
 
-// ...........................................................................
+/**
+ * A table containing collections
+ */
+export type CollectionsTable = RljsonTable<Collection, 'collections'>;
+
+// .............................................................................
+
+/**
+ * A `CakeLayerId` assigns an id or name to a cake layer
+ */
+export type CakeLayerId = Id;
+
+/**
+ * A `CakeLayerIdSet` is a set of cake layer ids / cake layer names
+ */
+export type CakeLayerIdSet = IdSet;
+
+/**
+ * A cake is a collection of layers.
+ *
+ * A layer is a collection of items.
+ * All layers of a cake refer to the same items.
+ */
+export interface Cake extends Json {
+  /**
+   * All layers of a cake share the same item ids.
+   */
+  itemIdsRef: IdSetRef;
+
+  /**
+   * A list of layer names (ids)
+   */
+  layerIdSet: CakeLayerIdSet;
+
+  /**
+   * Assigns a collection to each layer of the cake.
+   * The layerIds must be items of the layerIdSet.
+   * The collection must be a collection of the itemIds.
+   */
+  layers: {
+    [layerId: CakeLayerId]: CollectionRef;
+  };
+}
+
+/**
+ * A table containing cakes
+ */
+export type CakesTable = RljsonTable<Cake, 'cakes'>;
+
+// .............................................................................
+
+/**
+ * A buffet id is a name or id of a buffet
+ */
+export type BuffetId = Id;
+
+/**
+ * A buffet is a collection of arbitrary but related items, e.g. cakes,
+ * collections, or items.
+ */
+export interface Buffet extends Json {
+  /**
+   * The id of the buffet
+   */
+  id: BuffetId;
+
+  items: Array<{
+    tableName: TableId;
+    itemRef: Ref;
+  }>;
+}
+
+/**
+ * A table containing buffets
+ */
+export type BuffetsTable = RljsonTable<Buffet, 'buffets'>;
+
+// .............................................................................
+/**
+ * One of the supported Rljson table types
+ */
+export type RljsonTableType =
+  | BuffetsTable
+  | PropertiesTable
+  | CollectionsTable
+  | IdSetsTable
+  | CakesTable;
+
+// .............................................................................
 /** The rljson data format */
 export interface Rljson extends Json {
-  [key: string]: Rljsonpackages | RljsonLayers | RljsonProperties | string;
+  [tableId: TableId]: RljsonTableType;
 }
 
 // ...........................................................................
-/** @returns an example rljson object */
-export const exampleRljson = (): Record<string, any> => {
-  return {
-    packages: {
-      _data: [
-        // Describe a complete catalog
-        {
-          id: '0069622_articles',
-          catalog: '0069622',
-          contentType: 'articles',
-          itemIds: 'HAS034A',
-          layers: {
-            basicShapes: 'HASH0',
-            shortTitlesDe: 'HASH1',
-            shortTitlesEn: 'HASH2',
-            titlesDe: 'HASH3',
-            titlesEn: 'HASH4',
-          },
-        },
+// Todo: Next step: Check if this model meets the requirements of the use cases
 
-        {
-          id: '0069622_programs_and_variants',
-          catalog: '0069622',
-          contentType: 'programs_and_variants',
-          layers: {
-            colors: 'HASH0',
-            materials: 'HASH1',
-          },
-        },
-      ],
-    },
-
-    packageItems: {
-      _data: [
-        {
-          package: '0069622_articles',
-          itemIds: ['ITEM0', 'ITEM1', 'ITEM2'],
-        },
-      ],
-    },
-
-    layers: {
-      _data: [
-        // Describe a complete layer
-        {
-          layer: 'basicShapes',
-          itemProperties: {
-            item0: 'HASH6',
-            item1: 'HASH7',
-            item2: 'HASH8',
-          },
-        },
-      ],
-    },
-
-    basicShapes: {
-      _data: [
-        {
-          id: '0',
-          type: 'circle',
-          radius: 10,
-        },
-        {
-          id: '1',
-          type: 'square',
-          side: 10,
-        },
-        {
-          id: '2',
-          type: 'triangle',
-          side: 10,
-        },
-      ],
-    },
-  };
-};
-
-// Ganz simple:
-
-export interface Rljson2 {
-  // A cake is a collection of layers
-  box: {
-    _data: {
-      id: string;
-      layers: {
-        [name: string]: string;
-      };
-    }[];
-  };
-
-  // A layer is a collection of properties
-  layers: {
-    _data: {
-      id: string;
-      properties: [
-        'basicShapes',
-        'shortTitlesDe',
-        'shortTitlesEn',
-        'titlesDe',
-        'titlesEn',
-      ];
-    };
-  };
-
-  // A slice is a collection of
-}
+// A catalog is a buffet
+// The catalog articles are a cake
+// Certain properties of the catalog articles are cake layers
+// Catalog layer assigns properties to the catalog articles
