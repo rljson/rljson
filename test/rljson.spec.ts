@@ -6,8 +6,6 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { Foo } from '../src/foo';
-
 describe('Foo', () => {
   describe('foo()', () => {
     it('should return "bar"', () => {
@@ -16,3 +14,13 @@ describe('Foo', () => {
     });
   });
 });
+
+export type Hashed<T> = T & { _hash: string };
+
+export interface Foo {
+  foo(): string;
+}
+
+export const f = <T>(v: T): Hashed<T> => {
+  return { ...v, _hash: 'xyz' };
+};

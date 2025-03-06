@@ -5,10 +5,8 @@
 // found in the LICENSE file in the root of this package.
 
 /**
- * The main class of the package
+ * Validates Rljson data
  */
-export class Foo {
-  foo() {
-    return 'bar';
-  }
+export class Validator {
+  // Keys must be lower camelcase using only numbers and letters
 }

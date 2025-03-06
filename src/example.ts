@@ -1,5 +1,4 @@
-import { Foo } from './foo.ts';
-
+import { Foo } from './rljson.ts';
 
 /**
  * The example function demonstrates how the package works

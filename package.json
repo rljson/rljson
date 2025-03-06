@@ -45,6 +45,9 @@
     "vitest-dom": "^0.1.1",
     "vitest": "^3.0.7"
   },
-  "peerDependencies": {},
+  "peerDependencies": {
+    "@rljson/json": "../json",
+    "@rljson/hash": "../hash"
+  },
   "dependencies": {}
 }
