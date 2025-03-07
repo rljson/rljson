@@ -5,21 +5,23 @@ Todo: Add description here
 ## Example
 
 ```typescript
-import { h } from '@rljson/hash';
+// @license
+// Copyright (c) 2025 Rljson
+//
+// Use of this source code is governed by terms that can be
+// found in the LICENSE file in the root of this package.
 
+import { h } from '@rljson/format';
 
 /**
  * The example function demonstrates how the package works
  */
 export const example = () => {
   const print = console.log;
-  const assert = console.assert;
+  const stringify = JSON.stringify;
 
-  const foo = new Foo();
-  print(foo.foo());
-  assert(foo.foo() === 'bar');
+  const rljson = exampleRljson();
+  print(stringify(rljson, null, 2));
 };
-
-export class X {}
 
 ```

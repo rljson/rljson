@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { Json } from '@rljson/hash';
+import { Json, JsonValue } from '@rljson/hash';
 
 // ..............................................................................
 /**
@@ -16,7 +16,7 @@ export type Ref = string;
  * An `id` is a *user defined* name or identifier of an item.
  * It exists in parallel with the auto generated `_hash`.
  */
-export type Id = string;
+export type ItemId = string;
 
 // .............................................................................
 
@@ -24,7 +24,7 @@ export type Id = string;
  * A table id reference to a table. The table ids are used as keys in the top
  * level structure of an Rljson data object.
  */
-export type TableId = Id;
+export type TableName = ItemId;
 
 /**
  * Types of tables that can be stored in an Rljson object
@@ -33,9 +33,9 @@ export type TableId = Id;
  * - `cakes` Tables containing cakes
  * - `collections` Tables containing collections
  * - `ids` Tables containing item ids
- * - `props` Tables containing item properties
+ * - `properties` Tables containing item properties
  */
-export type TableType = 'buffets' | 'cakes' | 'collections' | 'ids' | 'props';
+export type TableType = 'buffet' | 'cake' | 'collection' | 'ids' | 'properties';
 
 /** A table in the rljson format */
 export interface RljsonTable<Data extends Json, Type extends TableType>
@@ -48,19 +48,25 @@ export interface RljsonTable<Data extends Json, Type extends TableType>
 }
 
 // .............................................................................
+
+/**
+ * A reference to a properties row in a properties table
+ */
+export type PropertiesRef = Ref;
+
 /**
  * A table containing item properties
  */
-export type PropertiesTable = RljsonTable<Json, 'props'>;
+export type PropertiesTable = RljsonTable<Json, 'properties'>;
 
 // .............................................................................
 /**
- * An IdSetRef is a hash pointing to an IdSet
+ * An IdSetRef is a hash pointing to an Ids
  */
 export type IdSetRef = Ref;
 
 /**
- * An IdSet manages list of item ids
+ * An Ids manages list of item ids
  */
 export interface IdSet extends Json {
   /**
@@ -72,12 +78,12 @@ export interface IdSet extends Json {
   /**
    * The item ids added to base
    */
-  add: Id[];
+  add: ItemId[];
 
   /**
    * The item ids removed from base
    */
-  remove: Id[];
+  remove: ItemId[];
 }
 
 /**
@@ -86,11 +92,6 @@ export interface IdSet extends Json {
 export type IdSetsTable = RljsonTable<IdSet, 'ids'>;
 
 // .............................................................................
-/**
- * A CollectionId is an id identifying a collection
- */
-export type CollectionId = Id;
-
 /**
  * A CollectionRef is a hash pointing to a collection
  */
@@ -101,47 +102,47 @@ export type CollectionRef = Ref;
  */
 export interface Collection extends Json {
   /**
-   * The id of the collection
-   */
-  id: CollectionId;
-
-  /**
-   * A reference to the ids of the items the collection is based on
-   */
-  idSetRef: IdSetRef;
-
-  /**
    * `base` an optional base collection that is extended by this collection
    */
   base: CollectionRef | null;
 
   /**
-   * The table containing the properties assigned to the items of this collection
+   * The table containing the item set of this collection
    */
-  propertyTableId: TableId;
+  idSetsTable: TableName;
 
   /**
-   * Assign properties to each item of the collection
+   * A reference to the ids of the items the collection is based on
    */
-  assign: Record<Id, Ref>;
+  idSet: IdSetRef;
+
+  /**
+   * The table containing the properties assigned to the items of this collection
+   */
+  properties: TableName;
+
+  /**
+   * Assign properties to each item of the collection.
+   */
+  assign: Record<ItemId, PropertiesRef>;
 }
 
 /**
  * A table containing collections
  */
-export type CollectionsTable = RljsonTable<Collection, 'collections'>;
+export type CollectionsTable = RljsonTable<Collection, 'collection'>;
 
 // .............................................................................
 
 /**
  * A `CakeLayerId` assigns an id or name to a cake layer
  */
-export type CakeLayerId = Id;
+export type CakeLayerId = ItemId;
 
 /**
- * A `CakeLayerIdSet` is a set of cake layer ids / cake layer names
+ * A `CakeLayerIds` is a set of cake layer ids / cake layer names
  */
-export type CakeLayerIdSet = IdSet;
+export type CakeLayerIds = IdSet;
 
 /**
  * A cake is a collection of layers.
@@ -151,19 +152,22 @@ export type CakeLayerIdSet = IdSet;
  */
 export interface Cake extends Json {
   /**
-   * All layers of a cake share the same item ids.
+   * The table containing the item ids of the cake
    */
-  itemIdsRef: IdSetRef;
+  itemIdsTable: TableName;
 
   /**
-   * A list of layer names (ids)
+   * All layers of a cake share the same item ids.
    */
-  layerIdSet: CakeLayerIdSet;
+  itemIds: IdSetRef;
+
+  /**
+   * The table containing the layers of this cake
+   */
+  layersTable: TableName;
 
   /**
    * Assigns a collection to each layer of the cake.
-   * The layerIds must be items of the layerIdSet.
-   * The collection must be a collection of the itemIds.
    */
   layers: {
     [layerId: CakeLayerId]: CollectionRef;
@@ -173,14 +177,14 @@ export interface Cake extends Json {
 /**
  * A table containing cakes
  */
-export type CakesTable = RljsonTable<Cake, 'cakes'>;
+export type CakesTable = RljsonTable<Cake, 'cake'>;
 
 // .............................................................................
 
 /**
  * A buffet id is a name or id of a buffet
  */
-export type BuffetId = Id;
+export type BuffetId = ItemId;
 
 /**
  * A buffet is a collection of arbitrary but related items, e.g. cakes,
@@ -188,20 +192,19 @@ export type BuffetId = Id;
  */
 export interface Buffet extends Json {
   /**
-   * The id of the buffet
+   * The items of the buffet
    */
-  id: BuffetId;
-
   items: Array<{
-    tableName: TableId;
-    itemRef: Ref;
+    table: TableName;
+    ref: Ref;
+    [key: string]: JsonValue;
   }>;
 }
 
 /**
  * A table containing buffets
  */
-export type BuffetsTable = RljsonTable<Buffet, 'buffets'>;
+export type BuffetsTable = RljsonTable<Buffet, 'buffet'>;
 
 // .............................................................................
 /**
@@ -217,13 +220,7 @@ export type RljsonTableType =
 // .............................................................................
 /** The rljson data format */
 export interface Rljson extends Json {
-  [tableId: TableId]: RljsonTableType;
+  [tableId: TableName]: RljsonTableType | string;
 }
 
-// ...........................................................................
-// Todo: Next step: Check if this model meets the requirements of the use cases
-
-// A catalog is a buffet
-// The catalog articles are a cake
-// Certain properties of the catalog articles are cake layers
-// Catalog layer assigns properties to the catalog articles
+export const exampleRljson = (): Rljson => ({});
