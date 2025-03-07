@@ -6,13 +6,11 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { Foo } from '../src/foo';
+import { Validator } from '../src/validator';
 
-describe('Foo', () => {
-  describe('foo()', () => {
-    it('should return "bar"', () => {
-      const foo = new Foo();
-      expect(foo.foo()).toBe('bar');
-    });
+describe('Validator', () => {
+  it('should validate Rljson data', () => {
+    const validator = new Validator();
+    expect(validator).toBeDefined();
   });
 });

@@ -4,11 +4,10 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-/**
- * The main class of the package
- */
-export class Foo {
-  foo() {
-    return 'bar';
-  }
-}
+import { describe, it } from 'vitest';
+
+describe('Rljson', () => {
+  describe('examples', () => {
+    it('example', async () => {});
+  });
+});
