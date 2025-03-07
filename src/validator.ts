@@ -4,4 +4,9 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-export { type Rljson } from './rljson.ts';
+/**
+ * Validates Rljson data
+ */
+export class Validator {
+  // Keys must be lower camelcase using only numbers and letters
+}

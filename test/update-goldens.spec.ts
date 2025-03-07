@@ -6,7 +6,7 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { updateGoldens } from '../goldens/update-goldens.ts';
+import { updateGoldens } from './goldens/update-goldens.ts';
 
 describe('updateGoldens', () => {
   it('should be set to false after updating', () => {
