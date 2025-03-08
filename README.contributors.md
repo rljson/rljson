@@ -44,9 +44,17 @@ npm run build
 
 ## Publish the package
 
-Open `package.json`.
+Open `package.json`
 
-Increase `version`.
+Increase `version`
+
+Make sure all dependencies are listed in `peerDependencies`
+
+Make sure no file references are contained
+
+Open `vite.config.mts` right beside `package.json`
+
+Make sure all `peerDependencies` are listed in `rollupOptions/external`
 
 Compile typescript:
 
