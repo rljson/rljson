@@ -49,5 +49,10 @@
   "peerDependencies": {
     "@rljson/hash": "^0.0.3",
     "@rljson/json": "^0.0.2"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ]
   }
 }
