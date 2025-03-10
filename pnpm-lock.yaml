@@ -8,13 +8,13 @@ importers:
 
   .:
     dependencies:
-      '@rljson/json':
-        specifier: ^0.0.2
-        version: 0.0.2
-    devDependencies:
       '@rljson/hash':
-        specifier: ^0.0.3
-        version: 0.0.3(@aws-crypto/sha256-js@5.2.0)(@rljson/json@0.0.2)(js-base64@3.7.7)
+        specifier: ^0.0.5
+        version: 0.0.5(@aws-crypto/sha256-js@5.2.0)(@rljson/json@0.0.4)(js-base64@3.7.7)
+      '@rljson/json':
+        specifier: ^0.0.4
+        version: 0.0.4
+    devDependencies:
       '@types/node':
         specifier: ^22.13.10
         version: 22.13.10
@@ -383,16 +383,16 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@rljson/hash@0.0.3':
-    resolution: {integrity: sha512-KWoofwhO/nw/ZB6nsePWcyrSoAx4OqiFuYprMr0KzIZWUYd6Vciq/eHU7a4VuTeBNrNzt8aiTcYTYPgeqlqsHQ==}
+  '@rljson/hash@0.0.5':
+    resolution: {integrity: sha512-46XsZD9Kr9QNxBmAgWiAZT1QH0doeQ1IARFewDe6F5KeVn0q6iXTmUXTkbEA1m0zbWcj6BkgRXfAcKzntFFf3Q==}
     engines: {node: '>=22.14.0'}
     peerDependencies:
       '@aws-crypto/sha256-js': ^5.2.0
-      '@rljson/json': ^0.0.2
+      '@rljson/json': ^0.0.4
       js-base64: ^3.7.7
 
-  '@rljson/json@0.0.2':
-    resolution: {integrity: sha512-51VQRbt6EnDETgcJPpbasfeg8s1HkUA3V0hQHA89B1s6CCSDIUkl24cdy0z1pWfyX3SawOf3Mwx+onPinixbVg==}
+  '@rljson/json@0.0.4':
+    resolution: {integrity: sha512-hpzTYuHgCJCcV1LpydN2vLeXfztl/vpcf/6F9onosAnY2cBOSf9szOMMi2lHkzHv01Y0uClkVzKBkVHYIlDBJw==}
     engines: {node: '>=22.14.0'}
 
   '@rollup/pluginutils@5.1.4':
@@ -1944,13 +1944,13 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@rljson/hash@0.0.3(@aws-crypto/sha256-js@5.2.0)(@rljson/json@0.0.2)(js-base64@3.7.7)':
+  '@rljson/hash@0.0.5(@aws-crypto/sha256-js@5.2.0)(@rljson/json@0.0.4)(js-base64@3.7.7)':
     dependencies:
       '@aws-crypto/sha256-js': 5.2.0
-      '@rljson/json': 0.0.2
+      '@rljson/json': 0.0.4
       js-base64: 3.7.7
 
-  '@rljson/json@0.0.2': {}
+  '@rljson/json@0.0.4': {}
 
   '@rollup/pluginutils@5.1.4(rollup@4.35.0)':
     dependencies:
