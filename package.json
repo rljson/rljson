@@ -29,7 +29,6 @@
     "updateGoldens": "cross-env UPDATE_GOLDENS=true npm test"
   },
   "devDependencies": {
-    "@rljson/hash": "^0.0.3",
     "@types/node": "^22.13.10",
     "@typescript-eslint/eslint-plugin": "^8.26.1",
     "@typescript-eslint/parser": "^8.26.1",
@@ -50,8 +49,8 @@
     "vitest-dom": "^0.1.1"
   },
   "peerDependencies": {
-    "@rljson/hash": "^0.0.3",
-    "@rljson/json": "^0.0.2"
+    "@rljson/hash": "^0.0.5",
+    "@rljson/json": "^0.0.4"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
