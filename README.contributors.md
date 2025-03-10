@@ -15,6 +15,20 @@ Check if there is already an issue for your problem
 
 If no, report the issue
 
+## Install pnpm
+
+Windows:
+
+```bash
+corepack enable pnpm
+```
+
+Mac:
+
+```bash
+sudo corepack enable pnpm
+```
+
 ## Check out
 
 ```bash
