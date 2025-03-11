@@ -1,6 +1,6 @@
 # Rljson Architecture
 
-This document describes the architecture of the Rljson file format.
+This document describes the architecture of the Rljson format.
 
 ## Table of Contents <!-- omit in toc -->
 

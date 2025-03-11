@@ -1,10 +1,10 @@
 {
-  "name": "@rljson/format",
-  "version": "0.0.3",
+  "name": "@rljson/rljson",
+  "version": "0.0.1",
   "packageManager": "pnpm@10.6.2",
   "description": "The RLJSON data format specification",
-  "homepage": "https://github.com/rljson/format",
-  "bugs": "https://github.com/rljson/format/issues",
+  "homepage": "https://github.com/rljson/rljson",
+  "bugs": "https://github.com/rljson/rljson/issues",
   "private": false,
   "license": "MIT",
   "engines": {
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rljson/format.git"
+    "url": "git+https://github.com/rljson/rljson.git"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
