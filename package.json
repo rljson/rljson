@@ -48,8 +48,8 @@
     "vitest": "^3.0.8",
     "vitest-dom": "^0.1.1"
   },
-  "peerDependencies": {
-    "@rljson/hash": "^0.0.7",
+  "dependencies": {
+    "@rljson/hash": "^0.0.9",
     "@rljson/json": "^0.0.7"
   },
   "pnpm": {
