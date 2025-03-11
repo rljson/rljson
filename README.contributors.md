@@ -9,7 +9,7 @@ Please check from time to time, if the issue is fixed and remove this hint.
 
 ## Report issues
 
-Visit <https://github.com/rljson/format/issues>
+Visit <https://github.com/rljson/rljson/issues>
 
 Check if there is already an issue for your problem
 
@@ -34,8 +34,8 @@ sudo corepack enable pnpm
 ```bash
 mkdir rljson
 cd rljson
-git clone https://github.com/rljson/format.git
-cd format
+git clone https://github.com/rljson/rljson.git
+cd rljson
 ```
 
 ## Install dependencies
