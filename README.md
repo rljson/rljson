@@ -1,4 +1,4 @@
-# @rljson/format
+# @rljson/rljson
 
 The RLJSON data format specification
 
