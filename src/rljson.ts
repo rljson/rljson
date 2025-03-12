@@ -6,7 +6,6 @@
 
 import { Json, JsonValue } from '@rljson/json';
 
-
 // ..............................................................................
 /**
  * A ref is a hash that references to another element
@@ -36,10 +35,15 @@ export type TableName = ItemId;
  * - `ids` Tables containing item ids
  * - `properties` Tables containing item properties
  */
-export type TableType = 'buffet' | 'cake' | 'collection' | 'ids' | 'properties';
+export type ContentType =
+  | 'buffet'
+  | 'cake'
+  | 'collection'
+  | 'ids'
+  | 'properties';
 
 /** A table in the rljson format */
-export interface RljsonTable<Data extends Json, Type extends TableType>
+export interface RljsonTable<Data extends Json, Type extends ContentType>
   extends Json {
   /** The data rows of the table */
   _data: Data[];
@@ -211,7 +215,7 @@ export type BuffetsTable = RljsonTable<Buffet, 'buffet'>;
 /**
  * One of the supported Rljson table types
  */
-export type RljsonTableType =
+export type TableType =
   | BuffetsTable
   | PropertiesTable
   | CollectionsTable
@@ -221,7 +225,7 @@ export type RljsonTableType =
 // .............................................................................
 /** The rljson data format */
 export interface Rljson extends Json {
-  [tableId: TableName]: RljsonTableType | string;
+  [tableId: TableName]: TableType | string;
 }
 
 export const exampleRljson = (): Rljson => ({});
