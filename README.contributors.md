@@ -157,7 +157,7 @@ Please replace `Commit Message` in the next command by your commit message.
 It will also used for branch name and pull request
 
 ```bash
-export MESSAGE="Commit also untracked files" && \
+export MESSAGE="Add multi row example" && \
 export BRANCH=`echo "$MESSAGE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]/_/g'` &&\
 git checkout -b $BRANCH
 ```
@@ -196,7 +196,6 @@ git commit -am"Increase version"
 git push -u origin $BRANCH && \
 gh pr create --base main --title "$MESSAGE" --body "" && \
 gh pr merge --auto --squash
-
 ```
 
 ### Wait until PR is merged

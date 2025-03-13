@@ -10,6 +10,7 @@ import {
   exampleRljson,
   exampleRljsonEmpty,
   exampleRljsonWithErrors,
+  exampleRljsonWithMultipleRows,
 } from '../src/rljson.ts';
 
 describe('Rljson', () => {
@@ -59,6 +60,78 @@ describe('Rljson', () => {
       expect(exampleRljsonWithErrors()).toEqual({
         brok$en: {
           _data: [],
+          _type: 'properties',
+        },
+      });
+    });
+  });
+
+  describe('exampleRljsonWithMultipleRows()', () => {
+    it('returns a table with multiple rows', async () => {
+      expect(exampleRljsonWithMultipleRows()).toEqual({
+        table: {
+          _data: [
+            {
+              array: [
+                1,
+                'str0',
+                true,
+                {
+                  a: {
+                    b: 'c',
+                  },
+                },
+              ],
+              boolean: true,
+              number: 1,
+              object: {
+                a: {
+                  b: 'c',
+                },
+              },
+              string: 'str0',
+            },
+            {
+              array: [
+                1,
+                'str1',
+                true,
+                {
+                  a: {
+                    b: 'c',
+                  },
+                },
+              ],
+              boolean: true,
+              number: 1,
+              object: {
+                a: {
+                  b: 'c',
+                },
+              },
+              string: 'str1',
+            },
+            {
+              array: [
+                1,
+                'str1',
+                true,
+                {
+                  a: {
+                    b: 'c',
+                  },
+                },
+              ],
+              boolean: false,
+              number: 1,
+              object: {
+                d: {
+                  e: 'f',
+                },
+              },
+              string: 'str2',
+            },
+          ],
           _type: 'properties',
         },
       });
