@@ -26,6 +26,7 @@
   - [Commit](#commit)
   - [Update dependencies](#update-dependencies)
   - [Increase version](#increase-version)
+  - [Push the branch](#push-the-branch)
   - [Create a pull request](#create-a-pull-request)
   - [Wait until PR is merged](#wait-until-pr-is-merged)
   - [Delete feature branch](#delete-feature-branch)
@@ -176,7 +177,7 @@ git add . && git commit -m "$MESSAGE"
 
 ### Update dependencies
 
-We aim to work with the latest versions of our dependencies.
+We aim to work with the latest versions of our dependencies
 
 ```bash
 pnpm update --latest &&\
@@ -190,10 +191,17 @@ pnpm version patch --no-git-tag-version && \
 git commit -am"Increase version"
 ```
 
+### Push the branch
+
+Use your ID or this git command to push the branch
+
+```bash
+git push -u origin $BRANCH
+```
+
 ### Create a pull request
 
 ```bash
-git push -u origin $BRANCH && \
 gh pr create --base main --title "$MESSAGE" --body "" && \
 gh pr merge --auto --squash
 ```
