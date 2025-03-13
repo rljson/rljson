@@ -157,7 +157,7 @@ Please replace `Commit Message` in the next command by your commit message.
 It will also used for branch name and pull request
 
 ```bash
-export MESSAGE="Add package.json tests and fix issues" && \
+export MESSAGE="Commit also untracked files" && \
 export BRANCH=`echo "$MESSAGE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]/_/g'` &&\
 git checkout -b $BRANCH
 ```
@@ -171,7 +171,7 @@ Commit your changes
 If you only have one thing, execute
 
 ```bash
-git commit -am"$MESSAGE"
+git add . && git commit -m "$MESSAGE"
 ```
 
 ### Update dependencies
@@ -180,7 +180,7 @@ We aim to work with the latest versions of our dependencies.
 
 ```bash
 pnpm update --latest &&\
-git commit -am"Update dependencies"
+git commit -m"Update dependencies"
 ```
 
 ### Increase version
