@@ -190,7 +190,7 @@ git commit -am"Increase version"
 ```bash
 git push -u origin $BRANCH && \
 gh pr create --base main --title "$MESSAGE" --body "" && \
-gh pr merge --auto --squash && \
+gh pr merge --auto --squash
 
 ```
 
