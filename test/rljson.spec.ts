@@ -7,6 +7,7 @@
 import { describe, expect, it } from 'vitest';
 
 import {
+  exampleBinary,
   exampleRljson,
   exampleRljsonEmpty,
   exampleRljsonWithErrors,
@@ -131,6 +132,22 @@ describe('Rljson', () => {
               },
               string: 'str2',
             },
+          ],
+          _type: 'properties',
+        },
+      });
+    });
+  });
+
+  describe('exampleBinary', () => {
+    it('returns a table with multiple rows', async () => {
+      expect(exampleBinary()).toEqual({
+        table: {
+          _data: [
+            { a: 0, b: 0 },
+            { a: 0, b: 1 },
+            { a: 1, b: 0 },
+            { a: 1, b: 1 },
           ],
           _type: 'properties',
         },
