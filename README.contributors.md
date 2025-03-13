@@ -17,11 +17,12 @@
   - [Install GitHub CLI](#install-github-cli)
 - [Develop](#develop)
   - [Read architecture doc](#read-architecture-doc)
-  - [Checkout main](#checkout-main)
-  - [Create a branch](#create-a-branch)
   - [Debug](#debug)
   - [Update goldens](#update-goldens)
   - [Test and Build](#test-and-build)
+- [Workflow](#workflow)
+  - [Checkout main](#checkout-main)
+  - [Create a branch](#create-a-branch)
   - [Commit](#commit)
   - [Update dependencies](#update-dependencies)
   - [Increase version](#increase-version)
@@ -108,25 +109,6 @@ gh auth login
 Read [README.architecture.md](./README.architecture.md) to get an overview
 of the package's architecture.
 
-### Checkout main
-
-```bash
-git checkout main && \
-git fetch && \
-git pull
-```
-
-### Create a branch
-
-Please replace `Commit Message` in the next command by your commit message.
-It will also used for branch name and pull request
-
-```bash
-export MESSAGE="Add more examples" && \
-export BRANCH=`echo "$MESSAGE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]/_/g'` &&\
-git checkout -b $BRANCH
-```
-
 ### Debug
 
 In Vscode: At the `left side bar` click on the `Test tube` icon to open the `Test explorer`.
@@ -155,6 +137,29 @@ pnpm updateGoldens
 ```bash
 pnpm test &&\
 pnpm build
+```
+
+<!-- ........................................................................-->
+
+## Workflow
+
+### Checkout main
+
+```bash
+git checkout main && \
+git fetch && \
+git pull
+```
+
+### Create a branch
+
+Please replace `Commit Message` in the next command by your commit message.
+It will also used for branch name and pull request
+
+```bash
+export MESSAGE="Add package.json tests and fix issues" && \
+export BRANCH=`echo "$MESSAGE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]/_/g'` &&\
+git checkout -b $BRANCH
 ```
 
 ### Commit
