@@ -236,6 +236,18 @@ export const exampleRljson = (): Rljson => ({
   },
 });
 
+export const exampleBinary = (): Rljson => ({
+  table: {
+    _type: 'properties',
+    _data: [
+      { a: 0, b: 0 },
+      { a: 0, b: 1 },
+      { a: 1, b: 0 },
+      { a: 1, b: 1 },
+    ],
+  },
+});
+
 export const exampleRljsonEmpty = (): Rljson => ({});
 export const exampleRljsonWithErrors = (): Rljson => ({
   brok$en: {
