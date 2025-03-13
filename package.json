@@ -1,6 +1,6 @@
 {
   "name": "@rljson/rljson",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "packageManager": "pnpm@10.6.2",
   "description": "The RLJSON data format specification",
   "homepage": "https://github.com/rljson/rljson",
@@ -49,8 +49,8 @@
     "vitest-dom": "^0.1.1"
   },
   "dependencies": {
-    "@rljson/hash": "^0.0.9",
-    "@rljson/json": "^0.0.7"
+    "@rljson/hash": "^0.0.10",
+    "@rljson/json": "^0.0.9"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
