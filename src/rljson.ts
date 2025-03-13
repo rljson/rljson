@@ -243,3 +243,34 @@ export const exampleRljsonWithErrors = (): Rljson => ({
     _data: [],
   },
 });
+
+export const exampleRljsonWithMultipleRows = (): Rljson => ({
+  table: {
+    _type: 'properties',
+    _data: [
+      {
+        string: 'str0',
+        boolean: true,
+        number: 1,
+        array: [1, 'str0', true, { a: { b: 'c' } }],
+        object: { a: { b: 'c' } },
+      },
+
+      {
+        string: 'str1',
+        boolean: true,
+        number: 1,
+        array: [1, 'str1', true, { a: { b: 'c' } }],
+        object: { a: { b: 'c' } },
+      },
+
+      {
+        string: 'str2',
+        boolean: false,
+        number: 1,
+        array: [1, 'str1', true, { a: { b: 'c' } }],
+        object: { d: { e: 'f' } },
+      },
+    ],
+  },
+});
