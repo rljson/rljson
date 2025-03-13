@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { Json, JsonValue } from '@rljson/json';
+import { exampleJsonObject, Json, JsonValue } from '@rljson/json';
 
 // ..............................................................................
 /**
@@ -228,4 +228,18 @@ export interface Rljson extends Json {
   [tableId: TableName]: TableType | string;
 }
 
-export const exampleRljson = (): Rljson => ({});
+// .............................................................................
+export const exampleRljson = (): Rljson => ({
+  table: {
+    _type: 'properties',
+    _data: [exampleJsonObject()],
+  },
+});
+
+export const exampleRljsonEmpty = (): Rljson => ({});
+export const exampleRljsonWithErrors = (): Rljson => ({
+  brok$en: {
+    _type: 'properties',
+    _data: [],
+  },
+});

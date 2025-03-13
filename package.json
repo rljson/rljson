@@ -49,8 +49,8 @@
     "vitest-dom": "^0.1.1"
   },
   "dependencies": {
-    "@rljson/hash": "^0.0.9",
-    "@rljson/json": "^0.0.7"
+    "@rljson/hash": "^0.0.10",
+    "@rljson/json": "^0.0.9"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
