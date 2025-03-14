@@ -1,15 +1,15 @@
 <!--
-// @license
-// Copyright (c) 2025 Rljson
-//
-// Use of this source code is governed by terms that can be
-// found in the LICENSE file in the root of this package.
+@license
+Copyright (c) 2025 Rljson
+
+Use of this source code is governed by terms that can be
+found in the LICENSE file in the root of this package.
 -->
 
 # Contributors Guide
 
 - [Install](#install)
-  - [Check out](#check-out)
+  - [Checkout](#checkout)
   - [Install pnpm](#install-pnpm)
   - [Install dependencies](#install-dependencies)
   - [Install Vscode extensions](#install-vscode-extensions)
@@ -20,13 +20,16 @@
   - [Debug](#debug)
   - [Update goldens](#update-goldens)
   - [Test and Build](#test-and-build)
+  - [Rename classes](#rename-classes)
 - [Workflow](#workflow)
+  - [Set a PR title](#set-a-pr-title)
   - [Checkout main](#checkout-main)
-  - [Create a branch](#create-a-branch)
+  - [Create a feature branch](#create-a-feature-branch)
+  - [Debug and develop](#debug-and-develop)
   - [Commit](#commit)
   - [Update dependencies](#update-dependencies)
   - [Increase version](#increase-version)
-  - [Push the branch](#push-the-branch)
+  - [Build](#build)
   - [Create a pull request](#create-a-pull-request)
   - [Wait until PR is merged](#wait-until-pr-is-merged)
   - [Delete feature branch](#delete-feature-branch)
@@ -39,13 +42,13 @@
 
 ## Install
 
-### Check out
+### Checkout
 
 ```bash
 mkdir rljson
 cd rljson
 git clone https://github.com/rljson/rljson.git
-cd io
+cd rljson
 ```
 
 ### Install pnpm
@@ -136,102 +139,156 @@ pnpm updateGoldens
 ### Test and Build
 
 ```bash
-pnpm test &&\
+pnpm test
 pnpm build
+```
+
+### Rename classes
+
+Replace `ClassA` by `ClassB` in the following script and run it:
+
+```bash
+export CLASS_A="ColumnSelection"
+export CLASS_B="ColumnsConfig"
+
+to_snake_case() {
+    echo "$1" | sed -E 's/([a-z0-9])([A-Z])/\1-\2/g' | tr '[:upper:]' '[:lower:]'
+}
+
+to_lower_first() {
+    first_char=$(echo "$1" | cut -c1 | tr '[:upper:]' '[:lower:]')
+    rest_chars=$(echo "$1" | cut -c2-)
+    echo "$first_char$rest_chars"
+}
+
+export LOWER_CLASS_A=$(to_lower_first "$CLASS_A")
+export LOWER_CLASS_B=$(to_lower_first "$CLASS_B")
+export SNAKE_CLASS_A=$(to_snake_case "$CLASS_A")
+export SNAKE_CLASS_B=$(to_snake_case "$CLASS_B")
+
+find . -type f \( -name "*.ts" -o -name "*.md" -o -name "package.json" \) -not -path "./node_modules/*" \
+    -exec sed -i '' "s/$CLASS_A/$CLASS_B/g" {} +
+
+find . -type f \( -name "*.ts" -o -name "*.md" -o -name "package.json" \) -not -path "./node_modules/*" \
+    -exec sed -i '' "s/$LOWER_CLASS_A/$LOWER_CLASS_B/g" {} +
+
+find . -type f \( -name "*.ts" -o -name "*.md" -o -name "package.json" \) -not -path "./node_modules/*" \
+    -exec sed -i '' "s/$SNAKE_CLASS_A/$SNAKE_CLASS_B/g" {} +
+
+find . -type f -not -path "*/node_modules/*" -not -path "*/.*" -name "*$SNAKE_CLASS_A*" \
+    -exec bash -c 'mv "$1" "${1//'"$SNAKE_CLASS_A"'/'"$SNAKE_CLASS_B"'}"' _ {} \;
+
+rm -rf test/goldens
+pnpm updateGoldens
+```
+
+Review the changes.
+
+Commit
+
+```bash
+git stage .
+git commit -am"Rename $CLASS_A to $CLASS_B"
 ```
 
 <!-- ........................................................................-->
 
 ## Workflow
 
+### Set a PR title
+
+```bash
+export PR_TITLE="PR Title"
+```
+
 ### Checkout main
 
 ```bash
-git checkout main && \
-git fetch && \
+git checkout main
+git fetch
 git pull
 ```
 
-### Create a branch
-
-Please replace `Commit Message` in the next command by your commit message.
-It will also used for branch name and pull request
+### Create a feature branch
 
 ```bash
-export MESSAGE="Add simple example" && \
-export BRANCH=`echo "$MESSAGE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]/_/g'` &&\
+export BRANCH=`echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]/_/g'`
 git checkout -b $BRANCH
 ```
 
+### Debug and develop
+
+Debug and develop
+
 ### Commit
 
-Develop your feature
-
-Commit your changes
-
-If you only have one thing, execute
+If you only have one thing changed, execute
 
 ```bash
-git add . && git commit -m "$MESSAGE"
+git add . && git commit -m "$PR_TITLE"
 ```
 
 ### Update dependencies
 
-We aim to work with the latest versions of our dependencies
-
 ```bash
-pnpm update --latest &&\
-git commit -m"Update dependencies"
+pnpm update --latest
+git commit -am"Update dependencies"
 ```
 
 ### Increase version
 
 ```bash
-pnpm version patch --no-git-tag-version && \
+pnpm version patch --no-git-tag-version
 git commit -am"Increase version"
 ```
 
-### Push the branch
-
-Use your ID or this git command to push the branch
+### Build
 
 ```bash
-git push -u origin $BRANCH
+npm run build
 ```
 
 ### Create a pull request
 
 ```bash
-gh pr create --base main --title "$MESSAGE" --body "" && \
+git push -u origin $BRANCH
+gh pr create --base main --title "$PR_TITLE" --body ""
 gh pr merge --auto --squash
 ```
 
 ### Wait until PR is merged
 
-Get the PR URL with the following command
-
 ```bash
 echo -e "\033[34m$(gh pr view --json url | jq -r '.url')\033[0m"
-echo "Wait until PR is closed ..." && \
-until gh pr view --json closed | jq -e '.closed == true' >/dev/null; do
-  sleep 2 >/dev/null;
-done;
+echo -e "\033[33mWait until PR is closed or merged ...\033[0m"
+
+while true; do
+  STATUS=$(gh pr view --json state | jq -r '.state')
+  if [ "$STATUS" = "CLOSED" ] || [ "$STATUS" = "MERGED" ]; then
+    echo -e "\033[32mPR has been merged or closed.\033[0m"
+    break
+  elif [ "$STATUS" = "FAILED" ]; then
+    echo -e "\033[31mError: PR has failed.\033[0m"
+    break
+  fi
+  sleep 2
+done
 ```
 
 ### Delete feature branch
 
 ```bash
-git fetch && git checkout main && \
-git reset --soft origin/main && \
-git stash -m"PR Aftermath" && \
-git pull && \
+git fetch && git checkout main
+git reset --soft origin/main
+git stash -m"PR Aftermath"
+git pull
 git branch -d $BRANCH
 ```
 
 ### Publish to NPM
 
 ```bash
-npm publish --access public && \
+npm publish --access public
 git tag $(npm pkg get version | tr -d '\\"')
 ```
 
