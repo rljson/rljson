@@ -33,7 +33,9 @@ describe('Example', () => {
     await expectGolden('example/multi-row.json').toBe(Example.multiRow());
   });
 
-  it('withErrors', async () => {
-    await expectGolden('example/with-errors.json').toBe(Example.withErrors());
+  it('withBrokenTableName', async () => {
+    await expectGolden('example/with-errors.json').toBe(
+      Example.withBrokenTableName(),
+    );
   });
 });

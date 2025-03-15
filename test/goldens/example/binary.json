@@ -3,20 +3,20 @@
     "_type": "properties",
     "_data": [
       {
-        "a": 0,
-        "b": 0
+        "a": false,
+        "b": false
       },
       {
-        "a": 0,
-        "b": 1
+        "a": false,
+        "b": true
       },
       {
-        "a": 1,
-        "b": 0
+        "a": true,
+        "b": false
       },
       {
-        "a": 1,
-        "b": 1
+        "a": true,
+        "b": true
       }
     ]
   }

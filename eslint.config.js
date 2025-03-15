@@ -32,8 +32,11 @@ export default [
         {
           require: {
             FunctionDeclaration: true,
+            FunctionExpression: true,
             MethodDefinition: true,
             ClassDeclaration: true,
+            ClassExpression: true,
+            ArrowFunctionExpression: true,
           },
           publicOnly: true,
         },

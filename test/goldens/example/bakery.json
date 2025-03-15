@@ -1,1 +1,34 @@
-{}
+{
+  "bakery": {
+    "name": "Bakery",
+    "_type": "buffets",
+    "_data": [
+      {
+        "id": "counter",
+        "items": [
+          {
+            "table": "cakes",
+            "ref": "ap"
+          },
+          {
+            "table": "cakes",
+            "ref": "cc"
+          }
+        ]
+      },
+      {
+        "id": "fridge",
+        "items": [
+          {
+            "table": "cakes",
+            "ref": "bf"
+          },
+          {
+            "table": "cakes",
+            "ref": "cc"
+          }
+        ]
+      }
+    ]
+  }
+}
