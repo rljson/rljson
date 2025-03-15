@@ -6,7 +6,7 @@
 
 import { Json } from '@rljson/json';
 
-import { bakeryExample } from '../example/bakery.ts';
+import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { ItemId, Ref, TableName } from '../typedefs.ts';
 
@@ -26,9 +26,15 @@ export interface Buffet extends Json {
    * The items of the buffet
    */
   items: Array<{
+    /**
+     * The table the item is taken from
+     */
     table: TableName;
+
+    /**
+     * The hash of the item in the able
+     */
     ref: Ref;
-    // [key: string]: JsonValue;
   }>;
 }
 
@@ -39,5 +45,4 @@ export interface Buffet extends Json {
 export type BuffetsTable = RljsonTable<Buffet, 'buffets'>;
 
 // .............................................................................
-
 export const exampleBuffetsTable: BuffetsTable = bakeryExample.buffets;

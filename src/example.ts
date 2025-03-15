@@ -6,7 +6,7 @@
 
 import { exampleJsonObject } from '@rljson/json';
 
-import { BuffetsTable } from './content/buffet.ts';
+import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
 /**
@@ -17,50 +17,7 @@ export class Example {
    * Returns the Rljson bakery example
    */
   static bakery(): Rljson {
-    return {
-      // A bakery is a collection of buffets
-      bakery: {
-        name: 'Bakery',
-        _type: 'buffets',
-        _data: [
-          // Counter
-          {
-            id: 'counter',
-            items: [
-              // Angle pie
-              {
-                table: 'cakes',
-                ref: 'ap',
-              },
-
-              // Cumb cake
-              {
-                table: 'cakes',
-                ref: 'cc',
-              },
-            ],
-          },
-
-          // Fridge
-          {
-            id: 'fridge',
-            items: [
-              // Black forest
-              {
-                table: 'cakes',
-                ref: 'bf',
-              },
-
-              // Lemon cheese cake
-              {
-                table: 'cakes',
-                ref: 'cc',
-              },
-            ],
-          },
-        ],
-      } as BuffetsTable,
-    };
+    return bakeryExample;
   }
 
   /**
