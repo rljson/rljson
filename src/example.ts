@@ -11,8 +11,17 @@ import { Rljson } from './rljson.ts';
 /**
  * Provides Rljson examples
  */
-
 export class Example {
+  /**
+   * Returns a complete Rljson bakery example
+   */
+  static bakery(): Rljson {
+    return {};
+  }
+
+  /**
+   * Returns an Rljson object with one row containing all JSON types
+   */
   static withAllJsonTypes(): Rljson {
     return {
       table: {
@@ -22,53 +31,35 @@ export class Example {
     };
   }
 
+  /**
+   * Returns an empty Rljson object
+   */
   static empty(): Rljson {
-    return Example._empty();
+    return {};
   }
 
-  static bakery(): Rljson {
-    return Example._complete();
-  }
-
+  /**
+   * Returns an Rljson with a table containing all combinations of true and
+   * false. This is useful for testing search operators.
+   */
   static binary(): Rljson {
-    return Example._binary();
-  }
-
-  static multiRow(): Rljson {
-    return Example._multiRow();
-  }
-
-  static withErrors(): Rljson {
-    return Example._errors();
-  }
-
-  // ######################
-  // Private
-  // ######################
-
-  private static _complete(): Rljson {
-    return {};
-  }
-
-  private static _empty(): Rljson {
-    return {};
-  }
-
-  private static _binary(): Rljson {
     return {
       table: {
         _type: 'properties',
         _data: [
-          { a: 0, b: 0 },
-          { a: 0, b: 1 },
-          { a: 1, b: 0 },
-          { a: 1, b: 1 },
+          { a: false, b: false },
+          { a: false, b: true },
+          { a: true, b: false },
+          { a: true, b: true },
         ],
       },
     };
   }
 
-  private static _multiRow(): Rljson {
+  /**
+   * An more complex example containing an table with multiple rows
+   */
+  static multiRow(): Rljson {
     return {
       table: {
         _type: 'properties',
@@ -101,7 +92,10 @@ export class Example {
     };
   }
 
-  private static _errors(): Rljson {
+  /**
+   * Returns an Rljson object with a broken table name
+   */
+  static withBrokenTableName(): Rljson {
     return {
       brok$en: {
         _type: 'properties',

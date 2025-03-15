@@ -27,7 +27,17 @@ export default [
       ...jsdoc.configs['flat/recommended-typescript-flavor-error'].rules,
       'jsdoc/require-description': 'error',
       'jsdoc/require-param-type': 'off',
-      'jsdoc/require-jsdoc': 'error',
+      'jsdoc/require-jsdoc': [
+        'error',
+        {
+          require: {
+            FunctionDeclaration: true,
+            MethodDefinition: true,
+            ClassDeclaration: true,
+          },
+          publicOnly: true,
+        },
+      ],
       'jsdoc/require-returns-type': 'off',
       'jsdoc/require-returns': 'off',
     },
