@@ -1,0 +1,30 @@
+{
+  "_type": "buffets",
+  "_data": [
+    {
+      "items": [
+        {
+          "table": "cakes",
+          "ref": "ap"
+        },
+        {
+          "table": "cakes",
+          "ref": "cc"
+        }
+      ]
+    },
+    {
+      "id": "fridge",
+      "items": [
+        {
+          "table": "cakes",
+          "ref": "bfc"
+        },
+        {
+          "table": "cakes",
+          "ref": "lcc"
+        }
+      ]
+    }
+  ]
+}
