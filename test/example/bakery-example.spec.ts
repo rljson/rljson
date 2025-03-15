@@ -14,7 +14,7 @@ import { expectGolden } from '../setup/goldens';
 
 describe('bakeryExample', async () => {
   it('should be a bakery example', async () => {
-    const bakeryExampleHashed = hsh(bakeryExample, {
+    const bakeryExampleHashed = hsh(bakeryExample as any, {
       updateExistingHashes: true,
       throwOnWrongHashes: false,
     });
