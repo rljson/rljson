@@ -1,4 +1,13 @@
 {
   "_type": "properties",
-  "_data": []
+  "_data": [
+    {
+      "energy": 364,
+      "fat": 0.98,
+      "protein": 10.33,
+      "carbohydrates": 76.31,
+      "_hash": "gZXFSlrl5QAs5hOVsq5sWB"
+    }
+  ],
+  "_hash": "7k4OqQtk71w3yVGMoA9F6p"
 }

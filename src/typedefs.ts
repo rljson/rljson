@@ -37,6 +37,9 @@ export type ContentType =
   | 'idSets'
   | 'properties';
 
+/**
+ * An example object using the typedefs
+ */
 export const exampleTypedefs: {
   ref: Ref;
   itemId: ItemId;

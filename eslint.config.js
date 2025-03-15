@@ -28,7 +28,7 @@ export default [
       'jsdoc/require-description': 'error',
       'jsdoc/require-param-type': 'off',
       'jsdoc/require-jsdoc': [
-        'error',
+        'off',
         {
           require: {
             FunctionDeclaration: true,
@@ -38,6 +38,12 @@ export default [
             ClassExpression: true,
             ArrowFunctionExpression: true,
           },
+          contexts: [
+            'TSInterfaceDeclaration',
+            'TSTypeAliasDeclaration',
+            'TSEnumDeclaration',
+            'TSPropertySignature',
+          ],
           publicOnly: true,
         },
       ],

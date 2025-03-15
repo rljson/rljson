@@ -6,7 +6,7 @@
 
 import { Json } from '@rljson/json';
 
-import { bakeryExample } from '../example/bakery.ts';
+import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { ItemId, Ref } from '../typedefs.ts';
 
@@ -25,7 +25,7 @@ export interface IdSet extends Json {
    * The hash of another item id list which is extended by this one.
    * Must be empty or null, when the list is the root.
    */
-  base: IdSetRef | null;
+  base?: IdSetRef;
 
   /**
    * The item ids added to base
@@ -35,7 +35,7 @@ export interface IdSet extends Json {
   /**
    * The item ids removed from base
    */
-  remove: ItemId[];
+  remove?: ItemId[];
 }
 
 // .............................................................................
@@ -48,4 +48,4 @@ export type IdSetsTable = RljsonTable<IdSet, 'idSets'>;
 /**
  * Returns one of the layers of the example cake
  */
-export const exampleIdSetsTable = Object.freeze(bakeryExample.sliceIds);
+export const exampleIdSetsTable = Object.freeze(bakeryExample.slices);

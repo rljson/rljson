@@ -12,7 +12,7 @@ import { CollectionsTable } from './content/collection.ts';
 import { IdSetsTable } from './content/id-set.ts';
 import { PropertiesTable } from './content/properties.ts';
 import { Example } from './example.ts';
-import { ContentType, TableName } from './typedefs.ts';
+import { ContentType, Ref, TableName } from './typedefs.ts';
 
 // .............................................................................
 export const reservedFieldNames = ['_type', '_data'];
@@ -34,6 +34,22 @@ export type TableType =
 /** The rljson data format */
 export type Rljson = {
   [tableId: TableName]: TableType;
+};
+
+/**
+ * Rljson set with private fields
+ */
+export type RljsonPrivate = {
+  /**
+   * Contains id sets used accross the Rljson object
+   */
+  _idSets: IdSetsTable;
+
+  /**
+   * Used by validation. If external references are not present,
+   * validation does not throw an error.
+   */
+  _externalRefs: Ref[];
 };
 
 /** An example rljson object */
