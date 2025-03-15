@@ -6,7 +6,7 @@
 
 import { Json } from '@rljson/json';
 
-import { bakeryExample } from '../example/bakery.ts';
+import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { ItemId, TableName } from '../typedefs.ts';
 

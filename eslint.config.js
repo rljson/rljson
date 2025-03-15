@@ -38,6 +38,12 @@ export default [
             ClassExpression: true,
             ArrowFunctionExpression: true,
           },
+          contexts: [
+            'TSInterfaceDeclaration',
+            'TSTypeAliasDeclaration',
+            'TSEnumDeclaration',
+            'TSPropertySignature',
+          ],
           publicOnly: true,
         },
       ],

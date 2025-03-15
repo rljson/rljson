@@ -1,7 +1,7 @@
 {
   "name": "@rljson/rljson",
   "version": "0.0.12",
-  "packageManager": "pnpm@10.6.2",
+  "packageManager": "pnpm@10.6.3",
   "description": "The RLJSON data format specification",
   "homepage": "https://github.com/rljson/rljson",
   "bugs": "https://github.com/rljson/rljson/issues",
