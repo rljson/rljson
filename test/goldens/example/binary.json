@@ -1,0 +1,23 @@
+{
+  "table": {
+    "_type": "properties",
+    "_data": [
+      {
+        "a": false,
+        "b": false
+      },
+      {
+        "a": false,
+        "b": true
+      },
+      {
+        "a": true,
+        "b": false
+      },
+      {
+        "a": true,
+        "b": true
+      }
+    ]
+  }
+}
