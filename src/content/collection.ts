@@ -27,20 +27,17 @@ export interface Collection extends Json {
   /**
    * `base` an optional base collection that is extended by this collection
    */
-  base: CollectionRef | null;
+  base?: CollectionRef;
 
   /**
-   * The table containing the item set of this collection
+   * The item ids of the collection. If presnet, the item ids in `assign`
+   * must match these ids. The item id sets can be found in the _idSets table.
    */
-  idSetsTable: TableName;
+  itemIds?: IdSetRef;
 
   /**
-   * A reference to the ids of the items the collection is based on
-   */
-  idSet: IdSetRef;
-
-  /**
-   * The table containing the properties assigned to the items of this collection
+   * The table containing the properties that are assigned to the items
+   * with the assign property below
    */
   properties: TableName;
 

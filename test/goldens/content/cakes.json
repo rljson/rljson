@@ -1,4 +1,14 @@
 {
   "_type": "cakes",
-  "_data": []
+  "_data": [
+    {
+      "itemIds": "KAwCRFD4mdx8b1bzxBb2_O",
+      "collections": "layers",
+      "layers": {
+        "_hash": "50ZHxZ8KeUYJ3NC7ax5CbR"
+      },
+      "_hash": "gMqFPTkYU66L32jDYZiZ79"
+    }
+  ],
+  "_hash": "fw8IrV05Z1ZekPXTdUdmt8"
 }

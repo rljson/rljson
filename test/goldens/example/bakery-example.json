@@ -1,4 +1,17 @@
 {
+  "_idSets": {
+    "_type": "idSets",
+    "_data": [
+      {
+        "add": [
+          "slice0",
+          "slice1"
+        ],
+        "_hash": "Ko990SJfgPJvNGxC63CRf7"
+      }
+    ],
+    "_hash": "NiojsJvZ7iEU7WeMWttzyJ"
+  },
   "buffets": {
     "_type": "buffets",
     "_data": [
@@ -6,62 +19,107 @@
         "items": [
           {
             "table": "cakes",
-            "ref": "ap"
-          },
-          {
-            "table": "cakes",
-            "ref": "cc"
+            "ref": "fw8IrV05Z1ZekPXTdUdmt8",
+            "_hash": "8VEfZHxWI4nswKPthBH-Xk"
           }
-        ]
-      },
-      {
-        "id": "fridge",
-        "items": [
-          {
-            "table": "cakes",
-            "ref": "bfc"
-          },
-          {
-            "table": "cakes",
-            "ref": "lcc"
-          }
-        ]
+        ],
+        "_hash": "ftbQmuSj0lFeT-v1Ep2kze"
       }
-    ]
+    ],
+    "_hash": "UTjkqtt2SA9OeXAOm8C8cf"
   },
   "cakes": {
     "_type": "cakes",
-    "_data": []
+    "_data": [
+      {
+        "itemIds": "KAwCRFD4mdx8b1bzxBb2_O",
+        "collections": "layers",
+        "layers": {
+          "_hash": "RBNvo1WzZ4oRRq0W9-hknp"
+        },
+        "_hash": "GxW0iQuZ6twa9GrgZN8jyg"
+      }
+    ],
+    "_hash": "hjPVIrjaPFri3RJz9hZlB9"
   },
-  "layers": {
-    "_type": "collections",
-    "_data": []
-  },
-  "sliceIds": {
+  "slices": {
     "_type": "idSets",
     "_data": [
       {
-        "base": null,
         "add": [
           "slice0",
-          "slice1",
-          "slice2",
-          "slice3",
-          "slice4",
-          "slice5",
-          "slice6",
-          "slice7",
-          "slice8",
-          "slice9",
-          "slice10",
-          "slice11"
+          "slice1"
         ],
-        "remove": []
+        "remove": [],
+        "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
       }
-    ]
+    ],
+    "_hash": "Qt6FzyzwHdEdYC3fKUXaAm"
+  },
+  "layers": {
+    "_type": "collections",
+    "_data": [
+      {
+        "properties": "recipes",
+        "assign": {
+          "slice0": "VXUW79JrkOAG_pQ-75ahH5",
+          "slice1": "VXUW79JrkOAG_pQ-75ahH5",
+          "_hash": "Di4uG3-DHSq3_ArFu0V68m"
+        },
+        "_hash": "FT9qmluoru9J6P3fKvoeCI"
+      }
+    ],
+    "_hash": "ksySzX_LFJsQjsJcbTKTHU"
+  },
+  "recipes": {
+    "_type": "collections",
+    "_data": [
+      {
+        "properties": "recipeIngredients",
+        "assign": {
+          "flour": "mqLl7Q44V1t2MotJvaVRM_",
+          "_hash": "UImWlyWZTSGhNAMC1JUzF1"
+        },
+        "_hash": "UT8zt_8NMCPsEstDQjL6-h"
+      }
+    ],
+    "_hash": "SaX5qghPpLrw3bIrxDtDqL"
+  },
+  "recipeIngredients": {
+    "_type": "properties",
+    "_data": [
+      {
+        "ingredientTypesRef": "WOfnFT1svec3iJ6x",
+        "quantity": 500,
+        "_hash": "hFuz-LIRIjJtDFBZ19OALr"
+      }
+    ],
+    "_hash": "-MtEW7BTOp4X2DbjPoup1H"
+  },
+  "ingredients": {
+    "_type": "properties",
+    "_data": [
+      {
+        "name": "flour",
+        "amountUnit": "g",
+        "nutritiveValuesRef": "gZXFSlrl5QAs5hOVsq5sWB",
+        "_hash": "CdSJV-WOfnFT1svec3iJ6x"
+      }
+    ],
+    "_hash": "FgJeTM0NcZvXwFcU-PD8Jf"
   },
   "nutritiveValues": {
     "_type": "properties",
-    "_data": []
-  }
+    "_data": [
+      {
+        "energy": 364,
+        "fat": 0.98,
+        "protein": 10.33,
+        "carbohydrates": 76.31,
+        "_hash": "gZXFSlrl5QAs5hOVsq5sWB"
+      }
+    ],
+    "_hash": "7k4OqQtk71w3yVGMoA9F6p"
+  },
+  "_hash": "u8wTRnkXSGgHUfMY9Tp9_C"
 }

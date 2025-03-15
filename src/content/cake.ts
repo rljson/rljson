@@ -11,18 +11,13 @@ import { RljsonTable } from '../rljson.ts';
 import { ItemId, TableName } from '../typedefs.ts';
 
 import { CollectionRef } from './collection.ts';
-import { IdSet, IdSetRef } from './id-set.ts';
+import { IdSetRef } from './id-set.ts';
 
 // .............................................................................
 /**
  * A `CakeLayerId` assigns an id or name to a cake layer
  */
 export type CakeLayerId = ItemId;
-
-/**
- * A `CakeLayerIds` is a set of cake layer ids / cake layer names
- */
-export type CakeLayerIds = IdSet;
 
 // .............................................................................
 /**
@@ -33,19 +28,15 @@ export type CakeLayerIds = IdSet;
  */
 export interface Cake extends Json {
   /**
-   * The table containing the item ids of the cake
+   * The item ids of the collection. If present, the item ids in the layers
+   * must match these ids. The item id sets can be found in the _idSets table.
    */
-  itemIdsTable: TableName;
+  itemIds?: IdSetRef;
 
   /**
-   * All layers of a cake share the same item ids.
+   * The table containing the item collections defining the layers
    */
-  itemIdsRef: IdSetRef;
-
-  /**
-   * The table containing the layers of this cake
-   */
-  layersTable: TableName;
+  collections: TableName;
 
   /**
    * Assigns a collection to each layer of the cake.
