@@ -4,16 +4,36 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
-import { example } from '../src/example';
+import { Example } from '../src/example';
 
-describe('example', () => {
-  it('should run without error', () => {
-    // Mock console.log
-    const logMessages: string[] = [];
-    console.log = (message: string) => logMessages.push(message);
-    example();
-    console.log = console.log;
+import { expectGolden } from './setup/goldens';
+
+describe('Example', () => {
+  it('withAllJsonTypes', async () => {
+    await expectGolden('example/with-all-json-types.json').toBe(
+      Example.withAllJsonTypes(),
+    );
+  });
+
+  it('empty', () => {
+    expect(Example.empty()).toEqual({});
+  });
+
+  it('bakery', async () => {
+    await expectGolden('example/bakery.json').toBe(Example.bakery());
+  });
+
+  it('binary', async () => {
+    await expectGolden('example/binary.json').toBe(Example.binary());
+  });
+
+  it('multiRow', async () => {
+    await expectGolden('example/multi-row.json').toBe(Example.multiRow());
+  });
+
+  it('withErrors', async () => {
+    await expectGolden('example/with-errors.json').toBe(Example.withErrors());
   });
 });

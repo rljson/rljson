@@ -1,0 +1,35 @@
+{
+  "table": {
+    "_type": "properties",
+    "_data": [
+      {
+        "int": 5,
+        "double": 5.5,
+        "string": "a",
+        "boolean": true,
+        "null": null,
+        "array": [
+          1,
+          "a",
+          true,
+          null,
+          [
+            1,
+            "a",
+            true,
+            null
+          ],
+          {
+            "a": 1
+          }
+        ],
+        "object": {
+          "a": 1,
+          "b": {
+            "c": 2
+          }
+        }
+      }
+    ]
+  }
+}
