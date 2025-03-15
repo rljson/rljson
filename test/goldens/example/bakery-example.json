@@ -1,0 +1,67 @@
+{
+  "buffets": {
+    "_type": "buffets",
+    "_data": [
+      {
+        "items": [
+          {
+            "table": "cakes",
+            "ref": "ap"
+          },
+          {
+            "table": "cakes",
+            "ref": "cc"
+          }
+        ]
+      },
+      {
+        "id": "fridge",
+        "items": [
+          {
+            "table": "cakes",
+            "ref": "bfc"
+          },
+          {
+            "table": "cakes",
+            "ref": "lcc"
+          }
+        ]
+      }
+    ]
+  },
+  "cakes": {
+    "_type": "cakes",
+    "_data": []
+  },
+  "layers": {
+    "_type": "collections",
+    "_data": []
+  },
+  "sliceIds": {
+    "_type": "idSets",
+    "_data": [
+      {
+        "base": null,
+        "add": [
+          "slice0",
+          "slice1",
+          "slice2",
+          "slice3",
+          "slice4",
+          "slice5",
+          "slice6",
+          "slice7",
+          "slice8",
+          "slice9",
+          "slice10",
+          "slice11"
+        ],
+        "remove": []
+      }
+    ]
+  },
+  "nutritiveValues": {
+    "_type": "properties",
+    "_data": []
+  }
+}
