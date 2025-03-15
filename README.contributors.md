@@ -25,9 +25,9 @@ found in the LICENSE file in the root of this package.
   - [Set a PR title](#set-a-pr-title)
   - [Checkout main](#checkout-main)
   - [Create a feature branch](#create-a-feature-branch)
+  - [Update dependencies](#update-dependencies)
   - [Debug and develop](#debug-and-develop)
   - [Commit](#commit)
-  - [Update dependencies](#update-dependencies)
   - [Increase version](#increase-version)
   - [Build](#build)
   - [Create a pull request](#create-a-pull-request)
@@ -216,6 +216,13 @@ export BRANCH=`echo "$PR_TITLE" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9_]
 git checkout -b $BRANCH
 ```
 
+### Update dependencies
+
+```bash
+pnpm update --latest
+git commit -am"Update dependencies"
+```
+
 ### Debug and develop
 
 Debug and develop
@@ -226,13 +233,6 @@ If you only have one thing changed, execute
 
 ```bash
 git add . && git commit -m "$PR_TITLE"
-```
-
-### Update dependencies
-
-```bash
-pnpm update --latest
-git commit -am"Update dependencies"
 ```
 
 ### Increase version
