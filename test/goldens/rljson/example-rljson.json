@@ -8,7 +8,7 @@
         "string": "a",
         "boolean": true,
         "null": null,
-        "array": [
+        "jsonArray": [
           1,
           "a",
           true,
@@ -23,7 +23,7 @@
             "a": 1
           }
         ],
-        "object": {
+        "json": {
           "a": 1,
           "b": {
             "c": 2
