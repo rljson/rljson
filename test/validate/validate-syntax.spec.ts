@@ -25,7 +25,7 @@ describe('Validate', async () => {
     // Define the expected result
     const expectedResult = {
       hasErrors: true,
-      tableNamesAreLowerCamelCase: {
+      tableNamesNotLowerCamelCase: {
         error: 'Table names must be lower camel case',
         invalidTableNames: ['brok$en'],
       },
@@ -43,7 +43,7 @@ describe('Validate', async () => {
     expect(resultAsync).toEqual(expectedResult);
   });
 
-  describe('tableNamesAreLowerCamelCase()', () => {
+  describe('tableNamesNotLowerCamelCase()', () => {
     describe('returns no errors', () => {
       describe('when all table names have camel case fields', () => {
         it('for an empy rljson object', () => {
@@ -74,7 +74,7 @@ describe('Validate', async () => {
         const r = validate({
           '1table': { _type: 'properties', _data: [] },
         });
-        expect(r.tableNamesAreLowerCamelCase).toEqual({
+        expect(r.tableNamesNotLowerCamelCase).toEqual({
           error: 'Table names must be lower camel case',
           invalidTableNames: ['1table'],
         });
@@ -83,7 +83,7 @@ describe('Validate', async () => {
         const r = validate({
           'table one': { _type: 'properties', _data: [] },
         });
-        expect(r.tableNamesAreLowerCamelCase).toEqual({
+        expect(r.tableNamesNotLowerCamelCase).toEqual({
           error: 'Table names must be lower camel case',
           invalidTableNames: ['table one'],
         });
@@ -93,7 +93,7 @@ describe('Validate', async () => {
         const r = validate({
           'table-one': { _type: 'properties', _data: [] },
         });
-        expect(r.tableNamesAreLowerCamelCase).toEqual({
+        expect(r.tableNamesNotLowerCamelCase).toEqual({
           error: 'Table names must be lower camel case',
           invalidTableNames: ['table-one'],
         });
@@ -103,7 +103,7 @@ describe('Validate', async () => {
         const r = validate({
           table_one: { _type: 'properties', _data: [] },
         });
-        expect(r.tableNamesAreLowerCamelCase).toEqual({
+        expect(r.tableNamesNotLowerCamelCase).toEqual({
           error: 'Table names must be lower camel case',
           invalidTableNames: ['table_one'],
         });
@@ -113,7 +113,7 @@ describe('Validate', async () => {
         const r = validate({
           TableOne: { _type: 'properties', _data: [] },
         });
-        expect(r.tableNamesAreLowerCamelCase).toEqual({
+        expect(r.tableNamesNotLowerCamelCase).toEqual({
           error: 'Table names must be lower camel case',
           invalidTableNames: ['TableOne'],
         });
@@ -127,7 +127,7 @@ describe('Validate', async () => {
           table_one: { _type: 'properties', _data: [] },
           TableOne: { _type: 'properties', _data: [] },
         });
-        expect(r.tableNamesAreLowerCamelCase).toEqual({
+        expect(r.tableNamesNotLowerCamelCase).toEqual({
           error: 'Table names must be lower camel case',
           invalidTableNames: [
             '1table',
@@ -143,7 +143,7 @@ describe('Validate', async () => {
         const r = validate({
           '': { _type: 'properties', _data: [] },
         });
-        expect(r.tableNamesAreLowerCamelCase).toEqual({
+        expect(r.tableNamesNotLowerCamelCase).toEqual({
           error: 'Table names must be lower camel case',
           invalidTableNames: [''],
         });
@@ -191,7 +191,7 @@ describe('Validate', async () => {
     });
   });
 
-  describe('columnNamesAreLowerCamelCase()', () => {
+  describe('columnNamesNotLowerCamelCase()', () => {
     describe('returns "ok"', () => {
       it('when all column names have camel case fields', () => {
         const r = validate({
@@ -217,7 +217,7 @@ describe('Validate', async () => {
         const r = validate({
           tableOne: { _type: 'properties', _data: [{ '1column': 123 }] },
         });
-        expect(r.columnNamesAreLowerCamelCase).toEqual({
+        expect(r.columnNamesNotLowerCamelCase).toEqual({
           error: 'Column names must be lower camel case',
           invalidColumnNames: { tableOne: ['1column'] },
         });
@@ -227,7 +227,7 @@ describe('Validate', async () => {
         const r = validate({
           tableOne: { _type: 'properties', _data: [{ 'column one': 123 }] },
         });
-        expect(r.columnNamesAreLowerCamelCase).toEqual({
+        expect(r.columnNamesNotLowerCamelCase).toEqual({
           error: 'Column names must be lower camel case',
           invalidColumnNames: { tableOne: ['column one'] },
         });
@@ -237,7 +237,7 @@ describe('Validate', async () => {
         const r = validate({
           tableOne: { _type: 'properties', _data: [{ 'column-one': 123 }] },
         });
-        expect(r.columnNamesAreLowerCamelCase).toEqual({
+        expect(r.columnNamesNotLowerCamelCase).toEqual({
           error: 'Column names must be lower camel case',
           invalidColumnNames: { tableOne: ['column-one'] },
         });
@@ -247,7 +247,7 @@ describe('Validate', async () => {
         const r = validate({
           tableOne: { _type: 'properties', _data: [{ column_one: 123 }] },
         });
-        expect(r.columnNamesAreLowerCamelCase).toEqual({
+        expect(r.columnNamesNotLowerCamelCase).toEqual({
           error: 'Column names must be lower camel case',
           invalidColumnNames: { tableOne: ['column_one'] },
         });
@@ -257,7 +257,7 @@ describe('Validate', async () => {
         const r = validate({
           tableOne: { _type: 'properties', _data: [{ ColumnOne: 123 }] },
         });
-        expect(r.columnNamesAreLowerCamelCase).toEqual({
+        expect(r.columnNamesNotLowerCamelCase).toEqual({
           error: 'Column names must be lower camel case',
           invalidColumnNames: { tableOne: ['ColumnOne'] },
         });
@@ -278,7 +278,7 @@ describe('Validate', async () => {
             _data: [{ '1xyz': 123 }, { xy_38: 101 }],
           },
         });
-        expect(r.columnNamesAreLowerCamelCase).toEqual({
+        expect(r.columnNamesNotLowerCamelCase).toEqual({
           error: 'Column names must be lower camel case',
           invalidColumnNames: {
             tableOne: [
@@ -297,7 +297,7 @@ describe('Validate', async () => {
         const r = validate({
           tableOne: { _type: 'properties', _data: [{ '': 123 }] },
         });
-        expect(r.columnNamesAreLowerCamelCase).toEqual({
+        expect(r.columnNamesNotLowerCamelCase).toEqual({
           error: 'Column names must be lower camel case',
           invalidColumnNames: { tableOne: [''] },
         });
@@ -336,7 +336,7 @@ describe('Validate', async () => {
 
         expect(errors).toEqual({
           hasErrors: true,
-          hasValidHashes: {
+          hashesNotValid: {
             error:
               'Hash "invalid" does not match the newly calculated one "DKwor-pULmCs6RY-sMyfrM". ' +
               'Please make sure that all systems are producing the same hashes.',
@@ -376,7 +376,7 @@ describe('Validate', async () => {
           tableThree: { _type: 'properties' },
         }),
       ).toEqual({
-        hasData: {
+        dataNotFound: {
           error: '_data is missing in tables',
           tables: ['tableOne', 'tableThree'],
         },
@@ -385,7 +385,7 @@ describe('Validate', async () => {
     });
   });
 
-  describe('dataHasRightType()', () => {
+  describe('dataHasWrongType()', () => {
     it('returns no errors when data is an array', () => {
       expect(
         validate({
@@ -405,7 +405,7 @@ describe('Validate', async () => {
           tableThree: { _type: 'properties', _data: 'string' },
         }),
       ).toEqual({
-        dataHasRightType: {
+        dataHasWrongType: {
           error: '_data must be a list',
           tables: ['tableOne', 'tableThree'],
         },
@@ -414,7 +414,7 @@ describe('Validate', async () => {
     });
   });
 
-  describe('allRefsExist', () => {
+  describe('refsNotFound', () => {
     it('returns no errors when all refs are found', () => {
       expect(validate(Example.ok.singleRef())).toEqual({
         hasErrors: false,
@@ -423,7 +423,7 @@ describe('Validate', async () => {
 
     it('returns an error when a reference table is not found', () => {
       expect(validate(Example.broken.missingReferencedTable())).toEqual({
-        allRefsExist: {
+        refsNotFound: {
           error: 'Broken references',
           missingRefs: [
             {
@@ -442,7 +442,7 @@ describe('Validate', async () => {
 
     it('returns an error when a ref is not found', () => {
       expect(validate(Example.broken.missingRef())).toEqual({
-        allRefsExist: {
+        refsNotFound: {
           error: 'Broken references',
           missingRefs: [
             {
@@ -460,7 +460,7 @@ describe('Validate', async () => {
     });
   });
 
-  describe('collectionBaseRefsExist()', () => {
+  describe('collectionBasesNotFound()', () => {
     it('returns no errors when all base refs are found', () => {
       expect(validate(Example.ok.complete())).toEqual({
         hasErrors: false,
@@ -469,7 +469,7 @@ describe('Validate', async () => {
 
     it('returns an error when a base ref is not found', () => {
       expect(validate(Example.broken.collections.missingBase())).toEqual({
-        collectionBaseRefsExist: {
+        collectionBasesNotFound: {
           brokenCollections: [
             {
               brokenCollection: 'XqBfCw2Gz7zZHJIiIYyZpw',
@@ -526,7 +526,7 @@ describe('Validate', async () => {
       expect(
         validate(Example.broken.collections.missingAssignedPropertyTable()),
       ).toEqual({
-        collectionPropertyTablesExist: {
+        collectionPropertyTablesNotFound: {
           collections: [
             {
               brokenCollection: 'sxv2NCM6UNOcX-i9FhOs5W',
@@ -549,7 +549,7 @@ describe('Validate', async () => {
       expect(
         validate(Example.broken.collections.missingAssignedProperty()),
       ).toEqual({
-        collectionAssignedPropertiesExist: {
+        collectionPropertyAssignmentsNotFound: {
           brokenAssignments: [
             {
               brokenCollection: 'QB2JC6X_-rUAoixuldzWP-',
@@ -566,7 +566,7 @@ describe('Validate', async () => {
     });
   });
 
-  describe('cakeIdSetsExist', () => {
+  describe('cakeIdSetsNotFound', () => {
     it('returns no errors when all idSets are found', () => {
       expect(validate(Example.ok.complete())).toEqual({
         hasErrors: false,
@@ -584,7 +584,7 @@ describe('Validate', async () => {
 
     it('returns an error when an idSet is not found', () => {
       expect(validate(Example.broken.cake.missingIdSet())).toEqual({
-        cakeIdSetsExist: {
+        cakeIdSetsNotFound: {
           brokenCakes: [
             {
               cakeHash: 'Pi2MlYagf-JTyy30pcKMYK',

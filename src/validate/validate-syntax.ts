@@ -16,19 +16,19 @@ import { Errors, Validator } from './validate.ts';
 
 // .............................................................................
 export interface SyntaxErrors extends Errors {
-  tableNamesAreLowerCamelCase?: Json;
-  columnNamesAreLowerCamelCase?: Json;
+  tableNamesNotLowerCamelCase?: Json;
+  columnNamesNotLowerCamelCase?: Json;
   tableNamesDoNotStartWithANumber?: Json;
   tableNamesDoNotEndWithRef?: Json;
-  hasValidHashes?: Json;
-  hasData?: Json;
-  dataHasRightType?: Json;
-  allRefsExist?: Json;
-  collectionBaseRefsExist?: Json;
-  collectionIdSetsExistAre?: Json;
-  collectionPropertyTablesExist?: Json;
-  collectionAssignedPropertiesExist?: Json;
-  cakeIdSetsExist?: Json;
+  hashesNotValid?: Json;
+  dataNotFound?: Json;
+  dataHasWrongType?: Json;
+  refsNotFound?: Json;
+  collectionBasesNotFound?: Json;
+  collectionIdSetsNotFound?: Json;
+  collectionPropertyTablesNotFound?: Json;
+  collectionPropertyAssignmentsNotFound?: Json;
+  cakeIdSetsNotFound?: Json;
 }
 
 // .............................................................................
@@ -66,18 +66,18 @@ class _ValidateSyntax {
 
   validate(): SyntaxErrors {
     this._writeAndValidHashes();
-    this._tableNamesAreLowerCamelCase();
+    this._tableNamesNotLowerCamelCase();
     this._tableNamesDoNotEndWithRef();
-    this._columnNamesAreLowerCamelCase();
-    this._hasData();
-    this._dataHasRightType();
+    this._columnNamesNotLowerCamelCase();
+    this._dataNotFound();
+    this._dataHasWrongType();
 
     if (!this.hasErrors) {
-      this._allRefsExist();
-      this._collectionBaseRefsExist();
+      this._refsNotFound();
+      this._collectionBasesNotFound();
       this._collectionIdSetsExist();
-      this._collectionAssignedPropertiesExist();
-      this._cakeIdSetsExist();
+      this._collectionPropertyAssignmentsNotFound();
+      this._cakeIdSetsNotFound();
     }
 
     this.errors.hasErrors = this.hasErrors;
@@ -93,7 +93,7 @@ class _ValidateSyntax {
 
   rljsonIndexed: RljsonIndexed;
 
-  private _tableNamesAreLowerCamelCase(): void {
+  private _tableNamesNotLowerCamelCase(): void {
     const invalidTableNames: string[] = [];
 
     for (const tableName of this.tableNames) {
@@ -103,7 +103,7 @@ class _ValidateSyntax {
     }
 
     if (invalidTableNames.length > 0) {
-      this.errors.tableNamesAreLowerCamelCase = {
+      this.errors.tableNamesNotLowerCamelCase = {
         error: 'Table names must be lower camel case',
         invalidTableNames: invalidTableNames,
       };
@@ -129,7 +129,7 @@ class _ValidateSyntax {
   }
 
   // ...........................................................................
-  private _columnNamesAreLowerCamelCase(): void {
+  private _columnNamesNotLowerCamelCase(): void {
     const invalidColumnNames: {
       [tableName: string]: string[];
     } = {};
@@ -159,7 +159,7 @@ class _ValidateSyntax {
     }
 
     if (hadErrors) {
-      this.errors.columnNamesAreLowerCamelCase = {
+      this.errors.columnNamesNotLowerCamelCase = {
         error: 'Column names must be lower camel case',
         invalidColumnNames: invalidColumnNames,
       };
@@ -177,12 +177,12 @@ class _ValidateSyntax {
       });
     } catch (error: any) {
       if (error instanceof Error) {
-        this.errors.hasValidHashes = {
+        this.errors.hashesNotValid = {
           error: error.message,
         };
         /* v8 ignore start */
       } else {
-        this.errors.hasValidHashes = {
+        this.errors.hashesNotValid = {
           error: 'Unknown error',
         };
       }
@@ -192,7 +192,7 @@ class _ValidateSyntax {
 
   // ...........................................................................
   /// Checks if data is valid
-  private _hasData(): void {
+  private _dataNotFound(): void {
     const rljson = this.rljson;
     const tablesWithMissingData: string[] = [];
 
@@ -205,7 +205,7 @@ class _ValidateSyntax {
     }
 
     if (tablesWithMissingData.length > 0) {
-      this.errors.hasData = {
+      this.errors.dataNotFound = {
         error: '_data is missing in tables',
         tables: tablesWithMissingData,
       };
@@ -213,7 +213,7 @@ class _ValidateSyntax {
   }
 
   // ...........................................................................
-  private _dataHasRightType(): void {
+  private _dataHasWrongType(): void {
     const rljson = this.rljson;
     const tablesWithWrongType: string[] = [];
 
@@ -231,14 +231,14 @@ class _ValidateSyntax {
     }
 
     if (tablesWithWrongType.length > 0) {
-      this.errors.dataHasRightType = {
+      this.errors.dataHasWrongType = {
         error: '_data must be a list',
         tables: tablesWithWrongType,
       };
     }
   }
 
-  private _allRefsExist(): void {
+  private _refsNotFound(): void {
     // Define a result object
     const missingRefs: {
       error: string;
@@ -296,14 +296,14 @@ class _ValidateSyntax {
     }
 
     if (missingRefs.length > 0) {
-      this.errors.allRefsExist = {
+      this.errors.refsNotFound = {
         error: 'Broken references',
         missingRefs: missingRefs,
       };
     }
   }
 
-  private _collectionBaseRefsExist(): void {
+  private _collectionBasesNotFound(): void {
     const brokenCollections: any[] = [];
 
     iterateTables(this.rljson, (tableName, table) => {
@@ -332,7 +332,7 @@ class _ValidateSyntax {
     });
 
     if (brokenCollections.length > 0) {
-      this.errors.collectionBaseRefsExist = {
+      this.errors.collectionBasesNotFound = {
         error: 'Base collections are missing',
         brokenCollections,
       };
@@ -375,7 +375,7 @@ class _ValidateSyntax {
     }
   }
 
-  private _collectionAssignedPropertiesExist(): void {
+  private _collectionPropertyAssignmentsNotFound(): void {
     const missingPropertyTables: any[] = [];
     const brokenAssignments: any[] = [];
 
@@ -418,21 +418,21 @@ class _ValidateSyntax {
     });
 
     if (missingPropertyTables.length > 0) {
-      this.errors.collectionPropertyTablesExist = {
+      this.errors.collectionPropertyTablesNotFound = {
         error: 'Collection property tables do not exist',
         collections: missingPropertyTables,
       };
     }
 
     if (brokenAssignments.length > 0) {
-      this.errors.collectionAssignedPropertiesExist = {
+      this.errors.collectionPropertyAssignmentsNotFound = {
         error: 'Collection property assignments are broken',
         brokenAssignments: brokenAssignments,
       };
     }
   }
 
-  private _cakeIdSetsExist(): void {
+  private _cakeIdSetsNotFound(): void {
     const brokenCakes: any[] = [];
 
     iterateTables(this.rljson, (tableName, table) => {
@@ -461,7 +461,7 @@ class _ValidateSyntax {
     });
 
     if (brokenCakes.length > 0) {
-      this.errors.cakeIdSetsExist = {
+      this.errors.cakeIdSetsNotFound = {
         error: 'Id sets of cakes are missing',
         brokenCakes,
       };
