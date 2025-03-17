@@ -64,3 +64,22 @@ export interface RljsonTable<Data extends Json, Type extends ContentType>
   /**  The type of the table */
   _type: Type;
 }
+
+/**
+ * Iterates over all tables of an Rljson object.
+ * Skips private members starting with _
+ * @param rljson - The Rljson object to iterate
+ * @param callback - The callback to call for each table
+ */
+export const iterate = (
+  rljson: Rljson,
+  callback: (tableName: string, table: TableType) => void,
+) => {
+  for (const tableName in rljson) {
+    if (tableName.startsWith('_')) {
+      continue;
+    }
+
+    callback(tableName, rljson[tableName]);
+  }
+};
