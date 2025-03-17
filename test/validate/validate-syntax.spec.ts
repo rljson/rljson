@@ -601,7 +601,7 @@ describe('Validate', async () => {
         cakeIdSetsNotFound: {
           brokenCakes: [
             {
-              cakeHash: 'Pi2MlYagf-JTyy30pcKMYK',
+              brokenCake: 'Pi2MlYagf-JTyy30pcKMYK',
               cakeTable: 'cakes',
               missingIdSet: 'MISSING',
             },
@@ -619,7 +619,7 @@ describe('Validate', async () => {
         cakeCollectionTablesNotFound: {
           brokenCakes: [
             {
-              cakeHash: 'Wqh55SPELaDBhruppcUeXr',
+              brokenCake: 'Wqh55SPELaDBhruppcUeXr',
               cakeTable: 'cakes',
               missingCollectionsTable: 'MISSING',
             },

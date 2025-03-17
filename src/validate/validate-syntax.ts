@@ -462,7 +462,7 @@ class _ValidateSyntax {
         if (!idSet) {
           brokenCakes.push({
             cakeTable: tableName,
-            cakeHash: cake._hash,
+            brokenCake: cake._hash,
             missingIdSet: idSetRef,
           });
         }
@@ -493,7 +493,7 @@ class _ValidateSyntax {
         if (!collectionsTable) {
           missingCollectionTables.push({
             cakeTable: tableName,
-            cakeHash: cake._hash,
+            brokenCake: cake._hash,
             missingCollectionsTable: collectionsTableName,
           });
 
