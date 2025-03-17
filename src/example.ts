@@ -10,79 +10,95 @@ import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
 export class Example {
-  // ...........................................................................
-  static readonly bakery = (): Rljson => bakeryExample();
+  static readonly with = {
+    bakery: (): Rljson => bakeryExample(),
 
-  // ...........................................................................
-  static withAllJsonTypes = (): Rljson => {
-    return {
-      table: {
-        _type: 'properties',
-        _data: [exampleJsonObject()],
-      },
-    };
+    empty: (): Rljson => {
+      return {};
+    },
+
+    binary: (): Rljson => {
+      return {
+        table: {
+          _type: 'properties',
+          _data: [
+            { a: false, b: false },
+            { a: false, b: true },
+            { a: true, b: false },
+            { a: true, b: true },
+          ],
+        },
+      };
+    },
+
+    singleRow: (): Rljson => {
+      return {
+        table: {
+          _type: 'properties',
+          _data: [exampleJsonObject()],
+        },
+      };
+    },
+
+    multipleRows: (): Rljson => {
+      return {
+        table: {
+          _type: 'properties',
+          _data: [
+            {
+              string: 'str0',
+              boolean: true,
+              number: 1,
+              array: [1, 'str0', true, { a: { b: 'c' } }],
+              object: { a: { b: 'c' } },
+            },
+
+            {
+              string: 'str1',
+              boolean: true,
+              number: 1,
+              array: [1, 'str1', true, { a: { b: 'c' } }],
+              object: { a: { b: 'c' } },
+            },
+
+            {
+              string: 'str2',
+              boolean: false,
+              number: 1,
+              array: [1, 'str1', true, { a: { b: 'c' } }],
+              object: { d: { e: 'f' } },
+            },
+          ],
+        },
+      };
+    },
+
+    singleRef: (): Rljson => {
+      return {
+        tableA: {
+          _type: 'properties',
+          _data: [
+            {
+              keyA0: 'a0',
+            },
+            {
+              keyA1: 'a1',
+            },
+          ],
+        },
+        tableB: {
+          _type: 'properties',
+          _data: [
+            {
+              tableARef: 'KFQrf4mEz0UPmUaFHwH4T6',
+            },
+          ],
+        },
+      };
+    },
   };
 
-  // ...........................................................................
-  static readonly empty = (): Rljson => {
-    return {};
-  };
-
-  // ...........................................................................
-  static readonly binary = (): Rljson => {
-    return {
-      table: {
-        _type: 'properties',
-        _data: [
-          { a: false, b: false },
-          { a: false, b: true },
-          { a: true, b: false },
-          { a: true, b: true },
-        ],
-      },
-    };
-  };
-
-  // ...........................................................................
-  static readonly multiRow = (): Rljson => {
-    return {
-      table: {
-        _type: 'properties',
-        _data: [
-          {
-            string: 'str0',
-            boolean: true,
-            number: 1,
-            array: [1, 'str0', true, { a: { b: 'c' } }],
-            object: { a: { b: 'c' } },
-          },
-
-          {
-            string: 'str1',
-            boolean: true,
-            number: 1,
-            array: [1, 'str1', true, { a: { b: 'c' } }],
-            object: { a: { b: 'c' } },
-          },
-
-          {
-            string: 'str2',
-            boolean: false,
-            number: 1,
-            array: [1, 'str1', true, { a: { b: 'c' } }],
-            object: { d: { e: 'f' } },
-          },
-        ],
-      },
-    };
-  };
-
-  // ######################
-  // Broken examples
-  // ######################
-
-  // ...........................................................................
-  static readonly with: { [table: string]: () => Rljson } = {
+  static readonly withError = {
     brokenTableName: () => {
       return {
         brok$en: {
@@ -107,6 +123,43 @@ export class Example {
           _data: {},
         },
       } as unknown as Rljson;
+    },
+
+    missingRef: (): Rljson => {
+      return {
+        tableA: {
+          _type: 'properties',
+          _data: [
+            {
+              keyA0: 'a0',
+            },
+            {
+              keyA1: 'a1',
+            },
+          ],
+        },
+        tableB: {
+          _type: 'properties',
+          _data: [
+            {
+              tableARef: 'MISSINGREF', // MISSINGREF does not exist in tableA
+            },
+          ],
+        },
+      };
+    },
+
+    missingReferencedTable: (): Rljson => {
+      return {
+        tableB: {
+          _type: 'properties',
+          _data: [
+            {
+              tableARef: 'MISSINGREF', // tableA is missing
+            },
+          ],
+        },
+      };
     },
   };
 }

@@ -19,7 +19,7 @@ describe('RljsonIndexed', () => {
     const updateExistingHashes = true;
     const throwOnWrongHashes = false;
     const bakery = hip(
-      Example.bakery(),
+      Example.with.bakery(),
       updateExistingHashes,
       throwOnWrongHashes,
     );
@@ -55,7 +55,7 @@ describe('RljsonIndexed', () => {
     } as any;
 
     const indexedRljson = rljsonIndexed(rljson);
-    expect(rljson.tableWithoutData).toBe(indexedRljson.tableWithoutData);
+    expect(rljson.tableWithoutData).toEqual(indexedRljson.tableWithoutData);
   });
 
   it('creates missing row hashes', () => {

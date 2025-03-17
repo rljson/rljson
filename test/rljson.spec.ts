@@ -19,7 +19,7 @@ describe('Rljson', () => {
   describe('iterate', () => {
     it('returns over all public tables', async () => {
       const tableNames: string[] = [];
-      iterate(Example.bakery(), (tableName) => {
+      iterate(Example.with.bakery(), (tableName) => {
         tableNames.push(tableName);
       });
 

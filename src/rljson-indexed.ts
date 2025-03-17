@@ -13,7 +13,7 @@ import { Rljson } from './rljson.ts';
 /**
  * An Rljson object where all tables' rows are indexed by their hash.
  */
-export interface IndexedRljson {
+export interface RljsonIndexed {
   [tableName: string]: {
     _data: { [rowHash: string]: Json };
   };
@@ -27,8 +27,8 @@ export interface IndexedRljson {
  * @param rljson - The Rljson object to index
  * @returns The indexed Rljson object
  */
-export const rljsonIndexed = (rljson: Rljson): IndexedRljson => {
-  const result: IndexedRljson = {};
+export const rljsonIndexed = (rljson: Rljson): RljsonIndexed => {
+  const result: RljsonIndexed = {};
 
   // Iterate all items of the rljson object
   for (const key in rljson) {
@@ -40,15 +40,14 @@ export const rljsonIndexed = (rljson: Rljson): IndexedRljson => {
     }
 
     // Item has not _data field, add it to the result
-    if (!('_data' in item)) {
-      result[key] = item;
-      continue;
-    }
-
     const dataIndexed: { [rowHash: string]: Json } = {};
     result[key] = { ...item } as any;
 
     // Iterate all rows of the item
+    if (!Array.isArray(item!._data)) {
+      continue;
+    }
+
     for (const row of item!._data) {
       // Get or create the hash of the row
       const hashedRow = row._hash ? row : hsh(row);

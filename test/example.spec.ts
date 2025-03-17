@@ -13,29 +13,31 @@ import { expectGolden } from './setup/goldens';
 describe('Example', () => {
   it('withAllJsonTypes', async () => {
     await expectGolden('example/with-all-json-types.json').toBe(
-      Example.withAllJsonTypes(),
+      Example.with.singleRow(),
     );
   });
 
   it('empty', () => {
-    expect(Example.empty()).toEqual({});
+    expect(Example.with.empty()).toEqual({});
   });
 
   it('bakery', async () => {
-    await expectGolden('example/bakery.json').toBe(Example.bakery());
+    await expectGolden('example/bakery.json').toBe(Example.with.bakery());
   });
 
   it('binary', async () => {
-    await expectGolden('example/binary.json').toBe(Example.binary());
+    await expectGolden('example/binary.json').toBe(Example.with.binary());
   });
 
   it('multiRow', async () => {
-    await expectGolden('example/multi-row.json').toBe(Example.multiRow());
+    await expectGolden('example/multi-row.json').toBe(
+      Example.with.multipleRows(),
+    );
   });
 
   describe('with', async () => {
     it('brokenTableName', async () => {
-      expect(Example.with.brokenTableName()).toEqual({
+      expect(Example.withError.brokenTableName()).toEqual({
         brok$en: {
           _type: 'properties',
           _data: [],
@@ -44,7 +46,7 @@ describe('Example', () => {
     });
 
     it('missingData', async () => {
-      expect(Example.with.missingData()).toEqual({
+      expect(Example.withError.missingData()).toEqual({
         table: {
           _type: 'properties',
         },
@@ -52,7 +54,7 @@ describe('Example', () => {
     });
 
     it('dataNotBeingAnArray', async () => {
-      expect(Example.with.dataNotBeingAnArray()).toEqual({
+      expect(Example.withError.dataNotBeingAnArray()).toEqual({
         table: {
           _type: 'properties',
           _data: {},

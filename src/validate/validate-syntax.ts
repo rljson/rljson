@@ -4,9 +4,10 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { Hash } from '@rljson/hash';
+import { hsh } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
+import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { Rljson, RljsonTable } from '../rljson.ts';
 
 import { Errors, Validator } from './validate.ts';
@@ -46,19 +47,29 @@ class _ValidateSyntax {
     this.tableNames = Object.keys(this.rljson).filter(
       (table) => !table.startsWith('_'),
     );
+
+    this.rljsonIndexed = rljsonIndexed(rljson);
   }
 
   errors: SyntaxErrors = { hasErrors: false };
 
+  get hasErrors(): boolean {
+    return Object.keys(this.errors).length > 1;
+  }
+
   validate(): SyntaxErrors {
+    this._writeAndValidHashes();
     this._tableNamesAreLowerCamelCase();
     this._tableNamesDoNotEndWithRef();
     this._columnNamesAreLowerCamelCase();
-    this._hasValidHashes();
     this._hasData();
     this._dataHasRightType();
-    // this._allRefsAreFound();
-    this.errors.hasErrors = Object.keys(this.errors).length > 1;
+
+    if (!this.hasErrors) {
+      this._allRefsAreFound();
+    }
+
+    this.errors.hasErrors = this.hasErrors;
 
     return this.errors;
   }
@@ -68,6 +79,8 @@ class _ValidateSyntax {
   // ######################
 
   tableNames: string[];
+
+  rljsonIndexed: RljsonIndexed;
 
   private _tableNamesAreLowerCamelCase(): void {
     const invalidTableNames: string[] = [];
@@ -143,9 +156,14 @@ class _ValidateSyntax {
   }
 
   // ...........................................................................
-  private _hasValidHashes(): void {
+  private _writeAndValidHashes(): void {
     try {
-      Hash.default.validate(this.rljson, { ignoreMissingHashes: true });
+      // Write hashes into rljson and write an error if that goes wrong
+      this.rljson = hsh(this.rljson, {
+        inPlace: false,
+        updateExistingHashes: true,
+        throwOnWrongHashes: true,
+      });
     } catch (error: any) {
       if (error instanceof Error) {
         this.errors.hasValidHashes = {
@@ -211,13 +229,15 @@ class _ValidateSyntax {
 
   // ...........................................................................
   /// Throws if a link is not available
-  /* private _allRefsAreFound(): void {
+  private _allRefsAreFound(): void {
     // Define a result object
     const missingRefs: {
-      table: string;
-      item: string;
-      ref: string;
       error: string;
+      sourceTable: string;
+      sourceItemHash: string;
+      sourceKey: string;
+      targetTable: string;
+      targetItemHash: string;
     }[] = [];
 
     // Iterate all tables
@@ -228,62 +248,51 @@ class _ValidateSyntax {
         for (const key of Object.keys(item)) {
           // If item is a reference
           if (key.endsWith('Ref')) {
+            const targetItemHash = item[key] as string;
+
             // Get the referenced table
             const targetTableName = key.substring(0, key.length - 3);
             const itemHash = item._hash as string;
 
-            // If it is not found, write an error and continue
+            // If table is not found, write an error and continue
             if (this.tableNames.indexOf(targetTableName) === -1) {
               missingRefs.push({
-                table: table,
-                item: itemHash,
-                ref: key,
-                error: `Reference table "${targetTableName}" not found`,
+                error: `Target table "${targetTableName}" not found.`,
+                sourceTable: table,
+                sourceKey: key,
+                sourceItemHash: itemHash,
+                targetItemHash: targetItemHash,
+                targetTable: targetTableName,
               });
               continue;
             }
 
-            // If it is found, find the item in the target table
-            const targetTable = this.rljson[targetTableName]._data as Json[];
-
-            if (this.rljson[targetTableName] == null) {
-              missingRefs.push({ table: table, ref: targetTableName });
-            }
-          }
-        }
-      }
-
-      for (const entry of Object.entries(tableData)) {
-        const item = entry[1];
-        for (const key of Object.keys(item)) {
-          if (key === '_hash') continue;
-
-          if (key.endsWith('Ref')) {
-            // Check if linked table exists
-            const tableName = key.substring(0, key.length - 3);
-            const linkTable = this.dataIndexed[tableName];
-            const hash = item['_hash'];
-
-            if (linkTable == null) {
-              throw new Error(
-                `Table "${table}" has an item "${hash}" which links to not existing table "${key}".`,
-              );
-            }
-
-            // Check if linked item exists
-            const targetHash = item[key];
-            const linkedItem = linkTable[targetHash];
-
-            if (linkedItem == null) {
-              throw new Error(
-                `Table "${table}" has an item "${hash}" which links to not existing item "${targetHash}" in table "${tableName}".`,
-              );
+            // If table is found, find the item in the target table
+            const targetTableIndexed = this.rljsonIndexed[targetTableName];
+            const referencedItem = targetTableIndexed._data[targetItemHash];
+            // If referenced item is not found, write an error
+            if (referencedItem === undefined) {
+              missingRefs.push({
+                sourceTable: table,
+                sourceItemHash: itemHash,
+                sourceKey: key,
+                targetItemHash: targetItemHash,
+                targetTable: targetTableName,
+                error: `Table "${targetTableName}" has no item with hash "${targetItemHash}"`,
+              });
             }
           }
         }
       }
     }
-  }*/
+
+    if (missingRefs.length > 0) {
+      this.errors.allRefsAreFound = {
+        error: 'Broken references',
+        missingRefs: missingRefs,
+      };
+    }
+  }
 }
 
 /**

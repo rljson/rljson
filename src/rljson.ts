@@ -53,7 +53,7 @@ export type RljsonPrivate = {
 };
 
 /** An example rljson object */
-export const exampleRljson = (): Rljson => Example.withAllJsonTypes();
+export const exampleRljson = (): Rljson => Example.with.singleRow();
 
 /** A table in the rljson format */
 export interface RljsonTable<Data extends Json, Type extends ContentType>
@@ -61,7 +61,7 @@ export interface RljsonTable<Data extends Json, Type extends ContentType>
   /** The data rows of the table */
   _data: Data[];
 
-  /**  The type of the table */
+  /**  The type of the table. If not set, the type is "properties" */
   _type: Type;
 }
 
