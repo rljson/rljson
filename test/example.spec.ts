@@ -33,9 +33,31 @@ describe('Example', () => {
     await expectGolden('example/multi-row.json').toBe(Example.multiRow());
   });
 
-  it('withBrokenTableName', async () => {
-    await expectGolden('example/with-errors.json').toBe(
-      Example.withBrokenTableName(),
-    );
+  describe('with', async () => {
+    it('brokenTableName', async () => {
+      expect(Example.with.brokenTableName).toEqual({
+        brok$en: {
+          _type: 'properties',
+          _data: [],
+        },
+      });
+    });
+
+    it('missingData', async () => {
+      expect(Example.with.missingData).toEqual({
+        table: {
+          _type: 'properties',
+        },
+      });
+    });
+
+    it('dataNotBeingAnArray', async () => {
+      expect(Example.with.dataNotBeingAnArray).toEqual({
+        table: {
+          _type: 'properties',
+          _data: {},
+        },
+      });
+    });
   });
 });

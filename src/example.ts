@@ -9,20 +9,13 @@ import { exampleJsonObject } from '@rljson/json';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
-/**
- * Provides Rljson examples
- */
 export class Example {
-  /**
-   * Returns the Rljson bakery example
-   */
+  // ...........................................................................
   static bakery(): Rljson {
     return bakeryExample;
   }
 
-  /**
-   * Returns an Rljson object with one row containing all JSON types
-   */
+  // ...........................................................................
   static withAllJsonTypes(): Rljson {
     return {
       table: {
@@ -32,17 +25,12 @@ export class Example {
     };
   }
 
-  /**
-   * Returns an empty Rljson object
-   */
+  // ...........................................................................
   static empty(): Rljson {
     return {};
   }
 
-  /**
-   * Returns an Rljson with a table containing all combinations of true and
-   * false. This is useful for testing search operators.
-   */
+  // ...........................................................................
   static binary(): Rljson {
     return {
       table: {
@@ -57,9 +45,7 @@ export class Example {
     };
   }
 
-  /**
-   * An more complex example containing an table with multiple rows
-   */
+  // ...........................................................................
   static multiRow(): Rljson {
     return {
       table: {
@@ -93,15 +79,30 @@ export class Example {
     };
   }
 
-  /**
-   * Returns an Rljson object with a broken table name
-   */
-  static withBrokenTableName(): Rljson {
-    return {
+  // ######################
+  // Broken examples
+  // ######################
+
+  // ...........................................................................
+  static with: { [table: string]: Rljson } = Object.freeze({
+    brokenTableName: {
       brok$en: {
         _type: 'properties',
         _data: [],
       },
-    };
-  }
+    },
+
+    missingData: {
+      table: {
+        _type: 'properties',
+      },
+    } as unknown as Rljson,
+
+    dataNotBeingAnArray: {
+      table: {
+        _type: 'properties',
+        _data: {},
+      },
+    } as unknown as Rljson,
+  });
 }
