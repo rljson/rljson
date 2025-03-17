@@ -224,7 +224,15 @@ export class Example {
     collections: {
       missingBase: (): Rljson => {
         const result = Example.ok.complete();
-        result.collections._data[1].base = 'MISSING'; // Missing base
+        const collection1 = result.collections._data[1];
+        collection1.base = 'MISSING'; // Missing base
+
+        // Cake must now refer the update collection
+        hip(collection1, true, false);
+        const cake = result.cakes._data[0];
+        cake.layers['layer1'] = collection1._hash;
+
+        // Recalculate hashes
         return hip(result, true, false);
       },
 
@@ -233,12 +241,21 @@ export class Example {
         const collection0 = result.collections._data[0];
         const collection1 = result.collections._data[1];
 
-        collection0.idSet = 'MISSING0'; // Missing ID set
-        collection1.idSet = 'MISSING1'; // Missing ID set
+        collection0.idSet = 'MISSING0';
+        collection1.idSet = 'MISSING1';
 
         hip(collection0, true, false);
-        collection1.base = collection0._hash;
 
+        // Update base of collection 1
+        collection1.base = collection0._hash;
+        hip(collection1, true, false);
+
+        // Update referenced layers in cake
+        const cake = result.cakes._data[0];
+        cake.layers['layer0'] = collection0._hash;
+        cake.layers['layer1'] = collection1._hash;
+
+        // Recalculate hashes
         return hip(result, true, false);
       },
 

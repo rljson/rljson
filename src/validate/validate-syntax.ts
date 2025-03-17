@@ -507,7 +507,8 @@ class _ValidateSyntax {
               cakeTable: tableName,
               brokenCake: cake._hash,
               brokenLayerName: layer,
-              missingLayerCollection: collectionRef,
+              collectionsTable: collectionsTableName,
+              missingCollection: collectionRef,
             });
           }
         }

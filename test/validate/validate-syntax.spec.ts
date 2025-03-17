@@ -511,8 +511,13 @@ describe('Validate', async () => {
       const result = Example.ok.complete();
 
       // delete idSet reference
-      delete result.collections._data[1].idSet;
-      hip(result, true, false);
+      const collection1 = result.collections._data[1];
+      delete collection1.idSet;
+      hip(collection1, true, false);
+
+      // Update cake layers
+      const cake = result.cakes._data[0];
+      cake.layers['layer1'] = collection1._hash;
 
       // Validate -> no error
       expect(validate(result)).toEqual({
@@ -626,13 +631,15 @@ describe('Validate', async () => {
               brokenCake: 'u22NoYgg-_-lVq8xG1_adh',
               brokenLayerName: 'layer0',
               cakeTable: 'cakes',
-              missingLayerCollection: 'MISSING0',
+              collectionsTable: 'collections',
+              missingCollection: 'MISSING0',
             },
             {
               brokenCake: 'u22NoYgg-_-lVq8xG1_adh',
               brokenLayerName: 'layer1',
               cakeTable: 'cakes',
-              missingLayerCollection: 'MISSING1',
+              collectionsTable: 'collections',
+              missingCollection: 'MISSING1',
             },
           ],
           error: 'Layer collections of cakes are missing',
