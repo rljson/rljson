@@ -152,6 +152,46 @@ describe('Validate', async () => {
       });
     });
 
+    describe('tableNamesDoNotEndWithRef()', () => {
+      describe('returns no errors', () => {
+        it('when there are no table names ending with "Ref"', () => {
+          expect(
+            validate({
+              tableOne: { _type: 'properties', _data: [] },
+              tableTwo: { _type: 'properties', _data: [] },
+            }).hasErrors,
+          ).toBe(false);
+        });
+
+        it('when there are no table names', () => {
+          expect(validate({}).hasErrors).toBe(false);
+        });
+      });
+
+      describe('returns an error JSON', () => {
+        it('when a table name ends with "Ref"', () => {
+          const r = validate({
+            tableOneRef: { _type: 'properties', _data: [] },
+          });
+          expect(r.tableNamesDoNotEndWithRef).toEqual({
+            error: 'Table names must not end with "Ref"',
+            invalidTableNames: ['tableOneRef'],
+          });
+        });
+
+        it('when multiple table names end with "Ref"', () => {
+          const r = validate({
+            tableOneRef: { _type: 'properties', _data: [] },
+            tableTwoRef: { _type: 'properties', _data: [] },
+          });
+          expect(r.tableNamesDoNotEndWithRef).toEqual({
+            error: 'Table names must not end with "Ref"',
+            invalidTableNames: ['tableOneRef', 'tableTwoRef'],
+          });
+        });
+      });
+    });
+
     describe('columnNamesAreLowerCamelCase()', () => {
       describe('returns "ok"', () => {
         it('when all column names have camel case fields', () => {

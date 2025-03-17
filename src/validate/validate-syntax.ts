@@ -16,6 +16,7 @@ export interface SyntaxErrors extends Errors {
   tableNamesAreLowerCamelCase?: Json;
   columnNamesAreLowerCamelCase?: Json;
   tableNamesDoNotStartWithANumber?: Json;
+  tableNamesDoNotEndWithRef?: Json;
   hasValidHashes?: Json;
   hasData?: Json;
   dataHasRightType?: Json;
@@ -42,24 +43,25 @@ export class ValidateSyntax implements Validator {
 class _ValidateSyntax {
   constructor(private rljson: Rljson) {}
 
+  errors: SyntaxErrors = { hasErrors: false };
+
   validate(): SyntaxErrors {
-    const errors: any = {};
+    this._tableNamesAreLowerCamelCase();
+    this._tableNamesDoNotEndWithRef();
+    this._columnNamesAreLowerCamelCase();
+    this._hasValidHashes();
+    this._hasData();
+    this._dataHasRightType();
+    this.errors.hasErrors = Object.keys(this.errors).length > 1;
 
-    this._tableNamesAreLowerCamelCase(errors);
-    this._columnNamesAreLowerCamelCase(errors);
-    this._hasValidHashes(errors);
-    this._hasData(errors);
-    this._dataHasRightType(errors);
-    errors.hasErrors = Object.keys(errors).length > 0;
-
-    return errors as Errors;
+    return this.errors;
   }
 
   // ######################
   // Private
   // ######################
 
-  private _tableNamesAreLowerCamelCase(errors: SyntaxErrors): void {
+  private _tableNamesAreLowerCamelCase(): void {
     const invalidTableNames: string[] = [];
 
     for (const tableName in this.rljson) {
@@ -73,7 +75,7 @@ class _ValidateSyntax {
     }
 
     if (invalidTableNames.length > 0) {
-      errors.tableNamesAreLowerCamelCase = {
+      this.errors.tableNamesAreLowerCamelCase = {
         error: 'Table names must be lower camel case',
         invalidTableNames: invalidTableNames,
       };
@@ -81,7 +83,25 @@ class _ValidateSyntax {
   }
 
   // ...........................................................................
-  private _columnNamesAreLowerCamelCase(errors: SyntaxErrors): void {
+  private _tableNamesDoNotEndWithRef(): void {
+    const invalidTableNames: string[] = [];
+
+    for (const tableName in this.rljson) {
+      if (tableName.endsWith('Ref')) {
+        invalidTableNames.push(tableName);
+      }
+    }
+
+    if (invalidTableNames.length > 0) {
+      this.errors.tableNamesDoNotEndWithRef = {
+        error: 'Table names must not end with "Ref"',
+        invalidTableNames: invalidTableNames,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _columnNamesAreLowerCamelCase(): void {
     const invalidColumnNames: {
       [tableName: string]: string[];
     } = {};
@@ -114,7 +134,7 @@ class _ValidateSyntax {
     }
 
     if (hadErrors) {
-      errors.columnNamesAreLowerCamelCase = {
+      this.errors.columnNamesAreLowerCamelCase = {
         error: 'Column names must be lower camel case',
         invalidColumnNames: invalidColumnNames,
       };
@@ -122,17 +142,17 @@ class _ValidateSyntax {
   }
 
   // ...........................................................................
-  private _hasValidHashes(errors: Json): void {
+  private _hasValidHashes(): void {
     try {
       Hash.default.validate(this.rljson, { ignoreMissingHashes: true });
     } catch (error: any) {
       if (error instanceof Error) {
-        errors.hasValidHashes = {
+        this.errors.hasValidHashes = {
           error: error.message,
         };
         /* v8 ignore start */
       } else {
-        errors.hasValidHashes = {
+        this.errors.hasValidHashes = {
           error: 'Unknown error',
         };
       }
@@ -142,7 +162,7 @@ class _ValidateSyntax {
 
   // ...........................................................................
   /// Checks if data is valid
-  private _hasData(errors: SyntaxErrors): void {
+  private _hasData(): void {
     const rljson = this.rljson;
     const tablesWithMissingData: string[] = [];
 
@@ -157,7 +177,7 @@ class _ValidateSyntax {
     }
 
     if (tablesWithMissingData.length > 0) {
-      errors.hasData = {
+      this.errors.hasData = {
         error: '_data is missing in tables',
         tables: tablesWithMissingData,
       };
@@ -166,7 +186,7 @@ class _ValidateSyntax {
 
   // ...........................................................................
   /// Checks if data is valid
-  private _dataHasRightType(errors: SyntaxErrors): void {
+  private _dataHasRightType(): void {
     const rljson = this.rljson;
     const tablesWithWrongType: string[] = [];
 
@@ -186,7 +206,7 @@ class _ValidateSyntax {
     }
 
     if (tablesWithWrongType.length > 0) {
-      errors.dataHasRightType = {
+      this.errors.dataHasRightType = {
         error: '_data must be a list',
         tables: tablesWithWrongType,
       };
