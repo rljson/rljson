@@ -1,7 +1,9 @@
+import { hip } from '@rljson/hash';
+
 import { describe, expect, it } from 'vitest';
 
 import { Example } from '../src/example';
-import { iterate } from '../src/rljson';
+import { iterate, Rljson } from '../src/rljson';
 import { rljsonIndexed } from '../src/rljson-indexed';
 
 import { expectGolden } from './setup/goldens';
@@ -14,7 +16,13 @@ import { expectGolden } from './setup/goldens';
 
 describe('RljsonIndexed', () => {
   it('should create indexes for all rows of all tables', () => {
-    const bakery = Example.bakery;
+    const updateExistingHashes = true;
+    const throwOnWrongHashes = false;
+    const bakery = hip(
+      Example.bakery(),
+      updateExistingHashes,
+      throwOnWrongHashes,
+    );
     const indexedBakery = rljsonIndexed(bakery);
     expectGolden('rljson-indexed.json').toBe(indexedBakery);
 
@@ -36,6 +44,42 @@ describe('RljsonIndexed', () => {
         const hash = row._hash;
         expect(tableIndexed._data[hash]).toBe(row);
       }
+    });
+  });
+
+  it('just copies tables that have no data object', () => {
+    const rljson: Rljson = {
+      tableWithoutData: {
+        _someField: 'someValue',
+      },
+    } as any;
+
+    const indexedRljson = rljsonIndexed(rljson);
+    expect(rljson.tableWithoutData).toBe(indexedRljson.tableWithoutData);
+  });
+
+  it('creates missing row hashes', () => {
+    const rljson: Rljson = {
+      tableWithMissingHashes: {
+        _data: [{ a: 'a' }, { a: 'b' }],
+      },
+    } as any;
+
+    const indexedRljson = rljsonIndexed(rljson);
+
+    expect(indexedRljson).toEqual({
+      tableWithMissingHashes: {
+        _data: {
+          '20p-yxFLxmxiOgbE_2_o2q': {
+            _hash: '20p-yxFLxmxiOgbE_2_o2q',
+            a: 'b',
+          },
+          aBUjYx4PXTkE2IHdFjaDCB: {
+            _hash: 'aBUjYx4PXTkE2IHdFjaDCB',
+            a: 'a',
+          },
+        },
+      },
     });
   });
 });

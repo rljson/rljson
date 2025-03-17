@@ -34,16 +34,19 @@ export const rljsonIndexed = (rljson: Rljson): IndexedRljson => {
   for (const key in rljson) {
     // If item is not an object, add it to the result
     const item = rljson[key];
-    if (item! instanceof Object) {
+    if (typeof item != 'object') {
       result[key] = item as any;
+      continue;
     }
 
     // Item has not _data field, add it to the result
     if (!('_data' in item)) {
       result[key] = item;
+      continue;
     }
 
     const dataIndexed: { [rowHash: string]: Json } = {};
+    result[key] = { ...item } as any;
 
     // Iterate all rows of the item
     for (const row of item!._data) {
