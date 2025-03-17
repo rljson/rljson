@@ -31,7 +31,7 @@ export interface Cake extends Json {
    * The item ids of the collection. If present, the item ids in the layers
    * must match these ids. The item id sets can be found in the _idSets table.
    */
-  itemIds?: IdSetRef;
+  idSet?: IdSetRef;
 
   /**
    * The table containing the item collections defining the layers
