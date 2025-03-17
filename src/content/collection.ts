@@ -56,6 +56,5 @@ export type CollectionsTable = RljsonTable<Collection, 'collections'>;
 /**
  * Provides an example collectionsTable for test purposes
  */
-export const exampleCollectionsTable: CollectionsTable = Object.freeze(
-  bakeryExample.layers,
-);
+export const exampleCollectionsTable = (): CollectionsTable =>
+  bakeryExample().layers;

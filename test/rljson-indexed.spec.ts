@@ -1,7 +1,8 @@
-import { describe, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 
 import { Example } from '../src/example';
-import { indexedRljson } from '../src/rljson-indexed.ts';
+import { iterate } from '../src/rljson';
+import { rljsonIndexed } from '../src/rljson-indexed';
 
 import { expectGolden } from './setup/goldens';
 
@@ -13,7 +14,28 @@ import { expectGolden } from './setup/goldens';
 
 describe('RljsonIndexed', () => {
   it('should create indexes for all rows of all tables', () => {
-    const indexedBakery = indexedRljson(Example.bakery());
+    const bakery = Example.bakery;
+    const indexedBakery = rljsonIndexed(bakery);
     expectGolden('rljson-indexed.json').toBe(indexedBakery);
+
+    // Check that all tables are indexed
+    const tableNames = Object.keys(bakery);
+    const tableNamesIndexed = Object.keys(indexedBakery);
+    expect(tableNamesIndexed).toEqual(tableNames);
+
+    // Iterate all tables
+    iterate(bakery, (tableName, table) => {
+      const tableIndexed = indexedBakery[tableName];
+
+      // For each row of the table there is an index
+      const hashes = Object.keys(tableIndexed._data);
+      expect(table._data.length).toEqual(hashes.length);
+
+      // Each row's hash is used as index
+      for (const row of table._data) {
+        const hash = row._hash;
+        expect(tableIndexed._data[hash]).toBe(row);
+      }
+    });
   });
 });

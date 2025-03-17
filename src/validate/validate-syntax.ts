@@ -20,6 +20,7 @@ export interface SyntaxErrors extends Errors {
   hasValidHashes?: Json;
   hasData?: Json;
   dataHasRightType?: Json;
+  allRefsAreFound?: Json;
 }
 
 // .............................................................................
@@ -41,7 +42,11 @@ export class ValidateSyntax implements Validator {
 
 // .............................................................................
 class _ValidateSyntax {
-  constructor(private rljson: Rljson) {}
+  constructor(private rljson: Rljson) {
+    this.tableNames = Object.keys(this.rljson).filter(
+      (table) => !table.startsWith('_'),
+    );
+  }
 
   errors: SyntaxErrors = { hasErrors: false };
 
@@ -52,6 +57,7 @@ class _ValidateSyntax {
     this._hasValidHashes();
     this._hasData();
     this._dataHasRightType();
+    // this._allRefsAreFound();
     this.errors.hasErrors = Object.keys(this.errors).length > 1;
 
     return this.errors;
@@ -61,14 +67,12 @@ class _ValidateSyntax {
   // Private
   // ######################
 
+  tableNames: string[];
+
   private _tableNamesAreLowerCamelCase(): void {
     const invalidTableNames: string[] = [];
 
-    for (const tableName in this.rljson) {
-      if (tableName.startsWith('_')) {
-        continue;
-      }
-
+    for (const tableName of this.tableNames) {
       if (!ValidateSyntax.isValidFieldName(tableName)) {
         invalidTableNames.push(tableName);
       }
@@ -86,7 +90,7 @@ class _ValidateSyntax {
   private _tableNamesDoNotEndWithRef(): void {
     const invalidTableNames: string[] = [];
 
-    for (const tableName in this.rljson) {
+    for (const tableName of this.tableNames) {
       if (tableName.endsWith('Ref')) {
         invalidTableNames.push(tableName);
       }
@@ -108,12 +112,9 @@ class _ValidateSyntax {
 
     let hadErrors = false;
 
-    for (const tableName in this.rljson) {
-      if (tableName.startsWith('_')) {
-        continue;
-      }
-
+    for (const tableName of this.tableNames) {
       const table = this.rljson[tableName] as RljsonTable<any, any>;
+
       if (!table._data || !Array.isArray(table._data)) {
         continue;
       }
@@ -166,9 +167,7 @@ class _ValidateSyntax {
     const rljson = this.rljson;
     const tablesWithMissingData: string[] = [];
 
-    for (const table of Object.keys(rljson)) {
-      /* v8 ignore next */
-      if (table.startsWith('_')) continue;
+    for (const table of this.tableNames) {
       const tableData = rljson[table];
       const items = tableData['_data'];
       if (items == null) {
@@ -185,15 +184,12 @@ class _ValidateSyntax {
   }
 
   // ...........................................................................
-  /// Checks if data is valid
   private _dataHasRightType(): void {
     const rljson = this.rljson;
     const tablesWithWrongType: string[] = [];
 
-    for (const table of Object.keys(rljson)) {
-      /* v8 ignore next */
-      if (table.startsWith('_')) continue;
-      const tableData = rljson[table];
+    for (const tableName of this.tableNames) {
+      const tableData = rljson[tableName];
       if (!tableData._data) {
         continue;
       }
@@ -201,7 +197,7 @@ class _ValidateSyntax {
       const items = tableData['_data'];
 
       if (!Array.isArray(items)) {
-        tablesWithWrongType.push(table);
+        tablesWithWrongType.push(tableName);
       }
     }
 
@@ -212,6 +208,82 @@ class _ValidateSyntax {
       };
     }
   }
+
+  // ...........................................................................
+  /// Throws if a link is not available
+  /* private _allRefsAreFound(): void {
+    // Define a result object
+    const missingRefs: {
+      table: string;
+      item: string;
+      ref: string;
+      error: string;
+    }[] = [];
+
+    // Iterate all tables
+    for (const table of this.tableNames) {
+      // Iterate all items in the table
+      const tableData = this.rljson[table]._data as Json[];
+      for (const item of tableData) {
+        for (const key of Object.keys(item)) {
+          // If item is a reference
+          if (key.endsWith('Ref')) {
+            // Get the referenced table
+            const targetTableName = key.substring(0, key.length - 3);
+            const itemHash = item._hash as string;
+
+            // If it is not found, write an error and continue
+            if (this.tableNames.indexOf(targetTableName) === -1) {
+              missingRefs.push({
+                table: table,
+                item: itemHash,
+                ref: key,
+                error: `Reference table "${targetTableName}" not found`,
+              });
+              continue;
+            }
+
+            // If it is found, find the item in the target table
+            const targetTable = this.rljson[targetTableName]._data as Json[];
+
+            if (this.rljson[targetTableName] == null) {
+              missingRefs.push({ table: table, ref: targetTableName });
+            }
+          }
+        }
+      }
+
+      for (const entry of Object.entries(tableData)) {
+        const item = entry[1];
+        for (const key of Object.keys(item)) {
+          if (key === '_hash') continue;
+
+          if (key.endsWith('Ref')) {
+            // Check if linked table exists
+            const tableName = key.substring(0, key.length - 3);
+            const linkTable = this.dataIndexed[tableName];
+            const hash = item['_hash'];
+
+            if (linkTable == null) {
+              throw new Error(
+                `Table "${table}" has an item "${hash}" which links to not existing table "${key}".`,
+              );
+            }
+
+            // Check if linked item exists
+            const targetHash = item[key];
+            const linkedItem = linkTable[targetHash];
+
+            if (linkedItem == null) {
+              throw new Error(
+                `Table "${table}" has an item "${hash}" which links to not existing item "${targetHash}" in table "${tableName}".`,
+              );
+            }
+          }
+        }
+      }
+    }
+  }*/
 }
 
 /**

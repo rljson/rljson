@@ -10,6 +10,9 @@ import { Json } from '@rljson/json';
 import { Rljson } from './rljson.ts';
 
 // .............................................................................
+/**
+ * An Rljson object where all tables' rows are indexed by their hash.
+ */
 export interface IndexedRljson {
   [tableName: string]: {
     _data: { [rowHash: string]: Json };
@@ -20,11 +23,11 @@ export interface IndexedRljson {
 
 // .............................................................................
 /**
- * Creates indexes for all rows of an Rljson object
+ * Returns an rljson where all tables' rows are indexed by their hash.
  * @param rljson - The Rljson object to index
  * @returns The indexed Rljson object
  */
-export const indexedRljson = (rljson: Rljson): IndexedRljson => {
+export const rljsonIndexed = (rljson: Rljson): IndexedRljson => {
   const result: IndexedRljson = {};
 
   // Iterate all items of the rljson object

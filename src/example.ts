@@ -11,27 +11,25 @@ import { Rljson } from './rljson.ts';
 
 export class Example {
   // ...........................................................................
-  static bakery(): Rljson {
-    return bakeryExample;
-  }
+  static readonly bakery = (): Rljson => bakeryExample();
 
   // ...........................................................................
-  static withAllJsonTypes(): Rljson {
+  static withAllJsonTypes = (): Rljson => {
     return {
       table: {
         _type: 'properties',
         _data: [exampleJsonObject()],
       },
     };
-  }
+  };
 
   // ...........................................................................
-  static empty(): Rljson {
+  static readonly empty = (): Rljson => {
     return {};
-  }
+  };
 
   // ...........................................................................
-  static binary(): Rljson {
+  static readonly binary = (): Rljson => {
     return {
       table: {
         _type: 'properties',
@@ -43,10 +41,10 @@ export class Example {
         ],
       },
     };
-  }
+  };
 
   // ...........................................................................
-  static multiRow(): Rljson {
+  static readonly multiRow = (): Rljson => {
     return {
       table: {
         _type: 'properties',
@@ -77,32 +75,38 @@ export class Example {
         ],
       },
     };
-  }
+  };
 
   // ######################
   // Broken examples
   // ######################
 
   // ...........................................................................
-  static with: { [table: string]: Rljson } = Object.freeze({
-    brokenTableName: {
-      brok$en: {
-        _type: 'properties',
-        _data: [],
-      },
+  static readonly with: { [table: string]: () => Rljson } = {
+    brokenTableName: () => {
+      return {
+        brok$en: {
+          _type: 'properties',
+          _data: [],
+        },
+      };
     },
 
-    missingData: {
-      table: {
-        _type: 'properties',
-      },
-    } as unknown as Rljson,
+    missingData: () => {
+      return {
+        table: {
+          _type: 'properties',
+        },
+      } as unknown as Rljson;
+    },
 
-    dataNotBeingAnArray: {
-      table: {
-        _type: 'properties',
-        _data: {},
-      },
-    } as unknown as Rljson,
-  });
+    dataNotBeingAnArray: () => {
+      return {
+        table: {
+          _type: 'properties',
+          _data: {},
+        },
+      } as unknown as Rljson;
+    },
+  };
 }

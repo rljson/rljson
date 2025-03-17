@@ -56,4 +56,4 @@ export type CakesTable = RljsonTable<Cake, 'cakes'>;
 /**
  * Provides an example collectionsTable for test purposes
  */
-export const exampleCakesTable: CakesTable = Object.freeze(bakeryExample.cakes);
+export const exampleCakesTable = (): CakesTable => bakeryExample().cakes;

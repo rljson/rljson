@@ -33,7 +33,7 @@ describe('Validate', async () => {
       };
 
       // Take a broken rljson object
-      const rljson: Rljson = Example.with.brokenTableName;
+      const rljson: Rljson = Example.with.brokenTableName();
 
       // Validate it
       const resultSync = new ValidateSyntax().validateSync(rljson);

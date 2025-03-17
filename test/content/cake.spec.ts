@@ -12,6 +12,6 @@ import { expectGolden } from '../setup/goldens.ts';
 
 describe('CakesTable', () => {
   it('provides a list of cakes', async () => {
-    await expectGolden('content/cakes.json').toBe(exampleCakesTable);
+    await expectGolden('content/cakes.json').toBe(exampleCakesTable());
   });
 });

@@ -35,7 +35,7 @@ describe('Example', () => {
 
   describe('with', async () => {
     it('brokenTableName', async () => {
-      expect(Example.with.brokenTableName).toEqual({
+      expect(Example.with.brokenTableName()).toEqual({
         brok$en: {
           _type: 'properties',
           _data: [],
@@ -44,7 +44,7 @@ describe('Example', () => {
     });
 
     it('missingData', async () => {
-      expect(Example.with.missingData).toEqual({
+      expect(Example.with.missingData()).toEqual({
         table: {
           _type: 'properties',
         },
@@ -52,7 +52,7 @@ describe('Example', () => {
     });
 
     it('dataNotBeingAnArray', async () => {
-      expect(Example.with.dataNotBeingAnArray).toEqual({
+      expect(Example.with.dataNotBeingAnArray()).toEqual({
         table: {
           _type: 'properties',
           _data: {},
