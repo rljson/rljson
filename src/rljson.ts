@@ -71,12 +71,13 @@ export interface RljsonTable<Data extends Json, Type extends ContentType>
  * @param rljson - The Rljson object to iterate
  * @param callback - The callback to call for each table
  */
-export const iterate = (
+export const iterateTables = (
   rljson: Rljson,
   callback: (tableName: string, table: TableType) => void,
 ) => {
   for (const tableName in rljson) {
-    if (tableName.startsWith('_')) {
+    const value = rljson[tableName];
+    if (typeof value !== 'object' || !Array.isArray(value._data)) {
       continue;
     }
 

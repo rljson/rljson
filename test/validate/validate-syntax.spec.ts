@@ -459,4 +459,24 @@ describe('Validate', async () => {
       });
     });
   });
+
+  describe('collectionAllBaseRefsAreFound()', () => {
+    it('returns no errors when all base refs are found', () => {
+      expect(validate(Example.ok.collection())).toEqual({
+        hasErrors: false,
+      });
+    });
+
+    it('returns an error when a base ref is not found', () => {
+      expect(validate(Example.broken.collection.missingBase())).toEqual({
+        collectionBaseRefsAreFound: {
+          base: 'QHE4YSef6qX1zaWo1sckBF',
+          collectionHash: 'vCF6yznvPJ9M0LqCdj8BT4',
+          error: 'Base collection "QHE4YSef6qX1zaWo1sckBF" not found',
+          table: 'collection',
+        },
+        hasErrors: true,
+      });
+    });
+  });
 });

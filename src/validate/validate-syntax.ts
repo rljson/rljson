@@ -7,8 +7,9 @@
 import { hsh } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
+import { CollectionsTable } from '../content/collection.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
-import { Rljson, RljsonTable } from '../rljson.ts';
+import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
 
 import { Errors, Validator } from './validate.ts';
 
@@ -22,6 +23,7 @@ export interface SyntaxErrors extends Errors {
   hasData?: Json;
   dataHasRightType?: Json;
   allRefsAreFound?: Json;
+  collectionBaseRefsAreFound?: Json;
 }
 
 // .............................................................................
@@ -67,6 +69,7 @@ class _ValidateSyntax {
 
     if (!this.hasErrors) {
       this._allRefsAreFound();
+      this._collectionBaseRefsAreFound();
     }
 
     this.errors.hasErrors = this.hasErrors;
@@ -227,8 +230,6 @@ class _ValidateSyntax {
     }
   }
 
-  // ...........................................................................
-  /// Throws if a link is not available
   private _allRefsAreFound(): void {
     // Define a result object
     const missingRefs: {
@@ -292,6 +293,34 @@ class _ValidateSyntax {
         missingRefs: missingRefs,
       };
     }
+  }
+
+  private _collectionBaseRefsAreFound(): void {
+    iterateTables(this.rljson, (tableName, table) => {
+      if (table._type !== 'collections') {
+        return;
+      }
+
+      const collectionsIndexed = this.rljsonIndexed[tableName];
+
+      const collectionsTable: CollectionsTable = table as CollectionsTable;
+      for (const collection of collectionsTable._data) {
+        const baseRef = collection.base;
+        if (!baseRef) {
+          continue;
+        }
+
+        const baseCollection = collectionsIndexed._data[baseRef];
+        if (!baseCollection) {
+          this.errors.collectionBaseRefsAreFound = {
+            error: `Base collection "${baseRef}" not found`,
+            table: tableName,
+            collectionHash: collection._hash,
+            base: baseRef,
+          };
+        }
+      }
+    });
   }
 }
 

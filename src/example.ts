@@ -96,6 +96,44 @@ export class Example {
         },
       };
     },
+
+    collection: (): Rljson => {
+      return {
+        _itemIds: {
+          _type: 'idSets',
+          _hash: 'CQQWbLwNJCN3gEyroA7ZcD',
+          _data: [
+            {
+              add: [],
+            },
+          ],
+        },
+
+        _properties: {
+          _type: 'properties',
+          _hash: 'DKwor-pULmCs6RY-sMyfrM',
+          _data: [],
+        },
+
+        collection: {
+          _type: 'collections',
+          _data: [
+            {
+              itemIds: 'CQQWbLwNJCN3gEyroA7ZcD',
+              properties: 'DKwor-pULmCs6RY-sMyfrM',
+              _hash: 'QHE4YSef6qX1zaWo1sckBF',
+              assign: {},
+            },
+            {
+              base: 'QHE4YSef6qX1zaWo1sckBF',
+              itemIds: 'CQQWbLwNJCN3gEyroA7ZcD',
+              properties: 'PROPERTIES',
+              assign: {},
+            },
+          ],
+        },
+      };
+    },
   };
 
   static readonly broken = {
@@ -160,6 +198,40 @@ export class Example {
           ],
         },
       };
+    },
+
+    collection: {
+      missingBase: (): Rljson => {
+        return {
+          _itemIds: {
+            _type: 'idSets',
+            _hash: 'CQQWbLwNJCN3gEyroA7ZcD',
+            _data: [
+              {
+                add: [],
+              },
+            ],
+          },
+
+          _properties: {
+            _type: 'properties',
+            _hash: 'DKwor-pULmCs6RY-sMyfrM',
+            _data: [],
+          },
+
+          collection: {
+            _type: 'collections',
+            _data: [
+              {
+                base: 'QHE4YSef6qX1zaWo1sckBF', // Base collection is missing
+                itemIds: 'CQQWbLwNJCN3gEyroA7ZcD',
+                properties: 'PROPERTIES',
+                assign: {},
+              },
+            ],
+          },
+        };
+      },
     },
   };
 }
