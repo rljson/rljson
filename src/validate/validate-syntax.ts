@@ -30,6 +30,7 @@ export interface SyntaxErrors extends Errors {
   collectionPropertyAssignmentsNotFound?: Json;
   cakeIdSetsNotFound?: Json;
   cakeCollectionTablesNotFound?: Json;
+  cakeLayerCollectionsNotFound?: Json;
 }
 
 // .............................................................................
@@ -472,6 +473,7 @@ class _ValidateSyntax {
 
   private _cakeCollectionTablesNotFound(): void {
     const missingCollectionTables: any[] = [];
+    const missingLayerCollections: any[] = [];
 
     iterateTables(this.rljson, (tableName, table) => {
       if (table._type !== 'cakes') {
@@ -488,6 +490,26 @@ class _ValidateSyntax {
             cakeHash: cake._hash,
             missingCollectionsTable: collectionsTableName,
           });
+
+          continue;
+        }
+
+        for (const layer in cake.layers) {
+          if (layer.startsWith('_')) {
+            continue;
+          }
+
+          const collectionRef = cake.layers[layer];
+          const collection = collectionsTable._data[collectionRef];
+
+          if (!collection) {
+            missingLayerCollections.push({
+              cakeTable: tableName,
+              brokenCake: cake._hash,
+              brokenLayerName: layer,
+              missingLayerCollection: collectionRef,
+            });
+          }
         }
       }
     });
@@ -496,6 +518,13 @@ class _ValidateSyntax {
       this.errors.cakeCollectionTablesNotFound = {
         error: 'Collection tables of cakes are missing',
         brokenCakes: missingCollectionTables,
+      };
+    }
+
+    if (missingLayerCollections.length > 0) {
+      this.errors.cakeLayerCollectionsNotFound = {
+        error: 'Layer collections of cakes are missing',
+        brokenCakes: missingLayerCollections,
       };
     }
   }

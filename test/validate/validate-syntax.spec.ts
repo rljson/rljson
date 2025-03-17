@@ -616,4 +616,29 @@ describe('Validate', async () => {
       });
     });
   });
+
+  describe('cakeLayerCollectionsNotFound', () => {
+    it('returns an error when the collection of a layer is not found', () => {
+      expect(validate(Example.broken.cake.missingLayerCollection())).toEqual({
+        cakeLayerCollectionsNotFound: {
+          brokenCakes: [
+            {
+              brokenCake: 'u22NoYgg-_-lVq8xG1_adh',
+              brokenLayerName: 'layer0',
+              cakeTable: 'cakes',
+              missingLayerCollection: 'MISSING0',
+            },
+            {
+              brokenCake: 'u22NoYgg-_-lVq8xG1_adh',
+              brokenLayerName: 'layer1',
+              cakeTable: 'cakes',
+              missingLayerCollection: 'MISSING1',
+            },
+          ],
+          error: 'Layer collections of cakes are missing',
+        },
+        hasErrors: true,
+      });
+    });
+  });
 });

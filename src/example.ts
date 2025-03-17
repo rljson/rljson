@@ -267,6 +267,13 @@ export class Example {
         result.cakes._data[0].collections = 'MISSING'; // Missing collections table
         return result;
       },
+
+      missingLayerCollection: (): Rljson => {
+        const result = Example.ok.complete();
+        result.cakes._data[0].layers['layer0'] = 'MISSING0';
+        result.cakes._data[0].layers['layer1'] = 'MISSING1';
+        return result;
+      },
     },
   };
 }
