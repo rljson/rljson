@@ -19,7 +19,7 @@ describe('RljsonIndexed', () => {
     const updateExistingHashes = true;
     const throwOnWrongHashes = false;
     const bakery = hip(
-      Example.with.bakery(),
+      Example.ok.bakery(),
       updateExistingHashes,
       throwOnWrongHashes,
     );

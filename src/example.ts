@@ -10,7 +10,7 @@ import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
 export class Example {
-  static readonly with = {
+  static readonly ok = {
     bakery: (): Rljson => bakeryExample(),
 
     empty: (): Rljson => {
@@ -98,7 +98,7 @@ export class Example {
     },
   };
 
-  static readonly withError = {
+  static readonly broken = {
     brokenTableName: () => {
       return {
         brok$en: {

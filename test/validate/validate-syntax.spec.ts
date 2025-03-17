@@ -32,7 +32,7 @@ describe('Validate', async () => {
     };
 
     // Take a broken rljson object
-    const rljson: Rljson = Example.withError.brokenTableName() as Rljson;
+    const rljson: Rljson = Example.broken.brokenTableName() as Rljson;
 
     // Validate it
     const resultSync = new ValidateSyntax().validateSync(rljson);
@@ -416,13 +416,13 @@ describe('Validate', async () => {
 
   describe('allRefsAreFound', () => {
     it('returns no errors when all refs are found', () => {
-      expect(validate(Example.with.singleRef())).toEqual({
+      expect(validate(Example.ok.singleRef())).toEqual({
         hasErrors: false,
       });
     });
 
     it('returns an error when a reference table is not found', () => {
-      expect(validate(Example.withError.missingReferencedTable())).toEqual({
+      expect(validate(Example.broken.missingReferencedTable())).toEqual({
         allRefsAreFound: {
           error: 'Broken references',
           missingRefs: [
@@ -441,7 +441,7 @@ describe('Validate', async () => {
     });
 
     it('returns an error when a ref is not found', () => {
-      expect(validate(Example.withError.missingRef())).toEqual({
+      expect(validate(Example.broken.missingRef())).toEqual({
         allRefsAreFound: {
           error: 'Broken references',
           missingRefs: [
