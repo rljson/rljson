@@ -261,6 +261,12 @@ export class Example {
         result.cakes._data[0].idSet = 'MISSING'; // Missing ID set
         return result;
       },
+
+      missingCollectionsTable: (): Rljson => {
+        const result = Example.ok.complete();
+        result.cakes._data[0].collections = 'MISSING'; // Missing collections table
+        return result;
+      },
     },
   };
 }

@@ -598,4 +598,22 @@ describe('Validate', async () => {
       });
     });
   });
+
+  describe('cakeCollectionTablesNotFound', () => {
+    it('returns an error when the collection table is not found', () => {
+      expect(validate(Example.broken.cake.missingCollectionsTable())).toEqual({
+        cakeCollectionTablesNotFound: {
+          brokenCakes: [
+            {
+              cakeHash: 'Wqh55SPELaDBhruppcUeXr',
+              cakeTable: 'cakes',
+              missingCollectionsTable: 'MISSING',
+            },
+          ],
+          error: 'Collection tables of cakes are missing',
+        },
+        hasErrors: true,
+      });
+    });
+  });
 });

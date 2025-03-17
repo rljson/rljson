@@ -29,6 +29,7 @@ export interface SyntaxErrors extends Errors {
   collectionPropertyTablesNotFound?: Json;
   collectionPropertyAssignmentsNotFound?: Json;
   cakeIdSetsNotFound?: Json;
+  cakeCollectionTablesNotFound?: Json;
 }
 
 // .............................................................................
@@ -78,6 +79,7 @@ class _ValidateSyntax {
       this._collectionIdSetsExist();
       this._collectionPropertyAssignmentsNotFound();
       this._cakeIdSetsNotFound();
+      this._cakeCollectionTablesNotFound();
     }
 
     this.errors.hasErrors = this.hasErrors;
@@ -464,6 +466,36 @@ class _ValidateSyntax {
       this.errors.cakeIdSetsNotFound = {
         error: 'Id sets of cakes are missing',
         brokenCakes,
+      };
+    }
+  }
+
+  private _cakeCollectionTablesNotFound(): void {
+    const missingCollectionTables: any[] = [];
+
+    iterateTables(this.rljson, (tableName, table) => {
+      if (table._type !== 'cakes') {
+        return;
+      }
+
+      const cakesTable: CakesTable = table as CakesTable;
+      for (const cake of cakesTable._data) {
+        const collectionsTableName = cake.collections;
+        const collectionsTable = this.rljsonIndexed[collectionsTableName];
+        if (!collectionsTable) {
+          missingCollectionTables.push({
+            cakeTable: tableName,
+            cakeHash: cake._hash,
+            missingCollectionsTable: collectionsTableName,
+          });
+        }
+      }
+    });
+
+    if (missingCollectionTables.length > 0) {
+      this.errors.cakeCollectionTablesNotFound = {
+        error: 'Collection tables of cakes are missing',
+        brokenCakes: missingCollectionTables,
       };
     }
   }
