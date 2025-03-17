@@ -104,30 +104,33 @@ export class Example {
 
           _data: [
             {
-              add: [],
-              _hash: 'iXZ4ZUmANYrfH9kezk---f',
+              add: ['id0', 'id1'],
+              _hash: 'MgHRBYSrhpyl4rvsOmAWcQ',
             },
           ],
         },
 
-        _properties: {
+        properties: {
           _type: 'properties',
-          _hash: 'DKwor-pULmCs6RY-sMyfrM',
-          _data: [],
+          _hash: 'QnrUL_NvlY6K1qSnjgFDP8',
+          _data: [
+            { a: '0', _hash: 'AFhW-fMzdCiz6bUZscp1Lf' },
+            { a: '1', _hash: 'mv6w8rID8lQxLsje1EHQMY' },
+          ],
         },
 
         collection: {
           _type: 'collections',
           _data: [
             {
-              idSet: 'iXZ4ZUmANYrfH9kezk---f',
+              idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
               properties: 'DKwor-pULmCs6RY-sMyfrM',
-              _hash: 'mG-6eoyVo2vbfiuFqAJKbW',
+              _hash: '-joAjBa9BI2_9qFWB4DN0i',
               assign: {},
             },
             {
-              base: 'mG-6eoyVo2vbfiuFqAJKbW',
-              idSet: 'iXZ4ZUmANYrfH9kezk---f',
+              base: '-joAjBa9BI2_9qFWB4DN0i',
+              idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
               properties: 'PROPERTIES',
               assign: {},
             },
@@ -225,7 +228,7 @@ export class Example {
             _type: 'collections',
             _data: [
               {
-                base: 'mG-6eoyVo2vbfiuFqAJKbW', // Base is missing
+                base: '-joAjBa9BI2_9qFWB4DN0i', // Base is missing
                 idSet: 'iXZ4ZUmANYrfH9kezk---f',
                 properties: 'PROPERTIES',
                 assign: {},

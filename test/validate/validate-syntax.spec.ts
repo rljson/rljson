@@ -470,10 +470,10 @@ describe('Validate', async () => {
     it('returns an error when a base ref is not found', () => {
       expect(validate(Example.broken.collection.missingBase())).toEqual({
         collectionBaseRefsAreFound: {
-          base: 'mG-6eoyVo2vbfiuFqAJKbW',
-          item: 'rdL-Mgoy3GKby7I8aGiLs9',
+          base: '-joAjBa9BI2_9qFWB4DN0i',
           error:
-            'Collection "rdL-Mgoy3GKby7I8aGiLs9": Base collection "mG-6eoyVo2vbfiuFqAJKbW" not found',
+            'Collection "-JJANOPxzON2A-sMUARyba": Base collection "-joAjBa9BI2_9qFWB4DN0i" not found',
+          item: '-JJANOPxzON2A-sMUARyba',
           table: 'collection',
         },
         hasErrors: true,

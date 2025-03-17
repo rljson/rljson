@@ -25,6 +25,7 @@ export interface SyntaxErrors extends Errors {
   allRefsAreFound?: Json;
   collectionBaseRefsAreFound?: Json;
   collectionIdSetsAreFound?: Json;
+  collectionAssignedPropertiesFound?: Json;
 }
 
 // .............................................................................
@@ -71,7 +72,8 @@ class _ValidateSyntax {
     if (!this.hasErrors) {
       this._allRefsAreFound();
       this._collectionBaseRefsAreFound();
-      this._collectionIdRefsAreFound();
+      this._collectionIdSetsAreFound();
+      this._collectionAssignedPropertiesFound();
     }
 
     this.errors.hasErrors = this.hasErrors;
@@ -325,7 +327,7 @@ class _ValidateSyntax {
     });
   }
 
-  private _collectionIdRefsAreFound(): void {
+  private _collectionIdSetsAreFound(): void {
     iterateTables(this.rljson, (tableName, table) => {
       if (table._type !== 'collections') {
         return;
@@ -352,6 +354,8 @@ class _ValidateSyntax {
       }
     });
   }
+
+  private _collectionAssignedPropertiesFound(): void {}
 }
 
 /**
