@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@rljson/hash':
-        specifier: ^0.0.11
-        version: 0.0.11
+        specifier: ^0.0.12
+        version: 0.0.12
       '@rljson/json':
-        specifier: ^0.0.14
-        version: 0.0.14
+        specifier: ^0.0.15
+        version: 0.0.15
     devDependencies:
       '@types/node':
         specifier: ^22.13.10
@@ -390,16 +390,12 @@ packages:
     resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@rljson/hash@0.0.11':
-    resolution: {integrity: sha512-StYlZRl7bsn1JnqVEiWBhghfG3xJkIX4r7O6yu3TuqiboKFoMziqyvzB0CEQ8m095YMW5cYCu7L0Y24Hm2qkNQ==}
+  '@rljson/hash@0.0.12':
+    resolution: {integrity: sha512-f1mv8/fQ5ung4hKln+cbQ2tNicVFnMWA2Yu5AnP2MMcvSv3z4/rXjJHiSXoTivF6HnG+1FArn44zxxvzLEg0Rw==}
     engines: {node: '>=22.14.0'}
 
-  '@rljson/json@0.0.10':
-    resolution: {integrity: sha512-hGlfW9cny0ekCBeKfoIGcAZctJRtPaf4Ke4nrj+Ilwxi5fB8kSKPoXBPYwwNggCoIFDVh2/LeOW1/N6GnHaMTA==}
-    engines: {node: '>=22.14.0'}
-
-  '@rljson/json@0.0.14':
-    resolution: {integrity: sha512-tSV5x0V2XL6BoGk6vtXkt/E97NF9sn5MOV+eW+NqwpZ3koz4O/RFqz8EQHpOGr3LZCA5B+uptOkXTF5r6p4BDA==}
+  '@rljson/json@0.0.15':
+    resolution: {integrity: sha512-FqtRd5VGwEAmxIJ7OcxJ+l9UCe6hgHaXm9/OWjaAFoFSuclXwZ9wcO1turmTbRgy6Se2BmB8lmchAxn6TOLtVg==}
     engines: {node: '>=22.14.0'}
 
   '@rollup/pluginutils@5.1.4':
@@ -1264,8 +1260,8 @@ packages:
   muggle-string@0.4.1:
     resolution: {integrity: sha512-VNTrAak/KhO2i8dqqnqnAHOa3cYBwXEZe9h+D5h/1ZqFSTEFHdM65lR7RoIqq3tBBYavsOXV84NoHXZ0AkPyqQ==}
 
-  nanoid@3.3.9:
-    resolution: {integrity: sha512-SppoicMGpZvbF1l3z4x7No3OlIjP7QJvC9XR7AhZr1kL133KHnKPztkKDc+Ir4aJ/1VhTySrtKhrsycmrMQfvg==}
+  nanoid@3.3.10:
+    resolution: {integrity: sha512-vSJJTG+t/dIKAUhUDw/dLdZ9s//5OxcHqLaDWWrW4Cdq7o6tdLIczUkMXt2MBNmk6sJRZBZRXVixs7URY1CmIg==}
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
@@ -1995,15 +1991,13 @@ snapshots:
 
   '@pkgr/core@0.1.1': {}
 
-  '@rljson/hash@0.0.11':
+  '@rljson/hash@0.0.12':
     dependencies:
       '@aws-crypto/sha256-js': 5.2.0
-      '@rljson/json': 0.0.10
+      '@rljson/json': 0.0.15
       js-base64: 3.7.7
 
-  '@rljson/json@0.0.10': {}
-
-  '@rljson/json@0.0.14': {}
+  '@rljson/json@0.0.15': {}
 
   '@rollup/pluginutils@5.1.4(rollup@4.35.0)':
     dependencies:
@@ -2917,7 +2911,7 @@ snapshots:
 
   muggle-string@0.4.1: {}
 
-  nanoid@3.3.9: {}
+  nanoid@3.3.10: {}
 
   natural-compare@1.4.0: {}
 
@@ -2998,7 +2992,7 @@ snapshots:
 
   postcss@8.5.3:
     dependencies:
-      nanoid: 3.3.9
+      nanoid: 3.3.10
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
