@@ -40,14 +40,16 @@ export type ContentType =
 /**
  * An example object using the typedefs
  */
-export const exampleTypedefs: {
+export const exampleTypedefs = (): {
   ref: Ref;
   itemId: ItemId;
   tableName: TableName;
   contentType: ContentType;
-} = Object.freeze({
-  ref: 'ref',
-  itemId: 'itemId',
-  tableName: 'tableName',
-  contentType: 'collections',
-});
+} => {
+  return {
+    ref: 'ref',
+    itemId: 'itemId',
+    tableName: 'tableName',
+    contentType: 'collections',
+  };
+};

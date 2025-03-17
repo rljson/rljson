@@ -12,6 +12,6 @@ import { expectGolden } from './setup/goldens';
 
 describe('typedefs', async () => {
   it('exampleTypedefs', async () => {
-    await expectGolden('typedefs.json').toBe(exampleTypedefs);
+    await expectGolden('typedefs.json').toBe(exampleTypedefs());
   });
 });

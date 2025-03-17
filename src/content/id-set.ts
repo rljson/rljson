@@ -48,4 +48,4 @@ export type IdSetsTable = RljsonTable<IdSet, 'idSets'>;
 /**
  * Returns one of the layers of the example cake
  */
-export const exampleIdSetsTable = Object.freeze(bakeryExample.slices);
+export const exampleIdSetsTable = (): IdSetsTable => bakeryExample().slices;

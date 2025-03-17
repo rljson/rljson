@@ -26,5 +26,5 @@ export type PropertiesTable<T extends Json> = RljsonTable<T, 'properties'>;
 /**
  * Provides an example collectionsTable for test purposes
  */
-export const examplePropertiesTable: PropertiesTable<NutritiveValues> =
-  Object.freeze(bakeryExample.nutritiveValues);
+export const examplePropertiesTable = (): PropertiesTable<NutritiveValues> =>
+  bakeryExample().nutritiveValues;

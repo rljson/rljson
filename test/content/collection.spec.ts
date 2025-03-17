@@ -13,7 +13,7 @@ import { expectGolden } from '../setup/goldens.ts';
 describe('CollectionsTable', () => {
   it('provides a list of collections', async () => {
     await expectGolden('content/collections.json').toBe(
-      exampleCollectionsTable,
+      exampleCollectionsTable(),
     );
   });
 });

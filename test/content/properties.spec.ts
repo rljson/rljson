@@ -12,6 +12,8 @@ import { expectGolden } from '../setup/goldens.ts';
 
 describe('PropertiesTable', () => {
   it('provides a list of properties', async () => {
-    await expectGolden('content/properties.json').toBe(examplePropertiesTable);
+    await expectGolden('content/properties.json').toBe(
+      examplePropertiesTable(),
+    );
   });
 });

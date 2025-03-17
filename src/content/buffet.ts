@@ -45,4 +45,4 @@ export interface Buffet extends Json {
 export type BuffetsTable = RljsonTable<Buffet, 'buffets'>;
 
 // .............................................................................
-export const exampleBuffetsTable: BuffetsTable = bakeryExample.buffets;
+export const exampleBuffetsTable = (): BuffetsTable => bakeryExample().buffets;
