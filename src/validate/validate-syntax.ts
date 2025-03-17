@@ -7,6 +7,7 @@
 import { hsh } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
+import { CakesTable } from '../content/cake.ts';
 import { CollectionsTable } from '../content/collection.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
@@ -27,6 +28,7 @@ export interface SyntaxErrors extends Errors {
   collectionIdSetsExistAre?: Json;
   collectionPropertyTablesExist?: Json;
   collectionAssignedPropertiesExist?: Json;
+  cakeIdSetsExist?: Json;
 }
 
 // .............................................................................
@@ -75,6 +77,7 @@ class _ValidateSyntax {
       this._collectionBaseRefsExist();
       this._collectionIdSetsExist();
       this._collectionAssignedPropertiesExist();
+      this._cakeIdSetsExist();
     }
 
     this.errors.hasErrors = this.hasErrors;
@@ -329,6 +332,8 @@ class _ValidateSyntax {
   }
 
   private _collectionIdSetsExist(): void {
+    const brokenCollections: any[] = [];
+
     iterateTables(this.rljson, (tableName, table) => {
       if (table._type !== 'collections') {
         return;
@@ -345,16 +350,21 @@ class _ValidateSyntax {
 
         const idSet = idSets._data[idSetRef];
         if (!idSet) {
-          this.errors.collectionIdSetsExist = {
-            error: `IdSet "${idSetRef}" not found`,
-            collection: collection._hash,
-            table: tableName,
-            item: collection._hash,
-            idSet: idSetRef,
-          };
+          brokenCollections.push({
+            collectionsTable: tableName,
+            collectionHash: collection._hash,
+            missingIdSet: idSetRef,
+          });
         }
       }
     });
+
+    if (brokenCollections.length > 0) {
+      this.errors.collectionIdSetsExist = {
+        error: 'Id sets of collections are missing',
+        brokenCollections,
+      };
+    }
   }
 
   private _collectionAssignedPropertiesExist(): void {
@@ -410,6 +420,42 @@ class _ValidateSyntax {
       this.errors.collectionAssignedPropertiesExist = {
         error: 'Collection property assignments are broken',
         brokenAssignments: brokenAssignments,
+      };
+    }
+  }
+
+  private _cakeIdSetsExist(): void {
+    const brokenCakes: any[] = [];
+
+    iterateTables(this.rljson, (tableName, table) => {
+      if (table._type !== 'cakes') {
+        return;
+      }
+
+      const idSets = this.rljsonIndexed._idSets;
+
+      const cakesTable: CakesTable = table as CakesTable;
+      for (const cake of cakesTable._data) {
+        const idSetRef = cake.idSet;
+        if (!idSetRef) {
+          continue;
+        }
+
+        const idSet = idSets._data[idSetRef];
+        if (!idSet) {
+          brokenCakes.push({
+            cakeTable: tableName,
+            cakeHash: cake._hash,
+            missingIdSet: idSetRef,
+          });
+        }
+      }
+    });
+
+    if (brokenCakes.length > 0) {
+      this.errors.cakeIdSetsExist = {
+        error: 'Id sets of cakes are missing',
+        brokenCakes,
       };
     }
   }

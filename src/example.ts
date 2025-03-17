@@ -140,6 +140,64 @@ export class Example {
         },
       };
     },
+    complete: (): Rljson => {
+      return {
+        _idSets: {
+          _type: 'idSets',
+
+          _data: [
+            {
+              add: ['id0', 'id1'],
+              _hash: 'MgHRBYSrhpyl4rvsOmAWcQ',
+            },
+          ],
+        },
+
+        properties: {
+          _type: 'properties',
+          _data: [
+            { a: '0', _hash: 'AFhW-fMzdCiz6bUZscp1Lf' },
+            { a: '1', _hash: 'mv6w8rID8lQxLsje1EHQMY' },
+          ],
+        },
+
+        collections: {
+          _type: 'collections',
+          _data: [
+            {
+              idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
+              properties: 'properties',
+              _hash: 'sxv2NCM6UNOcX-i9FhOs5W',
+              assign: {},
+            },
+            {
+              base: 'sxv2NCM6UNOcX-i9FhOs5W',
+              idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
+              properties: 'properties',
+              assign: {
+                id0: 'AFhW-fMzdCiz6bUZscp1Lf',
+                id1: 'mv6w8rID8lQxLsje1EHQMY',
+              },
+              _hash: 'QB2JC6X_-rUAoixuldzWP-',
+            },
+          ],
+        },
+
+        cakes: {
+          _type: 'cakes',
+          _data: [
+            {
+              idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
+              collections: 'collections',
+              layers: {
+                layer0: 'sxv2NCM6UNOcX-i9FhOs5W',
+                layer1: 'QB2JC6X_-rUAoixuldzWP-',
+              },
+            },
+          ],
+        },
+      };
+    },
   };
 
   static readonly broken = {
@@ -228,6 +286,14 @@ export class Example {
       missingAssignedProperty: (): Rljson => {
         const result = Example.ok.collection();
         result.properties._data.splice(1, 2); // Remove an property that is assigne
+        return result;
+      },
+    },
+
+    cake: {
+      missingIdSet: (): Rljson => {
+        const result = Example.ok.complete();
+        result.cakes._data[0].idSet = 'MISSING'; // Missing ID set
         return result;
       },
     },

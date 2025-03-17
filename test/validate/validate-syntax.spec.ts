@@ -485,11 +485,19 @@ describe('Validate', async () => {
     it('returns an error when idSetRef is not found', () => {
       expect(validate(Example.broken.collection.missingIdSet())).toEqual({
         collectionIdSetsExist: {
-          collection: 'QB2JC6X_-rUAoixuldzWP-',
-          error: 'IdSet "MgHRBYSrhpyl4rvsOmAWcQ" not found',
-          idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-          item: 'QB2JC6X_-rUAoixuldzWP-',
-          table: 'collection',
+          brokenCollections: [
+            {
+              missingIdSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
+              collectionHash: 'sxv2NCM6UNOcX-i9FhOs5W',
+              collectionsTable: 'collection',
+            },
+            {
+              missingIdSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
+              collectionHash: 'QB2JC6X_-rUAoixuldzWP-',
+              collectionsTable: 'collection',
+            },
+          ],
+          error: 'Id sets of collections are missing',
         },
         hasErrors: true,
       });
@@ -549,6 +557,39 @@ describe('Validate', async () => {
             },
           ],
           error: 'Collection property assignments are broken',
+        },
+        hasErrors: true,
+      });
+    });
+  });
+
+  describe('cakeIdSetsExist', () => {
+    it('returns no errors when all idSets are found', () => {
+      expect(validate(Example.ok.complete())).toEqual({
+        hasErrors: false,
+      });
+    });
+
+    it('returns no errors when no idSets is specified', () => {
+      const rljson = Example.ok.complete();
+      delete rljson.cakes._data[0].idSet;
+
+      expect(validate(rljson)).toEqual({
+        hasErrors: false,
+      });
+    });
+
+    it('returns an error when an idSet is not found', () => {
+      expect(validate(Example.broken.cake.missingIdSet())).toEqual({
+        cakeIdSetsExist: {
+          brokenCakes: [
+            {
+              cakeHash: 'Pi2MlYagf-JTyy30pcKMYK',
+              cakeTable: 'cakes',
+              missingIdSet: 'MISSING',
+            },
+          ],
+          error: 'Id sets of cakes are missing',
         },
         hasErrors: true,
       });
