@@ -112,7 +112,6 @@ export class Example {
 
         properties: {
           _type: 'properties',
-          _hash: 'QnrUL_NvlY6K1qSnjgFDP8',
           _data: [
             { a: '0', _hash: 'AFhW-fMzdCiz6bUZscp1Lf' },
             { a: '1', _hash: 'mv6w8rID8lQxLsje1EHQMY' },
@@ -124,15 +123,18 @@ export class Example {
           _data: [
             {
               idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-              properties: 'DKwor-pULmCs6RY-sMyfrM',
-              _hash: '-joAjBa9BI2_9qFWB4DN0i',
+              properties: 'properties',
+              _hash: 'sxv2NCM6UNOcX-i9FhOs5W',
               assign: {},
             },
             {
-              base: '-joAjBa9BI2_9qFWB4DN0i',
+              base: 'sxv2NCM6UNOcX-i9FhOs5W',
               idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-              properties: 'PROPERTIES',
-              assign: {},
+              properties: 'properties',
+              assign: {
+                id0: 'AFhW-fMzdCiz6bUZscp1Lf',
+                id1: 'mv6w8rID8lQxLsje1EHQMY',
+              },
             },
           ],
         },
@@ -206,68 +208,27 @@ export class Example {
 
     collection: {
       missingBase: (): Rljson => {
-        return {
-          _idSets: {
-            _type: 'idSets',
-
-            _data: [
-              {
-                add: [],
-                _hash: 'iXZ4ZUmANYrfH9kezk---f',
-              },
-            ],
-          },
-
-          _properties: {
-            _type: 'properties',
-            _hash: 'DKwor-pULmCs6RY-sMyfrM',
-            _data: [],
-          },
-
-          collection: {
-            _type: 'collections',
-            _data: [
-              {
-                base: '-joAjBa9BI2_9qFWB4DN0i', // Base is missing
-                idSet: 'iXZ4ZUmANYrfH9kezk---f',
-                properties: 'PROPERTIES',
-                assign: {},
-              },
-            ],
-          },
-        };
+        const result = Example.ok.collection();
+        result.collection._data.splice(0, 1); // Remove base
+        return result;
       },
 
       missingIdSet: (): Rljson => {
-        return {
-          _idSets: {
-            _type: 'idSets',
-            _hash: 'CQQWbLwNJCN3gEyroA7ZcD',
-            _data: [
-              {
-                add: [],
-              },
-            ],
-          },
+        const result = Example.ok.collection();
+        result._idSets._data.splice(0, 1); // Remove id set
+        return result;
+      },
 
-          _properties: {
-            _type: 'properties',
-            _hash: 'DKwor-pULmCs6RY-sMyfrM',
-            _data: [],
-          },
+      missingAssignedPropertyTable: (): Rljson => {
+        const result = Example.ok.collection();
+        delete result.properties; // Remove properties table
+        return result;
+      },
 
-          collection: {
-            _type: 'collections',
-            _data: [
-              {
-                idSet: 'CQQWbLwNJCN3gEyroA7ZcD',
-                properties: 'DKwor-pULmCs6RY-sMyfrM',
-                _hash: 'XfocQq6CwM43pCr4z98eUu',
-                assign: {},
-              },
-            ],
-          },
-        };
+      missingAssignedProperty: (): Rljson => {
+        const result = Example.ok.collection();
+        result.properties._data.splice(1, 2); // Remove an property that is assigne
+        return result;
       },
     },
   };

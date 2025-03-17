@@ -414,7 +414,7 @@ describe('Validate', async () => {
     });
   });
 
-  describe('allRefsAreFound', () => {
+  describe('allRefsExist', () => {
     it('returns no errors when all refs are found', () => {
       expect(validate(Example.ok.singleRef())).toEqual({
         hasErrors: false,
@@ -423,7 +423,7 @@ describe('Validate', async () => {
 
     it('returns an error when a reference table is not found', () => {
       expect(validate(Example.broken.missingReferencedTable())).toEqual({
-        allRefsAreFound: {
+        allRefsExist: {
           error: 'Broken references',
           missingRefs: [
             {
@@ -442,7 +442,7 @@ describe('Validate', async () => {
 
     it('returns an error when a ref is not found', () => {
       expect(validate(Example.broken.missingRef())).toEqual({
-        allRefsAreFound: {
+        allRefsExist: {
           error: 'Broken references',
           missingRefs: [
             {
@@ -460,7 +460,7 @@ describe('Validate', async () => {
     });
   });
 
-  describe('collectionAllBaseRefsAreFound()', () => {
+  describe('collectionBaseRefsExist()', () => {
     it('returns no errors when all base refs are found', () => {
       expect(validate(Example.ok.collection())).toEqual({
         hasErrors: false,
@@ -469,11 +469,11 @@ describe('Validate', async () => {
 
     it('returns an error when a base ref is not found', () => {
       expect(validate(Example.broken.collection.missingBase())).toEqual({
-        collectionBaseRefsAreFound: {
-          base: '-joAjBa9BI2_9qFWB4DN0i',
+        collectionBaseRefsExist: {
+          base: 'sxv2NCM6UNOcX-i9FhOs5W',
           error:
-            'Collection "-JJANOPxzON2A-sMUARyba": Base collection "-joAjBa9BI2_9qFWB4DN0i" not found',
-          item: '-JJANOPxzON2A-sMUARyba',
+            'Collection "QB2JC6X_-rUAoixuldzWP-": Base collection "sxv2NCM6UNOcX-i9FhOs5W" not found',
+          item: 'QB2JC6X_-rUAoixuldzWP-',
           table: 'collection',
         },
         hasErrors: true,
@@ -481,15 +481,74 @@ describe('Validate', async () => {
     });
   });
 
-  describe('collectionIdSetsAreFound()', () => {
+  describe('collectionIdSetsExist()', () => {
     it('returns an error when idSetRef is not found', () => {
       expect(validate(Example.broken.collection.missingIdSet())).toEqual({
-        collectionIdSetsAreFound: {
-          error:
-            'Collection "XfocQq6CwM43pCr4z98eUu": IdSet "CQQWbLwNJCN3gEyroA7ZcD" not found',
-          idSet: 'CQQWbLwNJCN3gEyroA7ZcD',
-          item: 'XfocQq6CwM43pCr4z98eUu',
+        collectionIdSetsExist: {
+          collection: 'QB2JC6X_-rUAoixuldzWP-',
+          error: 'IdSet "MgHRBYSrhpyl4rvsOmAWcQ" not found',
+          idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
+          item: 'QB2JC6X_-rUAoixuldzWP-',
           table: 'collection',
+        },
+        hasErrors: true,
+      });
+    });
+
+    it('return no error, when no idSetRef is defined', () => {
+      // Set idSet to undefined
+      const result = Example.ok.collection();
+
+      // delete idSet reference
+      delete result.collection._data[1].idSet;
+      hip(result, true, false);
+
+      // Validate -> no error
+      expect(validate(result)).toEqual({
+        hasErrors: false,
+      });
+    });
+  });
+
+  describe('collectionAssignedPropertiesFound', () => {
+    it('returns an error when the properties table is not foun', () => {
+      expect(
+        validate(Example.broken.collection.missingAssignedPropertyTable()),
+      ).toEqual({
+        collectionPropertyTablesExist: {
+          collections: [
+            {
+              collection: 'sxv2NCM6UNOcX-i9FhOs5W',
+              missingPropertyTable: 'properties',
+              table: 'collection',
+            },
+            {
+              collection: 'QB2JC6X_-rUAoixuldzWP-',
+              missingPropertyTable: 'properties',
+              table: 'collection',
+            },
+          ],
+          error: 'Collection property tables do not exist',
+        },
+        hasErrors: true,
+      });
+    });
+
+    it('returns an error when an assigned property is not found', () => {
+      expect(
+        validate(Example.broken.collection.missingAssignedProperty()),
+      ).toEqual({
+        collectionAssignedPropertiesExist: {
+          brokenAssignments: [
+            {
+              collection: 'QB2JC6X_-rUAoixuldzWP-',
+              itemId: 'id1',
+              missingProperty: 'mv6w8rID8lQxLsje1EHQMY',
+              propertyTable: 'properties',
+              table: 'collection',
+            },
+          ],
+          error: 'Collection property assignments are broken',
         },
         hasErrors: true,
       });

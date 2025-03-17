@@ -22,10 +22,11 @@ export interface SyntaxErrors extends Errors {
   hasValidHashes?: Json;
   hasData?: Json;
   dataHasRightType?: Json;
-  allRefsAreFound?: Json;
-  collectionBaseRefsAreFound?: Json;
-  collectionIdSetsAreFound?: Json;
-  collectionAssignedPropertiesFound?: Json;
+  allRefsExist?: Json;
+  collectionBaseRefsExist?: Json;
+  collectionIdSetsExistAre?: Json;
+  collectionPropertyTablesExist?: Json;
+  collectionAssignedPropertiesExist?: Json;
 }
 
 // .............................................................................
@@ -70,10 +71,10 @@ class _ValidateSyntax {
     this._dataHasRightType();
 
     if (!this.hasErrors) {
-      this._allRefsAreFound();
-      this._collectionBaseRefsAreFound();
-      this._collectionIdSetsAreFound();
-      this._collectionAssignedPropertiesFound();
+      this._allRefsExist();
+      this._collectionBaseRefsExist();
+      this._collectionIdSetsExist();
+      this._collectionAssignedPropertiesExist();
     }
 
     this.errors.hasErrors = this.hasErrors;
@@ -234,7 +235,7 @@ class _ValidateSyntax {
     }
   }
 
-  private _allRefsAreFound(): void {
+  private _allRefsExist(): void {
     // Define a result object
     const missingRefs: {
       error: string;
@@ -292,14 +293,14 @@ class _ValidateSyntax {
     }
 
     if (missingRefs.length > 0) {
-      this.errors.allRefsAreFound = {
+      this.errors.allRefsExist = {
         error: 'Broken references',
         missingRefs: missingRefs,
       };
     }
   }
 
-  private _collectionBaseRefsAreFound(): void {
+  private _collectionBaseRefsExist(): void {
     iterateTables(this.rljson, (tableName, table) => {
       if (table._type !== 'collections') {
         return;
@@ -316,7 +317,7 @@ class _ValidateSyntax {
 
         const baseCollection = collectionsIndexed._data[baseRef];
         if (!baseCollection) {
-          this.errors.collectionBaseRefsAreFound = {
+          this.errors.collectionBaseRefsExist = {
             error: `Collection "${collection._hash}": Base collection "${baseRef}" not found`,
             table: tableName,
             item: collection._hash,
@@ -327,7 +328,7 @@ class _ValidateSyntax {
     });
   }
 
-  private _collectionIdSetsAreFound(): void {
+  private _collectionIdSetsExist(): void {
     iterateTables(this.rljson, (tableName, table) => {
       if (table._type !== 'collections') {
         return;
@@ -344,8 +345,9 @@ class _ValidateSyntax {
 
         const idSet = idSets._data[idSetRef];
         if (!idSet) {
-          this.errors.collectionIdSetsAreFound = {
-            error: `Collection "${collection._hash}": IdSet "${idSetRef}" not found`,
+          this.errors.collectionIdSetsExist = {
+            error: `IdSet "${idSetRef}" not found`,
+            collection: collection._hash,
             table: tableName,
             item: collection._hash,
             idSet: idSetRef,
@@ -355,7 +357,62 @@ class _ValidateSyntax {
     });
   }
 
-  private _collectionAssignedPropertiesFound(): void {}
+  private _collectionAssignedPropertiesExist(): void {
+    const missingPropertyTables: any[] = [];
+    const brokenAssignments: any[] = [];
+
+    iterateTables(this.rljson, (tableName, table) => {
+      if (table._type !== 'collections') {
+        return;
+      }
+
+      const collectionsTable: CollectionsTable = table as CollectionsTable;
+      for (const collection of collectionsTable._data) {
+        const propertyTableName = collection.properties;
+        const propertiesTable = this.rljsonIndexed[propertyTableName];
+        if (!propertiesTable) {
+          missingPropertyTables.push({
+            collection: collection._hash,
+            table: tableName,
+            missingPropertyTable: propertyTableName,
+          });
+          continue;
+        }
+
+        const assignments = collection.assign;
+        for (const itemId in assignments) {
+          if (itemId.startsWith('_')) {
+            continue;
+          }
+
+          const propertyHash = assignments[itemId];
+          if (!propertiesTable._data[propertyHash]) {
+            brokenAssignments.push({
+              table: tableName,
+              collection: collection._hash,
+              propertyTable: propertyTableName,
+              itemId: itemId,
+              missingProperty: propertyHash,
+            });
+          }
+        }
+      }
+    });
+
+    if (missingPropertyTables.length > 0) {
+      this.errors.collectionPropertyTablesExist = {
+        error: 'Collection property tables do not exist',
+        collections: missingPropertyTables,
+      };
+    }
+
+    if (brokenAssignments.length > 0) {
+      this.errors.collectionAssignedPropertiesExist = {
+        error: 'Collection property assignments are broken',
+        brokenAssignments: brokenAssignments,
+      };
+    }
+  }
 }
 
 /**
