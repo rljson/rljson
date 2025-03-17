@@ -8,8 +8,9 @@ import { Json } from '@rljson/json';
 
 import { Rljson } from '../rljson.ts';
 
+
 // .............................................................................
-export type Errors = Json;
+export type Errors = Json & { hasErrors: boolean };
 
 export interface ValidationResult {
   [group: string]: Errors;

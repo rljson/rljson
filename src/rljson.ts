@@ -32,9 +32,9 @@ export type TableType =
 
 // .............................................................................
 /** The rljson data format */
-export type Rljson = {
+export interface Rljson extends Json {
   [tableId: TableName]: TableType;
-};
+}
 
 /**
  * Rljson set with private fields
