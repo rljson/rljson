@@ -304,6 +304,8 @@ class _ValidateSyntax {
   }
 
   private _collectionBaseRefsExist(): void {
+    const brokenCollections: any[] = [];
+
     iterateTables(this.rljson, (tableName, table) => {
       if (table._type !== 'collections') {
         return;
@@ -320,15 +322,21 @@ class _ValidateSyntax {
 
         const baseCollection = collectionsIndexed._data[baseRef];
         if (!baseCollection) {
-          this.errors.collectionBaseRefsExist = {
-            error: `Collection "${collection._hash}": Base collection "${baseRef}" not found`,
-            table: tableName,
-            item: collection._hash,
-            base: baseRef,
-          };
+          brokenCollections.push({
+            collectionsTable: tableName,
+            brokenCollection: collection._hash,
+            missingBaseCollection: baseRef,
+          });
         }
       }
     });
+
+    if (brokenCollections.length > 0) {
+      this.errors.collectionBaseRefsExist = {
+        error: 'Base collections are missing',
+        brokenCollections,
+      };
+    }
   }
 
   private _collectionIdSetsExist(): void {
@@ -382,8 +390,8 @@ class _ValidateSyntax {
         const propertiesTable = this.rljsonIndexed[propertyTableName];
         if (!propertiesTable) {
           missingPropertyTables.push({
-            collection: collection._hash,
-            table: tableName,
+            brokenCollection: collection._hash,
+            collectionsTable: tableName,
             missingPropertyTable: propertyTableName,
           });
           continue;
@@ -398,10 +406,10 @@ class _ValidateSyntax {
           const propertyHash = assignments[itemId];
           if (!propertiesTable._data[propertyHash]) {
             brokenAssignments.push({
-              table: tableName,
-              collection: collection._hash,
-              propertyTable: propertyTableName,
-              itemId: itemId,
+              collectionsTable: tableName,
+              brokenCollection: collection._hash,
+              referencedPropertyTable: propertyTableName,
+              brokenAssignment: itemId,
               missingProperty: propertyHash,
             });
           }

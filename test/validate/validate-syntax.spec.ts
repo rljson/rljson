@@ -462,19 +462,22 @@ describe('Validate', async () => {
 
   describe('collectionBaseRefsExist()', () => {
     it('returns no errors when all base refs are found', () => {
-      expect(validate(Example.ok.collection())).toEqual({
+      expect(validate(Example.ok.complete())).toEqual({
         hasErrors: false,
       });
     });
 
     it('returns an error when a base ref is not found', () => {
-      expect(validate(Example.broken.collection.missingBase())).toEqual({
+      expect(validate(Example.broken.collections.missingBase())).toEqual({
         collectionBaseRefsExist: {
-          base: 'sxv2NCM6UNOcX-i9FhOs5W',
-          error:
-            'Collection "QB2JC6X_-rUAoixuldzWP-": Base collection "sxv2NCM6UNOcX-i9FhOs5W" not found',
-          item: 'QB2JC6X_-rUAoixuldzWP-',
-          table: 'collection',
+          brokenCollections: [
+            {
+              brokenCollection: 'XqBfCw2Gz7zZHJIiIYyZpw',
+              collectionsTable: 'collections',
+              missingBaseCollection: 'MISSING',
+            },
+          ],
+          error: 'Base collections are missing',
         },
         hasErrors: true,
       });
@@ -483,18 +486,18 @@ describe('Validate', async () => {
 
   describe('collectionIdSetsExist()', () => {
     it('returns an error when idSetRef is not found', () => {
-      expect(validate(Example.broken.collection.missingIdSet())).toEqual({
+      expect(validate(Example.broken.collections.missingIdSet())).toEqual({
         collectionIdSetsExist: {
           brokenCollections: [
             {
-              missingIdSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-              collectionHash: 'sxv2NCM6UNOcX-i9FhOs5W',
-              collectionsTable: 'collection',
+              collectionHash: 'qgVYnerjeZcr1sygX7jqzp',
+              collectionsTable: 'collections',
+              missingIdSet: 'MISSING0',
             },
             {
-              missingIdSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-              collectionHash: 'QB2JC6X_-rUAoixuldzWP-',
-              collectionsTable: 'collection',
+              collectionHash: '5xVzRVlrr1YQGJfj3c3JHr',
+              collectionsTable: 'collections',
+              missingIdSet: 'MISSING1',
             },
           ],
           error: 'Id sets of collections are missing',
@@ -505,10 +508,10 @@ describe('Validate', async () => {
 
     it('return no error, when no idSetRef is defined', () => {
       // Set idSet to undefined
-      const result = Example.ok.collection();
+      const result = Example.ok.complete();
 
       // delete idSet reference
-      delete result.collection._data[1].idSet;
+      delete result.collections._data[1].idSet;
       hip(result, true, false);
 
       // Validate -> no error
@@ -521,19 +524,19 @@ describe('Validate', async () => {
   describe('collectionAssignedPropertiesFound', () => {
     it('returns an error when the properties table is not foun', () => {
       expect(
-        validate(Example.broken.collection.missingAssignedPropertyTable()),
+        validate(Example.broken.collections.missingAssignedPropertyTable()),
       ).toEqual({
         collectionPropertyTablesExist: {
           collections: [
             {
-              collection: 'sxv2NCM6UNOcX-i9FhOs5W',
+              brokenCollection: 'sxv2NCM6UNOcX-i9FhOs5W',
               missingPropertyTable: 'properties',
-              table: 'collection',
+              collectionsTable: 'collections',
             },
             {
-              collection: 'QB2JC6X_-rUAoixuldzWP-',
+              brokenCollection: 'QB2JC6X_-rUAoixuldzWP-',
+              collectionsTable: 'collections',
               missingPropertyTable: 'properties',
-              table: 'collection',
             },
           ],
           error: 'Collection property tables do not exist',
@@ -544,16 +547,16 @@ describe('Validate', async () => {
 
     it('returns an error when an assigned property is not found', () => {
       expect(
-        validate(Example.broken.collection.missingAssignedProperty()),
+        validate(Example.broken.collections.missingAssignedProperty()),
       ).toEqual({
         collectionAssignedPropertiesExist: {
           brokenAssignments: [
             {
-              collection: 'QB2JC6X_-rUAoixuldzWP-',
-              itemId: 'id1',
+              brokenCollection: 'QB2JC6X_-rUAoixuldzWP-',
+              brokenAssignment: 'id1',
               missingProperty: 'mv6w8rID8lQxLsje1EHQMY',
-              propertyTable: 'properties',
-              table: 'collection',
+              referencedPropertyTable: 'properties',
+              collectionsTable: 'collections',
             },
           ],
           error: 'Collection property assignments are broken',
