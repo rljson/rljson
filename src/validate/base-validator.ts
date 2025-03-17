@@ -16,7 +16,7 @@ import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
 import { Errors, Validator } from './validate.ts';
 
 // .............................................................................
-export interface SyntaxErrors extends Errors {
+export interface BaseErrors extends Errors {
   tableNamesNotLowerCamelCase?: Json;
   columnNamesNotLowerCamelCase?: Json;
   tableNamesDoNotStartWithANumber?: Json;
@@ -37,15 +37,15 @@ export interface SyntaxErrors extends Errors {
 }
 
 // .............................................................................
-export class ValidateSyntax implements Validator {
+export class BaseValidator implements Validator {
   name = 'syntax';
 
   async validate(rljson: Rljson): Promise<Errors> {
     return this.validateSync(rljson);
   }
 
-  validateSync(rljson: Rljson): SyntaxErrors {
-    return new _ValidateSyntax(rljson).validate();
+  validateSync(rljson: Rljson): BaseErrors {
+    return new _BaseValidator(rljson).validate();
   }
 
   static isValidFieldName(fieldName: string): boolean {
@@ -54,7 +54,7 @@ export class ValidateSyntax implements Validator {
 }
 
 // .............................................................................
-class _ValidateSyntax {
+class _BaseValidator {
   constructor(private rljson: Rljson) {
     this.tableNames = Object.keys(this.rljson).filter(
       (table) => !table.startsWith('_'),
@@ -63,13 +63,13 @@ class _ValidateSyntax {
     this.rljsonIndexed = rljsonIndexed(rljson);
   }
 
-  errors: SyntaxErrors = { hasErrors: false };
+  errors: BaseErrors = { hasErrors: false };
 
   get hasErrors(): boolean {
     return Object.keys(this.errors).length > 1;
   }
 
-  validate(): SyntaxErrors {
+  validate(): BaseErrors {
     const steps = [
       () => this._writeAndValidHashes(),
       () => this._tableNamesNotLowerCamelCase(),
@@ -109,7 +109,7 @@ class _ValidateSyntax {
     const invalidTableNames: string[] = [];
 
     for (const tableName of this.tableNames) {
-      if (!ValidateSyntax.isValidFieldName(tableName)) {
+      if (!BaseValidator.isValidFieldName(tableName)) {
         invalidTableNames.push(tableName);
       }
     }
@@ -161,7 +161,7 @@ class _ValidateSyntax {
             continue;
           }
 
-          if (!ValidateSyntax.isValidFieldName(columnName)) {
+          if (!BaseValidator.isValidFieldName(columnName)) {
             invalidColumnNames[tableName] ??= [];
             invalidColumnNames[tableName].push(columnName);
             hadErrors = true;
@@ -597,4 +597,4 @@ class _ValidateSyntax {
  * @returns true if the field name is valid, false otherwise
  */
 export const isValidFieldName = (fieldName: string): boolean =>
-  ValidateSyntax.isValidFieldName(fieldName);
+  BaseValidator.isValidFieldName(fieldName);

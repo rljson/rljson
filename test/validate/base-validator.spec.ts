@@ -8,17 +8,17 @@ import { hip } from '@rljson/hash';
 
 import { describe, expect, it } from 'vitest';
 
-import { Example } from '../../src/example';
-import { Rljson } from '../../src/rljson';
-import { Errors } from '../../src/validate/validate';
+import { Example } from '../../src/example.ts';
+import { Rljson } from '../../src/rljson.ts';
 import {
+  BaseValidator,
   isValidFieldName,
-  ValidateSyntax,
-} from '../../src/validate/validate-syntax';
+} from '../../src/validate/base-validator.ts';
+import { Errors } from '../../src/validate/validate.ts';
 
-describe('Validate', async () => {
+describe('BaseValidator', async () => {
   const validate = (rljson: any): Errors => {
-    return new ValidateSyntax().validateSync(rljson);
+    return new BaseValidator().validateSync(rljson);
   };
 
   it('validate', async () => {
@@ -35,8 +35,8 @@ describe('Validate', async () => {
     const rljson: Rljson = Example.broken.brokenTableName() as Rljson;
 
     // Validate it
-    const resultSync = new ValidateSyntax().validateSync(rljson);
-    const resultAsync = await new ValidateSyntax().validate(rljson);
+    const resultSync = new BaseValidator().validateSync(rljson);
+    const resultAsync = await new BaseValidator().validate(rljson);
 
     // Check
     expect(resultSync).toEqual(expectedResult);
