@@ -150,6 +150,25 @@ export class Example {
                 layer0: 'sxv2NCM6UNOcX-i9FhOs5W',
                 layer1: 'QB2JC6X_-rUAoixuldzWP-',
               },
+              _hash: 'QlTVJL3uoXO1L_fw2evLPe',
+            },
+          ],
+        },
+
+        buffets: {
+          _type: 'buffets',
+          _data: [
+            {
+              items: [
+                {
+                  table: 'cakes',
+                  ref: 'QlTVJL3uoXO1L_fw2evLPe',
+                },
+                {
+                  table: 'collections',
+                  ref: 'QB2JC6X_-rUAoixuldzWP-',
+                },
+              ],
             },
           ],
         },
@@ -227,33 +246,15 @@ export class Example {
         const collection1 = result.collections._data[1];
         collection1.base = 'MISSING'; // Missing base
 
-        // Cake must now refer the update collection
-        hip(collection1, true, false);
-        const cake = result.cakes._data[0];
-        cake.layers['layer1'] = collection1._hash;
-
         // Recalculate hashes
         return hip(result, true, false);
       },
 
       missingIdSet: (): Rljson => {
         const result = Example.ok.complete();
-        const collection0 = result.collections._data[0];
         const collection1 = result.collections._data[1];
 
-        collection0.idSet = 'MISSING0';
         collection1.idSet = 'MISSING1';
-
-        hip(collection0, true, false);
-
-        // Update base of collection 1
-        collection1.base = collection0._hash;
-        hip(collection1, true, false);
-
-        // Update referenced layers in cake
-        const cake = result.cakes._data[0];
-        cake.layers['layer0'] = collection0._hash;
-        cake.layers['layer1'] = collection1._hash;
 
         // Recalculate hashes
         return hip(result, true, false);
@@ -272,16 +273,18 @@ export class Example {
       },
     },
 
-    cake: {
+    cakes: {
       missingIdSet: (): Rljson => {
         const result = Example.ok.complete();
         result.cakes._data[0].idSet = 'MISSING'; // Missing ID set
+        hip(result.cakes, true, false);
         return result;
       },
 
       missingCollectionsTable: (): Rljson => {
         const result = Example.ok.complete();
         result.cakes._data[0].collections = 'MISSING'; // Missing collections table
+        hip(result.cakes, true, false);
         return result;
       },
 
@@ -289,6 +292,27 @@ export class Example {
         const result = Example.ok.complete();
         result.cakes._data[0].layers['layer0'] = 'MISSING0';
         result.cakes._data[0].layers['layer1'] = 'MISSING1';
+        hip(result.cakes, true, false);
+        return result;
+      },
+    },
+
+    buffets: {
+      missingTable: (): Rljson => {
+        const result = Example.ok.complete();
+        const buffet = result.buffets._data[0];
+        buffet.items[0].table = 'MISSING0';
+        buffet.items[1].table = 'MISSING1';
+        hip(buffet, true, false);
+        return result;
+      },
+
+      missingItems: (): Rljson => {
+        const result = Example.ok.complete();
+        const buffet = result.buffets._data[0];
+        buffet.items[0].ref = 'MISSING0';
+        buffet.items[1].ref = 'MISSING1';
+        hip(buffet, true, false);
         return result;
       },
     },

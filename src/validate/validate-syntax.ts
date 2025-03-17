@@ -7,6 +7,7 @@
 import { hsh } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
+import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { CollectionsTable } from '../content/collection.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
@@ -31,6 +32,8 @@ export interface SyntaxErrors extends Errors {
   cakeIdSetsNotFound?: Json;
   cakeCollectionTablesNotFound?: Json;
   cakeLayerCollectionsNotFound?: Json;
+  buffetReferencedTablesNotFound?: Json;
+  buffetReferencedItemsNotFound?: Json;
 }
 
 // .............................................................................
@@ -67,24 +70,30 @@ class _ValidateSyntax {
   }
 
   validate(): SyntaxErrors {
-    this._writeAndValidHashes();
-    this._tableNamesNotLowerCamelCase();
-    this._tableNamesDoNotEndWithRef();
-    this._columnNamesNotLowerCamelCase();
-    this._dataNotFound();
-    this._dataHasWrongType();
+    const steps = [
+      () => this._writeAndValidHashes(),
+      () => this._tableNamesNotLowerCamelCase(),
+      () => this._tableNamesDoNotEndWithRef(),
+      () => this._columnNamesNotLowerCamelCase(),
+      () => this._dataNotFound(),
+      () => this._dataHasWrongType(),
+      () => this._refsNotFound(),
+      () => this._collectionBasesNotFound(),
+      () => this._collectionIdSetsExist(),
+      () => this._collectionPropertyAssignmentsNotFound(),
+      () => this._cakeIdSetsNotFound(),
+      () => this._cakeCollectionTablesNotFound(),
+      () => this._buffetReferencedTableNotFound(),
+    ];
 
-    if (!this.hasErrors) {
-      this._refsNotFound();
-      this._collectionBasesNotFound();
-      this._collectionIdSetsExist();
-      this._collectionPropertyAssignmentsNotFound();
-      this._cakeIdSetsNotFound();
-      this._cakeCollectionTablesNotFound();
+    for (const step of steps) {
+      step();
+      if (this.hasErrors) {
+        break;
+      }
     }
 
     this.errors.hasErrors = this.hasErrors;
-
     return this.errors;
   }
 
@@ -222,9 +231,6 @@ class _ValidateSyntax {
 
     for (const tableName of this.tableNames) {
       const tableData = rljson[tableName];
-      if (!tableData._data) {
-        continue;
-      }
 
       const items = tableData['_data'];
 
@@ -253,9 +259,9 @@ class _ValidateSyntax {
     }[] = [];
 
     // Iterate all tables
-    for (const table of this.tableNames) {
+    iterateTables(this.rljson, (tableName, table) => {
       // Iterate all items in the table
-      const tableData = this.rljson[table]._data as Json[];
+      const tableData = table._data as Json[];
       for (const item of tableData) {
         for (const key of Object.keys(item)) {
           // If item is a reference
@@ -270,7 +276,7 @@ class _ValidateSyntax {
             if (this.tableNames.indexOf(targetTableName) === -1) {
               missingRefs.push({
                 error: `Target table "${targetTableName}" not found.`,
-                sourceTable: table,
+                sourceTable: tableName,
                 sourceKey: key,
                 sourceItemHash: itemHash,
                 targetItemHash: targetItemHash,
@@ -285,7 +291,7 @@ class _ValidateSyntax {
             // If referenced item is not found, write an error
             if (referencedItem === undefined) {
               missingRefs.push({
-                sourceTable: table,
+                sourceTable: tableName,
                 sourceItemHash: itemHash,
                 sourceKey: key,
                 targetItemHash: targetItemHash,
@@ -296,7 +302,7 @@ class _ValidateSyntax {
           }
         }
       }
-    }
+    });
 
     if (missingRefs.length > 0) {
       this.errors.refsNotFound = {
@@ -526,6 +532,60 @@ class _ValidateSyntax {
       this.errors.cakeLayerCollectionsNotFound = {
         error: 'Layer collections of cakes are missing',
         brokenCakes: missingLayerCollections,
+      };
+    }
+  }
+
+  private _buffetReferencedTableNotFound(): void {
+    const missingTables: Json[] = [];
+    const missingItems: Json[] = [];
+
+    iterateTables(this.rljson, (tableName, table) => {
+      if (table._type !== 'buffets') {
+        return;
+      }
+
+      const buffetsTable: BuffetsTable = table as BuffetsTable;
+      for (const buffet of buffetsTable._data) {
+        for (const item of buffet.items) {
+          // Table available?
+          const itemTableName = item.table;
+          const itemTable = this.rljsonIndexed[itemTableName];
+          if (!itemTable) {
+            missingTables.push({
+              buffetTable: tableName,
+              brokenBuffet: buffet._hash,
+              missingItemTable: itemTableName,
+            });
+            continue;
+          }
+
+          // Referenced item available?
+          const ref = item.ref;
+          const referencedItem = itemTable._data[ref];
+          if (!referencedItem) {
+            missingItems.push({
+              buffetTable: tableName,
+              brokenBuffet: buffet._hash,
+              itemTable: itemTableName,
+              missingItem: ref,
+            });
+          }
+        }
+      }
+    });
+
+    if (missingTables.length > 0) {
+      this.errors.buffetReferencedTablesNotFound = {
+        error: 'Referenced tables of buffets are missing',
+        brokenBuffets: missingTables,
+      };
+    }
+
+    if (missingItems.length > 0) {
+      this.errors.buffetReferencedItemsNotFound = {
+        error: 'Referenced items of buffets are missing',
+        brokenItems: missingItems,
       };
     }
   }

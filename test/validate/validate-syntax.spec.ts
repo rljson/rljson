@@ -490,12 +490,7 @@ describe('Validate', async () => {
         collectionIdSetsExist: {
           brokenCollections: [
             {
-              collectionHash: 'qgVYnerjeZcr1sygX7jqzp',
-              collectionsTable: 'collections',
-              missingIdSet: 'MISSING0',
-            },
-            {
-              collectionHash: '5xVzRVlrr1YQGJfj3c3JHr',
+              collectionHash: 'UW8eagu3IcuBkThxW5WZAQ',
               collectionsTable: 'collections',
               missingIdSet: 'MISSING1',
             },
@@ -518,6 +513,12 @@ describe('Validate', async () => {
       // Update cake layers
       const cake = result.cakes._data[0];
       cake.layers['layer1'] = collection1._hash;
+      hip(cake, true, false);
+
+      // Update buffet items
+      const buffet = result.buffets._data[0];
+      buffet.items[0].ref = cake._hash;
+      buffet.items[1].ref = collection1._hash;
 
       // Validate -> no error
       expect(validate(result)).toEqual({
@@ -581,14 +582,22 @@ describe('Validate', async () => {
     it('returns no errors when no idSets is specified', () => {
       const rljson = Example.ok.complete();
       delete rljson.cakes._data[0].idSet;
+      hip(rljson, true, false);
 
+      // Update buffet items
+      const buffet = rljson.buffets._data[0];
+      buffet.items[0].ref = rljson.cakes._data[0]._hash;
+      buffet.items[1].ref = rljson.collections._data[1]._hash;
+      hip(rljson, true, false);
+
+      // Validate
       expect(validate(rljson)).toEqual({
         hasErrors: false,
       });
     });
 
     it('returns an error when an idSet is not found', () => {
-      expect(validate(Example.broken.cake.missingIdSet())).toEqual({
+      expect(validate(Example.broken.cakes.missingIdSet())).toEqual({
         cakeIdSetsNotFound: {
           brokenCakes: [
             {
@@ -606,7 +615,7 @@ describe('Validate', async () => {
 
   describe('cakeCollectionTablesNotFound', () => {
     it('returns an error when the collection table is not found', () => {
-      expect(validate(Example.broken.cake.missingCollectionsTable())).toEqual({
+      expect(validate(Example.broken.cakes.missingCollectionsTable())).toEqual({
         cakeCollectionTablesNotFound: {
           brokenCakes: [
             {
@@ -624,7 +633,7 @@ describe('Validate', async () => {
 
   describe('cakeLayerCollectionsNotFound', () => {
     it('returns an error when the collection of a layer is not found', () => {
-      expect(validate(Example.broken.cake.missingLayerCollection())).toEqual({
+      expect(validate(Example.broken.cakes.missingLayerCollection())).toEqual({
         cakeLayerCollectionsNotFound: {
           brokenCakes: [
             {
@@ -643,6 +652,54 @@ describe('Validate', async () => {
             },
           ],
           error: 'Layer collections of cakes are missing',
+        },
+        hasErrors: true,
+      });
+    });
+  });
+
+  describe('buffetReferencedTablesNotFound', () => {
+    it('returns an error when the referenced table is not found', () => {
+      expect(validate(Example.broken.buffets.missingTable())).toEqual({
+        buffetReferencedTablesNotFound: {
+          brokenBuffets: [
+            {
+              brokenBuffet: 'BkDp83m02JrqAJgVIP2dHE',
+              buffetTable: 'buffets',
+              missingItemTable: 'MISSING0',
+            },
+            {
+              brokenBuffet: 'BkDp83m02JrqAJgVIP2dHE',
+              buffetTable: 'buffets',
+              missingItemTable: 'MISSING1',
+            },
+          ],
+          error: 'Referenced tables of buffets are missing',
+        },
+        hasErrors: true,
+      });
+    });
+  });
+
+  describe('buffetReferencedItemsNotFound', () => {
+    it('returns an error when the referenced table is not found', () => {
+      expect(validate(Example.broken.buffets.missingItems())).toEqual({
+        buffetReferencedItemsNotFound: {
+          brokenItems: [
+            {
+              brokenBuffet: 'VxrIW8ttLpbYx1z7hOwQ4j',
+              buffetTable: 'buffets',
+              itemTable: 'cakes',
+              missingItem: 'MISSING0',
+            },
+            {
+              brokenBuffet: 'VxrIW8ttLpbYx1z7hOwQ4j',
+              buffetTable: 'buffets',
+              itemTable: 'collections',
+              missingItem: 'MISSING1',
+            },
+          ],
+          error: 'Referenced items of buffets are missing',
         },
         hasErrors: true,
       });
