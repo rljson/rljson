@@ -99,12 +99,13 @@ export class Example {
 
     collection: (): Rljson => {
       return {
-        _itemIds: {
+        _idSets: {
           _type: 'idSets',
-          _hash: 'CQQWbLwNJCN3gEyroA7ZcD',
+
           _data: [
             {
               add: [],
+              _hash: 'iXZ4ZUmANYrfH9kezk---f',
             },
           ],
         },
@@ -119,14 +120,14 @@ export class Example {
           _type: 'collections',
           _data: [
             {
-              itemIds: 'CQQWbLwNJCN3gEyroA7ZcD',
+              idSet: 'iXZ4ZUmANYrfH9kezk---f',
               properties: 'DKwor-pULmCs6RY-sMyfrM',
-              _hash: 'QHE4YSef6qX1zaWo1sckBF',
+              _hash: 'mG-6eoyVo2vbfiuFqAJKbW',
               assign: {},
             },
             {
-              base: 'QHE4YSef6qX1zaWo1sckBF',
-              itemIds: 'CQQWbLwNJCN3gEyroA7ZcD',
+              base: 'mG-6eoyVo2vbfiuFqAJKbW',
+              idSet: 'iXZ4ZUmANYrfH9kezk---f',
               properties: 'PROPERTIES',
               assign: {},
             },
@@ -203,7 +204,40 @@ export class Example {
     collection: {
       missingBase: (): Rljson => {
         return {
-          _itemIds: {
+          _idSets: {
+            _type: 'idSets',
+
+            _data: [
+              {
+                add: [],
+                _hash: 'iXZ4ZUmANYrfH9kezk---f',
+              },
+            ],
+          },
+
+          _properties: {
+            _type: 'properties',
+            _hash: 'DKwor-pULmCs6RY-sMyfrM',
+            _data: [],
+          },
+
+          collection: {
+            _type: 'collections',
+            _data: [
+              {
+                base: 'mG-6eoyVo2vbfiuFqAJKbW', // Base is missing
+                idSet: 'iXZ4ZUmANYrfH9kezk---f',
+                properties: 'PROPERTIES',
+                assign: {},
+              },
+            ],
+          },
+        };
+      },
+
+      missingIdSet: (): Rljson => {
+        return {
+          _idSets: {
             _type: 'idSets',
             _hash: 'CQQWbLwNJCN3gEyroA7ZcD',
             _data: [
@@ -223,9 +257,9 @@ export class Example {
             _type: 'collections',
             _data: [
               {
-                base: 'QHE4YSef6qX1zaWo1sckBF', // Base collection is missing
-                itemIds: 'CQQWbLwNJCN3gEyroA7ZcD',
-                properties: 'PROPERTIES',
+                idSet: 'CQQWbLwNJCN3gEyroA7ZcD',
+                properties: 'DKwor-pULmCs6RY-sMyfrM',
+                _hash: 'XfocQq6CwM43pCr4z98eUu',
                 assign: {},
               },
             ],

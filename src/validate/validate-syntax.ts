@@ -24,6 +24,7 @@ export interface SyntaxErrors extends Errors {
   dataHasRightType?: Json;
   allRefsAreFound?: Json;
   collectionBaseRefsAreFound?: Json;
+  collectionIdSetsAreFound?: Json;
 }
 
 // .............................................................................
@@ -70,6 +71,7 @@ class _ValidateSyntax {
     if (!this.hasErrors) {
       this._allRefsAreFound();
       this._collectionBaseRefsAreFound();
+      this._collectionIdRefsAreFound();
     }
 
     this.errors.hasErrors = this.hasErrors;
@@ -313,10 +315,38 @@ class _ValidateSyntax {
         const baseCollection = collectionsIndexed._data[baseRef];
         if (!baseCollection) {
           this.errors.collectionBaseRefsAreFound = {
-            error: `Base collection "${baseRef}" not found`,
+            error: `Collection "${collection._hash}": Base collection "${baseRef}" not found`,
             table: tableName,
-            collectionHash: collection._hash,
+            item: collection._hash,
             base: baseRef,
+          };
+        }
+      }
+    });
+  }
+
+  private _collectionIdRefsAreFound(): void {
+    iterateTables(this.rljson, (tableName, table) => {
+      if (table._type !== 'collections') {
+        return;
+      }
+
+      const idSets = this.rljsonIndexed._idSets;
+
+      const collectionsTable: CollectionsTable = table as CollectionsTable;
+      for (const collection of collectionsTable._data) {
+        const idSetRef = collection.idSet;
+        if (!idSetRef) {
+          continue;
+        }
+
+        const idSet = idSets._data[idSetRef];
+        if (!idSet) {
+          this.errors.collectionIdSetsAreFound = {
+            error: `Collection "${collection._hash}": IdSet "${idSetRef}" not found`,
+            table: tableName,
+            item: collection._hash,
+            idSet: idSetRef,
           };
         }
       }

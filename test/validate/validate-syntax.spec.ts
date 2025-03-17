@@ -470,9 +470,25 @@ describe('Validate', async () => {
     it('returns an error when a base ref is not found', () => {
       expect(validate(Example.broken.collection.missingBase())).toEqual({
         collectionBaseRefsAreFound: {
-          base: 'QHE4YSef6qX1zaWo1sckBF',
-          collectionHash: 'vCF6yznvPJ9M0LqCdj8BT4',
-          error: 'Base collection "QHE4YSef6qX1zaWo1sckBF" not found',
+          base: 'mG-6eoyVo2vbfiuFqAJKbW',
+          item: 'rdL-Mgoy3GKby7I8aGiLs9',
+          error:
+            'Collection "rdL-Mgoy3GKby7I8aGiLs9": Base collection "mG-6eoyVo2vbfiuFqAJKbW" not found',
+          table: 'collection',
+        },
+        hasErrors: true,
+      });
+    });
+  });
+
+  describe('collectionIdSetsAreFound()', () => {
+    it('returns an error when idSetRef is not found', () => {
+      expect(validate(Example.broken.collection.missingIdSet())).toEqual({
+        collectionIdSetsAreFound: {
+          error:
+            'Collection "XfocQq6CwM43pCr4z98eUu": IdSet "CQQWbLwNJCN3gEyroA7ZcD" not found',
+          idSet: 'CQQWbLwNJCN3gEyroA7ZcD',
+          item: 'XfocQq6CwM43pCr4z98eUu',
           table: 'collection',
         },
         hasErrors: true,
