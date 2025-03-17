@@ -10,5 +10,6 @@ export * from './content/collection.ts';
 export * from './content/id-set.ts';
 export * from './content/properties.ts';
 export * from './example.ts';
+export * from './rljson-indexed.ts';
 export * from './rljson.ts';
 export * from './typedefs.ts';

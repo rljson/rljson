@@ -32,9 +32,9 @@ export type TableType =
 
 // .............................................................................
 /** The rljson data format */
-export type Rljson = {
+export interface Rljson extends Json {
   [tableId: TableName]: TableType;
-};
+}
 
 /**
  * Rljson set with private fields
@@ -53,7 +53,7 @@ export type RljsonPrivate = {
 };
 
 /** An example rljson object */
-export const exampleRljson = (): Rljson => Example.withAllJsonTypes();
+export const exampleRljson = (): Rljson => Example.ok.singleRow();
 
 /** A table in the rljson format */
 export interface RljsonTable<Data extends Json, Type extends ContentType>
@@ -61,6 +61,26 @@ export interface RljsonTable<Data extends Json, Type extends ContentType>
   /** The data rows of the table */
   _data: Data[];
 
-  /**  The type of the table */
+  /**  The type of the table. If not set, the type is "properties" */
   _type: Type;
 }
+
+/**
+ * Iterates over all tables of an Rljson object.
+ * Skips private members starting with _
+ * @param rljson - The Rljson object to iterate
+ * @param callback - The callback to call for each table
+ */
+export const iterateTables = (
+  rljson: Rljson,
+  callback: (tableName: string, table: TableType) => void,
+) => {
+  for (const tableName in rljson) {
+    const value = rljson[tableName];
+    if (typeof value !== 'object' || !Array.isArray(value._data)) {
+      continue;
+    }
+
+    callback(tableName, rljson[tableName]);
+  }
+};

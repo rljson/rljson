@@ -33,7 +33,7 @@ export interface Collection extends Json {
    * The item ids of the collection. If presnet, the item ids in `assign`
    * must match these ids. The item id sets can be found in the _idSets table.
    */
-  itemIds?: IdSetRef;
+  idSet?: IdSetRef;
 
   /**
    * The table containing the properties that are assigned to the items
@@ -56,6 +56,5 @@ export type CollectionsTable = RljsonTable<Collection, 'collections'>;
 /**
  * Provides an example collectionsTable for test purposes
  */
-export const exampleCollectionsTable: CollectionsTable = Object.freeze(
-  bakeryExample.layers,
-);
+export const exampleCollectionsTable = (): CollectionsTable =>
+  bakeryExample().layers;

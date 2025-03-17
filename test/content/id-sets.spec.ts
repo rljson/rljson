@@ -12,6 +12,6 @@ import { expectGolden } from '../setup/goldens.ts';
 
 describe('IdSetsTable', () => {
   it('provides a list of id-sets', async () => {
-    await expectGolden('content/id-sets.json').toBe(exampleIdSetsTable);
+    await expectGolden('content/id-sets.json').toBe(exampleIdSetsTable());
   });
 });
