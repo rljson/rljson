@@ -1,0 +1,121 @@
+{
+  "_idSets": {
+    "_type": "idSets",
+    "_data": {
+      "KAwCRFD4mdx8b1bzxBb2_O": {
+        "add": [
+          "slice0",
+          "slice1"
+        ],
+        "_hash": "KAwCRFD4mdx8b1bzxBb2_O"
+      }
+    }
+  },
+  "buffets": {
+    "_type": "buffets",
+    "_data": {
+      "ftbQmuSj0lFeT-v1Ep2kze": {
+        "items": [
+          {
+            "table": "cakes",
+            "ref": "fw8IrV05Z1ZekPXTdUdmt8",
+            "_hash": "8VEfZHxWI4nswKPthBH-Xk"
+          }
+        ],
+        "_hash": "ftbQmuSj0lFeT-v1Ep2kze"
+      }
+    }
+  },
+  "cakes": {
+    "_type": "cakes",
+    "_data": {
+      "gMqFPTkYU66L32jDYZiZ79": {
+        "itemIds": "KAwCRFD4mdx8b1bzxBb2_O",
+        "collections": "layers",
+        "layers": {
+          "_hash": "50ZHxZ8KeUYJ3NC7ax5CbR"
+        },
+        "_hash": "gMqFPTkYU66L32jDYZiZ79"
+      }
+    },
+    "_hash": "fw8IrV05Z1ZekPXTdUdmt8"
+  },
+  "slices": {
+    "_type": "idSets",
+    "_data": {
+      "wyYfK5E4ArrMKQ_zvi2-EE": {
+        "add": [
+          "slice0",
+          "slice1"
+        ],
+        "remove": [],
+        "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
+      }
+    }
+  },
+  "layers": {
+    "_type": "collections",
+    "_data": {
+      "IIg0e-6Qr73s7sNZe0RhKs": {
+        "properties": "recipes",
+        "assign": {
+          "slice0": "VXUW79JrkOAG_pQ-75ahH5",
+          "slice1": "VXUW79JrkOAG_pQ-75ahH5",
+          "_hash": "Di4uG3-DHSq3_ArFu0V68m"
+        },
+        "_hash": "IIg0e-6Qr73s7sNZe0RhKs"
+      }
+    },
+    "_hash": "e3utfEf_VS1-ljAMgqesua"
+  },
+  "recipes": {
+    "_type": "collections",
+    "_data": {
+      "G1YV_P8-_vTxtkXXHJeNBI": {
+        "properties": "recipeIngredients",
+        "assign": {
+          "flour": "mqLl7Q44V1t2MotJvaVRM_",
+          "_hash": "UImWlyWZTSGhNAMC1JUzF1"
+        },
+        "_hash": "G1YV_P8-_vTxtkXXHJeNBI"
+      }
+    },
+    "_hash": "r3lw7VsnywyasRmtynZqIt"
+  },
+  "recipeIngredients": {
+    "_type": "properties",
+    "_data": {
+      "mqLl7Q44V1t2MotJvaVRM_": {
+        "ingredientTypesRef": "WOfnFT1svec3iJ6x",
+        "quantity": 500,
+        "_hash": "mqLl7Q44V1t2MotJvaVRM_"
+      }
+    },
+    "_hash": "J7GJEjCRXLNfdAHARg_fzx"
+  },
+  "ingredients": {
+    "_type": "properties",
+    "_data": {
+      "CdSJV-WOfnFT1svec3iJ6x": {
+        "name": "flour",
+        "amountUnit": "g",
+        "nutritiveValuesRef": "gZXFSlrl5QAs5hOVsq5sWB",
+        "_hash": "CdSJV-WOfnFT1svec3iJ6x"
+      }
+    },
+    "_hash": "FgJeTM0NcZvXwFcU-PD8Jf"
+  },
+  "nutritiveValues": {
+    "_type": "properties",
+    "_data": {
+      "gZXFSlrl5QAs5hOVsq5sWB": {
+        "energy": 364,
+        "fat": 0.98,
+        "protein": 10.33,
+        "carbohydrates": 76.31,
+        "_hash": "gZXFSlrl5QAs5hOVsq5sWB"
+      }
+    },
+    "_hash": "7k4OqQtk71w3yVGMoA9F6p"
+  }
+}
