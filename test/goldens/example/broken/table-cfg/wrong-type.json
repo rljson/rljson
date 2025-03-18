@@ -1,61 +1,70 @@
 {
   "_tableCfgs": {
-    "_hash": "",
+    "_hash": "HT791WpMrZJvHaRUinaUl0",
     "_type": "properties",
     "_data": [
       {
-        "_hash": "R-rCQ4YwYYJAp6uAo6S_6n",
+        "_hash": "bw9JoGhurfut5dsaLoGI2L",
         "name": "Single Row Table",
         "jsonKey": "table",
         "columns": {
           "int": {
             "jsonKey": "int",
-            "type": "number",
+            "type": "numberBroken",
             "name": "Integer",
-            "nameShort": "Int"
+            "nameShort": "Int",
+            "_hash": "g5cuOm2GLkKcLQVXh1XFOT"
           },
           "double": {
             "jsonKey": "double",
             "type": "number",
             "name": "Double",
-            "nameShort": "Dbl"
+            "nameShort": "Dbl",
+            "_hash": "afXehBGlVmCj6NMQhP_2FK"
           },
           "string": {
             "jsonKey": "string",
             "type": "string",
             "name": "String",
-            "nameShort": "Str"
+            "nameShort": "Str",
+            "_hash": "bJIwC9620XHc6Vfgv7teYV"
           },
           "boolean": {
             "jsonKey": "boolean",
             "type": "boolean",
             "name": "Boolean",
-            "nameShort": "Bool"
+            "nameShort": "Bool",
+            "_hash": "RtgUDiFzmiE30WrRDSjTmt"
           },
           "null": {
             "jsonKey": "null",
             "type": "null",
             "name": "null",
-            "nameShort": "null"
+            "nameShort": "null",
+            "_hash": "WYrrKNQzFtmjEN_xnp7PY9"
           },
           "jsonArray": {
             "jsonKey": "jsonArray",
             "type": "jsonArray",
             "name": "Json Array",
-            "nameShort": "Jarray"
+            "nameShort": "Jarray",
+            "_hash": "up6PZm9xH3Tgfe5vWPjCas"
           },
           "json": {
             "jsonKey": "json",
             "type": "json",
             "name": "Json",
-            "nameShort": "Json"
+            "nameShort": "Json",
+            "_hash": "O3fjEHitvWTzDiaaW9zhbv"
           },
           "jsonValue": {
             "jsonKey": "jsonValue",
             "type": "jsonValue",
             "name": "Json Value",
-            "nameShort": "Jval"
-          }
+            "nameShort": "Jval",
+            "_hash": "UVTCAiQuPeSI17cMTDKzoE"
+          },
+          "_hash": "iomiK7oTDbNe3Py9Ua2wSp"
         }
       }
     ]
@@ -82,18 +91,23 @@
             null
           ],
           {
-            "a": 1
+            "a": 1,
+            "_hash": "AVq9f1zFei3ZS3WQ8ErYCE"
           }
         ],
         "json": {
           "a": 1,
           "b": {
-            "c": 2
-          }
+            "c": 2,
+            "_hash": "C6G5zv8ldNiEviNtTxyoj3"
+          },
+          "_hash": "hGgAD2SBqPnVvwk8nYUICW"
         },
-        "jsonValue": 3
+        "jsonValue": 3,
+        "_hash": "r63TJIT73TYatXyqS4251G"
       }
     ],
-    "_hash": ""
-  }
+    "_hash": "x_KTTq5JHeERXWM0QogpB5"
+  },
+  "_hash": "UcnvCladItQhk-oClk-CjA"
 }

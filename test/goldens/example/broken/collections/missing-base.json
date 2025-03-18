@@ -1,0 +1,92 @@
+{
+  "_idSets": {
+    "_type": "idSets",
+    "_data": [
+      {
+        "add": [
+          "id0",
+          "id1"
+        ],
+        "_hash": "MgHRBYSrhpyl4rvsOmAWcQ"
+      }
+    ],
+    "_hash": "ha3u_Et6DXSHLr2ncTV6MB"
+  },
+  "properties": {
+    "_type": "properties",
+    "_data": [
+      {
+        "a": "0",
+        "_hash": "AFhW-fMzdCiz6bUZscp1Lf"
+      },
+      {
+        "a": "1",
+        "_hash": "mv6w8rID8lQxLsje1EHQMY"
+      }
+    ],
+    "_hash": "QnrUL_NvlY6K1qSnjgFDP8"
+  },
+  "collections": {
+    "_type": "collections",
+    "_data": [
+      {
+        "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
+        "properties": "properties",
+        "_hash": "sxv2NCM6UNOcX-i9FhOs5W",
+        "assign": {
+          "_hash": "RBNvo1WzZ4oRRq0W9-hknp"
+        }
+      },
+      {
+        "base": "MISSING",
+        "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
+        "properties": "properties",
+        "assign": {
+          "id0": "AFhW-fMzdCiz6bUZscp1Lf",
+          "id1": "mv6w8rID8lQxLsje1EHQMY",
+          "_hash": "MjlS39OaUdiaxDA9LrWxDH"
+        },
+        "_hash": "XqBfCw2Gz7zZHJIiIYyZpw"
+      }
+    ],
+    "_hash": "POCv21M4B35Zn0EeL7f2cW"
+  },
+  "cakes": {
+    "_type": "cakes",
+    "_data": [
+      {
+        "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
+        "collections": "collections",
+        "layers": {
+          "layer0": "sxv2NCM6UNOcX-i9FhOs5W",
+          "layer1": "QB2JC6X_-rUAoixuldzWP-",
+          "_hash": "wxUssKuMKDInaHvFAHxXWO"
+        },
+        "_hash": "QlTVJL3uoXO1L_fw2evLPe"
+      }
+    ],
+    "_hash": "uncmCMkQvMcstDeMMM5BEB"
+  },
+  "buffets": {
+    "_type": "buffets",
+    "_data": [
+      {
+        "items": [
+          {
+            "table": "cakes",
+            "ref": "QlTVJL3uoXO1L_fw2evLPe",
+            "_hash": "3sPbosoUQ0oOmSdrulVELc"
+          },
+          {
+            "table": "collections",
+            "ref": "QB2JC6X_-rUAoixuldzWP-",
+            "_hash": "ztJuorfTySKcRO92J3sTsl"
+          }
+        ],
+        "_hash": "n4IkdUk8MLWGdI-AMffiyY"
+      }
+    ],
+    "_hash": "zoP08092NDoOG03J-DG_oQ"
+  },
+  "_hash": "cReDkIpB2yzd7wGUb5bXnp"
+}
