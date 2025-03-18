@@ -69,9 +69,6 @@ describe('Validate', () => {
             },
             hasErrors: true,
           },
-          v2: {
-            hasErrors: false,
-          },
         });
       });
 
@@ -93,11 +90,7 @@ describe('Validate', () => {
         // Run validation
         const result = await validate.run(exampleRljson());
 
-        expect(result).toEqual({
-          v2: {
-            hasErrors: false,
-          },
-        });
+        expect(result).toEqual({});
       });
     });
   });
