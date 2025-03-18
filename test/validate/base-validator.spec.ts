@@ -32,7 +32,7 @@ describe('BaseValidator', async () => {
     };
 
     // Take a broken rljson object
-    const rljson: Rljson = Example.broken.brokenTableName() as Rljson;
+    const rljson: Rljson = Example.broken.base.brokenTableName() as Rljson;
 
     // Validate it
     const resultSync = new BaseValidator().validateSync(rljson);
@@ -422,7 +422,7 @@ describe('BaseValidator', async () => {
     });
 
     it('returns an error when a reference table is not found', () => {
-      expect(validate(Example.broken.missingReferencedTable())).toEqual({
+      expect(validate(Example.broken.base.missingReferencedTable())).toEqual({
         refsNotFound: {
           error: 'Broken references',
           missingRefs: [
@@ -441,7 +441,7 @@ describe('BaseValidator', async () => {
     });
 
     it('returns an error when a ref is not found', () => {
-      expect(validate(Example.broken.missingRef())).toEqual({
+      expect(validate(Example.broken.base.missingRef())).toEqual({
         refsNotFound: {
           error: 'Broken references',
           missingRefs: [

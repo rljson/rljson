@@ -11,6 +11,7 @@ import { CakesTable } from './content/cake.ts';
 import { CollectionsTable } from './content/collection.ts';
 import { IdSetsTable } from './content/id-set.ts';
 import { PropertiesTable } from './content/properties.ts';
+import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
 import { ContentType, Ref, TableName } from './typedefs.ts';
 
@@ -43,18 +44,29 @@ export type RljsonPrivate = {
   /**
    * Contains id sets used accross the Rljson object
    */
-  _idSets: IdSetsTable;
+  _idSet?: IdSetsTable;
 
   /**
-   * Used by validation. If external references are not present,
-   * validation does not throw an error.
+   * References that are not part of the Rljson object
    */
-  _externalRefs: Ref[];
+  _externalRefs?: Ref[];
+
+  /**
+   * Referenced tables that are not part of the Rljson object
+   */
+  _externalTables?: Ref[];
+
+  /**
+   * Column configurations used accross the Rljson object
+   */
+  _tableCfgs?: TablesCfgTable;
 };
 
+// .............................................................................
 /** An example rljson object */
 export const exampleRljson = (): Rljson => Example.ok.singleRow();
 
+// .............................................................................
 /** A table in the rljson format */
 export interface RljsonTable<Data extends Json, Type extends ContentType>
   extends Json {
@@ -63,6 +75,9 @@ export interface RljsonTable<Data extends Json, Type extends ContentType>
 
   /**  The type of the table. If not set, the type is "properties" */
   _type: Type;
+
+  /** The columns configuration of the table */
+  _tableCfg?: TableCfgRef;
 }
 
 /**

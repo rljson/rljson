@@ -51,7 +51,7 @@
   },
   "dependencies": {
     "@rljson/hash": "^0.0.12",
-    "@rljson/json": "^0.0.15"
+    "@rljson/json": "^0.0.17"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

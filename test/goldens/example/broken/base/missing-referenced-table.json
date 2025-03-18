@@ -1,0 +1,10 @@
+{
+  "tableB": {
+    "_type": "properties",
+    "_data": [
+      {
+        "tableARef": "MISSINGREF"
+      }
+    ]
+  }
+}

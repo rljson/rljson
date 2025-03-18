@@ -8,7 +8,7 @@ import { hip } from '@rljson/hash';
 import { exampleJsonObject } from '@rljson/json';
 
 import { bakeryExample } from './example/bakery-example.ts';
-import { Rljson } from './rljson.ts';
+import { Rljson, RljsonPrivate } from './rljson.ts';
 
 export class Example {
   static readonly ok = {
@@ -33,12 +33,74 @@ export class Example {
     },
 
     singleRow: (): Rljson => {
-      return {
+      const result: Rljson & RljsonPrivate = {
+        _tableCfgs: {
+          _type: 'properties',
+          _data: [
+            {
+              _hash: 'COLHASH',
+              name: 'Single Row Table',
+              columns: {
+                int: {
+                  jsonKey: 'int',
+                  type: 'number',
+                  name: 'Integer',
+                  nameShort: 'Int',
+                },
+                double: {
+                  jsonKey: 'double',
+                  type: 'number',
+                  name: 'Double',
+                  nameShort: 'Dbl',
+                },
+                string: {
+                  jsonKey: 'string',
+                  type: 'string',
+                  name: 'String',
+                  nameShort: 'Str',
+                },
+                boolean: {
+                  jsonKey: 'boolean',
+                  type: 'boolean',
+                  name: 'Boolean',
+                  nameShort: 'Bool',
+                },
+                null: {
+                  jsonKey: 'null',
+                  type: 'null',
+                  name: 'null',
+                  nameShort: 'null',
+                },
+                jsonArray: {
+                  jsonKey: 'jsonArray',
+                  type: 'jsonArray',
+                  name: 'Json Array',
+                  nameShort: 'Jarray',
+                },
+                json: {
+                  jsonKey: 'json',
+                  type: 'json',
+                  name: 'Json',
+                  nameShort: 'Json',
+                },
+                jsonValue: {
+                  jsonKey: 'jsonValue',
+                  type: 'jsonValue',
+                  name: 'Json Value',
+                  nameShort: 'Jval',
+                },
+              },
+            },
+          ],
+        },
+
         table: {
           _type: 'properties',
+          _tableCfg: 'COLHASH',
           _data: [exampleJsonObject()],
         },
       };
+      return result;
     },
 
     multipleRows: (): Rljson => {
@@ -177,67 +239,69 @@ export class Example {
   };
 
   static readonly broken = {
-    brokenTableName: () => {
-      return {
-        brok$en: {
-          _type: 'properties',
-          _data: [],
-        },
-      };
-    },
+    base: {
+      brokenTableName: () => {
+        return {
+          brok$en: {
+            _type: 'properties',
+            _data: [],
+          },
+        };
+      },
 
-    missingData: () => {
-      return {
-        table: {
-          _type: 'properties',
-        },
-      } as unknown as Rljson;
-    },
+      missingData: () => {
+        return {
+          table: {
+            _type: 'properties',
+          },
+        } as unknown as Rljson;
+      },
 
-    dataNotBeingAnArray: () => {
-      return {
-        table: {
-          _type: 'properties',
-          _data: {},
-        },
-      } as unknown as Rljson;
-    },
+      dataNotBeingAnArray: () => {
+        return {
+          table: {
+            _type: 'properties',
+            _data: {},
+          },
+        } as unknown as Rljson;
+      },
 
-    missingRef: (): Rljson => {
-      return {
-        tableA: {
-          _type: 'properties',
-          _data: [
-            {
-              keyA0: 'a0',
-            },
-            {
-              keyA1: 'a1',
-            },
-          ],
-        },
-        tableB: {
-          _type: 'properties',
-          _data: [
-            {
-              tableARef: 'MISSINGREF', // MISSINGREF does not exist in tableA
-            },
-          ],
-        },
-      };
-    },
+      missingRef: (): Rljson => {
+        return {
+          tableA: {
+            _type: 'properties',
+            _data: [
+              {
+                keyA0: 'a0',
+              },
+              {
+                keyA1: 'a1',
+              },
+            ],
+          },
+          tableB: {
+            _type: 'properties',
+            _data: [
+              {
+                tableARef: 'MISSINGREF', // MISSINGREF does not exist in tableA
+              },
+            ],
+          },
+        };
+      },
 
-    missingReferencedTable: (): Rljson => {
-      return {
-        tableB: {
-          _type: 'properties',
-          _data: [
-            {
-              tableARef: 'MISSINGREF', // tableA is missing
-            },
-          ],
-        },
-      };
+      missingReferencedTable: (): Rljson => {
+        return {
+          tableB: {
+            _type: 'properties',
+            _data: [
+              {
+                tableARef: 'MISSINGREF', // tableA is missing
+              },
+            ],
+          },
+        };
+      },
     },
 
     collections: {
