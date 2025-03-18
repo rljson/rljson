@@ -306,6 +306,15 @@ export class Example {
       },
     },
 
+    tableCfg: {
+      wrongType: () => {
+        const result = Example.ok.singleRow();
+        const tableCfg = result._tableCfgs._data[0];
+        tableCfg.columns['int'].type = 'numberBroken'; // Break one of the types
+        return hip(result, true, false);
+      },
+    },
+
     collections: {
       missingBase: (): Rljson => {
         const result = Example.ok.complete();

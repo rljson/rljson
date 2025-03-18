@@ -7,7 +7,7 @@
 import { Json, JsonValueType } from '@rljson/json';
 
 import { Example } from '../example.ts';
-import { RljsonPrivate, RljsonTable } from '../rljson.ts';
+import { RljsonTable } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
 
 export type JsonKey = string;
@@ -64,4 +64,4 @@ export type TablesCfgTable = RljsonTable<TableCfg, 'properties'>;
  * Example matching allTypesRow
  */
 export const exampleTableCfgTable = (): TablesCfgTable =>
-  (Example.ok.singleRow() as RljsonPrivate)._tableCfgs!;
+  Example.ok.singleRow()._tableCfgs!;

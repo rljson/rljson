@@ -5,11 +5,12 @@
 // found in the LICENSE file in the root of this package.
 
 import { hsh } from '@rljson/hash';
-import { Json } from '@rljson/json';
+import { Json, jsonValueTypes } from '@rljson/json';
 
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { CollectionsTable } from '../content/collection.ts';
+import { TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
 
@@ -17,6 +18,7 @@ import { Errors, Validator } from './validate.ts';
 
 // .............................................................................
 export interface BaseErrors extends Errors {
+  // Base errors
   tableNamesNotLowerCamelCase?: Json;
   columnNamesNotLowerCamelCase?: Json;
   tableNamesDoNotStartWithANumber?: Json;
@@ -24,14 +26,25 @@ export interface BaseErrors extends Errors {
   hashesNotValid?: Json;
   dataNotFound?: Json;
   dataHasWrongType?: Json;
+
+  // Table config errors
+  tableCfgsHaveWrongTypes?: Json;
+
+  // Reference errors
   refsNotFound?: Json;
+
+  // Collection errors
   collectionBasesNotFound?: Json;
   collectionIdSetsNotFound?: Json;
   collectionPropertyTablesNotFound?: Json;
   collectionPropertyAssignmentsNotFound?: Json;
+
+  // Cake errors
   cakeIdSetsNotFound?: Json;
   cakeCollectionTablesNotFound?: Json;
   cakeLayerCollectionsNotFound?: Json;
+
+  // Buffet errors
   buffetReferencedTablesNotFound?: Json;
   buffetReferencedItemsNotFound?: Json;
 }
@@ -71,18 +84,30 @@ class _BaseValidator {
 
   validate(): BaseErrors {
     const steps = [
+      // Base checks
       () => this._writeAndValidHashes(),
       () => this._tableNamesNotLowerCamelCase(),
       () => this._tableNamesDoNotEndWithRef(),
       () => this._columnNamesNotLowerCamelCase(),
       () => this._dataNotFound(),
       () => this._dataHasWrongType(),
+
+      // Check table cfg
+      () => this._tableCfgsHaveWrongType(),
+
+      // Check references
       () => this._refsNotFound(),
+
+      // Check collections
       () => this._collectionBasesNotFound(),
       () => this._collectionIdSetsExist(),
       () => this._collectionPropertyAssignmentsNotFound(),
+
+      // Check cakes
       () => this._cakeIdSetsNotFound(),
       () => this._cakeCollectionTablesNotFound(),
+
+      // Check buffets
       () => this._buffetReferencedTableNotFound(),
     ];
 
@@ -220,6 +245,41 @@ class _BaseValidator {
       this.errors.dataNotFound = {
         error: '_data is missing in tables',
         tables: tablesWithMissingData,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _tableCfgsHaveWrongType(): void {
+    const tableCfgs = this.rljson._tableCfgs as TablesCfgTable;
+    if (!tableCfgs) {
+      return;
+    }
+
+    // Are all types valid?
+    const brokenCfgs: Json[] = [];
+    for (const item of tableCfgs._data) {
+      for (const columnKey in item.columns) {
+        if (columnKey.startsWith('_')) {
+          continue;
+        }
+        const column = item.columns[columnKey];
+        if (jsonValueTypes.indexOf(column.type) === -1) {
+          brokenCfgs.push({
+            brokenTableCfg: item._hash,
+            brokenColumnKey: columnKey,
+            brokenColumnType: column.type,
+          });
+        }
+      }
+    }
+
+    if (brokenCfgs.length > 0) {
+      this.errors.tableCfgsHaveWrongTypes = {
+        error:
+          'Some of the columns have invalid types. Valid types are: ' +
+          jsonValueTypes.join(', '),
+        brokenCfgs,
       };
     }
   }

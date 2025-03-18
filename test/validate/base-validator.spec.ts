@@ -414,6 +414,27 @@ describe('BaseValidator', async () => {
     });
   });
 
+  describe('tableCfgsHaveWrongTypes()', () => {
+    it('returns an error when column types are not valid', () => {
+      expect(validate(Example.broken.tableCfg.wrongType())).toEqual({
+        hasErrors: true,
+        tableCfgsHaveWrongTypes: {
+          brokenCfgs: [
+            {
+              brokenColumnKey: 'int',
+              brokenColumnType: 'numberBroken',
+              brokenTableCfg: 'IuhU4DdqmM0A10ReDB1CUp',
+            },
+          ],
+          error:
+            'Some of the columns have invalid types. ' +
+            'Valid types are: string, number, boolean, null, undefined, ' +
+            'json, jsonArray, jsonValue',
+        },
+      });
+    });
+  });
+
   describe('refsNotFound', () => {
     it('returns no errors when all refs are found', () => {
       expect(validate(Example.ok.singleRef())).toEqual({
