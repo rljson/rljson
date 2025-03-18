@@ -6,7 +6,9 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { exampleRljson } from '../../src/rljson';
+import { Example } from '../../src/example';
+import { exampleRljson, Rljson } from '../../src/rljson';
+import { BaseValidator } from '../../src/validate/base-validator';
 import { Errors, Validate, Validator } from '../../src/validate/validate';
 
 describe('Validate', () => {
@@ -91,6 +93,37 @@ describe('Validate', () => {
         const result = await validate.run(exampleRljson());
 
         expect(result).toEqual({});
+      });
+    });
+
+    describe('with BaseValidator', () => {
+      it('returns an empty object on no errors', async () => {
+        // Create a validate object
+        const validate = new Validate();
+        validate.addValidator(new BaseValidator());
+
+        // Run validation
+        const result = await validate.run(Example.ok.complete());
+
+        expect(result).toEqual({});
+      });
+
+      it('returns an error object on errors', async () => {
+        const validate = new Validate();
+        validate.addValidator(new BaseValidator());
+
+        const result = await validate.run(
+          Example.broken.base.brokenTableName() as Rljson,
+        );
+        expect(result).toEqual({
+          base: {
+            hasErrors: true,
+            tableNamesNotLowerCamelCase: {
+              error: 'Table names must be lower camel case',
+              invalidTableNames: ['brok$en'],
+            },
+          },
+        });
       });
     });
   });
