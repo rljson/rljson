@@ -43,7 +43,8 @@ export class Validate {
     return result.reduce((acc, errors) => {
       let hasErrors = false;
       for (const key of Object.keys(errors)) {
-        const e = Object.keys(errors[key]);
+        const e = Object.keys(errors[key]).filter((k) => k !== 'hasErrors');
+
         if (e.length > 0) {
           hasErrors = true;
           break;

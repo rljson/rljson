@@ -55,7 +55,7 @@ export interface BaseErrors extends Errors {
 
 // .............................................................................
 export class BaseValidator implements Validator {
-  name = 'syntax';
+  name = 'base';
 
   async validate(rljson: Rljson): Promise<Errors> {
     return this.validateSync(rljson);
