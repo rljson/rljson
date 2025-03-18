@@ -7,6 +7,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { Example } from '../src/example';
+import { BaseValidator } from '../src/validate/base-validator';
 
 import { expectGolden } from './setup/goldens';
 
@@ -28,10 +29,15 @@ describe('Example', () => {
     describe('withstands validation', () => {
       for (const key in Example.ok) {
         it(key, async () => {
-          // const example = Example.ok[key]();
-          // const result = new BaseValidator().validateSync(example);
-          // const message = JSON.stringify(result, null, 2);
-          //expect(result.hasErrors, message).toBe(false);
+          const example = Example.ok[key]();
+          const result = new BaseValidator().validateSync(example);
+          const message = JSON.stringify(result, null, 2);
+          if (result.hasErrors) {
+            const errors = JSON.stringify(result, null, 2);
+            console.error(errors);
+          }
+
+          expect(result.hasErrors, message).toBe(false);
         });
       }
     });

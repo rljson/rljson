@@ -1,9 +1,10 @@
 {
   "_tableCfgs": {
+    "_hash": "",
     "_type": "properties",
     "_data": [
       {
-        "_hash": "COLHASH",
+        "_hash": "-0DgYNcjOPJvN838ZUXaZm",
         "name": "Single Row Table",
         "columns": {
           "int": {
@@ -60,7 +61,7 @@
   },
   "table": {
     "_type": "properties",
-    "_tableCfg": "COLHASH",
+    "_tableCfg": "-0DgYNcjOPJvN838ZUXaZm",
     "_data": [
       {
         "int": 5,
@@ -91,6 +92,7 @@
         },
         "jsonValue": 3
       }
-    ]
+    ],
+    "_hash": ""
   }
 }

@@ -42,6 +42,11 @@ export interface Rljson extends Json {
  */
 export type RljsonPrivate = {
   /**
+   * The hash of the Rljson object
+   */
+  _hash: string;
+
+  /**
    * Contains id sets used accross the Rljson object
    */
   _idSet?: IdSetsTable;

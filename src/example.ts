@@ -8,7 +8,7 @@ import { hip } from '@rljson/hash';
 import { exampleJsonObject } from '@rljson/json';
 
 import { bakeryExample } from './example/bakery-example.ts';
-import { Rljson, RljsonPrivate } from './rljson.ts';
+import { Rljson } from './rljson.ts';
 
 export class Example {
   static readonly ok = {
@@ -33,12 +33,13 @@ export class Example {
     },
 
     singleRow: (): Rljson => {
-      const result: Rljson & RljsonPrivate = {
+      const result: Rljson = {
         _tableCfgs: {
+          _hash: '',
           _type: 'properties',
           _data: [
             {
-              _hash: 'COLHASH',
+              _hash: '-0DgYNcjOPJvN838ZUXaZm',
               name: 'Single Row Table',
               columns: {
                 int: {
@@ -96,11 +97,12 @@ export class Example {
 
         table: {
           _type: 'properties',
-          _tableCfg: 'COLHASH',
+          _tableCfg: '-0DgYNcjOPJvN838ZUXaZm',
           _data: [exampleJsonObject()],
+          _hash: '',
         },
       };
-      return result;
+      return result as Rljson;
     },
 
     multipleRows: (): Rljson => {
