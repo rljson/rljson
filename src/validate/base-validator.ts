@@ -5,7 +5,7 @@
 // found in the LICENSE file in the root of this package.
 
 import { hsh } from '@rljson/hash';
-import { Json, jsonValueTypes } from '@rljson/json';
+import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
@@ -30,6 +30,9 @@ export interface BaseErrors extends Errors {
   // Table config errors
   tableCfgsReferencedTableNameNotFound?: Json;
   tableCfgsHaveWrongTypes?: Json;
+  tableCfgReferencedNotFound?: Json;
+  columnConfigNotFound?: Json;
+  dataDoesNotMatchColumnConfig?: Json;
 
   // Reference errors
   refsNotFound?: Json;
@@ -96,6 +99,9 @@ class _BaseValidator {
       // Check table cfg
       () => this._tableCfgsReferencedTableNameNotFound(),
       () => this._tableCfgsHaveWrongType(),
+      () => this._tableCfgNotFound(),
+      () => this._missingColumnConfigs(),
+      () => this._dataDoesNotMatchColumnConfig(),
 
       // Check references
       () => this._refsNotFound(),
@@ -309,6 +315,150 @@ class _BaseValidator {
           'Some of the columns have invalid types. Valid types are: ' +
           jsonValueTypes.join(', '),
         brokenCfgs,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _tableCfgNotFound(): void {
+    const tableCfgs = this.rljsonIndexed._tableCfgs;
+
+    const tableCfgNotFound: Json[] = [];
+
+    // Iterate all tables
+    iterateTables(this.rljson, (tableName, table) => {
+      // If table has no config reference, continue
+      const tableCfgRef = table._tableCfg;
+      if (!tableCfgRef) {
+        return;
+      }
+
+      // Get the table config
+      const tableCfgData = tableCfgs._data[tableCfgRef];
+
+      // Referenced table config not found?
+      if (!tableCfgData) {
+        tableCfgNotFound.push({
+          tableWithBrokenTableCfgRef: tableName,
+          brokenTableCfgRef: tableCfgRef,
+        });
+        return;
+      }
+    });
+
+    if (tableCfgNotFound.length > 0) {
+      this.errors.tableCfgReferencedNotFound = {
+        error: 'Referenced table config not found',
+        tableCfgNotFound,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _missingColumnConfigs(): void {
+    const tableCfgs = this.rljsonIndexed._tableCfgs;
+    const missingColumnConfigs: Json[] = [];
+
+    // Iterate all tables
+    iterateTables(this.rljson, (tableName, table) => {
+      // If table has no config reference, continue
+      const tableCfgRef = table._tableCfg;
+      if (!tableCfgRef) {
+        return;
+      }
+
+      // Get the table config
+      const tableCfgData = tableCfgs._data[tableCfgRef];
+
+      const processedColumnKeys: string[] = [];
+
+      // Iterate all rows of the table
+      for (const row of table._data) {
+        // Iterate all columns of the row
+        const columnKeys = Object.keys(row).filter(
+          (key) => !key.startsWith('_'),
+        );
+
+        const newColumnKey = columnKeys.filter(
+          (key) => processedColumnKeys.indexOf(key) === -1,
+        );
+
+        for (const columnKey of newColumnKey) {
+          // If column is not in the referenced table config, write an error
+          if (!tableCfgData.columns[columnKey]) {
+            missingColumnConfigs.push({
+              tableCfg: tableCfgRef,
+              row: row._hash,
+              column: columnKey,
+              table: tableName,
+            });
+          }
+
+          processedColumnKeys.push(columnKey);
+        }
+      }
+    });
+
+    if (missingColumnConfigs.length > 0) {
+      this.errors.columnConfigNotFound = {
+        error: 'Column configurations not found',
+        missingColumnConfigs,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _dataDoesNotMatchColumnConfig(): void {
+    const tableCfgs = this.rljsonIndexed._tableCfgs;
+    const brokenValues: Json[] = [];
+
+    // Iterate all tables
+    iterateTables(this.rljson, (tableName, table) => {
+      // If table has no config reference, continue
+      const tableCfgRef = table._tableCfg;
+      if (!tableCfgRef) {
+        return;
+      }
+
+      // Get the table config
+      const tableCfgData = tableCfgs._data[tableCfgRef];
+
+      // Iterate all rows of the table
+      for (const row of table._data) {
+        // Iterate all columns of the row
+        const columnKeys = Object.keys(row).filter(
+          (key) => !key.startsWith('_'),
+        );
+
+        for (const columnKey of columnKeys) {
+          // Continue when no columnConfig is available
+          const columnConfig = tableCfgData.columns[columnKey];
+
+          // Ignore null or undefined values
+          const value = row[columnKey];
+          if (value == null || value == undefined) {
+            continue;
+          }
+
+          // Compare type
+          const typeShould = columnConfig.type;
+
+          if (!jsonValueMatchesType(value, typeShould)) {
+            brokenValues.push({
+              table: tableName,
+              row: row._hash,
+              column: columnKey,
+              tableCfg: tableCfgRef,
+            });
+          }
+        }
+      }
+    });
+
+    if (brokenValues.length > 0) {
+      this.errors.dataDoesNotMatchColumnConfig = {
+        error: 'Table values have wrong types',
+        brokenValues,
       };
     }
   }
