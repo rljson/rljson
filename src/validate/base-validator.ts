@@ -5,11 +5,12 @@
 // found in the LICENSE file in the root of this package.
 
 import { hsh } from '@rljson/hash';
-import { Json } from '@rljson/json';
+import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { CollectionsTable } from '../content/collection.ts';
+import { TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
 
@@ -17,6 +18,7 @@ import { Errors, Validator } from './validate.ts';
 
 // .............................................................................
 export interface BaseErrors extends Errors {
+  // Base errors
   tableNamesNotLowerCamelCase?: Json;
   columnNamesNotLowerCamelCase?: Json;
   tableNamesDoNotStartWithANumber?: Json;
@@ -24,14 +26,29 @@ export interface BaseErrors extends Errors {
   hashesNotValid?: Json;
   dataNotFound?: Json;
   dataHasWrongType?: Json;
+
+  // Table config errors
+  tableCfgsReferencedTableNameNotFound?: Json;
+  tableCfgsHaveWrongTypes?: Json;
+  tableCfgReferencedNotFound?: Json;
+  columnConfigNotFound?: Json;
+  dataDoesNotMatchColumnConfig?: Json;
+
+  // Reference errors
   refsNotFound?: Json;
+
+  // Collection errors
   collectionBasesNotFound?: Json;
   collectionIdSetsNotFound?: Json;
   collectionPropertyTablesNotFound?: Json;
   collectionPropertyAssignmentsNotFound?: Json;
+
+  // Cake errors
   cakeIdSetsNotFound?: Json;
   cakeCollectionTablesNotFound?: Json;
   cakeLayerCollectionsNotFound?: Json;
+
+  // Buffet errors
   buffetReferencedTablesNotFound?: Json;
   buffetReferencedItemsNotFound?: Json;
 }
@@ -71,18 +88,34 @@ class _BaseValidator {
 
   validate(): BaseErrors {
     const steps = [
+      // Base checks
       () => this._writeAndValidHashes(),
       () => this._tableNamesNotLowerCamelCase(),
       () => this._tableNamesDoNotEndWithRef(),
       () => this._columnNamesNotLowerCamelCase(),
       () => this._dataNotFound(),
       () => this._dataHasWrongType(),
+
+      // Check table cfg
+      () => this._tableCfgsReferencedTableNameNotFound(),
+      () => this._tableCfgsHaveWrongType(),
+      () => this._tableCfgNotFound(),
+      () => this._missingColumnConfigs(),
+      () => this._dataDoesNotMatchColumnConfig(),
+
+      // Check references
       () => this._refsNotFound(),
+
+      // Check collections
       () => this._collectionBasesNotFound(),
       () => this._collectionIdSetsExist(),
       () => this._collectionPropertyAssignmentsNotFound(),
+
+      // Check cakes
       () => this._cakeIdSetsNotFound(),
       () => this._cakeCollectionTablesNotFound(),
+
+      // Check buffets
       () => this._buffetReferencedTableNotFound(),
     ];
 
@@ -220,6 +253,212 @@ class _BaseValidator {
       this.errors.dataNotFound = {
         error: '_data is missing in tables',
         tables: tablesWithMissingData,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _tableCfgsReferencedTableNameNotFound(): void {
+    const tableCfgs = this.rljson._tableCfgs as TablesCfgTable;
+    if (!tableCfgs) {
+      return;
+    }
+
+    // Are all types valid?
+    const brokenCfgs: Json[] = [];
+    for (const item of tableCfgs._data) {
+      const table = this.rljson[item.jsonKey];
+      if (!table) {
+        brokenCfgs.push({
+          brokenTableCfg: item._hash,
+          tableNameNotFound: item.jsonKey,
+        });
+      }
+    }
+
+    if (brokenCfgs.length > 0) {
+      this.errors.tableCfgsReferencedTableNameNotFound = {
+        error: 'Tables referenced in _tableCfgs not found',
+        brokenCfgs,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _tableCfgsHaveWrongType(): void {
+    const tableCfgs = this.rljson._tableCfgs as TablesCfgTable;
+    if (!tableCfgs) {
+      return;
+    }
+
+    // Are all types valid?
+    const brokenCfgs: Json[] = [];
+    for (const item of tableCfgs._data) {
+      for (const columnKey in item.columns) {
+        if (columnKey.startsWith('_')) {
+          continue;
+        }
+        const column = item.columns[columnKey];
+        if (jsonValueTypes.indexOf(column.type) === -1) {
+          brokenCfgs.push({
+            brokenTableCfg: item._hash,
+            brokenColumnKey: columnKey,
+            brokenColumnType: column.type,
+          });
+        }
+      }
+    }
+
+    if (brokenCfgs.length > 0) {
+      this.errors.tableCfgsHaveWrongTypes = {
+        error:
+          'Some of the columns have invalid types. Valid types are: ' +
+          jsonValueTypes.join(', '),
+        brokenCfgs,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _tableCfgNotFound(): void {
+    const tableCfgs = this.rljsonIndexed._tableCfgs;
+
+    const tableCfgNotFound: Json[] = [];
+
+    // Iterate all tables
+    iterateTables(this.rljson, (tableName, table) => {
+      // If table has no config reference, continue
+      const tableCfgRef = table._tableCfg;
+      if (!tableCfgRef) {
+        return;
+      }
+
+      // Get the table config
+      const tableCfgData = tableCfgs._data[tableCfgRef];
+
+      // Referenced table config not found?
+      if (!tableCfgData) {
+        tableCfgNotFound.push({
+          tableWithBrokenTableCfgRef: tableName,
+          brokenTableCfgRef: tableCfgRef,
+        });
+        return;
+      }
+    });
+
+    if (tableCfgNotFound.length > 0) {
+      this.errors.tableCfgReferencedNotFound = {
+        error: 'Referenced table config not found',
+        tableCfgNotFound,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _missingColumnConfigs(): void {
+    const tableCfgs = this.rljsonIndexed._tableCfgs;
+    const missingColumnConfigs: Json[] = [];
+
+    // Iterate all tables
+    iterateTables(this.rljson, (tableName, table) => {
+      // If table has no config reference, continue
+      const tableCfgRef = table._tableCfg;
+      if (!tableCfgRef) {
+        return;
+      }
+
+      // Get the table config
+      const tableCfgData = tableCfgs._data[tableCfgRef];
+
+      const processedColumnKeys: string[] = [];
+
+      // Iterate all rows of the table
+      for (const row of table._data) {
+        // Iterate all columns of the row
+        const columnKeys = Object.keys(row).filter(
+          (key) => !key.startsWith('_'),
+        );
+
+        const newColumnKey = columnKeys.filter(
+          (key) => processedColumnKeys.indexOf(key) === -1,
+        );
+
+        for (const columnKey of newColumnKey) {
+          // If column is not in the referenced table config, write an error
+          if (!tableCfgData.columns[columnKey]) {
+            missingColumnConfigs.push({
+              tableCfg: tableCfgRef,
+              row: row._hash,
+              column: columnKey,
+              table: tableName,
+            });
+          }
+
+          processedColumnKeys.push(columnKey);
+        }
+      }
+    });
+
+    if (missingColumnConfigs.length > 0) {
+      this.errors.columnConfigNotFound = {
+        error: 'Column configurations not found',
+        missingColumnConfigs,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _dataDoesNotMatchColumnConfig(): void {
+    const tableCfgs = this.rljsonIndexed._tableCfgs;
+    const brokenValues: Json[] = [];
+
+    // Iterate all tables
+    iterateTables(this.rljson, (tableName, table) => {
+      // If table has no config reference, continue
+      const tableCfgRef = table._tableCfg;
+      if (!tableCfgRef) {
+        return;
+      }
+
+      // Get the table config
+      const tableCfgData = tableCfgs._data[tableCfgRef];
+
+      // Iterate all rows of the table
+      for (const row of table._data) {
+        // Iterate all columns of the row
+        const columnKeys = Object.keys(row).filter(
+          (key) => !key.startsWith('_'),
+        );
+
+        for (const columnKey of columnKeys) {
+          // Continue when no columnConfig is available
+          const columnConfig = tableCfgData.columns[columnKey];
+
+          // Ignore null or undefined values
+          const value = row[columnKey];
+          if (value == null || value == undefined) {
+            continue;
+          }
+
+          // Compare type
+          const typeShould = columnConfig.type;
+
+          if (!jsonValueMatchesType(value, typeShould)) {
+            brokenValues.push({
+              table: tableName,
+              row: row._hash,
+              column: columnKey,
+              tableCfg: tableCfgRef,
+            });
+          }
+        }
+      }
+    });
+
+    if (brokenValues.length > 0) {
+      this.errors.dataDoesNotMatchColumnConfig = {
+        error: 'Table values have wrong types',
+        brokenValues,
       };
     }
   }

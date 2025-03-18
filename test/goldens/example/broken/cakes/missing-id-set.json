@@ -1,0 +1,81 @@
+{
+  "_idSets": {
+    "_type": "idSets",
+    "_data": [
+      {
+        "add": [
+          "id0",
+          "id1"
+        ],
+        "_hash": "MgHRBYSrhpyl4rvsOmAWcQ"
+      }
+    ]
+  },
+  "properties": {
+    "_type": "properties",
+    "_data": [
+      {
+        "a": "0",
+        "_hash": "AFhW-fMzdCiz6bUZscp1Lf"
+      },
+      {
+        "a": "1",
+        "_hash": "mv6w8rID8lQxLsje1EHQMY"
+      }
+    ]
+  },
+  "collections": {
+    "_type": "collections",
+    "_data": [
+      {
+        "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
+        "properties": "properties",
+        "_hash": "sxv2NCM6UNOcX-i9FhOs5W",
+        "assign": {}
+      },
+      {
+        "base": "sxv2NCM6UNOcX-i9FhOs5W",
+        "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
+        "properties": "properties",
+        "assign": {
+          "id0": "AFhW-fMzdCiz6bUZscp1Lf",
+          "id1": "mv6w8rID8lQxLsje1EHQMY"
+        },
+        "_hash": "QB2JC6X_-rUAoixuldzWP-"
+      }
+    ]
+  },
+  "cakes": {
+    "_type": "cakes",
+    "_data": [
+      {
+        "idSet": "MISSING",
+        "collections": "collections",
+        "layers": {
+          "layer0": "sxv2NCM6UNOcX-i9FhOs5W",
+          "layer1": "QB2JC6X_-rUAoixuldzWP-",
+          "_hash": "wxUssKuMKDInaHvFAHxXWO"
+        },
+        "_hash": "Pi2MlYagf-JTyy30pcKMYK"
+      }
+    ],
+    "_hash": "GaICGjJvF9Si115QYvtr-M"
+  },
+  "buffets": {
+    "_type": "buffets",
+    "_data": [
+      {
+        "items": [
+          {
+            "table": "cakes",
+            "ref": "QlTVJL3uoXO1L_fw2evLPe"
+          },
+          {
+            "table": "collections",
+            "ref": "QB2JC6X_-rUAoixuldzWP-"
+          }
+        ]
+      }
+    ]
+  }
+}

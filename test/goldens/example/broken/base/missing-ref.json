@@ -1,0 +1,21 @@
+{
+  "tableA": {
+    "_type": "properties",
+    "_data": [
+      {
+        "keyA0": "a0"
+      },
+      {
+        "keyA1": "a1"
+      }
+    ]
+  },
+  "tableB": {
+    "_type": "properties",
+    "_data": [
+      {
+        "tableARef": "MISSINGREF"
+      }
+    ]
+  }
+}
