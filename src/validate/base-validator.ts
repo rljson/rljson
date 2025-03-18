@@ -28,6 +28,7 @@ export interface BaseErrors extends Errors {
   dataHasWrongType?: Json;
 
   // Table config errors
+  tableCfgsReferencedTableNameNotFound?: Json;
   tableCfgsHaveWrongTypes?: Json;
 
   // Reference errors
@@ -93,6 +94,7 @@ class _BaseValidator {
       () => this._dataHasWrongType(),
 
       // Check table cfg
+      () => this._tableCfgsReferencedTableNameNotFound(),
       () => this._tableCfgsHaveWrongType(),
 
       // Check references
@@ -245,6 +247,33 @@ class _BaseValidator {
       this.errors.dataNotFound = {
         error: '_data is missing in tables',
         tables: tablesWithMissingData,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _tableCfgsReferencedTableNameNotFound(): void {
+    const tableCfgs = this.rljson._tableCfgs as TablesCfgTable;
+    if (!tableCfgs) {
+      return;
+    }
+
+    // Are all types valid?
+    const brokenCfgs: Json[] = [];
+    for (const item of tableCfgs._data) {
+      const table = this.rljson[item.jsonKey];
+      if (!table) {
+        brokenCfgs.push({
+          brokenTableCfg: item._hash,
+          tableNameNotFound: item.jsonKey,
+        });
+      }
+    }
+
+    if (brokenCfgs.length > 0) {
+      this.errors.tableCfgsReferencedTableNameNotFound = {
+        error: 'Tables referenced in _tableCfgs not found',
+        brokenCfgs,
       };
     }
   }

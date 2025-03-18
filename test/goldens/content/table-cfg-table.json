@@ -3,8 +3,9 @@
   "_type": "properties",
   "_data": [
     {
-      "_hash": "-0DgYNcjOPJvN838ZUXaZm",
+      "_hash": "R-rCQ4YwYYJAp6uAo6S_6n",
       "name": "Single Row Table",
+      "jsonKey": "table",
       "columns": {
         "int": {
           "jsonKey": "int",

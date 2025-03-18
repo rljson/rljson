@@ -32,7 +32,10 @@ describe('Example', () => {
           const example = Example.ok[key]();
           const result = new BaseValidator().validateSync(example);
           const message = JSON.stringify(result, null, 2);
-          expect(result.hasErrors, message).toBe(false);
+          if (result.hasErrors) {
+            debugger;
+          }
+          expect(result, message).toEqual({ hasErrors: false });
         });
       }
     });

@@ -4,13 +4,11 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { Json, JsonValueType } from '@rljson/json';
+import { Json, JsonKey, JsonValueType } from '@rljson/json';
 
 import { Example } from '../example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
-
-export type JsonKey = string;
 
 /**
  * A ColumnsRef is a hash pointing to columns metadata
@@ -52,6 +50,7 @@ export interface ColumnCfg extends Json {
  */
 export interface TableCfg extends Json {
   name: string;
+  jsonKey: JsonKey;
   columns: Record<JsonKey, ColumnCfg>;
 }
 
@@ -64,4 +63,4 @@ export type TablesCfgTable = RljsonTable<TableCfg, 'properties'>;
  * Example matching allTypesRow
  */
 export const exampleTableCfgTable = (): TablesCfgTable =>
-  Example.ok.singleRow()._tableCfgs!;
+  Example.ok.singleRow()._tableCfgs! as TablesCfgTable;

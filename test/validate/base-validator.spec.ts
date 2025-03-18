@@ -9,7 +9,7 @@ import { hip } from '@rljson/hash';
 import { describe, expect, it } from 'vitest';
 
 import { Example } from '../../src/example.ts';
-import { Rljson } from '../../src/rljson.ts';
+import { Rljson, RljsonPrivate } from '../../src/rljson.ts';
 import {
   BaseValidator,
   isValidFieldName,
@@ -414,6 +414,28 @@ describe('BaseValidator', async () => {
     });
   });
 
+  describe('tableCfgsReferencedTableNameNotFound()', () => {
+    it('returns an error when a table referenced in _tableCfgs is not found', () => {
+      const rljson = Example.ok.singleRow();
+      (rljson as unknown as RljsonPrivate)._tableCfgs!._data[0].jsonKey =
+        'MISSING';
+      hip(rljson, true, false);
+
+      expect(validate(rljson)).toEqual({
+        hasErrors: true,
+        tableCfgsReferencedTableNameNotFound: {
+          brokenCfgs: [
+            {
+              brokenTableCfg: 'v_xNH6j-cwSEho2EDyvvaL',
+              tableNameNotFound: 'MISSING',
+            },
+          ],
+          error: 'Tables referenced in _tableCfgs not found',
+        },
+      });
+    });
+  });
+
   describe('tableCfgsHaveWrongTypes()', () => {
     it('returns an error when column types are not valid', () => {
       expect(validate(Example.broken.tableCfg.wrongType())).toEqual({
@@ -423,7 +445,7 @@ describe('BaseValidator', async () => {
             {
               brokenColumnKey: 'int',
               brokenColumnType: 'numberBroken',
-              brokenTableCfg: 'IuhU4DdqmM0A10ReDB1CUp',
+              brokenTableCfg: 'bw9JoGhurfut5dsaLoGI2L',
             },
           ],
           error:
