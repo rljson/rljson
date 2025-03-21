@@ -34,13 +34,13 @@ git pull
 
 In the _whole document_, replace the following things:
 
-- `fix-issues-in_development-md` by the name of your new branch
-- `Fix issues in development.md` by your new pull request title
+- `add-publish-to-npm-script` by the name of your new branch
+- `Add publish to npm script` by your new pull request title
 
 ## Create a feature branch
 
 ```bash
-git checkout -b fix-issues-in_development-md
+git checkout -b add-publish-to-npm-script
 ```
 
 ## Update dependencies
@@ -64,7 +64,7 @@ If you have only one change, run
 
 ```bash
 git add .
-git commit -am"Fix issues in development.md"
+git commit -am"Add publish to npm script"
 ```
 
 ## Increase version
@@ -89,8 +89,8 @@ git rebase main
 ## Create a pull request
 
 ```bash
-git push -u origin fix-issues-in_development-md
-gh pr create --base main --title "Fix issues in development.md" --body " "
+git push -u origin add-publish-to-npm-script
+gh pr create --base main --title "Add publish to npm script" --body " "
 gh pr merge --auto --squash
 ```
 
@@ -113,12 +113,11 @@ git checkout main
 git reset --soft origin/main
 git stash -m"PR Aftermath"
 git pull
-git branch -d fix-issues-in_development-md
+git branch -d add-publish-to-npm-script
 ```
 
 ## Publish to NPM
 
 ```bash
-npm publish --access public
-node scripts/add-version-tag.js
+node scripts/publish-to-npm.js
 ```
