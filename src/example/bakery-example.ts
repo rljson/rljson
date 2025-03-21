@@ -18,7 +18,7 @@ import { Ref } from '../typedefs.ts';
 export interface Ingredient extends Json {
   name: string;
   amountUnit: 'g' | 'ml';
-  nutritiveValuesRef: Ref;
+  nutritionalValuesRef: Ref;
 }
 
 export interface RecipeIngredient extends Json {
@@ -28,7 +28,7 @@ export interface RecipeIngredient extends Json {
 
 export type IngredientsTypeTable = PropertiesTable<Ingredient>;
 
-export interface NutritiveValues extends Json {
+export interface NutritionalValues extends Json {
   energy: number;
   fat: number;
   protein: number;
@@ -44,7 +44,7 @@ export interface Bakery extends Rljson {
   recipes: CollectionsTable;
   recipeIngredients: PropertiesTable<RecipeIngredient>;
   ingredients: PropertiesTable<Ingredient>;
-  nutritiveValues: PropertiesTable<NutritiveValues>;
+  nutritionalValues: PropertiesTable<NutritionalValues>;
 }
 
 // .............................................................................
@@ -138,13 +138,13 @@ export const bakeryExample = (): Bakery => {
         {
           name: 'flour',
           amountUnit: 'g',
-          nutritiveValuesRef: 'gZXFSlrl5QAs5hOVsq5sWB',
+          nutritionalValuesRef: 'gZXFSlrl5QAs5hOVsq5sWB',
           _hash: 'CdSJV-WOfnFT1svec3iJ6x',
         },
       ],
       _hash: 'FgJeTM0NcZvXwFcU-PD8Jf',
     },
-    nutritiveValues: {
+    nutritionalValues: {
       _type: 'properties',
       _data: [
         {

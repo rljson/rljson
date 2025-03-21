@@ -3,10 +3,7 @@
     "_type": "idSets",
     "_data": [
       {
-        "add": [
-          "slice0",
-          "slice1"
-        ],
+        "add": ["slice0", "slice1"],
         "_hash": "Ko990SJfgPJvNGxC63CRf7"
       }
     ],
@@ -42,10 +39,7 @@
     "_type": "idSets",
     "_data": [
       {
-        "add": [
-          "slice0",
-          "slice1"
-        ],
+        "add": ["slice0", "slice1"],
         "remove": [],
         "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
       }
@@ -93,13 +87,13 @@
       {
         "name": "flour",
         "amountUnit": "g",
-        "nutritiveValuesRef": "gZXFSlrl5QAs5hOVsq5sWB",
+        "nutritionalValuesRef": "gZXFSlrl5QAs5hOVsq5sWB",
         "_hash": "CdSJV-WOfnFT1svec3iJ6x"
       }
     ],
     "_hash": "FgJeTM0NcZvXwFcU-PD8Jf"
   },
-  "nutritiveValues": {
+  "nutritionalValues": {
     "_type": "properties",
     "_data": [
       {

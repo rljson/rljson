@@ -13,7 +13,7 @@ erDiagram
     buffet ||--o{ cake : contains
     cake ||--o{ layer : "composed of"
     layer ||--o{ ingredient : "composed of"
-    ingredient ||--o{ nutritiveValue : has
+    ingredient ||--o{ nutritionalValue : has
 
     bakery {
         int bakeryId PK
@@ -45,8 +45,8 @@ erDiagram
         string quantityUnit
     }
 
-    nutritiveValue {
-        int nutritiveId PK
+    nutritionalValue {
+        int nutritionalId PK
         string type
         float amount
         string unit
