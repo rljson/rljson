@@ -25,19 +25,14 @@ export interface ColumnCfg extends Json {
   jsonKey: JsonKey;
 
   /**
-   * A short name of the column to be shown in the table header
-   */
-  nameShort: string;
-
-  /**
-   * A unshorted name to be shown in the tool tip
-   */
-  name: string;
-
-  /**
    * Average number of characters in the column
    */
   avgChars?: number;
+
+  /**
+   * Maximum number of characters in the column
+   */
+  maxChars?: number;
 
   /**
    * The type of the column
@@ -49,8 +44,14 @@ export interface ColumnCfg extends Json {
  * Describes the configuration of a table, i.e. table metadata and columns
  */
 export interface TableCfg extends Json {
-  name: string;
+  /**
+   * Technical lower camel case json identifier of the table
+   */
   jsonKey: JsonKey;
+
+  /**
+   * A short description of the table
+   */
   columns: Record<JsonKey, ColumnCfg>;
 }
 

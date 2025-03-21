@@ -32,7 +32,7 @@ describe('Rljson', () => {
         'recipes',
         'recipeIngredients',
         'ingredients',
-        'nutritiveValues',
+        'nutritionalValues',
       ]);
     });
   });

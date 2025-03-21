@@ -6,7 +6,7 @@
 
 import { Json } from '@rljson/json';
 
-import { bakeryExample, NutritiveValues } from '../example/bakery-example.ts';
+import { bakeryExample, NutritionalValues } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
 
@@ -26,5 +26,5 @@ export type PropertiesTable<T extends Json> = RljsonTable<T, 'properties'>;
 /**
  * Provides an example collectionsTable for test purposes
  */
-export const examplePropertiesTable = (): PropertiesTable<NutritiveValues> =>
-  bakeryExample().nutritiveValues;
+export const examplePropertiesTable = (): PropertiesTable<NutritionalValues> =>
+  bakeryExample().nutritionalValues;
