@@ -34,13 +34,13 @@ git pull
 
 In the _whole document_, replace the following things:
 
-- `improve-doc` by the name of your new branch
-- `Improve doc` by your new pull request title
+- `fix-issues-in_development-md` by the name of your new branch
+- `Fix issues in development.md` by your new pull request title
 
 ## Create a feature branch
 
 ```bash
-git checkout -b improve-doc
+git checkout -b fix-issues-in_development-md
 ```
 
 ## Update dependencies
@@ -64,7 +64,7 @@ If you have only one change, run
 
 ```bash
 git add .
-git commit -am"Setup GitHub to require code reviews"
+git commit -am"Fix issues in development.md"
 ```
 
 ## Increase version
@@ -89,8 +89,8 @@ git rebase main
 ## Create a pull request
 
 ```bash
-git push -u origin improve-doc
-gh pr create --base main --title "Setup GitHub to require code reviews" --body " "
+git push -u origin fix-issues-in_development-md
+gh pr create --base main --title "Fix issues in development.md" --body " "
 gh pr merge --auto --squash
 ```
 
@@ -98,6 +98,12 @@ gh pr merge --auto --squash
 
 Read [setup-code-review.md](./code-review.md) on how to create a
 code review.
+
+## Check pull request status
+
+```bash
+ node scripts/wait-for-pr.js
+```
 
 ## Delete feature branch
 
@@ -107,7 +113,7 @@ git checkout main
 git reset --soft origin/main
 git stash -m"PR Aftermath"
 git pull
-git branch -d improve-doc
+git branch -d fix-issues-in_development-md
 ```
 
 ## Publish to NPM
