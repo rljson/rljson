@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Add recommended vscode extensions` here and below
+Replace `Rename _tableCfgs into tableCfgs and _idSets into idSets` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Add recommended vscode extensions"
+node scripts/create-branch.js "Rename _tableCfgs into tableCfgs and _idSets into idSets"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Add recommended vscode extensions"
+git commit -am"Rename _tableCfgs into tableCfgs and _idSets into idSets"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Add recommended vscode extensions" --body " "
+gh pr create --base main --title "Rename _tableCfgs into tableCfgs and _idSets into idSets" --body " "
 ```
 
 ## Code review
