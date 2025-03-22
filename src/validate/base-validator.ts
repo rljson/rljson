@@ -10,7 +10,7 @@ import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { CollectionsTable } from '../content/collection.ts';
-import { TablesCfgTable } from '../content/table-cfg.ts';
+import { ColumnCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
 
@@ -385,7 +385,8 @@ class _BaseValidator {
 
         for (const columnKey of newColumnKey) {
           // If column is not in the referenced table config, write an error
-          if (!tableCfgData.columns[columnKey]) {
+          const columns = tableCfgData.columns! as Json;
+          if (!columns[columnKey]) {
             missingColumnConfigs.push({
               tableCfg: tableCfgRef,
               row: row._hash,
@@ -432,7 +433,8 @@ class _BaseValidator {
 
         for (const columnKey of columnKeys) {
           // Continue when no columnConfig is available
-          const columnConfig = tableCfgData.columns[columnKey];
+          const columns = tableCfgData.columns as Json;
+          const columnConfig = columns[columnKey] as ColumnCfg;
 
           // Ignore null or undefined values
           const value = row[columnKey];
