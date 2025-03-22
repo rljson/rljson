@@ -7,7 +7,7 @@
  */
 
 // publish-and-tag.js
-import { green, red } from './functions/colors.js';
+import { gray, green, red } from './functions/colors.js';
 import { isCleanRepo } from './functions/is-clean-repo.js';
 import { runCommand } from './functions/run-command.js';
 
