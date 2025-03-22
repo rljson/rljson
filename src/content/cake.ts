@@ -29,7 +29,7 @@ export type CakeLayerId = ItemId;
 export interface Cake extends Json {
   /**
    * The item ids of the collection. If present, the item ids in the layers
-   * must match these ids. The item id sets can be found in the _idSets table.
+   * must match these ids. The item id sets can be found in the idSets table.
    */
   idSet?: IdSetRef;
 

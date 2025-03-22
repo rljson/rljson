@@ -64,4 +64,4 @@ export type TablesCfgTable = RljsonTable<TableCfg, 'properties'>;
  * Example matching allTypesRow
  */
 export const exampleTableCfgTable = (): TablesCfgTable =>
-  Example.ok.singleRow()._tableCfgs! as TablesCfgTable;
+  Example.ok.singleRow().tableCfgs! as TablesCfgTable;

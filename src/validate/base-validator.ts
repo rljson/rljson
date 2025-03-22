@@ -10,7 +10,7 @@ import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { CollectionsTable } from '../content/collection.ts';
-import { TablesCfgTable } from '../content/table-cfg.ts';
+import { ColumnCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
 
@@ -97,8 +97,8 @@ class _BaseValidator {
       () => this._dataHasWrongType(),
 
       // Check table cfg
-      () => this._tableCfgsReferencedTableNameNotFound(),
-      () => this._tableCfgsHaveWrongType(),
+      () => this.tableCfgsReferencedTableNameNotFound(),
+      () => this.tableCfgsHaveWrongType(),
       () => this._tableCfgNotFound(),
       () => this._missingColumnConfigs(),
       () => this._dataDoesNotMatchColumnConfig(),
@@ -258,8 +258,8 @@ class _BaseValidator {
   }
 
   // ...........................................................................
-  private _tableCfgsReferencedTableNameNotFound(): void {
-    const tableCfgs = this.rljson._tableCfgs as TablesCfgTable;
+  private tableCfgsReferencedTableNameNotFound(): void {
+    const tableCfgs = this.rljson.tableCfgs as TablesCfgTable;
     if (!tableCfgs) {
       return;
     }
@@ -278,15 +278,15 @@ class _BaseValidator {
 
     if (brokenCfgs.length > 0) {
       this.errors.tableCfgsReferencedTableNameNotFound = {
-        error: 'Tables referenced in _tableCfgs not found',
+        error: 'Tables referenced in tableCfgs not found',
         brokenCfgs,
       };
     }
   }
 
   // ...........................................................................
-  private _tableCfgsHaveWrongType(): void {
-    const tableCfgs = this.rljson._tableCfgs as TablesCfgTable;
+  private tableCfgsHaveWrongType(): void {
+    const tableCfgs = this.rljson.tableCfgs as TablesCfgTable;
     if (!tableCfgs) {
       return;
     }
@@ -321,7 +321,7 @@ class _BaseValidator {
 
   // ...........................................................................
   private _tableCfgNotFound(): void {
-    const tableCfgs = this.rljsonIndexed._tableCfgs;
+    const tableCfgs = this.rljsonIndexed.tableCfgs;
 
     const tableCfgNotFound: Json[] = [];
 
@@ -356,7 +356,7 @@ class _BaseValidator {
 
   // ...........................................................................
   private _missingColumnConfigs(): void {
-    const tableCfgs = this.rljsonIndexed._tableCfgs;
+    const tableCfgs = this.rljsonIndexed.tableCfgs;
     const missingColumnConfigs: Json[] = [];
 
     // Iterate all tables
@@ -385,7 +385,8 @@ class _BaseValidator {
 
         for (const columnKey of newColumnKey) {
           // If column is not in the referenced table config, write an error
-          if (!tableCfgData.columns[columnKey]) {
+          const columns = tableCfgData.columns! as Json;
+          if (!columns[columnKey]) {
             missingColumnConfigs.push({
               tableCfg: tableCfgRef,
               row: row._hash,
@@ -409,7 +410,7 @@ class _BaseValidator {
 
   // ...........................................................................
   private _dataDoesNotMatchColumnConfig(): void {
-    const tableCfgs = this.rljsonIndexed._tableCfgs;
+    const tableCfgs = this.rljsonIndexed.tableCfgs;
     const brokenValues: Json[] = [];
 
     // Iterate all tables
@@ -432,7 +433,8 @@ class _BaseValidator {
 
         for (const columnKey of columnKeys) {
           // Continue when no columnConfig is available
-          const columnConfig = tableCfgData.columns[columnKey];
+          const columns = tableCfgData.columns as Json;
+          const columnConfig = columns[columnKey] as ColumnCfg;
 
           // Ignore null or undefined values
           const value = row[columnKey];
@@ -595,7 +597,7 @@ class _BaseValidator {
         return;
       }
 
-      const idSets = this.rljsonIndexed._idSets;
+      const idSets = this.rljsonIndexed.idSets;
 
       const collectionsTable: CollectionsTable = table as CollectionsTable;
       for (const collection of collectionsTable._data) {
@@ -688,7 +690,7 @@ class _BaseValidator {
         return;
       }
 
-      const idSets = this.rljsonIndexed._idSets;
+      const idSets = this.rljsonIndexed.idSets;
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {

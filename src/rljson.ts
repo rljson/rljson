@@ -64,7 +64,7 @@ export type RljsonPrivate = {
   /**
    * Column configurations used accross the Rljson object
    */
-  _tableCfgs?: TablesCfgTable;
+  tableCfgs?: TablesCfgTable;
 };
 
 // .............................................................................

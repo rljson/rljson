@@ -24,7 +24,7 @@ describe('Rljson', () => {
       });
 
       expect(tableNames).toEqual([
-        '_idSets',
+        'idSets',
         'buffets',
         'cakes',
         'slices',

@@ -97,7 +97,7 @@ export class Example {
       };
 
       const result: Rljson = {
-        _tableCfgs: tableCfgs,
+        tableCfgs: tableCfgs,
         table: {
           _type: 'properties',
           _tableCfg: 'R-rCQ4YwYYJAp6uAo6S_6n',
@@ -166,7 +166,7 @@ export class Example {
     },
     complete: (): Rljson => {
       return {
-        _idSets: {
+        idSets: {
           _type: 'idSets',
 
           _data: [
@@ -312,7 +312,7 @@ export class Example {
     tableCfg: {
       wrongType: () => {
         const result = Example.ok.singleRow();
-        const tableCfg = result._tableCfgs._data[0];
+        const tableCfg = result.tableCfgs._data[0];
         tableCfg.columns['int'].type = 'numberBroken'; // Break one of the types
         return hip(result, true, false);
       },
