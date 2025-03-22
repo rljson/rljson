@@ -15,7 +15,7 @@ found in the LICENSE file in the root of this package.
 - [Setup branch rules](#setup-branch-rules)
 - [Require deleting branches after merge](#require-deleting-branches-after-merge)
 - [Checkout and open the new project](#checkout-and-open-the-new-project)
-- [Rename rljson into my-new-repo](#rename-rljson-into-my-new-repo)
+- [Rename template-project into my-new-repo](#rename-template-project-into-my-new-repo)
   - [Call rename script](#call-rename-script)
 - [Update goldens](#update-goldens)
 - [Commit the initial state](#commit-the-initial-state)
@@ -38,7 +38,7 @@ Click `New repository`
 
 Below `Repository template` click on the drop down `No template`
 
-Select the template repository `@rljson/rljson`
+Select the template repository `@rljson/template-project`
 
 Enter a `my-new-repo` as `name`
 
@@ -133,12 +133,12 @@ Prepare a new branch and pull request
 git checkout -b rename-classes
 ```
 
-## Rename rljson into my-new-repo
+## Rename template-project into my-new-repo
 
 ### Call rename script
 
 ```bash
-node scripts/rename-class.js rljson my-new-repo
+node scripts/rename-class.js template-project my-new-repo
 ```
 
 ## Update goldens
@@ -151,14 +151,14 @@ pnpm updateGoldens
 
 ```bash
 git add .
-git commit -am "Rename rljson into my-new-repo"
+git commit -am "Rename template-project into my-new-repo"
 ```
 
 ### Create and complete pull request
 
 ```bash
 git push -u origin my-new-repo
-gh pr create --base main --title "Rename rljson into my-new-repo" --body " "
+gh pr create --base main --title "Rename template-project into my-new-repo" --body " "
 gh pr merge --auto --squash
 node ./scripts/wait-for-pr.js
 ```
