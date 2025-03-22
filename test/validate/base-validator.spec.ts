@@ -418,9 +418,9 @@ describe('BaseValidator', async () => {
 
   describe('tableCfg errors', () => {
     describe('tableCfgsReferencedTableNameNotFound()', () => {
-      it('returns an error when a table referenced in _tableCfgs is not found', () => {
+      it('returns an error when a table referenced in tableCfgs is not found', () => {
         const rljson = Example.ok.singleRow();
-        (rljson as unknown as RljsonPrivate)._tableCfgs!._data[0].jsonKey =
+        (rljson as unknown as RljsonPrivate).tableCfgs!._data[0].jsonKey =
           'MISSING';
         hip(rljson, true, false);
 
@@ -433,7 +433,7 @@ describe('BaseValidator', async () => {
                 tableNameNotFound: 'MISSING',
               },
             ],
-            error: 'Tables referenced in _tableCfgs not found',
+            error: 'Tables referenced in tableCfgs not found',
           },
         });
       });
@@ -484,7 +484,7 @@ describe('BaseValidator', async () => {
     describe('missingColumnConfigs', () => {
       it('returns an error when no config is found for a column', () => {
         const rljson = Example.ok.singleRow();
-        const tableCfg = rljson._tableCfgs._data[0];
+        const tableCfg = rljson.tableCfgs._data[0];
         const tableCfgRef = rljson.table._tableCfg;
         expect(tableCfgRef).toBe(tableCfg._hash);
 
@@ -514,7 +514,7 @@ describe('BaseValidator', async () => {
     describe('dataDoesNotMatchColumnConfig', () => {
       it('returns an error when the data type does not match the column type', () => {
         const rljson = Example.ok.singleRow();
-        const tableCfg = rljson._tableCfgs._data[0];
+        const tableCfg = rljson.tableCfgs._data[0];
         const tableCfgRef = rljson.table._tableCfg;
         expect(tableCfgRef).toBe(tableCfg._hash);
 

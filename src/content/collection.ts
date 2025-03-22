@@ -31,7 +31,7 @@ export interface Collection extends Json {
 
   /**
    * The item ids of the collection. If presnet, the item ids in `assign`
-   * must match these ids. The item id sets can be found in the _idSets table.
+   * must match these ids. The item id sets can be found in the idSets table.
    */
   idSet?: IdSetRef;
 
