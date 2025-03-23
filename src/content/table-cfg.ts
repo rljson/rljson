@@ -67,7 +67,7 @@ export const exampleTableCfgTable = (): TablesCfgTable =>
   Example.ok.singleRow().tableCfgs! as TablesCfgTable;
 
 export const exampleTableCfg = (
-  tableCfg: Partial<TableCfg>,
+  tableCfg: Partial<TableCfg> | undefined = undefined,
 ): Partial<TableCfg> => {
   return {
     key: tableCfg?.key ?? 'table',

@@ -43,7 +43,7 @@ describe('TableCfg', () => {
   });
 
   it('exampleTableCfg with default values', () => {
-    const result = exampleTableCfg({});
+    const result = exampleTableCfg();
 
     expect(result.key).toBe('table');
     expect(result.columns).toEqual({
