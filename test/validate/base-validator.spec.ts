@@ -439,13 +439,13 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('tableCfgsHaveWrongTypes()', () => {
+    describe('columnsHaveWrongType()', () => {
       it('returns an error when column types are not valid', () => {
         const table = Example.broken.tableCfg.wrongType();
         const tableCfg = table.tableCfgs._data[0];
         expect(validate(table)).toEqual({
           hasErrors: true,
-          tableCfgsHaveWrongTypes: {
+          columnsHaveWrongType: {
             brokenCfgs: [
               {
                 brokenColumnKey: 'int',

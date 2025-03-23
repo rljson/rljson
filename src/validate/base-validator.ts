@@ -16,6 +16,7 @@ import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
 
 import { Errors, Validator } from './validate.ts';
 
+
 // .............................................................................
 export interface BaseErrors extends Errors {
   // Base errors
@@ -29,7 +30,7 @@ export interface BaseErrors extends Errors {
 
   // Table config errors
   tableCfgsReferencedTableNameNotFound?: Json;
-  tableCfgsHaveWrongTypes?: Json;
+  columnsHaveWrongType?: Json;
   tableCfgReferencedNotFound?: Json;
   columnConfigNotFound?: Json;
   dataDoesNotMatchColumnConfig?: Json;
@@ -310,7 +311,7 @@ class _BaseValidator {
     }
 
     if (brokenCfgs.length > 0) {
-      this.errors.tableCfgsHaveWrongTypes = {
+      this.errors.columnsHaveWrongType = {
         error:
           'Some of the columns have invalid types. Valid types are: ' +
           jsonValueTypes.join(', '),
