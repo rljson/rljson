@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Fix issue in update script` here and below
+Replace `Update reserved field and table names` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Fix issue in update script"
+node scripts/create-branch.js "Update reserved field and table names"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Fix issue in update script"
+git commit -am"Update reserved field and table names"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Fix issue in update script" --body " "
+gh pr create --base main --title "Update reserved field and table names" --body " "
 ```
 
 ## Code review
