@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Add "previous" to TableCfg` here and below
+Replace `Add exampleTableCfg()` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Add "previous" to TableCfg"
+node scripts/create-branch.js "Add exampleTableCfg()"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Add "previous" to TableCfg"
+git commit -am"Add exampleTableCfg()"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Add "previous" to TableCfg" --body " "
+gh pr create --base main --title "Add exampleTableCfg()" --body " "
 ```
 
 ## Code review
