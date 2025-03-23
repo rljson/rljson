@@ -10,7 +10,7 @@ import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { CollectionsTable } from '../content/collection.ts';
-import { ColumnCfg, TablesCfgTable } from '../content/table-cfg.ts';
+import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
 
@@ -34,6 +34,7 @@ export interface BaseErrors extends Errors {
   tableCfgReferencedNotFound?: Json;
   columnConfigNotFound?: Json;
   dataDoesNotMatchColumnConfig?: Json;
+  tableTypesDoNotMatch?: Json;
 
   // Reference errors
   refsNotFound?: Json;
@@ -98,11 +99,12 @@ class _BaseValidator {
       () => this._dataHasWrongType(),
 
       // Check table cfg
-      () => this.tableCfgsReferencedTableNameNotFound(),
-      () => this.tableCfgsHaveWrongType(),
+      () => this._tableCfgsReferencedTableNameNotFound(),
+      () => this._tableCfgsHaveWrongType(),
       () => this._tableCfgNotFound(),
       () => this._missingColumnConfigs(),
       () => this._dataDoesNotMatchColumnConfig(),
+      () => this._tableTypesDoNotMatch(),
 
       // Check references
       () => this._refsNotFound(),
@@ -259,7 +261,7 @@ class _BaseValidator {
   }
 
   // ...........................................................................
-  private tableCfgsReferencedTableNameNotFound(): void {
+  private _tableCfgsReferencedTableNameNotFound(): void {
     const tableCfgs = this.rljson.tableCfgs as TablesCfgTable;
     if (!tableCfgs) {
       return;
@@ -286,7 +288,7 @@ class _BaseValidator {
   }
 
   // ...........................................................................
-  private tableCfgsHaveWrongType(): void {
+  private _tableCfgsHaveWrongType(): void {
     const tableCfgs = this.rljson.tableCfgs as TablesCfgTable;
     if (!tableCfgs) {
       return;
@@ -462,6 +464,48 @@ class _BaseValidator {
       this.errors.dataDoesNotMatchColumnConfig = {
         error: 'Table values have wrong types',
         brokenValues,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _tableTypesDoNotMatch(): void {
+    const rljson = this.rljson;
+    const tablesWithTypeMissmatch: {
+      table: string;
+      typeInTable: string;
+      typeInConfig: string;
+      tableCfg: string;
+    }[] = [];
+
+    // Iterate all tables
+    for (const tableName of this.tableNames) {
+      const table = rljson[tableName];
+
+      // Get reference table config
+      const cfgRef = table._tableCfg;
+      if (!cfgRef) {
+        continue;
+      }
+      const cfg = this.rljsonIndexed.tableCfgs._data[cfgRef]! as TableCfg;
+
+      // Make sure that the table type matches the table config type
+      const typeShould = cfg.type;
+      const typeIs = table._type;
+      if (typeShould !== typeIs) {
+        tablesWithTypeMissmatch.push({
+          table: tableName,
+          typeInTable: typeIs,
+          typeInConfig: typeShould,
+          tableCfg: cfgRef,
+        });
+      }
+    }
+
+    if (tablesWithTypeMissmatch.length > 0) {
+      this.errors.tableTypesDoNotMatch = {
+        error: 'Table types do not match table config',
+        tables: tablesWithTypeMissmatch,
       };
     }
   }

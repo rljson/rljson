@@ -413,6 +413,35 @@ describe('BaseValidator', async () => {
         });
       });
     });
+
+    describe('tableTypesDoNotMatch()', () => {
+      describe('returns an error', () => {
+        it('when table type does not match the configured type', () => {
+          const rljson = Example.ok.singleRow();
+          const table = rljson.table;
+          table._type = 'cakes';
+          const tableCfg = rljson.tableCfgs._data[0]._hash;
+
+          hip(rljson, true, false);
+
+          const result = validate(rljson);
+          expect(result).toEqual({
+            hasErrors: true,
+            tableTypesDoNotMatch: {
+              error: 'Table types do not match table config',
+              tables: [
+                {
+                  table: 'table',
+                  typeInConfig: 'properties',
+                  typeInTable: 'cakes',
+                  tableCfg,
+                },
+              ],
+            },
+          });
+        });
+      });
+    });
   });
 
   describe('tableCfg errors', () => {
