@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Increase version` here and below
+Replace `Rename identifiers` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Increase version"
+node scripts/create-branch.js "Rename identifiers"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Increase version"
+git commit -am"Rename identifiers"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Increase version" --body " "
+gh pr create --base main --title "Rename identifiers" --body " "
 ```
 
 ## Code review

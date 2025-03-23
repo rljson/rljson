@@ -8,7 +8,7 @@ import { Json } from '@rljson/json';
 
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { ItemId, Ref, TableName } from '../typedefs.ts';
+import { ItemId, Ref, TableKey } from '../typedefs.ts';
 
 import { IdSetRef } from './id-set.ts';
 import { PropertiesRef } from './properties.ts';
@@ -39,7 +39,7 @@ export interface Collection extends Json {
    * The table containing the properties that are assigned to the items
    * with the assign property below
    */
-  properties: TableName;
+  properties: TableKey;
 
   /**
    * Assign properties to each item of the collection.

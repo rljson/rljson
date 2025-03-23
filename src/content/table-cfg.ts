@@ -8,8 +8,7 @@ import { Json, JsonKey, JsonValueType } from '@rljson/json';
 
 import { Example } from '../example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { ContentType, Ref } from '../typedefs.ts';
-
+import { ColumnKey, ContentType, Ref, TableKey } from '../typedefs.ts';
 
 /**
  * A ColumnsRef is a hash pointing to columns metadata
@@ -21,9 +20,9 @@ export type TableCfgRef = Ref;
  */
 export interface ColumnCfg extends Json {
   /**
-   * The jsonKey of the column used in data
+   * The key of the column used in data
    */
-  jsonKey: JsonKey;
+  key: ColumnKey;
 
   /**
    * The type of the column
@@ -38,7 +37,7 @@ export interface TableCfg extends Json {
   /**
    * Technical lower camel case json identifier of the table
    */
-  jsonKey: JsonKey;
+  key: TableKey;
 
   /**
    * A short description of the table

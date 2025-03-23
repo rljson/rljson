@@ -27,13 +27,13 @@ describe('RljsonIndexed', () => {
     expectGolden('rljson-indexed.json').toBe(indexedBakery);
 
     // Check that all tables are indexed
-    const tableNames = Object.keys(bakery);
-    const tableNamesIndexed = Object.keys(indexedBakery);
-    expect(tableNamesIndexed).toEqual(tableNames);
+    const tableKeys = Object.keys(bakery);
+    const tableKeysIndexed = Object.keys(indexedBakery);
+    expect(tableKeysIndexed).toEqual(tableKeys);
 
     // Iterate all tables
-    iterateTables(bakery, (tableName, table) => {
-      const tableIndexed = indexedBakery[tableName];
+    iterateTables(bakery, (tableKey, table) => {
+      const tableIndexed = indexedBakery[tableKey];
 
       // For each row of the table there is an index
       const hashes = Object.keys(tableIndexed._data);
