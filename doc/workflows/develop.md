@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Rename identifiers` here and below
+Replace `Add "previous" to TableCfg` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Rename identifiers"
+node scripts/create-branch.js "Add "previous" to TableCfg"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Rename identifiers"
+git commit -am"Add "previous" to TableCfg"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Rename identifiers" --body " "
+gh pr create --base main --title "Add "previous" to TableCfg" --body " "
 ```
 
 ## Code review

@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { Json, JsonKey, JsonValueType } from '@rljson/json';
+import { Json, JsonValueType } from '@rljson/json';
 
 import { Example } from '../example.ts';
 import { RljsonTable } from '../rljson.ts';
@@ -42,12 +42,17 @@ export interface TableCfg extends Json {
   /**
    * A short description of the table
    */
-  columns: Record<JsonKey, ColumnCfg>;
+  columns: Record<ColumnKey, ColumnCfg>;
 
   /**
    * The content type of the table
    */
   type: ContentType;
+
+  /**
+   * The previous version of the table
+   */
+  previous?: TableCfgRef;
 }
 
 /**
