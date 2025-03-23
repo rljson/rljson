@@ -14,7 +14,7 @@ found in the LICENSE file in the root of this package.
 - [Update dependencies](#update-dependencies)
 - [Develop \& debug](#develop--debug)
 - [Commit](#commit)
-- [Rename identifiers](#increase-version)
+- [Increase version](#increase-version)
 - [Run tests and build](#run-tests-and-build)
 - [Rebase main](#rebase-main)
 - [Push changes](#push-changes)
@@ -68,11 +68,11 @@ git add .
 git commit -am"Rename identifiers"
 ```
 
-## Rename identifiers
+## Increase version
 
 ```bash
 pnpm version patch --no-git-tag-version
-git commit -am"Rename identifiers"
+git commit -am"Increase version"
 ```
 
 ## Run tests and build
