@@ -113,14 +113,14 @@ describe('Validate', () => {
         validate.addValidator(new BaseValidator());
 
         const result = await validate.run(
-          Example.broken.base.brokenTableName() as Rljson,
+          Example.broken.base.brokenTableKey() as Rljson,
         );
         expect(result).toEqual({
           base: {
             hasErrors: true,
-            tableNamesNotLowerCamelCase: {
+            tableKeysNotLowerCamelCase: {
               error: 'Table names must be lower camel case',
-              invalidTableNames: ['brok$en'],
+              invalidTableKeys: ['brok$en'],
             },
           },
         });

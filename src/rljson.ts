@@ -13,13 +13,12 @@ import { IdSetsTable } from './content/id-set.ts';
 import { PropertiesTable } from './content/properties.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
-import { ContentType, Ref, TableName } from './typedefs.ts';
-
+import { ContentType, Ref, TableKey } from './typedefs.ts';
 
 // .............................................................................
 export const reservedFieldNames = ['_type', '_data'];
 
-export const reservedTableNames = ['_hash', 'idSets', 'tableCfgs'];
+export const reservedTableKeys = ['_hash', 'idSets', 'tableCfgs'];
 
 // .............................................................................
 /**
@@ -35,7 +34,7 @@ export type TableType =
 // .............................................................................
 /** The rljson data format */
 export interface Rljson extends Json {
-  [tableId: TableName]: TableType;
+  [tableId: TableKey]: TableType;
 }
 
 /**
@@ -94,14 +93,14 @@ export interface RljsonTable<Data extends Json, Type extends ContentType>
  */
 export const iterateTables = (
   rljson: Rljson,
-  callback: (tableName: string, table: TableType) => void,
+  callback: (tableKey: string, table: TableType) => void,
 ) => {
-  for (const tableName in rljson) {
-    const value = rljson[tableName];
+  for (const tableKey in rljson) {
+    const value = rljson[tableKey];
     if (typeof value !== 'object' || !Array.isArray(value._data)) {
       continue;
     }
 
-    callback(tableName, rljson[tableName]);
+    callback(tableKey, rljson[tableKey]);
   }
 };

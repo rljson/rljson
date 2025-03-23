@@ -14,7 +14,7 @@ import { Rljson } from './rljson.ts';
  * An Rljson object where all tables' rows are indexed by their hash.
  */
 export interface RljsonIndexed {
-  [tableName: string]: {
+  [tableKey: string]: {
     _data: { [rowHash: string]: Json };
   };
 

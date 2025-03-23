@@ -8,7 +8,7 @@ import { Json } from '@rljson/json';
 
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { ItemId, TableName } from '../typedefs.ts';
+import { ItemId, TableKey } from '../typedefs.ts';
 
 import { CollectionRef } from './collection.ts';
 import { IdSetRef } from './id-set.ts';
@@ -36,7 +36,7 @@ export interface Cake extends Json {
   /**
    * The table containing the item collections defining the layers
    */
-  collections: TableName;
+  collections: TableKey;
 
   /**
    * Assigns a collection to each layer of the cake.
