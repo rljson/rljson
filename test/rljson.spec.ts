@@ -7,13 +7,24 @@
 import { describe, expect, it } from 'vitest';
 
 import { Example } from '../src/example.ts';
-import { exampleRljson, iterateTables } from '../src/rljson.ts';
+import {
+  exampleRljson, iterateTables, reservedFieldNames, reservedTableNames
+} from '../src/rljson.ts';
 
 import { expectGolden } from './setup/goldens.ts';
+
 
 describe('Rljson', () => {
   it('exampleRljson()', async () => {
     await expectGolden('rljson/example-rljson.json').toBe(exampleRljson());
+  });
+
+  it('reservedFieldNames', () => {
+    expect(reservedFieldNames).toEqual(['_type', '_data']);
+  });
+
+  it('reservedTableNames', () => {
+    expect(reservedTableNames).toEqual(['_hash', 'idSets', 'tableCfgs']);
   });
 
   describe('iterate', () => {
