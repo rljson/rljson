@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Update reserved field and table names` here and below
+Replace `Remove not needed fields from TableCfg` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Update reserved field and table names"
+node scripts/create-branch.js "Remove not needed fields from TableCfg"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Update reserved field and table names"
+git commit -am"Remove not needed fields from TableCfg"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Update reserved field and table names" --body " "
+gh pr create --base main --title "Remove not needed fields from TableCfg" --body " "
 ```
 
 ## Code review

@@ -30,12 +30,15 @@ export type TableName = ItemId;
  * - `ids` Tables containing item ids
  * - `properties` Tables containing item properties
  */
-export type ContentType =
-  | 'buffets'
-  | 'cakes'
-  | 'collections'
-  | 'idSets'
-  | 'properties';
+export const contentTypes = [
+  'buffets',
+  'cakes',
+  'collections',
+  'idSets',
+  'properties',
+] as const;
+
+export type ContentType = (typeof contentTypes)[number];
 
 /**
  * An example object using the typedefs

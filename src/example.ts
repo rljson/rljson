@@ -11,6 +11,7 @@ import { TablesCfgTable } from './content/table-cfg.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
+
 export class Example {
   static readonly ok = {
     bakery: (): Rljson => bakeryExample(),
@@ -34,73 +35,57 @@ export class Example {
     },
 
     singleRow: (): Rljson => {
-      const tableCfgs: TablesCfgTable = {
+      const tableCfgs: TablesCfgTable = hip({
         _hash: '',
         _type: 'properties',
         _data: [
           {
-            _hash: 'R-rCQ4YwYYJAp6uAo6S_6n',
-            name: 'Single Row Table',
+            _hash: '',
             jsonKey: 'table',
+            type: 'properties',
             columns: {
               int: {
                 jsonKey: 'int',
                 type: 'number',
-                name: 'Integer',
-                nameShort: 'Int',
               },
               double: {
                 jsonKey: 'double',
                 type: 'number',
-                name: 'Double',
-                nameShort: 'Dbl',
               },
               string: {
                 jsonKey: 'string',
                 type: 'string',
-                name: 'String',
-                nameShort: 'Str',
               },
               boolean: {
                 jsonKey: 'boolean',
                 type: 'boolean',
-                name: 'Boolean',
-                nameShort: 'Bool',
               },
               null: {
                 jsonKey: 'null',
                 type: 'null',
-                name: 'null',
-                nameShort: 'null',
               },
               jsonArray: {
                 jsonKey: 'jsonArray',
                 type: 'jsonArray',
-                name: 'Json Array',
-                nameShort: 'Jarray',
               },
               json: {
                 jsonKey: 'json',
                 type: 'json',
-                name: 'Json',
-                nameShort: 'Json',
               },
               jsonValue: {
                 jsonKey: 'jsonValue',
                 type: 'jsonValue',
-                name: 'Json Value',
-                nameShort: 'Jval',
               },
             },
           },
         ],
-      };
+      });
 
       const result: Rljson = {
         tableCfgs: tableCfgs,
         table: {
           _type: 'properties',
-          _tableCfg: 'R-rCQ4YwYYJAp6uAo6S_6n',
+          _tableCfg: tableCfgs._data[0]._hash as string,
           _data: [exampleJsonObject()],
           _hash: '',
         },

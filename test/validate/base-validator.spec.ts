@@ -8,13 +8,12 @@ import { hip } from '@rljson/hash';
 
 import { describe, expect, it } from 'vitest';
 
+import { TableCfg } from '../../src/content/table-cfg.ts';
 import { Example } from '../../src/example.ts';
 import { Rljson, RljsonPrivate } from '../../src/rljson.ts';
-import {
-  BaseValidator,
-  isValidFieldName,
-} from '../../src/validate/base-validator.ts';
+import { BaseValidator, isValidFieldName } from '../../src/validate/base-validator.ts';
 import { Errors } from '../../src/validate/validate.ts';
+
 
 describe('BaseValidator', async () => {
   const validate = (rljson: any): Errors => {
@@ -414,6 +413,66 @@ describe('BaseValidator', async () => {
         });
       });
     });
+
+    describe('invalidTableTypes()', () => {
+      it('returns no errors when table types are valid', () => {
+        expect(
+          validate({
+            tableOne: { _type: 'xyz', _data: [] },
+            tableTwo: { _type: 'abc', _data: [] },
+            tableThree: { _type: 'properties', _data: [] },
+          }),
+        ).toEqual({
+          hasErrors: true,
+          invalidTableTypes: {
+            error: 'Tables with invalid types',
+            tables: [
+              {
+                allowedTypes:
+                  'buffets | cakes | collections | idSets | properties',
+                table: 'tableOne',
+                type: 'xyz',
+              },
+              {
+                allowedTypes:
+                  'buffets | cakes | collections | idSets | properties',
+                table: 'tableTwo',
+                type: 'abc',
+              },
+            ],
+          },
+        });
+      });
+    });
+
+    describe('tableTypesDoNotMatch()', () => {
+      describe('returns an error', () => {
+        it('when table type does not match the configured type', () => {
+          const rljson = Example.ok.singleRow();
+          const table = rljson.table;
+          table._type = 'cakes';
+          const tableCfg = rljson.tableCfgs._data[0]._hash;
+
+          hip(rljson, true, false);
+
+          const result = validate(rljson);
+          expect(result).toEqual({
+            hasErrors: true,
+            tableTypesDoNotMatch: {
+              error: 'Table types do not match table config',
+              tables: [
+                {
+                  table: 'table',
+                  typeInConfig: 'properties',
+                  typeInTable: 'cakes',
+                  tableCfg,
+                },
+              ],
+            },
+          });
+        });
+      });
+    });
   });
 
   describe('tableCfg errors', () => {
@@ -423,13 +482,14 @@ describe('BaseValidator', async () => {
         (rljson as unknown as RljsonPrivate).tableCfgs!._data[0].jsonKey =
           'MISSING';
         hip(rljson, true, false);
+        const tableCfg: TableCfg = rljson.tableCfgs._data[0];
 
         expect(validate(rljson)).toEqual({
           hasErrors: true,
           tableCfgsReferencedTableNameNotFound: {
             brokenCfgs: [
               {
-                brokenTableCfg: 'v_xNH6j-cwSEho2EDyvvaL',
+                brokenTableCfg: tableCfg._hash,
                 tableNameNotFound: 'MISSING',
               },
             ],
@@ -439,16 +499,18 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('tableCfgsHaveWrongTypes()', () => {
+    describe('columnsHaveWrongType()', () => {
       it('returns an error when column types are not valid', () => {
-        expect(validate(Example.broken.tableCfg.wrongType())).toEqual({
+        const table = Example.broken.tableCfg.wrongType();
+        const tableCfg = table.tableCfgs._data[0];
+        expect(validate(table)).toEqual({
           hasErrors: true,
-          tableCfgsHaveWrongTypes: {
+          columnsHaveWrongType: {
             brokenCfgs: [
               {
                 brokenColumnKey: 'int',
                 brokenColumnType: 'numberBroken',
-                brokenTableCfg: 'bw9JoGhurfut5dsaLoGI2L',
+                brokenTableCfg: tableCfg._hash,
               },
             ],
             error:
@@ -501,7 +563,7 @@ describe('BaseValidator', async () => {
               {
                 column: 'int',
                 row: 'r63TJIT73TYatXyqS4251G',
-                tableCfg: 'QXg_Iejnhbulp9DYg4gVZn',
+                tableCfg: rljson.table._tableCfg,
                 table: 'table',
               },
             ],
@@ -523,6 +585,7 @@ describe('BaseValidator', async () => {
         row.int = 'string';
         row.double = true;
         hip(tableCfg, true, false);
+        const tableCfgHash = rljson.table._tableCfg;
 
         expect(validate(rljson)).toEqual({
           dataDoesNotMatchColumnConfig: {
@@ -531,13 +594,13 @@ describe('BaseValidator', async () => {
                 column: 'int',
                 row: 'LNpv7AlHPSxqsyTRLy7e5Z',
                 table: 'table',
-                tableCfg: 'R-rCQ4YwYYJAp6uAo6S_6n',
+                tableCfg: tableCfgHash,
               },
               {
                 column: 'double',
                 row: 'LNpv7AlHPSxqsyTRLy7e5Z',
                 table: 'table',
-                tableCfg: 'R-rCQ4YwYYJAp6uAo6S_6n',
+                tableCfg: tableCfgHash,
               },
             ],
             error: 'Table values have wrong types',

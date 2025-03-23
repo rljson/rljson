@@ -11,6 +11,7 @@ import { BaseValidator } from '../src/validate/base-validator';
 
 import { expectGolden } from './setup/goldens';
 
+
 describe('Example', () => {
   const convertToKebabCase = (str: string) =>
     str.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase();
@@ -33,7 +34,6 @@ describe('Example', () => {
           const result = new BaseValidator().validateSync(example);
           const message = JSON.stringify(result, null, 2);
           if (result.hasErrors) {
-            debugger;
           }
           expect(result, message).toEqual({ hasErrors: false });
         });
