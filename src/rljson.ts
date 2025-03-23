@@ -15,10 +15,11 @@ import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
 import { ContentType, Ref, TableName } from './typedefs.ts';
 
+
 // .............................................................................
 export const reservedFieldNames = ['_type', '_data'];
 
-export const reservedTableNames = ['_hash', '_tables', '_columns'];
+export const reservedTableNames = ['_hash', 'idSets', 'tableCfgs'];
 
 // .............................................................................
 /**
