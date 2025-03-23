@@ -1,61 +1,61 @@
 {
   "tableCfgs": {
-    "_hash": "ZRBHLoeCOp93jwJUGaJgTY",
+    "_hash": "jSf07rlLytvj3WCT5xqetL",
     "_type": "properties",
     "_data": [
       {
-        "_hash": "iDSRXqRyHDrcIpBr114Hi4",
-        "jsonKey": "table",
+        "_hash": "nzdxjUX2PNv0K-WfJ4RxKs",
+        "key": "table",
         "type": "properties",
         "columns": {
           "int": {
-            "jsonKey": "int",
+            "key": "int",
             "type": "numberBroken",
-            "_hash": "5Tqc06tViiCYUPGQ1u7t1C"
+            "_hash": "sfSVk2YGseFgIoGqGXY3oT"
           },
           "double": {
-            "jsonKey": "double",
+            "key": "double",
             "type": "number",
-            "_hash": "aArI4u164m-eIiy5VvWK58"
+            "_hash": "XD0G8ZLa0-tKYnVUuEwkdS"
           },
           "string": {
-            "jsonKey": "string",
+            "key": "string",
             "type": "string",
-            "_hash": "wDYUTXGG09Uoqi63mg1rTn"
+            "_hash": "eg0iPUTzUY2j_xTKwRIrUp"
           },
           "boolean": {
-            "jsonKey": "boolean",
+            "key": "boolean",
             "type": "boolean",
-            "_hash": "_uBjl9tNebWIHTvkWiA52s"
+            "_hash": "16MfBHbWYzez1R4r8NoPYp"
           },
           "null": {
-            "jsonKey": "null",
+            "key": "null",
             "type": "null",
-            "_hash": "de-S9Pan6mkCtYS1-HYsxk"
+            "_hash": "Q2K3CkVvxAMO6cXyz4YEtD"
           },
           "jsonArray": {
-            "jsonKey": "jsonArray",
+            "key": "jsonArray",
             "type": "jsonArray",
-            "_hash": "Ge9WBg8BiTHcOVl2mo3feV"
+            "_hash": "PMwRJkviMj35S60qjN3UpG"
           },
           "json": {
-            "jsonKey": "json",
+            "key": "json",
             "type": "json",
-            "_hash": "SyeXffaAeMYplWD6OzlGh1"
+            "_hash": "NuhgezXe-Mkdf-hg96MNLG"
           },
           "jsonValue": {
-            "jsonKey": "jsonValue",
+            "key": "jsonValue",
             "type": "jsonValue",
-            "_hash": "HGyw93PYZmnKymy66l5t1Y"
+            "_hash": "1LtHkc_tVAXXqH2OFXQ8rG"
           },
-          "_hash": "BbSS3ylOmlkf-TVp8X1n4H"
+          "_hash": "sQl3M7s5tJ-xTeReVSxQDL"
         }
       }
     ]
   },
   "table": {
     "_type": "properties",
-    "_tableCfg": "h3zoCnq-L2zfG3dzSgecca",
+    "_tableCfg": "oUtnnXlttr0hOZDjnnVy0P",
     "_data": [
       {
         "int": 5,
@@ -91,7 +91,7 @@
         "_hash": "r63TJIT73TYatXyqS4251G"
       }
     ],
-    "_hash": "CnWWwcDU9fK8srNTiJpGgZ"
+    "_hash": "37Eg5l6j-f6iDn1k497bKE"
   },
-  "_hash": "emmQpuo48BUYFxdSTeEia_"
+  "_hash": "mZfRm8QKQLFOWH59jZoMQV"
 }

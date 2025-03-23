@@ -481,7 +481,7 @@ describe('BaseValidator', async () => {
     describe('tableCfgsReferencedTableKeyNotFound()', () => {
       it('returns an error when a table referenced in tableCfgs is not found', () => {
         const rljson = Example.ok.singleRow();
-        (rljson as unknown as RljsonPrivate).tableCfgs!._data[0].jsonKey =
+        (rljson as unknown as RljsonPrivate).tableCfgs!._data[0].key =
           'MISSING';
         hip(rljson, true, false);
         const tableCfg: TableCfg = rljson.tableCfgs._data[0];

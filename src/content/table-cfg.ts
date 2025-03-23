@@ -20,9 +20,9 @@ export type TableCfgRef = Ref;
  */
 export interface ColumnCfg extends Json {
   /**
-   * The jsonKey of the column used in data
+   * The key of the column used in data
    */
-  jsonKey: ColumnKey;
+  key: ColumnKey;
 
   /**
    * The type of the column
@@ -37,7 +37,7 @@ export interface TableCfg extends Json {
   /**
    * Technical lower camel case json identifier of the table
    */
-  jsonKey: TableKey;
+  key: TableKey;
 
   /**
    * A short description of the table

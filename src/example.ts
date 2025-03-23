@@ -40,39 +40,39 @@ export class Example {
         _data: [
           {
             _hash: '',
-            jsonKey: 'table',
+            key: 'table',
             type: 'properties',
             columns: {
               int: {
-                jsonKey: 'int',
+                key: 'int',
                 type: 'number',
               },
               double: {
-                jsonKey: 'double',
+                key: 'double',
                 type: 'number',
               },
               string: {
-                jsonKey: 'string',
+                key: 'string',
                 type: 'string',
               },
               boolean: {
-                jsonKey: 'boolean',
+                key: 'boolean',
                 type: 'boolean',
               },
               null: {
-                jsonKey: 'null',
+                key: 'null',
                 type: 'null',
               },
               jsonArray: {
-                jsonKey: 'jsonArray',
+                key: 'jsonArray',
                 type: 'jsonArray',
               },
               json: {
-                jsonKey: 'json',
+                key: 'json',
                 type: 'json',
               },
               jsonValue: {
-                jsonKey: 'jsonValue',
+                key: 'jsonValue',
                 type: 'jsonValue',
               },
             },

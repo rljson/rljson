@@ -272,11 +272,11 @@ class _BaseValidator {
     // Are all types valid?
     const brokenCfgs: Json[] = [];
     for (const item of tableCfgs._data) {
-      const table = this.rljson[item.jsonKey];
+      const table = this.rljson[item.key];
       if (!table) {
         brokenCfgs.push({
           brokenTableCfg: item._hash,
-          tableKeyNotFound: item.jsonKey,
+          tableKeyNotFound: item.key,
         });
       }
     }
