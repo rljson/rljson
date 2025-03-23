@@ -11,7 +11,6 @@ import { TablesCfgTable } from './content/table-cfg.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
-
 export class Example {
   static readonly ok = {
     bakery: (): Rljson => bakeryExample(),
@@ -230,7 +229,7 @@ export class Example {
 
   static readonly broken = {
     base: {
-      brokenTableName: () => {
+      brokenTableKey: () => {
         return {
           brok$en: {
             _type: 'properties',

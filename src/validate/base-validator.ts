@@ -17,21 +17,20 @@ import { contentTypes } from '../typedefs.ts';
 
 import { Errors, Validator } from './validate.ts';
 
-
 // .............................................................................
 export interface BaseErrors extends Errors {
   // Base errors
-  tableNamesNotLowerCamelCase?: Json;
+  tableKeysNotLowerCamelCase?: Json;
   columnNamesNotLowerCamelCase?: Json;
-  tableNamesDoNotStartWithANumber?: Json;
-  tableNamesDoNotEndWithRef?: Json;
+  tableKeysDoNotStartWithANumber?: Json;
+  tableKeysDoNotEndWithRef?: Json;
   hashesNotValid?: Json;
   dataNotFound?: Json;
   dataHasWrongType?: Json;
   invalidTableTypes?: Json;
 
   // Table config errors
-  tableCfgsReferencedTableNameNotFound?: Json;
+  tableCfgsReferencedTableKeyNotFound?: Json;
   columnsHaveWrongType?: Json;
   tableCfgReferencedNotFound?: Json;
   columnConfigNotFound?: Json;
@@ -77,7 +76,7 @@ export class BaseValidator implements Validator {
 // .............................................................................
 class _BaseValidator {
   constructor(private rljson: Rljson) {
-    this.tableNames = Object.keys(this.rljson).filter(
+    this.tableKeys = Object.keys(this.rljson).filter(
       (table) => !table.startsWith('_'),
     );
 
@@ -94,15 +93,15 @@ class _BaseValidator {
     const steps = [
       // Base checks
       () => this._writeAndValidHashes(),
-      () => this._tableNamesNotLowerCamelCase(),
-      () => this._tableNamesDoNotEndWithRef(),
+      () => this._tableKeysNotLowerCamelCase(),
+      () => this._tableKeysDoNotEndWithRef(),
       () => this._columnNamesNotLowerCamelCase(),
       () => this._dataNotFound(),
       () => this._dataHasWrongType(),
       () => this._invalidTableTypes(),
 
       // Check table cfg
-      () => this._tableCfgsReferencedTableNameNotFound(),
+      () => this._tableCfgsReferencedTableKeyNotFound(),
       () => this._tableCfgsHaveWrongType(),
       () => this._tableCfgNotFound(),
       () => this._missingColumnConfigs(),
@@ -140,41 +139,41 @@ class _BaseValidator {
   // Private
   // ######################
 
-  tableNames: string[];
+  tableKeys: string[];
 
   rljsonIndexed: RljsonIndexed;
 
-  private _tableNamesNotLowerCamelCase(): void {
-    const invalidTableNames: string[] = [];
+  private _tableKeysNotLowerCamelCase(): void {
+    const invalidTableKeys: string[] = [];
 
-    for (const tableName of this.tableNames) {
-      if (!BaseValidator.isValidFieldName(tableName)) {
-        invalidTableNames.push(tableName);
+    for (const tableKey of this.tableKeys) {
+      if (!BaseValidator.isValidFieldName(tableKey)) {
+        invalidTableKeys.push(tableKey);
       }
     }
 
-    if (invalidTableNames.length > 0) {
-      this.errors.tableNamesNotLowerCamelCase = {
+    if (invalidTableKeys.length > 0) {
+      this.errors.tableKeysNotLowerCamelCase = {
         error: 'Table names must be lower camel case',
-        invalidTableNames: invalidTableNames,
+        invalidTableKeys: invalidTableKeys,
       };
     }
   }
 
   // ...........................................................................
-  private _tableNamesDoNotEndWithRef(): void {
-    const invalidTableNames: string[] = [];
+  private _tableKeysDoNotEndWithRef(): void {
+    const invalidTableKeys: string[] = [];
 
-    for (const tableName of this.tableNames) {
-      if (tableName.endsWith('Ref')) {
-        invalidTableNames.push(tableName);
+    for (const tableKey of this.tableKeys) {
+      if (tableKey.endsWith('Ref')) {
+        invalidTableKeys.push(tableKey);
       }
     }
 
-    if (invalidTableNames.length > 0) {
-      this.errors.tableNamesDoNotEndWithRef = {
+    if (invalidTableKeys.length > 0) {
+      this.errors.tableKeysDoNotEndWithRef = {
         error: 'Table names must not end with "Ref"',
-        invalidTableNames: invalidTableNames,
+        invalidTableKeys: invalidTableKeys,
       };
     }
   }
@@ -182,13 +181,13 @@ class _BaseValidator {
   // ...........................................................................
   private _columnNamesNotLowerCamelCase(): void {
     const invalidColumnNames: {
-      [tableName: string]: string[];
+      [tableKey: string]: string[];
     } = {};
 
     let hadErrors = false;
 
-    for (const tableName of this.tableNames) {
-      const table = this.rljson[tableName] as RljsonTable<any, any>;
+    for (const tableKey of this.tableKeys) {
+      const table = this.rljson[tableKey] as RljsonTable<any, any>;
 
       if (!table._data || !Array.isArray(table._data)) {
         continue;
@@ -201,8 +200,8 @@ class _BaseValidator {
           }
 
           if (!BaseValidator.isValidFieldName(columnName)) {
-            invalidColumnNames[tableName] ??= [];
-            invalidColumnNames[tableName].push(columnName);
+            invalidColumnNames[tableKey] ??= [];
+            invalidColumnNames[tableKey].push(columnName);
             hadErrors = true;
           }
         }
@@ -247,7 +246,7 @@ class _BaseValidator {
     const rljson = this.rljson;
     const tablesWithMissingData: string[] = [];
 
-    for (const table of this.tableNames) {
+    for (const table of this.tableKeys) {
       const tableData = rljson[table];
       const items = tableData['_data'];
       if (items == null) {
@@ -264,7 +263,7 @@ class _BaseValidator {
   }
 
   // ...........................................................................
-  private _tableCfgsReferencedTableNameNotFound(): void {
+  private _tableCfgsReferencedTableKeyNotFound(): void {
     const tableCfgs = this.rljson.tableCfgs as TablesCfgTable;
     if (!tableCfgs) {
       return;
@@ -277,13 +276,13 @@ class _BaseValidator {
       if (!table) {
         brokenCfgs.push({
           brokenTableCfg: item._hash,
-          tableNameNotFound: item.jsonKey,
+          tableKeyNotFound: item.jsonKey,
         });
       }
     }
 
     if (brokenCfgs.length > 0) {
-      this.errors.tableCfgsReferencedTableNameNotFound = {
+      this.errors.tableCfgsReferencedTableKeyNotFound = {
         error: 'Tables referenced in tableCfgs not found',
         brokenCfgs,
       };
@@ -332,7 +331,7 @@ class _BaseValidator {
     const tableCfgNotFound: Json[] = [];
 
     // Iterate all tables
-    iterateTables(this.rljson, (tableName, table) => {
+    iterateTables(this.rljson, (tableKey, table) => {
       // If table has no config reference, continue
       const tableCfgRef = table._tableCfg;
       if (!tableCfgRef) {
@@ -345,7 +344,7 @@ class _BaseValidator {
       // Referenced table config not found?
       if (!tableCfgData) {
         tableCfgNotFound.push({
-          tableWithBrokenTableCfgRef: tableName,
+          tableWithBrokenTableCfgRef: tableKey,
           brokenTableCfgRef: tableCfgRef,
         });
         return;
@@ -366,7 +365,7 @@ class _BaseValidator {
     const missingColumnConfigs: Json[] = [];
 
     // Iterate all tables
-    iterateTables(this.rljson, (tableName, table) => {
+    iterateTables(this.rljson, (tableKey, table) => {
       // If table has no config reference, continue
       const tableCfgRef = table._tableCfg;
       if (!tableCfgRef) {
@@ -397,7 +396,7 @@ class _BaseValidator {
               tableCfg: tableCfgRef,
               row: row._hash,
               column: columnKey,
-              table: tableName,
+              table: tableKey,
             });
           }
 
@@ -420,7 +419,7 @@ class _BaseValidator {
     const brokenValues: Json[] = [];
 
     // Iterate all tables
-    iterateTables(this.rljson, (tableName, table) => {
+    iterateTables(this.rljson, (tableKey, table) => {
       // If table has no config reference, continue
       const tableCfgRef = table._tableCfg;
       if (!tableCfgRef) {
@@ -453,7 +452,7 @@ class _BaseValidator {
 
           if (!jsonValueMatchesType(value, typeShould)) {
             brokenValues.push({
-              table: tableName,
+              table: tableKey,
               row: row._hash,
               column: columnKey,
               tableCfg: tableCfgRef,
@@ -482,8 +481,8 @@ class _BaseValidator {
     }[] = [];
 
     // Iterate all tables
-    for (const tableName of this.tableNames) {
-      const table = rljson[tableName];
+    for (const tableKey of this.tableKeys) {
+      const table = rljson[tableKey];
 
       // Get reference table config
       const cfgRef = table._tableCfg;
@@ -497,7 +496,7 @@ class _BaseValidator {
       const typeIs = table._type;
       if (typeShould !== typeIs) {
         tablesWithTypeMissmatch.push({
-          table: tableName,
+          table: tableKey,
           typeInTable: typeIs,
           typeInConfig: typeShould,
           tableCfg: cfgRef,
@@ -518,13 +517,13 @@ class _BaseValidator {
     const rljson = this.rljson;
     const tablesWithWrongType: string[] = [];
 
-    for (const tableName of this.tableNames) {
-      const tableData = rljson[tableName];
+    for (const tableKey of this.tableKeys) {
+      const tableData = rljson[tableKey];
 
       const items = tableData['_data'];
 
       if (!Array.isArray(items)) {
-        tablesWithWrongType.push(tableName);
+        tablesWithWrongType.push(tableKey);
       }
     }
 
@@ -545,12 +544,12 @@ class _BaseValidator {
       readonly allowedTypes: string;
     }[] = [];
 
-    for (const tableName of this.tableNames) {
-      const table = rljson[tableName];
+    for (const tableKey of this.tableKeys) {
+      const table = rljson[tableKey];
       const type = table._type;
       if (contentTypes.indexOf(type) === -1) {
         tablesWithWrongType.push({
-          table: tableName,
+          table: tableKey,
           type,
           allowedTypes: contentTypes.join(' | '),
         });
@@ -577,7 +576,7 @@ class _BaseValidator {
     }[] = [];
 
     // Iterate all tables
-    iterateTables(this.rljson, (tableName, table) => {
+    iterateTables(this.rljson, (tableKey, table) => {
       // Iterate all items in the table
       const tableData = table._data as Json[];
       for (const item of tableData) {
@@ -587,34 +586,34 @@ class _BaseValidator {
             const targetItemHash = item[key] as string;
 
             // Get the referenced table
-            const targetTableName = key.substring(0, key.length - 3);
+            const targetTableKey = key.substring(0, key.length - 3);
             const itemHash = item._hash as string;
 
             // If table is not found, write an error and continue
-            if (this.tableNames.indexOf(targetTableName) === -1) {
+            if (this.tableKeys.indexOf(targetTableKey) === -1) {
               missingRefs.push({
-                error: `Target table "${targetTableName}" not found.`,
-                sourceTable: tableName,
+                error: `Target table "${targetTableKey}" not found.`,
+                sourceTable: tableKey,
                 sourceKey: key,
                 sourceItemHash: itemHash,
                 targetItemHash: targetItemHash,
-                targetTable: targetTableName,
+                targetTable: targetTableKey,
               });
               continue;
             }
 
             // If table is found, find the item in the target table
-            const targetTableIndexed = this.rljsonIndexed[targetTableName];
+            const targetTableIndexed = this.rljsonIndexed[targetTableKey];
             const referencedItem = targetTableIndexed._data[targetItemHash];
             // If referenced item is not found, write an error
             if (referencedItem === undefined) {
               missingRefs.push({
-                sourceTable: tableName,
+                sourceTable: tableKey,
                 sourceItemHash: itemHash,
                 sourceKey: key,
                 targetItemHash: targetItemHash,
-                targetTable: targetTableName,
-                error: `Table "${targetTableName}" has no item with hash "${targetItemHash}"`,
+                targetTable: targetTableKey,
+                error: `Table "${targetTableKey}" has no item with hash "${targetItemHash}"`,
               });
             }
           }
@@ -633,12 +632,12 @@ class _BaseValidator {
   private _collectionBasesNotFound(): void {
     const brokenCollections: any[] = [];
 
-    iterateTables(this.rljson, (tableName, table) => {
+    iterateTables(this.rljson, (tableKey, table) => {
       if (table._type !== 'collections') {
         return;
       }
 
-      const collectionsIndexed = this.rljsonIndexed[tableName];
+      const collectionsIndexed = this.rljsonIndexed[tableKey];
 
       const collectionsTable: CollectionsTable = table as CollectionsTable;
       for (const collection of collectionsTable._data) {
@@ -650,7 +649,7 @@ class _BaseValidator {
         const baseCollection = collectionsIndexed._data[baseRef];
         if (!baseCollection) {
           brokenCollections.push({
-            collectionsTable: tableName,
+            collectionsTable: tableKey,
             brokenCollection: collection._hash,
             missingBaseCollection: baseRef,
           });
@@ -669,7 +668,7 @@ class _BaseValidator {
   private _collectionIdSetsExist(): void {
     const brokenCollections: any[] = [];
 
-    iterateTables(this.rljson, (tableName, table) => {
+    iterateTables(this.rljson, (tableKey, table) => {
       if (table._type !== 'collections') {
         return;
       }
@@ -686,7 +685,7 @@ class _BaseValidator {
         const idSet = idSets._data[idSetRef];
         if (!idSet) {
           brokenCollections.push({
-            collectionsTable: tableName,
+            collectionsTable: tableKey,
             collectionHash: collection._hash,
             missingIdSet: idSetRef,
           });
@@ -706,20 +705,20 @@ class _BaseValidator {
     const missingPropertyTables: any[] = [];
     const brokenAssignments: any[] = [];
 
-    iterateTables(this.rljson, (tableName, table) => {
+    iterateTables(this.rljson, (tableKey, table) => {
       if (table._type !== 'collections') {
         return;
       }
 
       const collectionsTable: CollectionsTable = table as CollectionsTable;
       for (const collection of collectionsTable._data) {
-        const propertyTableName = collection.properties;
-        const propertiesTable = this.rljsonIndexed[propertyTableName];
+        const propertyTableKey = collection.properties;
+        const propertiesTable = this.rljsonIndexed[propertyTableKey];
         if (!propertiesTable) {
           missingPropertyTables.push({
             brokenCollection: collection._hash,
-            collectionsTable: tableName,
-            missingPropertyTable: propertyTableName,
+            collectionsTable: tableKey,
+            missingPropertyTable: propertyTableKey,
           });
           continue;
         }
@@ -733,9 +732,9 @@ class _BaseValidator {
           const propertyHash = assignments[itemId];
           if (!propertiesTable._data[propertyHash]) {
             brokenAssignments.push({
-              collectionsTable: tableName,
+              collectionsTable: tableKey,
               brokenCollection: collection._hash,
-              referencedPropertyTable: propertyTableName,
+              referencedPropertyTable: propertyTableKey,
               brokenAssignment: itemId,
               missingProperty: propertyHash,
             });
@@ -762,7 +761,7 @@ class _BaseValidator {
   private _cakeIdSetsNotFound(): void {
     const brokenCakes: any[] = [];
 
-    iterateTables(this.rljson, (tableName, table) => {
+    iterateTables(this.rljson, (tableKey, table) => {
       if (table._type !== 'cakes') {
         return;
       }
@@ -779,7 +778,7 @@ class _BaseValidator {
         const idSet = idSets._data[idSetRef];
         if (!idSet) {
           brokenCakes.push({
-            cakeTable: tableName,
+            cakeTable: tableKey,
             brokenCake: cake._hash,
             missingIdSet: idSetRef,
           });
@@ -799,20 +798,20 @@ class _BaseValidator {
     const missingCollectionTables: any[] = [];
     const missingLayerCollections: any[] = [];
 
-    iterateTables(this.rljson, (tableName, table) => {
+    iterateTables(this.rljson, (tableKey, table) => {
       if (table._type !== 'cakes') {
         return;
       }
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const collectionsTableName = cake.collections;
-        const collectionsTable = this.rljsonIndexed[collectionsTableName];
+        const collectionsTableKey = cake.collections;
+        const collectionsTable = this.rljsonIndexed[collectionsTableKey];
         if (!collectionsTable) {
           missingCollectionTables.push({
-            cakeTable: tableName,
+            cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingCollectionsTable: collectionsTableName,
+            missingCollectionsTable: collectionsTableKey,
           });
 
           continue;
@@ -828,10 +827,10 @@ class _BaseValidator {
 
           if (!collection) {
             missingLayerCollections.push({
-              cakeTable: tableName,
+              cakeTable: tableKey,
               brokenCake: cake._hash,
               brokenLayerName: layer,
-              collectionsTable: collectionsTableName,
+              collectionsTable: collectionsTableKey,
               missingCollection: collectionRef,
             });
           }
@@ -858,7 +857,7 @@ class _BaseValidator {
     const missingTables: Json[] = [];
     const missingItems: Json[] = [];
 
-    iterateTables(this.rljson, (tableName, table) => {
+    iterateTables(this.rljson, (tableKey, table) => {
       if (table._type !== 'buffets') {
         return;
       }
@@ -867,13 +866,13 @@ class _BaseValidator {
       for (const buffet of buffetsTable._data) {
         for (const item of buffet.items) {
           // Table available?
-          const itemTableName = item.table;
-          const itemTable = this.rljsonIndexed[itemTableName];
+          const itemTableKey = item.table;
+          const itemTable = this.rljsonIndexed[itemTableKey];
           if (!itemTable) {
             missingTables.push({
-              buffetTable: tableName,
+              buffetTable: tableKey,
               brokenBuffet: buffet._hash,
-              missingItemTable: itemTableName,
+              missingItemTable: itemTableKey,
             });
             continue;
           }
@@ -883,9 +882,9 @@ class _BaseValidator {
           const referencedItem = itemTable._data[ref];
           if (!referencedItem) {
             missingItems.push({
-              buffetTable: tableName,
+              buffetTable: tableKey,
               brokenBuffet: buffet._hash,
-              itemTable: itemTableName,
+              itemTable: itemTableKey,
               missingItem: ref,
             });
           }

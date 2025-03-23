@@ -8,11 +8,13 @@ import { describe, expect, it } from 'vitest';
 
 import { Example } from '../src/example.ts';
 import {
-  exampleRljson, iterateTables, reservedFieldNames, reservedTableNames
+  exampleRljson,
+  iterateTables,
+  reservedFieldNames,
+  reservedTableKeys,
 } from '../src/rljson.ts';
 
 import { expectGolden } from './setup/goldens.ts';
-
 
 describe('Rljson', () => {
   it('exampleRljson()', async () => {
@@ -23,18 +25,18 @@ describe('Rljson', () => {
     expect(reservedFieldNames).toEqual(['_type', '_data']);
   });
 
-  it('reservedTableNames', () => {
-    expect(reservedTableNames).toEqual(['_hash', 'idSets', 'tableCfgs']);
+  it('reservedTableKeys', () => {
+    expect(reservedTableKeys).toEqual(['_hash', 'idSets', 'tableCfgs']);
   });
 
   describe('iterate', () => {
     it('returns over all public tables', async () => {
-      const tableNames: string[] = [];
-      iterateTables(Example.ok.bakery(), (tableName) => {
-        tableNames.push(tableName);
+      const tableKeys: string[] = [];
+      iterateTables(Example.ok.bakery(), (tableKey) => {
+        tableKeys.push(tableKey);
       });
 
-      expect(tableNames).toEqual([
+      expect(tableKeys).toEqual([
         'idSets',
         'buffets',
         'cakes',

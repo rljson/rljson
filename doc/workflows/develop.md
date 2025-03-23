@@ -14,7 +14,7 @@ found in the LICENSE file in the root of this package.
 - [Update dependencies](#update-dependencies)
 - [Develop \& debug](#develop--debug)
 - [Commit](#commit)
-- [Increase version](#increase-version)
+- [Rename identifiers](#increase-version)
 - [Run tests and build](#run-tests-and-build)
 - [Rebase main](#rebase-main)
 - [Push changes](#push-changes)
@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Increase version` here and below
+Replace `Rename identifiers` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Increase version"
+node scripts/create-branch.js "Rename identifiers"
 ```
 
 ## Update dependencies
@@ -65,14 +65,14 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Increase version"
+git commit -am"Rename identifiers"
 ```
 
-## Increase version
+## Rename identifiers
 
 ```bash
 pnpm version patch --no-git-tag-version
-git commit -am"Increase version"
+git commit -am"Rename identifiers"
 ```
 
 ## Run tests and build
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Increase version" --body " "
+gh pr create --base main --title "Rename identifiers" --body " "
 ```
 
 ## Code review

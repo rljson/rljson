@@ -11,9 +11,11 @@ import { describe, expect, it } from 'vitest';
 import { TableCfg } from '../../src/content/table-cfg.ts';
 import { Example } from '../../src/example.ts';
 import { Rljson, RljsonPrivate } from '../../src/rljson.ts';
-import { BaseValidator, isValidFieldName } from '../../src/validate/base-validator.ts';
+import {
+  BaseValidator,
+  isValidFieldName,
+} from '../../src/validate/base-validator.ts';
 import { Errors } from '../../src/validate/validate.ts';
-
 
 describe('BaseValidator', async () => {
   const validate = (rljson: any): Errors => {
@@ -25,14 +27,14 @@ describe('BaseValidator', async () => {
       // Define the expected result
       const expectedResult = {
         hasErrors: true,
-        tableNamesNotLowerCamelCase: {
+        tableKeysNotLowerCamelCase: {
           error: 'Table names must be lower camel case',
-          invalidTableNames: ['brok$en'],
+          invalidTableKeys: ['brok$en'],
         },
       };
 
       // Take a broken rljson object
-      const rljson: Rljson = Example.broken.base.brokenTableName() as Rljson;
+      const rljson: Rljson = Example.broken.base.brokenTableKey() as Rljson;
 
       // Validate it
       const resultSync = new BaseValidator().validateSync(rljson);
@@ -43,7 +45,7 @@ describe('BaseValidator', async () => {
       expect(resultAsync).toEqual(expectedResult);
     });
 
-    describe('tableNamesNotLowerCamelCase()', () => {
+    describe('tableKeysNotLowerCamelCase()', () => {
       describe('returns no errors', () => {
         describe('when all table names have camel case fields', () => {
           it('for an empy rljson object', () => {
@@ -74,18 +76,18 @@ describe('BaseValidator', async () => {
           const r = validate({
             '1table': { _type: 'properties', _data: [] },
           });
-          expect(r.tableNamesNotLowerCamelCase).toEqual({
+          expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
-            invalidTableNames: ['1table'],
+            invalidTableKeys: ['1table'],
           });
         });
         it('when a table name contains a space', () => {
           const r = validate({
             'table one': { _type: 'properties', _data: [] },
           });
-          expect(r.tableNamesNotLowerCamelCase).toEqual({
+          expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
-            invalidTableNames: ['table one'],
+            invalidTableKeys: ['table one'],
           });
         });
 
@@ -93,9 +95,9 @@ describe('BaseValidator', async () => {
           const r = validate({
             'table-one': { _type: 'properties', _data: [] },
           });
-          expect(r.tableNamesNotLowerCamelCase).toEqual({
+          expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
-            invalidTableNames: ['table-one'],
+            invalidTableKeys: ['table-one'],
           });
         });
 
@@ -103,9 +105,9 @@ describe('BaseValidator', async () => {
           const r = validate({
             table_one: { _type: 'properties', _data: [] },
           });
-          expect(r.tableNamesNotLowerCamelCase).toEqual({
+          expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
-            invalidTableNames: ['table_one'],
+            invalidTableKeys: ['table_one'],
           });
         });
 
@@ -113,9 +115,9 @@ describe('BaseValidator', async () => {
           const r = validate({
             TableOne: { _type: 'properties', _data: [] },
           });
-          expect(r.tableNamesNotLowerCamelCase).toEqual({
+          expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
-            invalidTableNames: ['TableOne'],
+            invalidTableKeys: ['TableOne'],
           });
         });
 
@@ -127,9 +129,9 @@ describe('BaseValidator', async () => {
             table_one: { _type: 'properties', _data: [] },
             TableOne: { _type: 'properties', _data: [] },
           });
-          expect(r.tableNamesNotLowerCamelCase).toEqual({
+          expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
-            invalidTableNames: [
+            invalidTableKeys: [
               '1table',
               'table one',
               'table-one',
@@ -143,15 +145,15 @@ describe('BaseValidator', async () => {
           const r = validate({
             '': { _type: 'properties', _data: [] },
           });
-          expect(r.tableNamesNotLowerCamelCase).toEqual({
+          expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
-            invalidTableNames: [''],
+            invalidTableKeys: [''],
           });
         });
       });
     });
 
-    describe('tableNamesDoNotEndWithRef()', () => {
+    describe('tableKeysDoNotEndWithRef()', () => {
       describe('returns no errors', () => {
         it('when there are no table names ending with "Ref"', () => {
           expect(
@@ -172,9 +174,9 @@ describe('BaseValidator', async () => {
           const r = validate({
             tableOneRef: { _type: 'properties', _data: [] },
           });
-          expect(r.tableNamesDoNotEndWithRef).toEqual({
+          expect(r.tableKeysDoNotEndWithRef).toEqual({
             error: 'Table names must not end with "Ref"',
-            invalidTableNames: ['tableOneRef'],
+            invalidTableKeys: ['tableOneRef'],
           });
         });
 
@@ -183,9 +185,9 @@ describe('BaseValidator', async () => {
             tableOneRef: { _type: 'properties', _data: [] },
             tableTwoRef: { _type: 'properties', _data: [] },
           });
-          expect(r.tableNamesDoNotEndWithRef).toEqual({
+          expect(r.tableKeysDoNotEndWithRef).toEqual({
             error: 'Table names must not end with "Ref"',
-            invalidTableNames: ['tableOneRef', 'tableTwoRef'],
+            invalidTableKeys: ['tableOneRef', 'tableTwoRef'],
           });
         });
       });
@@ -476,7 +478,7 @@ describe('BaseValidator', async () => {
   });
 
   describe('tableCfg errors', () => {
-    describe('tableCfgsReferencedTableNameNotFound()', () => {
+    describe('tableCfgsReferencedTableKeyNotFound()', () => {
       it('returns an error when a table referenced in tableCfgs is not found', () => {
         const rljson = Example.ok.singleRow();
         (rljson as unknown as RljsonPrivate).tableCfgs!._data[0].jsonKey =
@@ -486,11 +488,11 @@ describe('BaseValidator', async () => {
 
         expect(validate(rljson)).toEqual({
           hasErrors: true,
-          tableCfgsReferencedTableNameNotFound: {
+          tableCfgsReferencedTableKeyNotFound: {
             brokenCfgs: [
               {
                 brokenTableCfg: tableCfg._hash,
-                tableNameNotFound: 'MISSING',
+                tableKeyNotFound: 'MISSING',
               },
             ],
             error: 'Tables referenced in tableCfgs not found',

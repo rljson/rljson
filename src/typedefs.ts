@@ -19,7 +19,7 @@ export type ItemId = string;
  * A table id reference to a table. The table ids are used as keys in the top
  * level structure of an Rljson data object.
  */
-export type TableName = ItemId;
+export type TableKey = ItemId;
 
 /**
  * Types of tables that can be stored in an Rljson object
@@ -46,13 +46,13 @@ export type ContentType = (typeof contentTypes)[number];
 export const exampleTypedefs = (): {
   ref: Ref;
   itemId: ItemId;
-  tableName: TableName;
+  tableKey: TableKey;
   contentType: ContentType;
 } => {
   return {
     ref: 'ref',
     itemId: 'itemId',
-    tableName: 'tableName',
+    tableKey: 'tableKey',
     contentType: 'collections',
   };
 };
