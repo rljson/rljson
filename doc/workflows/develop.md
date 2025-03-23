@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Remove not needed fields from TableCfg` here and below
+Replace `Increase version` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Remove not needed fields from TableCfg"
+node scripts/create-branch.js "Increase version"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Remove not needed fields from TableCfg"
+git commit -am"Increase version"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Remove not needed fields from TableCfg" --body " "
+gh pr create --base main --title "Increase version" --body " "
 ```
 
 ## Code review
