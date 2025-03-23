@@ -65,3 +65,22 @@ export type TablesCfgTable = RljsonTable<TableCfg, 'properties'>;
  */
 export const exampleTableCfgTable = (): TablesCfgTable =>
   Example.ok.singleRow().tableCfgs! as TablesCfgTable;
+
+export const exampleTableCfg = (
+  tableCfg: Partial<TableCfg>,
+): Partial<TableCfg> => {
+  return {
+    key: tableCfg?.key ?? 'table',
+    columns: tableCfg?.columns ?? {
+      a: {
+        key: 'a',
+        type: 'string',
+      },
+      b: {
+        key: 'b',
+        type: 'number',
+      },
+    },
+    type: tableCfg?.type ?? 'properties',
+  };
+};
