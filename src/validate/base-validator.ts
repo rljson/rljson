@@ -13,6 +13,7 @@ import { CollectionsTable } from '../content/collection.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
+import { contentTypes } from '../typedefs.ts';
 
 import { Errors, Validator } from './validate.ts';
 
@@ -27,6 +28,7 @@ export interface BaseErrors extends Errors {
   hashesNotValid?: Json;
   dataNotFound?: Json;
   dataHasWrongType?: Json;
+  invalidTableTypes?: Json;
 
   // Table config errors
   tableCfgsReferencedTableNameNotFound?: Json;
@@ -97,6 +99,7 @@ class _BaseValidator {
       () => this._columnNamesNotLowerCamelCase(),
       () => this._dataNotFound(),
       () => this._dataHasWrongType(),
+      () => this._invalidTableTypes(),
 
       // Check table cfg
       () => this._tableCfgsReferencedTableNameNotFound(),
@@ -528,6 +531,35 @@ class _BaseValidator {
     if (tablesWithWrongType.length > 0) {
       this.errors.dataHasWrongType = {
         error: '_data must be a list',
+        tables: tablesWithWrongType,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _invalidTableTypes(): void {
+    const rljson = this.rljson;
+    const tablesWithWrongType: {
+      readonly table: string;
+      readonly type: string;
+      readonly allowedTypes: string;
+    }[] = [];
+
+    for (const tableName of this.tableNames) {
+      const table = rljson[tableName];
+      const type = table._type;
+      if (contentTypes.indexOf(type) === -1) {
+        tablesWithWrongType.push({
+          table: tableName,
+          type,
+          allowedTypes: contentTypes.join(' | '),
+        });
+      }
+    }
+
+    if (tablesWithWrongType.length > 0) {
+      this.errors.invalidTableTypes = {
+        error: 'Tables with invalid types',
         tables: tablesWithWrongType,
       };
     }

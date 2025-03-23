@@ -414,6 +414,37 @@ describe('BaseValidator', async () => {
       });
     });
 
+    describe('invalidTableTypes()', () => {
+      it('returns no errors when table types are valid', () => {
+        expect(
+          validate({
+            tableOne: { _type: 'xyz', _data: [] },
+            tableTwo: { _type: 'abc', _data: [] },
+            tableThree: { _type: 'properties', _data: [] },
+          }),
+        ).toEqual({
+          hasErrors: true,
+          invalidTableTypes: {
+            error: 'Tables with invalid types',
+            tables: [
+              {
+                allowedTypes:
+                  'buffets | cakes | collections | idSets | properties',
+                table: 'tableOne',
+                type: 'xyz',
+              },
+              {
+                allowedTypes:
+                  'buffets | cakes | collections | idSets | properties',
+                table: 'tableTwo',
+                type: 'abc',
+              },
+            ],
+          },
+        });
+      });
+    });
+
     describe('tableTypesDoNotMatch()', () => {
       describe('returns an error', () => {
         it('when table type does not match the configured type', () => {
