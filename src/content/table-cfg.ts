@@ -68,7 +68,7 @@ export const exampleTableCfgTable = (): TablesCfgTable =>
 
 export const exampleTableCfg = (
   tableCfg: Partial<TableCfg> | undefined = undefined,
-): Partial<TableCfg> => {
+): TableCfg => {
   return {
     key: tableCfg?.key ?? 'table',
     columns: tableCfg?.columns ?? {
