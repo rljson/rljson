@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Add exampleTableCfg()` here and below
+Replace `Make param in exampleTableCfg() optional` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Add exampleTableCfg()"
+node scripts/create-branch.js "Make param in exampleTableCfg() optional"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Add exampleTableCfg()"
+git commit -am"Make param in exampleTableCfg() optional"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Add exampleTableCfg()" --body " "
+gh pr create --base main --title "Make param in exampleTableCfg() optional" --body " "
 ```
 
 ## Code review
