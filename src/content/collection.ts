@@ -38,7 +38,7 @@ export interface Collection extends Json {
   /**
    * The table containing the item ids of the collection
    */
-  idSets?: TableKey;
+  idSetsTable?: TableKey;
 
   /**
    * The table containing the properties that are assigned to the items

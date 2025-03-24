@@ -679,7 +679,7 @@ class _BaseValidator {
 
       const collectionsTable: CollectionsTable = table as CollectionsTable;
       for (const collection of collectionsTable._data) {
-        const idSets = collection.idSets;
+        const idSets = collection.idSetsTable;
         if (!idSets) {
           continue;
         }
@@ -719,7 +719,7 @@ class _BaseValidator {
           continue;
         }
 
-        const idSets = collection.idSets as string;
+        const idSets = collection.idSetsTable as string;
         const idSetsTable = this.rljsonIndexed[idSets];
 
         const idSet = idSetsTable._data[idSetRef];
@@ -808,7 +808,7 @@ class _BaseValidator {
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const idSetsRef = cake.idSets;
+        const idSetsRef = cake.idSetsTable;
         if (!idSetsRef) {
           continue;
         }
@@ -848,7 +848,7 @@ class _BaseValidator {
           continue;
         }
 
-        const idSetsRef = cake.idSets as string;
+        const idSetsRef = cake.idSetsTable as string;
         const idSets = this.rljsonIndexed[idSetsRef];
 
         const idSet = idSets._data[idSetRef];

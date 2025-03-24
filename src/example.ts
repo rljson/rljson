@@ -173,7 +173,7 @@ export class Example {
       const property1 = properties._data[1];
 
       const collection0: Collection = hip({
-        idSets: 'idSets',
+        idSetsTable: 'idSets',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
         properties: 'properties',
         assign: {},
@@ -181,7 +181,7 @@ export class Example {
 
       const collection1: Collection = hip({
         base: collection0._hash as string,
-        idSets: 'idSets',
+        idSetsTable: 'idSets',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
         properties: 'properties',
         assign: {
@@ -196,7 +196,7 @@ export class Example {
       } as CollectionsTable);
 
       const cake: Cake = hip({
-        idSets: 'idSets',
+        idSetsTable: 'idSets',
         idSet: idSets._data[0]._hash as string,
         collections: 'collections',
         layers: {

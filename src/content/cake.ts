@@ -36,7 +36,7 @@ export interface Cake extends Json {
   /**
    * The table containing the item ids of the collection
    */
-  idSets?: TableKey;
+  idSetsTable?: TableKey;
 
   /**
    * The table containing the item collections defining the layers

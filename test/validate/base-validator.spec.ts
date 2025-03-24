@@ -870,7 +870,7 @@ describe('BaseValidator', async () => {
       it('returns no error when no idSets table is specified', () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
-        delete cake.idSets;
+        delete cake.idSetsTable;
         delete cake.idSet;
         delete rljson.buffets;
         hip(rljson, true, false);
@@ -881,7 +881,7 @@ describe('BaseValidator', async () => {
       it('returns an error when an referenced idSets is not found', () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
-        cake.idSets = 'MISSINGIDSET';
+        cake.idSetsTable = 'MISSINGIDSET';
         hip(rljson, true, false);
 
         expect(validate(rljson)).toEqual({
