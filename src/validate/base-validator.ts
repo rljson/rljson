@@ -48,6 +48,7 @@ export interface BaseErrors extends Errors {
   collectionPropertyAssignmentsNotFound?: Json;
 
   // Cake errors
+  cakeIdSetsTableNotFound?: Json;
   cakeIdSetNotFound?: Json;
   cakeCollectionTablesNotFound?: Json;
   cakeLayerCollectionsNotFound?: Json;
@@ -119,6 +120,7 @@ class _BaseValidator {
       () => this._collectionPropertyAssignmentsNotFound(),
 
       // Check cakes
+      () => this._cakeIdSetsTableNotFound(),
       () => this._cakeIdSetNotFound(),
       () => this._cakeCollectionTablesNotFound(),
 
@@ -792,6 +794,41 @@ class _BaseValidator {
       this.errors.collectionPropertyAssignmentsNotFound = {
         error: 'Collection property assignments are broken',
         brokenAssignments: brokenAssignments,
+      };
+    }
+  }
+
+  private _cakeIdSetsTableNotFound(): void {
+    const brokenCakes: any[] = [];
+
+    iterateTables(this.rljson, (tableKey, table) => {
+      if (table._type !== 'cakes') {
+        return;
+      }
+
+      const cakesTable: CakesTable = table as CakesTable;
+      for (const cake of cakesTable._data) {
+        const idSetsRef = cake.idSets;
+        if (!idSetsRef) {
+          continue;
+        }
+
+        const idSets = this.rljsonIndexed[idSetsRef];
+
+        if (!idSets) {
+          brokenCakes.push({
+            cakeTable: tableKey,
+            brokenCake: cake._hash,
+            missingIdSets: idSetsRef,
+          });
+        }
+      }
+    });
+
+    if (brokenCakes.length > 0) {
+      this.errors.cakeIdSetsTableNotFound = {
+        error: 'Id sets tables referenced by cakes are missing',
+        brokenCakes,
       };
     }
   }

@@ -866,6 +866,40 @@ describe('BaseValidator', async () => {
       });
     });
 
+    describe('cakeIdSetsTableNotFound', () => {
+      it('returns no error when no idSets table is specified', () => {
+        const rljson = Example.ok.complete();
+        const cake = rljson.cakes._data[0];
+        delete cake.idSets;
+        delete cake.idSet;
+        delete rljson.buffets;
+        hip(rljson, true, false);
+
+        expect(validate(rljson)).toEqual({ hasErrors: false });
+      });
+
+      it('returns an error when an referenced idSets is not found', () => {
+        const rljson = Example.ok.complete();
+        const cake = rljson.cakes._data[0];
+        cake.idSets = 'MISSINGIDSET';
+        hip(rljson, true, false);
+
+        expect(validate(rljson)).toEqual({
+          cakeIdSetsTableNotFound: {
+            brokenCakes: [
+              {
+                brokenCake: cake._hash,
+                cakeTable: 'cakes',
+                missingIdSets: 'MISSINGIDSET',
+              },
+            ],
+            error: 'Id sets tables referenced by cakes are missing',
+          },
+          hasErrors: true,
+        });
+      });
+    });
+
     describe('cakeCollectionTablesNotFound', () => {
       it('returns an error when the collection table is not found', () => {
         const rljson = Example.broken.cakes.missingCollectionsTable();
