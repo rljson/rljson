@@ -2,14 +2,14 @@
   "_type": "collections",
   "_data": [
     {
-      "properties": "recipes",
+      "propertiesTable": "recipes",
       "assign": {
-        "slice0": "4km1fg53du97YzADGPbNUM",
-        "slice1": "4km1fg53du97YzADGPbNUM",
-        "_hash": "8D6_-36VJUsvkeTVOPhNqt"
+        "slice0": "ELTA1fSBNn5jspOTZMXcoH",
+        "slice1": "ELTA1fSBNn5jspOTZMXcoH",
+        "_hash": "PPUcCqjKvqp8NcQcynTFzT"
       },
-      "_hash": "t5fSKLpdvgBMP1cHjArpWc"
+      "_hash": "vGMiig9oROJLAPIcKzpU0W"
     }
   ],
-  "_hash": "MQylb2pUKOjXCbZ0DW-wNJ"
+  "_hash": "H0cMuZ7GEZKExXjmxCIKfh"
 }

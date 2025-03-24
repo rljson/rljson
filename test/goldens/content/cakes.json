@@ -4,13 +4,13 @@
     {
       "idSetsTable": "slices",
       "idSet": "wyYfK5E4ArrMKQ_zvi2-EE",
-      "collections": "layers",
+      "collectionsTable": "layers",
       "layers": {
-        "flour": "t5fSKLpdvgBMP1cHjArpWc",
-        "_hash": "CQ3lhauIaUbxxJ2cMkTniQ"
+        "flour": "vGMiig9oROJLAPIcKzpU0W",
+        "_hash": "eOHYrQ0c_fiZzlCr4c5zNI"
       },
-      "_hash": "k80zNAc4Gf6Prqy9Pf6vGa"
+      "_hash": "Q1ytRgZHjXwvX_je09ZjuF"
     }
   ],
-  "_hash": "g52wc8FaPFWahcmoJBm_ts"
+  "_hash": "kxAcmifVv3hu9KMV9yttlh"
 }

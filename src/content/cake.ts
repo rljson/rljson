@@ -41,7 +41,7 @@ export interface Cake extends Json {
   /**
    * The table containing the item collections defining the layers
    */
-  collections: TableKey;
+  collectionsTable: TableKey;
 
   /**
    * Assigns a collection to each layer of the cake.

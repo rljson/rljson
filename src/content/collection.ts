@@ -44,7 +44,7 @@ export interface Collection extends Json {
    * The table containing the properties that are assigned to the items
    * with the assign property below
    */
-  properties: TableKey;
+  propertiesTable: TableKey;
 
   /**
    * Assign properties to each item of the collection.

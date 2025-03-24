@@ -94,7 +94,7 @@ export const bakeryExample = (): Bakery => {
     _type: 'collections',
     _data: [
       {
-        properties: 'recipeIngredients',
+        propertiesTable: 'recipeIngredients',
         assign: {
           flour: recipeIngredients._data[0]._hash as string,
         },
@@ -107,7 +107,7 @@ export const bakeryExample = (): Bakery => {
     _type: 'collections',
     _data: [
       {
-        properties: 'recipes',
+        propertiesTable: 'recipes',
         assign: {
           slice0: recipes._data[0]._hash as string,
           slice1: recipes._data[0]._hash as string,
@@ -134,7 +134,7 @@ export const bakeryExample = (): Bakery => {
       {
         idSetsTable: 'slices',
         idSet: slices._data[0]._hash as string,
-        collections: 'layers',
+        collectionsTable: 'layers',
         layers: {
           flour: layers._data[0]._hash as string,
         },

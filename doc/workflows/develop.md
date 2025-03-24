@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Allow multiple IdSet tables` here and below
+Replace `Append table to table references` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Allow multiple IdSet tables"
+node scripts/create-branch.js "Append table to table references"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Allow multiple IdSet tables"
+git commit -am"Append table to table references"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Allow multiple IdSet tables" --body " "
+gh pr create --base main --title "Append table to table references" --body " "
 ```
 
 ## Code review
