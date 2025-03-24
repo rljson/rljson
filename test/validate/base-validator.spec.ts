@@ -670,11 +670,13 @@ describe('BaseValidator', async () => {
       });
 
       it('returns an error when a base ref is not found', () => {
-        expect(validate(Example.broken.collections.missingBase())).toEqual({
+        const rljson = Example.broken.collections.missingBase();
+        const collection = rljson.collections._data[1];
+        expect(validate(rljson)).toEqual({
           collectionBasesNotFound: {
             brokenCollections: [
               {
-                brokenCollection: 'XqBfCw2Gz7zZHJIiIYyZpw',
+                brokenCollection: collection._hash,
                 collectionsTable: 'collections',
                 missingBaseCollection: 'MISSING',
               },
@@ -686,13 +688,27 @@ describe('BaseValidator', async () => {
       });
     });
 
+    describe('collectionIdSetsTableNotFound()', () => {
+      it('returns an error when an reference idSets table is not found', () => {
+        const rljson = Example.ok.complete();
+        // delete rljson.idSets;
+        hip(rljson, true, false);
+
+        // expect(validate(rljson)).toEqual({});
+      });
+    });
+
     describe('collectionIdSetNotFound()', () => {
       it('returns an error when idSetRef is not found', () => {
-        expect(validate(Example.broken.collections.missingIdSet())).toEqual({
+        const rljson = Example.broken.collections.missingIdSet();
+        const collection = rljson.collections._data[1];
+        expect(collection.idSet).toBe('MISSING1');
+
+        expect(validate(rljson)).toEqual({
           collectionIdSetNotFound: {
             brokenCollections: [
               {
-                collectionHash: 'UW8eagu3IcuBkThxW5WZAQ',
+                collectionHash: collection._hash,
                 collectionsTable: 'collections',
                 missingIdSet: 'MISSING1',
               },
@@ -706,6 +722,9 @@ describe('BaseValidator', async () => {
       it('return no error, when no idSetRef is defined', () => {
         // Set idSet to undefined
         const result = Example.ok.complete();
+        expect(validate(result)).toEqual({
+          hasErrors: false,
+        });
 
         // delete idSet reference
         const collection1 = result.collections._data[1];
@@ -722,6 +741,8 @@ describe('BaseValidator', async () => {
         buffet.items[0].ref = cake._hash;
         buffet.items[1].ref = collection1._hash;
 
+        hip(result, true, false);
+
         // Validate -> no error
         expect(validate(result)).toEqual({
           hasErrors: false,
@@ -731,18 +752,21 @@ describe('BaseValidator', async () => {
 
     describe('collectionAssignedPropertiesFound', () => {
       it('returns an error when the properties table is not foun', () => {
-        expect(
-          validate(Example.broken.collections.missingAssignedPropertyTable()),
-        ).toEqual({
+        const rljson =
+          Example.broken.collections.missingAssignedPropertyTable();
+        const collection0 = rljson.collections._data[0];
+        const collection1 = rljson.collections._data[1];
+
+        expect(validate(rljson)).toEqual({
           collectionPropertyTablesNotFound: {
             collections: [
               {
-                brokenCollection: 'sxv2NCM6UNOcX-i9FhOs5W',
+                brokenCollection: collection0._hash,
                 missingPropertyTable: 'properties',
                 collectionsTable: 'collections',
               },
               {
-                brokenCollection: 'QB2JC6X_-rUAoixuldzWP-',
+                brokenCollection: collection1._hash,
                 collectionsTable: 'collections',
                 missingPropertyTable: 'properties',
               },
@@ -754,15 +778,19 @@ describe('BaseValidator', async () => {
       });
 
       it('returns an error when an assigned property is not found', () => {
-        expect(
-          validate(Example.broken.collections.missingAssignedProperty()),
-        ).toEqual({
+        const rljsonOk = Example.ok.complete();
+        const property = rljsonOk.properties._data[1];
+
+        const rljson = Example.broken.collections.missingAssignedProperty();
+        const collection = rljson.collections._data[1];
+
+        expect(validate(rljson)).toEqual({
           collectionPropertyAssignmentsNotFound: {
             brokenAssignments: [
               {
-                brokenCollection: 'QB2JC6X_-rUAoixuldzWP-',
+                brokenCollection: collection._hash,
                 brokenAssignment: 'id1',
-                missingProperty: 'mv6w8rID8lQxLsje1EHQMY',
+                missingProperty: property._hash,
                 referencedPropertyTable: 'properties',
                 collectionsTable: 'collections',
               },
@@ -801,11 +829,13 @@ describe('BaseValidator', async () => {
       });
 
       it('returns an error when an idSet is not found', () => {
-        expect(validate(Example.broken.cakes.missingIdSet())).toEqual({
+        const rljson = Example.broken.cakes.missingIdSet();
+        const cake = rljson.cakes._data[0];
+        expect(validate(rljson)).toEqual({
           cakeIdSetNotFound: {
             brokenCakes: [
               {
-                brokenCake: 'Pi2MlYagf-JTyy30pcKMYK',
+                brokenCake: cake._hash,
                 cakeTable: 'cakes',
                 missingIdSet: 'MISSING',
               },
@@ -819,13 +849,13 @@ describe('BaseValidator', async () => {
 
     describe('cakeCollectionTablesNotFound', () => {
       it('returns an error when the collection table is not found', () => {
-        expect(
-          validate(Example.broken.cakes.missingCollectionsTable()),
-        ).toEqual({
+        const rljson = Example.broken.cakes.missingCollectionsTable();
+        const cake = rljson.cakes._data[0];
+        expect(validate(rljson)).toEqual({
           cakeCollectionTablesNotFound: {
             brokenCakes: [
               {
-                brokenCake: 'Wqh55SPELaDBhruppcUeXr',
+                brokenCake: cake._hash,
                 cakeTable: 'cakes',
                 missingCollectionsTable: 'MISSING',
               },
@@ -839,30 +869,30 @@ describe('BaseValidator', async () => {
 
     describe('cakeLayerCollectionsNotFound', () => {
       it('returns an error when the collection of a layer is not found', () => {
-        expect(validate(Example.broken.cakes.missingLayerCollection())).toEqual(
-          {
-            cakeLayerCollectionsNotFound: {
-              brokenCakes: [
-                {
-                  brokenCake: 'u22NoYgg-_-lVq8xG1_adh',
-                  brokenLayerName: 'layer0',
-                  cakeTable: 'cakes',
-                  collectionsTable: 'collections',
-                  missingCollection: 'MISSING0',
-                },
-                {
-                  brokenCake: 'u22NoYgg-_-lVq8xG1_adh',
-                  brokenLayerName: 'layer1',
-                  cakeTable: 'cakes',
-                  collectionsTable: 'collections',
-                  missingCollection: 'MISSING1',
-                },
-              ],
-              error: 'Layer collections of cakes are missing',
-            },
-            hasErrors: true,
+        const rljson = Example.broken.cakes.missingLayerCollection();
+        const cake = rljson.cakes._data[0];
+        expect(validate(rljson)).toEqual({
+          cakeLayerCollectionsNotFound: {
+            brokenCakes: [
+              {
+                brokenCake: cake._hash,
+                brokenLayerName: 'layer0',
+                cakeTable: 'cakes',
+                collectionsTable: 'collections',
+                missingCollection: 'MISSING0',
+              },
+              {
+                brokenCake: cake._hash,
+                brokenLayerName: 'layer1',
+                cakeTable: 'cakes',
+                collectionsTable: 'collections',
+                missingCollection: 'MISSING1',
+              },
+            ],
+            error: 'Layer collections of cakes are missing',
           },
-        );
+          hasErrors: true,
+        });
       });
     });
   });
@@ -870,16 +900,19 @@ describe('BaseValidator', async () => {
   describe('buffet errors', () => {
     describe('buffetReferencedTablesNotFound', () => {
       it('returns an error when the referenced table is not found', () => {
-        expect(validate(Example.broken.buffets.missingTable())).toEqual({
+        const rljson = Example.broken.buffets.missingTable();
+        const buffet = rljson.buffets._data[0];
+
+        expect(validate(rljson)).toEqual({
           buffetReferencedTablesNotFound: {
             brokenBuffets: [
               {
-                brokenBuffet: 'BkDp83m02JrqAJgVIP2dHE',
+                brokenBuffet: buffet._hash,
                 buffetTable: 'buffets',
                 missingItemTable: 'MISSING0',
               },
               {
-                brokenBuffet: 'BkDp83m02JrqAJgVIP2dHE',
+                brokenBuffet: buffet._hash,
                 buffetTable: 'buffets',
                 missingItemTable: 'MISSING1',
               },
@@ -893,17 +926,19 @@ describe('BaseValidator', async () => {
 
     describe('buffetReferencedItemsNotFound', () => {
       it('returns an error when the referenced table is not found', () => {
-        expect(validate(Example.broken.buffets.missingItems())).toEqual({
+        const rljson = Example.broken.buffets.missingItems();
+        const buffet = rljson.buffets._data[0];
+        expect(validate(rljson)).toEqual({
           buffetReferencedItemsNotFound: {
             brokenItems: [
               {
-                brokenBuffet: 'VxrIW8ttLpbYx1z7hOwQ4j',
+                brokenBuffet: buffet._hash,
                 buffetTable: 'buffets',
                 itemTable: 'cakes',
                 missingItem: 'MISSING0',
               },
               {
-                brokenBuffet: 'VxrIW8ttLpbYx1z7hOwQ4j',
+                brokenBuffet: buffet._hash,
                 buffetTable: 'buffets',
                 itemTable: 'collections',
                 missingItem: 'MISSING1',

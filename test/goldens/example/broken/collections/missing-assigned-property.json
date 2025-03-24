@@ -9,7 +9,8 @@
         ],
         "_hash": "MgHRBYSrhpyl4rvsOmAWcQ"
       }
-    ]
+    ],
+    "_hash": "ha3u_Et6DXSHLr2ncTV6MB"
   },
   "properties": {
     "_type": "properties",
@@ -18,42 +19,52 @@
         "a": "0",
         "_hash": "AFhW-fMzdCiz6bUZscp1Lf"
       }
-    ]
+    ],
+    "_hash": "wCY-hulyFUGypW3Q9NTt8A"
   },
   "collections": {
     "_type": "collections",
     "_data": [
       {
+        "idSets": "idSets",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
         "properties": "properties",
-        "_hash": "sxv2NCM6UNOcX-i9FhOs5W",
-        "assign": {}
+        "assign": {
+          "_hash": "RBNvo1WzZ4oRRq0W9-hknp"
+        },
+        "_hash": "g162l-0CAL4gqhdYFbnGyJ"
       },
       {
-        "base": "sxv2NCM6UNOcX-i9FhOs5W",
+        "base": "g162l-0CAL4gqhdYFbnGyJ",
+        "idSets": "idSets",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
         "properties": "properties",
         "assign": {
           "id0": "AFhW-fMzdCiz6bUZscp1Lf",
-          "id1": "mv6w8rID8lQxLsje1EHQMY"
+          "id1": "mv6w8rID8lQxLsje1EHQMY",
+          "_hash": "MjlS39OaUdiaxDA9LrWxDH"
         },
-        "_hash": "QB2JC6X_-rUAoixuldzWP-"
+        "_hash": "rwOpLRRl7dKiybnx35xAzl"
       }
-    ]
+    ],
+    "_hash": "u3PjU7IH8gjg8XFn2YcJEp"
   },
   "cakes": {
     "_type": "cakes",
     "_data": [
       {
+        "idSets": "idSets",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
         "collections": "collections",
         "layers": {
-          "layer0": "sxv2NCM6UNOcX-i9FhOs5W",
-          "layer1": "QB2JC6X_-rUAoixuldzWP-"
+          "layer0": "g162l-0CAL4gqhdYFbnGyJ",
+          "layer1": "rwOpLRRl7dKiybnx35xAzl",
+          "_hash": "zPpTe5TAfMBy-LF2wFkPNc"
         },
-        "_hash": "QlTVJL3uoXO1L_fw2evLPe"
+        "_hash": "-OYELY3y2htT8Zkxc6qZR3"
       }
-    ]
+    ],
+    "_hash": "myN8pEmcAZ43Nt0buzUwhM"
   },
   "buffets": {
     "_type": "buffets",
@@ -62,14 +73,19 @@
         "items": [
           {
             "table": "cakes",
-            "ref": "QlTVJL3uoXO1L_fw2evLPe"
+            "ref": "-OYELY3y2htT8Zkxc6qZR3",
+            "_hash": "euUDzCjHLlvU50MbYMlR5O"
           },
           {
             "table": "collections",
-            "ref": "QB2JC6X_-rUAoixuldzWP-"
+            "ref": "g162l-0CAL4gqhdYFbnGyJ",
+            "_hash": "-wcbzvWPhYyonVx9hozdsj"
           }
-        ]
+        ],
+        "_hash": "wQvinto_0-AnbPv-WHBhX2"
       }
-    ]
-  }
+    ],
+    "_hash": "VRQ5BecXODpeWNLI7tGZ0-"
+  },
+  "_hash": "c0U3T8f09TKCxUvLX9zJj3"
 }

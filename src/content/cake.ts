@@ -34,6 +34,11 @@ export interface Cake extends Json {
   idSet?: IdSetRef;
 
   /**
+   * The table containing the item ids of the collection
+   */
+  idSets?: TableKey;
+
+  /**
    * The table containing the item collections defining the layers
    */
   collections: TableKey;

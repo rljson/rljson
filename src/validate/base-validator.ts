@@ -42,6 +42,7 @@ export interface BaseErrors extends Errors {
 
   // Collection errors
   collectionBasesNotFound?: Json;
+  collectionIdSetsTableNotFound?: Json;
   collectionIdSetNotFound?: Json;
   collectionPropertyTablesNotFound?: Json;
   collectionPropertyAssignmentsNotFound?: Json;
@@ -113,6 +114,7 @@ class _BaseValidator {
 
       // Check collections
       () => this._collectionBasesNotFound(),
+      () => this._collectionIdSetsTableNotFound(),
       () => this._collectionIdSetNotFound(),
       () => this._collectionPropertyAssignmentsNotFound(),
 
@@ -665,6 +667,41 @@ class _BaseValidator {
     }
   }
 
+  private _collectionIdSetsTableNotFound(): void {
+    const brokenCollections: any[] = [];
+
+    iterateTables(this.rljson, (tableKey, table) => {
+      if (table._type !== 'collections') {
+        return;
+      }
+
+      const collectionsTable: CollectionsTable = table as CollectionsTable;
+      for (const collection of collectionsTable._data) {
+        const idSets = collection.idSets;
+        if (!idSets) {
+          continue;
+        }
+
+        const idSetsTable = this.rljsonIndexed[idSets];
+
+        if (!idSets) {
+          brokenCollections.push({
+            collectionsTable: tableKey,
+            collectionHash: collection._hash,
+            missingIdSetsTable: idSetsTable,
+          });
+        }
+      }
+    });
+
+    if (brokenCollections.length > 0) {
+      this.errors.collectionIdSetsTableNotFound = {
+        error: 'Id sets tables are missing',
+        brokenCollections,
+      };
+    }
+  }
+
   private _collectionIdSetNotFound(): void {
     const brokenCollections: any[] = [];
 
@@ -766,14 +803,15 @@ class _BaseValidator {
         return;
       }
 
-      const idSets = this.rljsonIndexed.idSets;
-
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
         const idSetRef = cake.idSet;
         if (!idSetRef) {
           continue;
         }
+
+        const idSetsRef = cake.idSets as string;
+        const idSets = this.rljsonIndexed[idSetsRef];
 
         const idSet = idSets._data[idSetRef];
         if (!idSet) {
