@@ -221,7 +221,7 @@ properties:
 
 ```json
 {
-  "idSetsTable": "personIds",
+  "idSets": "personIds",
   "idSet": "IDS0",
   "properties": "addresses",
   "assign": {

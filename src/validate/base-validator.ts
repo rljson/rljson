@@ -42,12 +42,14 @@ export interface BaseErrors extends Errors {
 
   // Collection errors
   collectionBasesNotFound?: Json;
-  collectionIdSetsNotFound?: Json;
+  collectionIdSetsTableNotFound?: Json;
+  collectionIdSetNotFound?: Json;
   collectionPropertyTablesNotFound?: Json;
   collectionPropertyAssignmentsNotFound?: Json;
 
   // Cake errors
-  cakeIdSetsNotFound?: Json;
+  cakeIdSetsTableNotFound?: Json;
+  cakeIdSetNotFound?: Json;
   cakeCollectionTablesNotFound?: Json;
   cakeLayerCollectionsNotFound?: Json;
 
@@ -113,11 +115,13 @@ class _BaseValidator {
 
       // Check collections
       () => this._collectionBasesNotFound(),
-      () => this._collectionIdSetsExist(),
+      () => this._collectionIdSetsTableNotFound(),
+      () => this._collectionIdSetNotFound(),
       () => this._collectionPropertyAssignmentsNotFound(),
 
       // Check cakes
-      () => this._cakeIdSetsNotFound(),
+      () => this._cakeIdSetsTableNotFound(),
+      () => this._cakeIdSetNotFound(),
       () => this._cakeCollectionTablesNotFound(),
 
       // Check buffets
@@ -665,7 +669,7 @@ class _BaseValidator {
     }
   }
 
-  private _collectionIdSetsExist(): void {
+  private _collectionIdSetsTableNotFound(): void {
     const brokenCollections: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -673,7 +677,40 @@ class _BaseValidator {
         return;
       }
 
-      const idSets = this.rljsonIndexed.idSets;
+      const collectionsTable: CollectionsTable = table as CollectionsTable;
+      for (const collection of collectionsTable._data) {
+        const idSets = collection.idSetsTable;
+        if (!idSets) {
+          continue;
+        }
+
+        const idSetsTable = this.rljsonIndexed[idSets];
+
+        if (!idSetsTable) {
+          brokenCollections.push({
+            collectionsTable: tableKey,
+            collectionHash: collection._hash,
+            missingIdSetsTable: idSets,
+          });
+        }
+      }
+    });
+
+    if (brokenCollections.length > 0) {
+      this.errors.collectionIdSetsTableNotFound = {
+        error: 'Id sets tables are missing',
+        brokenCollections,
+      };
+    }
+  }
+
+  private _collectionIdSetNotFound(): void {
+    const brokenCollections: any[] = [];
+
+    iterateTables(this.rljson, (tableKey, table) => {
+      if (table._type !== 'collections') {
+        return;
+      }
 
       const collectionsTable: CollectionsTable = table as CollectionsTable;
       for (const collection of collectionsTable._data) {
@@ -682,7 +719,10 @@ class _BaseValidator {
           continue;
         }
 
-        const idSet = idSets._data[idSetRef];
+        const idSets = collection.idSetsTable as string;
+        const idSetsTable = this.rljsonIndexed[idSets];
+
+        const idSet = idSetsTable._data[idSetRef];
         if (!idSet) {
           brokenCollections.push({
             collectionsTable: tableKey,
@@ -694,7 +734,7 @@ class _BaseValidator {
     });
 
     if (brokenCollections.length > 0) {
-      this.errors.collectionIdSetsExist = {
+      this.errors.collectionIdSetNotFound = {
         error: 'Id sets of collections are missing',
         brokenCollections,
       };
@@ -758,7 +798,7 @@ class _BaseValidator {
     }
   }
 
-  private _cakeIdSetsNotFound(): void {
+  private _cakeIdSetsTableNotFound(): void {
     const brokenCakes: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -766,7 +806,40 @@ class _BaseValidator {
         return;
       }
 
-      const idSets = this.rljsonIndexed.idSets;
+      const cakesTable: CakesTable = table as CakesTable;
+      for (const cake of cakesTable._data) {
+        const idSetsRef = cake.idSetsTable;
+        if (!idSetsRef) {
+          continue;
+        }
+
+        const idSets = this.rljsonIndexed[idSetsRef];
+
+        if (!idSets) {
+          brokenCakes.push({
+            cakeTable: tableKey,
+            brokenCake: cake._hash,
+            missingIdSets: idSetsRef,
+          });
+        }
+      }
+    });
+
+    if (brokenCakes.length > 0) {
+      this.errors.cakeIdSetsTableNotFound = {
+        error: 'Id sets tables referenced by cakes are missing',
+        brokenCakes,
+      };
+    }
+  }
+
+  private _cakeIdSetNotFound(): void {
+    const brokenCakes: any[] = [];
+
+    iterateTables(this.rljson, (tableKey, table) => {
+      if (table._type !== 'cakes') {
+        return;
+      }
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
@@ -774,6 +847,9 @@ class _BaseValidator {
         if (!idSetRef) {
           continue;
         }
+
+        const idSetsRef = cake.idSetsTable as string;
+        const idSets = this.rljsonIndexed[idSetsRef];
 
         const idSet = idSets._data[idSetRef];
         if (!idSet) {
@@ -787,7 +863,7 @@ class _BaseValidator {
     });
 
     if (brokenCakes.length > 0) {
-      this.errors.cakeIdSetsNotFound = {
+      this.errors.cakeIdSetNotFound = {
         error: 'Id sets of cakes are missing',
         brokenCakes,
       };

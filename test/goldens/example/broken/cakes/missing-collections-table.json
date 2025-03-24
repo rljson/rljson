@@ -9,7 +9,8 @@
         ],
         "_hash": "MgHRBYSrhpyl4rvsOmAWcQ"
       }
-    ]
+    ],
+    "_hash": "ha3u_Et6DXSHLr2ncTV6MB"
   },
   "properties": {
     "_type": "properties",
@@ -22,44 +23,52 @@
         "a": "1",
         "_hash": "mv6w8rID8lQxLsje1EHQMY"
       }
-    ]
+    ],
+    "_hash": "QnrUL_NvlY6K1qSnjgFDP8"
   },
   "collections": {
     "_type": "collections",
     "_data": [
       {
+        "idSetsTable": "idSets",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
         "properties": "properties",
-        "_hash": "sxv2NCM6UNOcX-i9FhOs5W",
-        "assign": {}
+        "assign": {
+          "_hash": "RBNvo1WzZ4oRRq0W9-hknp"
+        },
+        "_hash": "C783GNxTV3iEJedv3dvIWP"
       },
       {
-        "base": "sxv2NCM6UNOcX-i9FhOs5W",
+        "base": "C783GNxTV3iEJedv3dvIWP",
+        "idSetsTable": "idSets",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
         "properties": "properties",
         "assign": {
           "id0": "AFhW-fMzdCiz6bUZscp1Lf",
-          "id1": "mv6w8rID8lQxLsje1EHQMY"
+          "id1": "mv6w8rID8lQxLsje1EHQMY",
+          "_hash": "MjlS39OaUdiaxDA9LrWxDH"
         },
-        "_hash": "QB2JC6X_-rUAoixuldzWP-"
+        "_hash": "X4mk1De7lwTS-4QL7H0bBV"
       }
-    ]
+    ],
+    "_hash": "wBBp3NZPvLRO0m4kNxwPRt"
   },
   "cakes": {
     "_type": "cakes",
     "_data": [
       {
+        "idSetsTable": "idSets",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
         "collections": "MISSING",
         "layers": {
-          "layer0": "sxv2NCM6UNOcX-i9FhOs5W",
-          "layer1": "QB2JC6X_-rUAoixuldzWP-",
-          "_hash": "wxUssKuMKDInaHvFAHxXWO"
+          "layer0": "C783GNxTV3iEJedv3dvIWP",
+          "layer1": "X4mk1De7lwTS-4QL7H0bBV",
+          "_hash": "Ffuv-UQjHOyJdqhNDVfWu6"
         },
-        "_hash": "Wqh55SPELaDBhruppcUeXr"
+        "_hash": "hFkE0FRH9eid4V5zwD_O8T"
       }
     ],
-    "_hash": "yvV16BeZYLySt95P4dn6cR"
+    "_hash": "kznjmlbltXxdHrhx1tfP_f"
   },
   "buffets": {
     "_type": "buffets",
@@ -68,14 +77,18 @@
         "items": [
           {
             "table": "cakes",
-            "ref": "QlTVJL3uoXO1L_fw2evLPe"
+            "ref": "d5O9UvKe1t086LXlzu7rW6",
+            "_hash": "M955R__xYkkmnWkCfTHyh6"
           },
           {
             "table": "collections",
-            "ref": "QB2JC6X_-rUAoixuldzWP-"
+            "ref": "C783GNxTV3iEJedv3dvIWP",
+            "_hash": "h5MSR17MATHSoIQDD77iQ8"
           }
-        ]
+        ],
+        "_hash": "N4UxXFfCS7cebMZsyjHMyp"
       }
-    ]
+    ],
+    "_hash": "kGqSqF2iCocexsQ7uuENYE"
   }
 }

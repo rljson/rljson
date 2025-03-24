@@ -7,10 +7,11 @@
 import { Hashed, hip } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
+import { IdSetsTable } from '../../dist/content/id-set.ts';
+
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { CollectionsTable } from '../content/collection.ts';
-import { IdSetsTable } from '../content/id-set.ts';
 import { PropertiesTable } from '../content/properties.ts';
 import { Rljson } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
@@ -127,22 +128,12 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const idSets: Hashed<IdSetsTable> = hip({
-    _type: 'idSets',
-    _data: [
-      {
-        add: ['slice0', 'slice1'],
-        _hash: '',
-      },
-    ],
-    _hash: '',
-  });
-
   const cakes: Hashed<CakesTable> = hip({
     _type: 'cakes',
     _data: [
       {
-        idSet: idSets._data[0]._hash as string,
+        idSetsTable: 'slices',
+        idSet: slices._data[0]._hash as string,
         collections: 'layers',
         layers: {
           flour: layers._data[0]._hash as string,
@@ -167,7 +158,6 @@ export const bakeryExample = (): Bakery => {
   });
 
   const result: Bakery = {
-    idSets,
     buffets,
     cakes,
     slices,
