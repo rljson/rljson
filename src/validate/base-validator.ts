@@ -684,11 +684,11 @@ class _BaseValidator {
 
         const idSetsTable = this.rljsonIndexed[idSets];
 
-        if (!idSets) {
+        if (!idSetsTable) {
           brokenCollections.push({
             collectionsTable: tableKey,
             collectionHash: collection._hash,
-            missingIdSetsTable: idSetsTable,
+            missingIdSetsTable: idSets,
           });
         }
       }
@@ -710,8 +710,6 @@ class _BaseValidator {
         return;
       }
 
-      const idSets = this.rljsonIndexed.idSets;
-
       const collectionsTable: CollectionsTable = table as CollectionsTable;
       for (const collection of collectionsTable._data) {
         const idSetRef = collection.idSet;
@@ -719,7 +717,10 @@ class _BaseValidator {
           continue;
         }
 
-        const idSet = idSets._data[idSetRef];
+        const idSets = collection.idSets as string;
+        const idSetsTable = this.rljsonIndexed[idSets];
+
+        const idSet = idSetsTable._data[idSetRef];
         if (!idSet) {
           brokenCollections.push({
             collectionsTable: tableKey,

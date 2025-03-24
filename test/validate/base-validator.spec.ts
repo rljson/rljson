@@ -691,10 +691,29 @@ describe('BaseValidator', async () => {
     describe('collectionIdSetsTableNotFound()', () => {
       it('returns an error when an reference idSets table is not found', () => {
         const rljson = Example.ok.complete();
-        // delete rljson.idSets;
+        const collection0 = rljson.collections._data[0];
+        const collection1 = rljson.collections._data[1];
+        delete rljson.idSets;
         hip(rljson, true, false);
 
-        // expect(validate(rljson)).toEqual({});
+        expect(validate(rljson)).toEqual({
+          collectionIdSetsTableNotFound: {
+            brokenCollections: [
+              {
+                collectionHash: collection0._hash,
+                collectionsTable: 'collections',
+                missingIdSetsTable: 'idSets',
+              },
+              {
+                collectionHash: collection1._hash,
+                collectionsTable: 'collections',
+                missingIdSetsTable: 'idSets',
+              },
+            ],
+            error: 'Id sets tables are missing',
+          },
+          hasErrors: true,
+        });
       });
     });
 
