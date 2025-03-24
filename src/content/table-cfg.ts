@@ -53,6 +53,12 @@ export interface TableCfg extends Json {
    * The previous version of the table
    */
   previous?: TableCfgRef;
+
+  /**
+   * The version of the table.
+   * Needs to be increased when new columns are added.
+   */
+  version: number;
 }
 
 /**
@@ -71,6 +77,7 @@ export const exampleTableCfg = (
 ): TableCfg => {
   return {
     key: tableCfg?.key ?? 'table',
+    version: 1,
     columns: tableCfg?.columns ?? {
       a: {
         key: 'a',

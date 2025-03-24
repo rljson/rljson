@@ -1,10 +1,11 @@
 {
   "tableCfgs": {
-    "_hash": "OFFez-Uw5OF7fWxqKX5nG8",
+    "_hash": "Y7hehzJ9GVOq4OeRQu1EMT",
     "_type": "properties",
     "_data": [
       {
-        "_hash": "oUtnnXlttr0hOZDjnnVy0P",
+        "version": 0,
+        "_hash": "eha2XgPvob1n-yn2AzspLX",
         "key": "table",
         "type": "properties",
         "columns": {
@@ -55,7 +56,7 @@
   },
   "table": {
     "_type": "properties",
-    "_tableCfg": "oUtnnXlttr0hOZDjnnVy0P",
+    "_tableCfg": "eha2XgPvob1n-yn2AzspLX",
     "_data": [
       {
         "int": 5,
