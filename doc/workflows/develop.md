@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Add version to TableCfg` here and below
+Replace `Allow multiple IdSet tables` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Add version to TableCfg"
+node scripts/create-branch.js "Allow multiple IdSet tables"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Add version to TableCfg"
+git commit -am"Allow multiple IdSet tables"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Add version to TableCfg" --body " "
+gh pr create --base main --title "Allow multiple IdSet tables" --body " "
 ```
 
 ## Code review

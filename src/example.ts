@@ -7,6 +7,11 @@
 import { hip } from '@rljson/hash';
 import { exampleJsonObject } from '@rljson/json';
 
+import { BuffetsTable } from './content/buffet.ts';
+import { Cake, CakesTable } from './content/cake.ts';
+import { Collection, CollectionsTable } from './content/collection.ts';
+import { IdSetsTable } from './content/id-set.ts';
+import { PropertiesTable } from './content/properties.ts';
 import { TablesCfgTable } from './content/table-cfg.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
@@ -151,80 +156,84 @@ export class Example {
       };
     },
     complete: (): Rljson => {
+      const idSets: IdSetsTable = hip({
+        _type: 'idSets',
+        _data: [
+          {
+            add: ['id0', 'id1'],
+          },
+        ],
+      });
+
+      const properties: PropertiesTable<any> = hip({
+        _type: 'properties',
+        _data: [{ a: '0' }, { a: '1' }],
+      });
+      const property0 = properties._data[0];
+      const property1 = properties._data[1];
+
+      const collection0: Collection = hip({
+        idSetsTable: 'idSets',
+        idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
+        properties: 'properties',
+        assign: {},
+      });
+
+      const collection1: Collection = hip({
+        base: collection0._hash as string,
+        idSetsTable: 'idSets',
+        idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
+        properties: 'properties',
+        assign: {
+          id0: property0._hash,
+          id1: property1._hash,
+        },
+      });
+
+      const collections: CollectionsTable = hip({
+        _type: 'collections',
+        _data: [collection0, collection1],
+      } as CollectionsTable);
+
+      const cake: Cake = hip({
+        idSetsTable: 'idSets',
+        idSet: idSets._data[0]._hash as string,
+        collections: 'collections',
+        layers: {
+          layer0: collection0._hash as string,
+          layer1: collection1._hash as string,
+        },
+      });
+
+      const cakes: CakesTable = hip({
+        _type: 'cakes',
+        _data: [cake],
+      });
+
+      const buffets: BuffetsTable = hip({
+        _type: 'buffets',
+        _data: [
+          {
+            items: [
+              {
+                table: 'cakes',
+                ref: cakes._data[0]._hash as string,
+              },
+              {
+                table: 'collections',
+                ref: collection0._hash as string,
+              },
+            ],
+          },
+        ],
+      });
+
       return {
-        idSets: {
-          _type: 'idSets',
-
-          _data: [
-            {
-              add: ['id0', 'id1'],
-              _hash: 'MgHRBYSrhpyl4rvsOmAWcQ',
-            },
-          ],
-        },
-
-        properties: {
-          _type: 'properties',
-          _data: [
-            { a: '0', _hash: 'AFhW-fMzdCiz6bUZscp1Lf' },
-            { a: '1', _hash: 'mv6w8rID8lQxLsje1EHQMY' },
-          ],
-        },
-
-        collections: {
-          _type: 'collections',
-          _data: [
-            {
-              idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-              properties: 'properties',
-              _hash: 'sxv2NCM6UNOcX-i9FhOs5W',
-              assign: {},
-            },
-            {
-              base: 'sxv2NCM6UNOcX-i9FhOs5W',
-              idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-              properties: 'properties',
-              assign: {
-                id0: 'AFhW-fMzdCiz6bUZscp1Lf',
-                id1: 'mv6w8rID8lQxLsje1EHQMY',
-              },
-              _hash: 'QB2JC6X_-rUAoixuldzWP-',
-            },
-          ],
-        },
-
-        cakes: {
-          _type: 'cakes',
-          _data: [
-            {
-              idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-              collections: 'collections',
-              layers: {
-                layer0: 'sxv2NCM6UNOcX-i9FhOs5W',
-                layer1: 'QB2JC6X_-rUAoixuldzWP-',
-              },
-              _hash: 'QlTVJL3uoXO1L_fw2evLPe',
-            },
-          ],
-        },
-
-        buffets: {
-          _type: 'buffets',
-          _data: [
-            {
-              items: [
-                {
-                  table: 'cakes',
-                  ref: 'QlTVJL3uoXO1L_fw2evLPe',
-                },
-                {
-                  table: 'collections',
-                  ref: 'QB2JC6X_-rUAoixuldzWP-',
-                },
-              ],
-            },
-          ],
-        },
+        idSets,
+        properties,
+        collections,
+        cakes,
+        buffets,
       };
     },
   };
@@ -332,8 +341,8 @@ export class Example {
 
       missingAssignedProperty: (): Rljson => {
         const result = Example.ok.complete();
-        result.properties._data.splice(1, 2); // Remove an property that is assigne
-        return result;
+        result.properties._data.splice(1, 2); // Remove an property that is assigned
+        return hip(result, true, false);
       },
     },
 
@@ -367,7 +376,7 @@ export class Example {
         const buffet = result.buffets._data[0];
         buffet.items[0].table = 'MISSING0';
         buffet.items[1].table = 'MISSING1';
-        hip(buffet, true, false);
+        hip(result, true, false);
         return result;
       },
 
@@ -376,7 +385,7 @@ export class Example {
         const buffet = result.buffets._data[0];
         buffet.items[0].ref = 'MISSING0';
         buffet.items[1].ref = 'MISSING1';
-        hip(buffet, true, false);
+        hip(result, true, false);
         return result;
       },
     },
