@@ -175,7 +175,7 @@ export class Example {
       const collection0: Collection = hip({
         idSetsTable: 'idSets',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        properties: 'properties',
+        propertiesTable: 'properties',
         assign: {},
       });
 
@@ -183,7 +183,7 @@ export class Example {
         base: collection0._hash as string,
         idSetsTable: 'idSets',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        properties: 'properties',
+        propertiesTable: 'properties',
         assign: {
           id0: property0._hash,
           id1: property1._hash,
@@ -198,7 +198,7 @@ export class Example {
       const cake: Cake = hip({
         idSetsTable: 'idSets',
         idSet: idSets._data[0]._hash as string,
-        collections: 'collections',
+        collectionsTable: 'collections',
         layers: {
           layer0: collection0._hash as string,
           layer1: collection1._hash as string,
@@ -356,7 +356,7 @@ export class Example {
 
       missingCollectionsTable: (): Rljson => {
         const result = Example.ok.complete();
-        result.cakes._data[0].collections = 'MISSING'; // Missing collections table
+        result.cakes._data[0].collectionsTable = 'MISSING'; // Missing collections table
         hip(result.cakes, true, false);
         return result;
       },
