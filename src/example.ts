@@ -36,9 +36,11 @@ export class Example {
     singleRow: (): Rljson => {
       const tableCfgs: TablesCfgTable = hip({
         _hash: '',
+
         _type: 'properties',
         _data: [
           {
+            version: 0,
             _hash: '',
             key: 'table',
             type: 'properties',

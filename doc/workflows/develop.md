@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `exampleTableCfg returns TableCfg` here and below
+Replace `Add version to TableCfg` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "exampleTableCfg returns TableCfg"
+node scripts/create-branch.js "Add version to TableCfg"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"exampleTableCfg returns TableCfg"
+git commit -am"Add version to TableCfg"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "exampleTableCfg returns TableCfg" --body " "
+gh pr create --base main --title "Add version to TableCfg" --body " "
 ```
 
 ## Code review
