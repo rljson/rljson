@@ -752,7 +752,7 @@ class _BaseValidator {
 
       const collectionsTable: CollectionsTable = table as CollectionsTable;
       for (const collection of collectionsTable._data) {
-        const propertyTableKey = collection.properties;
+        const propertyTableKey = collection.propertiesTable;
         const propertiesTable = this.rljsonIndexed[propertyTableKey];
         if (!propertiesTable) {
           missingPropertyTables.push({

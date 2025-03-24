@@ -175,7 +175,7 @@ export class Example {
       const collection0: Collection = hip({
         idSetsTable: 'idSets',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        properties: 'properties',
+        propertiesTable: 'properties',
         assign: {},
       });
 
@@ -183,7 +183,7 @@ export class Example {
         base: collection0._hash as string,
         idSetsTable: 'idSets',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        properties: 'properties',
+        propertiesTable: 'properties',
         assign: {
           id0: property0._hash,
           id1: property1._hash,
