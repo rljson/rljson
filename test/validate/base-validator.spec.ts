@@ -686,10 +686,10 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('collectionIdSetsExist()', () => {
+    describe('collectionIdSetNotFound()', () => {
       it('returns an error when idSetRef is not found', () => {
         expect(validate(Example.broken.collections.missingIdSet())).toEqual({
-          collectionIdSetsExist: {
+          collectionIdSetNotFound: {
             brokenCollections: [
               {
                 collectionHash: 'UW8eagu3IcuBkThxW5WZAQ',
@@ -776,7 +776,7 @@ describe('BaseValidator', async () => {
   });
 
   describe('cake errors', () => {
-    describe('cakeIdSetsNotFound', () => {
+    describe('cakeIdSetNotFound', () => {
       it('returns no errors when all idSets are found', () => {
         expect(validate(Example.ok.complete())).toEqual({
           hasErrors: false,
@@ -802,7 +802,7 @@ describe('BaseValidator', async () => {
 
       it('returns an error when an idSet is not found', () => {
         expect(validate(Example.broken.cakes.missingIdSet())).toEqual({
-          cakeIdSetsNotFound: {
+          cakeIdSetNotFound: {
             brokenCakes: [
               {
                 brokenCake: 'Pi2MlYagf-JTyy30pcKMYK',

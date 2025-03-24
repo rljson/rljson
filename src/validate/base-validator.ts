@@ -42,12 +42,12 @@ export interface BaseErrors extends Errors {
 
   // Collection errors
   collectionBasesNotFound?: Json;
-  collectionIdSetsNotFound?: Json;
+  collectionIdSetNotFound?: Json;
   collectionPropertyTablesNotFound?: Json;
   collectionPropertyAssignmentsNotFound?: Json;
 
   // Cake errors
-  cakeIdSetsNotFound?: Json;
+  cakeIdSetNotFound?: Json;
   cakeCollectionTablesNotFound?: Json;
   cakeLayerCollectionsNotFound?: Json;
 
@@ -113,11 +113,11 @@ class _BaseValidator {
 
       // Check collections
       () => this._collectionBasesNotFound(),
-      () => this._collectionIdSetsExist(),
+      () => this._collectionIdSetNotFound(),
       () => this._collectionPropertyAssignmentsNotFound(),
 
       // Check cakes
-      () => this._cakeIdSetsNotFound(),
+      () => this._cakeIdSetNotFound(),
       () => this._cakeCollectionTablesNotFound(),
 
       // Check buffets
@@ -665,7 +665,7 @@ class _BaseValidator {
     }
   }
 
-  private _collectionIdSetsExist(): void {
+  private _collectionIdSetNotFound(): void {
     const brokenCollections: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -694,7 +694,7 @@ class _BaseValidator {
     });
 
     if (brokenCollections.length > 0) {
-      this.errors.collectionIdSetsExist = {
+      this.errors.collectionIdSetNotFound = {
         error: 'Id sets of collections are missing',
         brokenCollections,
       };
@@ -758,7 +758,7 @@ class _BaseValidator {
     }
   }
 
-  private _cakeIdSetsNotFound(): void {
+  private _cakeIdSetNotFound(): void {
     const brokenCakes: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -787,7 +787,7 @@ class _BaseValidator {
     });
 
     if (brokenCakes.length > 0) {
-      this.errors.cakeIdSetsNotFound = {
+      this.errors.cakeIdSetNotFound = {
         error: 'Id sets of cakes are missing',
         brokenCakes,
       };
