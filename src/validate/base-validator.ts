@@ -881,7 +881,7 @@ class _BaseValidator {
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const collectionsTableKey = cake.collections;
+        const collectionsTableKey = cake.collectionsTable;
         const collectionsTable = this.rljsonIndexed[collectionsTableKey];
         if (!collectionsTable) {
           missingCollectionTables.push({

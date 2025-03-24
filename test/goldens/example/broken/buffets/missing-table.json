@@ -59,16 +59,16 @@
       {
         "idSetsTable": "idSets",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "collections": "collections",
+        "collectionsTable": "collections",
         "layers": {
           "layer0": "Bqv4AEhsA71SnW2VScKrzA",
           "layer1": "nInjR03jNCy6SXhoOXSj0O",
           "_hash": "KJL_bb1AFJ4HYnx49-cLo-"
         },
-        "_hash": "j1JqXbLomSWyuvru3yJUmk"
+        "_hash": "oHhKZqmZgX-w4YTggIO_YQ"
       }
     ],
-    "_hash": "JHVN9JQEfY7v8DM_RjMg-p"
+    "_hash": "sIE5KGvhtcWu3D8KJ7vksl"
   },
   "buffets": {
     "_type": "buffets",
@@ -77,8 +77,8 @@
         "items": [
           {
             "table": "MISSING0",
-            "ref": "j1JqXbLomSWyuvru3yJUmk",
-            "_hash": "CROMsJrXtEcp-P-kgOwSNK"
+            "ref": "oHhKZqmZgX-w4YTggIO_YQ",
+            "_hash": "jJ4CpbUWNs4wg0B6cHFGjW"
           },
           {
             "table": "MISSING1",
@@ -86,10 +86,10 @@
             "_hash": "gK7oyO3tMzWD56DfrVilOG"
           }
         ],
-        "_hash": "uDQN1yGmwnD2mu2hhZKETi"
+        "_hash": "0gT1LpXhEbn_SkUSI6QLuT"
       }
     ],
-    "_hash": "ClCekE0rbi7rewKkvNDHS7"
+    "_hash": "UBjPewW1RjNINcfUj_TJVG"
   },
-  "_hash": "ZiYZL4xdPBbS3CPWCj18_n"
+  "_hash": "1485O-8dsFPiubz4AtfgHX"
 }
