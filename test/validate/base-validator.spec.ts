@@ -753,7 +753,7 @@ describe('BaseValidator', async () => {
         cake.layers['layer1'] = layer1._hash;
         hip(cake, true, false);
 
-        // Update buffet items
+        // Update buffet slices
         const buffet = result.buffets._data[0];
         buffet.items[0].ref = cake._hash;
         buffet.items[1].ref = layer1._hash;
@@ -832,7 +832,7 @@ describe('BaseValidator', async () => {
         delete rljson.cakes._data[0].idSet;
         hip(rljson, true, false);
 
-        // Update buffet items
+        // Update buffet slices
         const buffet = rljson.buffets._data[0];
         buffet.items[0].ref = rljson.cakes._data[0]._hash;
         buffet.items[1].ref = rljson.layers._data[1]._hash;

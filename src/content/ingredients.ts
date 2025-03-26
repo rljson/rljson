@@ -19,12 +19,12 @@ export type IngredientsRef = Ref;
 
 // .............................................................................
 /**
- * A table containing item ingredients
+ * A table containing ingredients
  */
 export type IngredientsTable<T extends Json> = RljsonTable<T, 'ingredients'>;
 
 /**
  * Provides an example ingredients table for test purposes
  */
-export const exampleIngredientsTable = (): IngredientsTable<NutritionalValues> =>
-  bakeryExample().nutritionalValues;
+export const exampleIngredientsTable =
+  (): IngredientsTable<NutritionalValues> => bakeryExample().nutritionalValues;

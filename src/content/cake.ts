@@ -23,23 +23,24 @@ export type CakeLayerId = ItemId;
 /**
  * A cake is a collection of layers.
  *
- * A layer is a collection of items.
- * All layers of a cake refer to the same items.
+ * A layer is a collection of slices.
+ * All layers of a cake refer to the same slices.
  */
 export interface Cake extends Json {
   /**
-   * The item ids of the layer. If present, the item ids in the layers
-   * must match these ids. The item id sets can be found in the idSets table.
+   * The slice ids of the layer. If present, the slice ids of the cake
+   * must match these slice ids of the layers.
+   * The slice ids can be found in the idSet table.
    */
   idSet?: SliceIdsRef;
 
   /**
-   * The table containing the item ids of the layer
+   * The table containing the slice ids of the layer
    */
   idSetsTable?: TableKey;
 
   /**
-   * The table containing the item layers defining the layers
+   * The table containing the slice layers defining the layers
    */
   layersTable: TableKey;
 

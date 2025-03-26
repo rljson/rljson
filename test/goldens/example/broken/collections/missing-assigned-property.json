@@ -3,10 +3,7 @@
     "_type": "idSets",
     "_data": [
       {
-        "add": [
-          "id0",
-          "id1"
-        ],
+        "add": ["id0", "id1"],
         "_hash": "MgHRBYSrhpyl4rvsOmAWcQ"
       }
     ],
@@ -70,7 +67,7 @@
     "_type": "buffets",
     "_data": [
       {
-        "items": [
+        "slices": [
           {
             "table": "cakes",
             "ref": "oHhKZqmZgX-w4YTggIO_YQ",

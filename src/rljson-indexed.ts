@@ -30,25 +30,25 @@ export interface RljsonIndexed {
 export const rljsonIndexed = (rljson: Rljson): RljsonIndexed => {
   const result: RljsonIndexed = {};
 
-  // Iterate all items of the rljson object
+  // Iterate all slices of the rljson object
   for (const key in rljson) {
-    // If item is not an object, add it to the result
-    const item = rljson[key];
-    if (typeof item != 'object') {
-      result[key] = item as any;
+    // If slice is not an object, add it to the result
+    const slice = rljson[key];
+    if (typeof slice != 'object') {
+      result[key] = slice as any;
       continue;
     }
 
     // Item has not _data field, add it to the result
     const dataIndexed: { [rowHash: string]: Json } = {};
-    result[key] = { ...item } as any;
+    result[key] = { ...slice } as any;
 
-    // Iterate all rows of the item
-    if (!Array.isArray(item!._data)) {
+    // Iterate all rows of the slice
+    if (!Array.isArray(slice!._data)) {
       continue;
     }
 
-    for (const row of item!._data) {
+    for (const row of slice!._data) {
       // Get or create the hash of the row
       const hashedRow = row._hash ? row : hsh(row);
       const hash = hashedRow._hash;

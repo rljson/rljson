@@ -18,29 +18,28 @@ export type SliceIdsRef = Ref;
 
 // .............................................................................
 /**
- * An Ids manages list of item ids
+ * A list of slice ids
  */
 export interface SliceIds extends Json {
   /**
-   * The hash of another item id list which is extended by this one.
-   * Must be empty or null, when the list is the root.
+   * The base list of slice ids
    */
   base?: SliceIdsRef;
 
   /**
-   * The item ids added to base
+   * The slice ids added to base
    */
   add: ItemId[];
 
   /**
-   * The item ids removed from base
+   * The slice ids removed from base
    */
   remove?: ItemId[];
 }
 
 // .............................................................................
 /**
- * A table containing item ids
+ * A table containing slice ids
  */
 export type SliceIdsTable = RljsonTable<SliceIds, 'idSets'>;
 

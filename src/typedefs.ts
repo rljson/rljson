@@ -12,7 +12,7 @@ import { JsonKey } from '@rljson/json';
 export type Ref = string;
 
 /**
- * An `id` is a *user defined* name or identifier of an item.
+ * An `id` is a *user defined* name or identifier of an slice.
  * It exists in parallel with the auto generated `_hash`.
  */
 export type ItemId = string;
@@ -34,8 +34,8 @@ export type ColumnKey = JsonKey;
  * - `buffets` Tables containing buffets
  * - `cakes` Tables containing cakes
  * - `layers` Tables containing layers
- * - `ids` Tables containing item ids
- * - `ingredients` Tables containing item ingredients
+ * - `ids` Tables containing slice ids
+ * - `ingredients` Tables containing slice ingredients
  */
 export const contentTypes = [
   'buffets',

@@ -176,7 +176,7 @@ synchronize large datasets.
 ### Ingredients
 
 `Ingredients` are the fundamental data concept. A `IngredientsTable` contains
-key-value pairs representing ingredient assignments:
+key-value pairs assigning values to ingredient names.
 
 ```json
 {
@@ -236,9 +236,9 @@ ingredients:
 
 Rljson supports `Cake` as a native data structure:
 
-- A `Cake` consists of layers of items (slices).
-- All layers share the same item IDs (slice structure).
-- Each layer assigns different ingredients to the same items.
+- A `Cake` consists of layers of slices.
+- All layers share the same slice structure, i.e. the same slice ids.
+- Each layer assigns different ingredients to the same slices.
 
 ```json
 {

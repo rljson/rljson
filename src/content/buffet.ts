@@ -19,20 +19,20 @@ export type BuffetId = ItemId;
 // .............................................................................
 /**
  * A buffet is a collection of arbitrary but related items, e.g. cakes,
- * layers, or items.
+ * layers, or slices.
  */
 export interface Buffet extends Json {
   /**
-   * The items of the buffet
+   * The slices of the buffet
    */
   items: Array<{
     /**
-     * The table the item is taken from
+     * The table the slice is taken from
      */
     table: TableKey;
 
     /**
-     * The hash of the item in the able
+     * The hash of the slice in the able
      */
     ref: Ref;
   }>;
