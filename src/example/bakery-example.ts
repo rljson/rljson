@@ -11,7 +11,7 @@ import { IdSetsTable } from '../../dist/content/id-set.ts';
 
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
-import { CollectionsTable } from '../content/collection.ts';
+import { LayersTable } from '../content/layer.ts';
 import { PropertiesTable } from '../content/properties.ts';
 import { Rljson } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
@@ -42,8 +42,8 @@ export interface Bakery extends Rljson {
   buffets: BuffetsTable;
   cakes: CakesTable;
   slices: IdSetsTable;
-  layers: CollectionsTable;
-  recipes: CollectionsTable;
+  layers: LayersTable;
+  recipes: LayersTable;
   recipeIngredients: PropertiesTable<RecipeIngredient>;
   ingredients: PropertiesTable<Ingredient>;
   nutritionalValues: PropertiesTable<NutritionalValues>;
@@ -90,8 +90,8 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const recipes: Hashed<CollectionsTable> = hip({
-    _type: 'collections',
+  const recipes: Hashed<LayersTable> = hip({
+    _type: 'layers',
     _data: [
       {
         propertiesTable: 'recipeIngredients',
@@ -103,8 +103,8 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const layers: Hashed<CollectionsTable> = hip({
-    _type: 'collections',
+  const layers: Hashed<LayersTable> = hip({
+    _type: 'layers',
     _data: [
       {
         propertiesTable: 'recipes',
@@ -134,7 +134,7 @@ export const bakeryExample = (): Bakery => {
       {
         idSetsTable: 'slices',
         idSet: slices._data[0]._hash as string,
-        collectionsTable: 'layers',
+        layersTable: 'layers',
         layers: {
           flour: layers._data[0]._hash as string,
         },

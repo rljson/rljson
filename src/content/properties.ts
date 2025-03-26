@@ -24,7 +24,7 @@ export type PropertiesRef = Ref;
 export type PropertiesTable<T extends Json> = RljsonTable<T, 'properties'>;
 
 /**
- * Provides an example collectionsTable for test purposes
+ * Provides an example properties table for test purposes
  */
 export const examplePropertiesTable = (): PropertiesTable<NutritionalValues> =>
   bakeryExample().nutritionalValues;

@@ -18,16 +18,12 @@
       {
         "a": "0",
         "_hash": "AFhW-fMzdCiz6bUZscp1Lf"
-      },
-      {
-        "a": "1",
-        "_hash": "mv6w8rID8lQxLsje1EHQMY"
       }
     ],
-    "_hash": "QnrUL_NvlY6K1qSnjgFDP8"
+    "_hash": "wCY-hulyFUGypW3Q9NTt8A"
   },
-  "collections": {
-    "_type": "collections",
+  "layers": {
+    "_type": "layers",
     "_data": [
       {
         "idSetsTable": "idSets",
@@ -51,7 +47,7 @@
         "_hash": "nInjR03jNCy6SXhoOXSj0O"
       }
     ],
-    "_hash": "hpwoIh_eQgNQV96OJh6HZh"
+    "_hash": "e9BE0onEU51zoJ_t5HeCeW"
   },
   "cakes": {
     "_type": "cakes",
@@ -59,16 +55,16 @@
       {
         "idSetsTable": "idSets",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "collectionsTable": "collections",
+        "layersTable": "layers",
         "layers": {
-          "layer0": "MISSING0",
-          "layer1": "MISSING1",
-          "_hash": "shG3giFAqO-xc2gR4_I1yU"
+          "layer0": "Bqv4AEhsA71SnW2VScKrzA",
+          "layer1": "nInjR03jNCy6SXhoOXSj0O",
+          "_hash": "KJL_bb1AFJ4HYnx49-cLo-"
         },
-        "_hash": "NQ4GHrHLdtKKRs131yQ6pp"
+        "_hash": "8MOB1M-nJTDWUdcLCIS2HW"
       }
     ],
-    "_hash": "sj_50xsIJBjjp5Xqo6OqlI"
+    "_hash": "h22J7vycwloFORNx3lGHlX"
   },
   "buffets": {
     "_type": "buffets",
@@ -77,18 +73,19 @@
         "items": [
           {
             "table": "cakes",
-            "ref": "oHhKZqmZgX-w4YTggIO_YQ",
-            "_hash": "DXNDAFNSLYaZhciBFVsDhD"
+            "ref": "8MOB1M-nJTDWUdcLCIS2HW",
+            "_hash": "aHZFNlxCVnvsjEhWAiRnb1"
           },
           {
-            "table": "collections",
+            "table": "layers",
             "ref": "Bqv4AEhsA71SnW2VScKrzA",
-            "_hash": "6Hb8w4ofefgsdiHe2L8mHM"
+            "_hash": "P-Dv2EnESCFscgEuGKvvv5"
           }
         ],
-        "_hash": "04vIzK7cG-GOeT_xyOG_DT"
+        "_hash": "4bsyH_-j4QxkuEBwFI4Ht0"
       }
     ],
-    "_hash": "MtnOj3mkb9hQiDFGC6_3TD"
-  }
+    "_hash": "bweq6MqbkgAU_BnnWbebZ3"
+  },
+  "_hash": "6iOR2wE8fmCpafjq5TRfZU"
 }

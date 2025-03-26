@@ -6,14 +6,14 @@
 
 import { describe, it } from 'vitest';
 
-import { exampleCollectionsTable } from '../../src/content/collection.ts';
+import { exampleLayersTable } from '../../src/content/layer.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
-describe('CollectionsTable', () => {
-  it('provides a list of collections', async () => {
-    await expectGolden('content/collections.json').toBe(
-      exampleCollectionsTable(),
+describe('LayersTable', () => {
+  it('provides a list of layers', async () => {
+    await expectGolden('content/layers.json').toBe(
+      exampleLayersTable(),
     );
   });
 });

@@ -8,7 +8,7 @@ import { Json } from '@rljson/json';
 
 import { BuffetsTable } from './content/buffet.ts';
 import { CakesTable } from './content/cake.ts';
-import { CollectionsTable } from './content/collection.ts';
+import { LayersTable } from './content/layer.ts';
 import { IdSetsTable } from './content/id-set.ts';
 import { PropertiesTable } from './content/properties.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
@@ -27,7 +27,7 @@ export const reservedTableKeys = ['_hash', 'idSets', 'tableCfgs'];
 export type TableType =
   | BuffetsTable
   | PropertiesTable<any>
-  | CollectionsTable
+  | LayersTable
   | IdSetsTable
   | CakesTable;
 

@@ -10,8 +10,8 @@ import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { ItemId, TableKey } from '../typedefs.ts';
 
-import { CollectionRef } from './collection.ts';
 import { IdSetRef } from './id-set.ts';
+import { LayerRef } from './layer.ts';
 
 // .............................................................................
 /**
@@ -28,26 +28,26 @@ export type CakeLayerId = ItemId;
  */
 export interface Cake extends Json {
   /**
-   * The item ids of the collection. If present, the item ids in the layers
+   * The item ids of the layer. If present, the item ids in the layers
    * must match these ids. The item id sets can be found in the idSets table.
    */
   idSet?: IdSetRef;
 
   /**
-   * The table containing the item ids of the collection
+   * The table containing the item ids of the layer
    */
   idSetsTable?: TableKey;
 
   /**
-   * The table containing the item collections defining the layers
+   * The table containing the item layers defining the layers
    */
-  collectionsTable: TableKey;
+  layersTable: TableKey;
 
   /**
-   * Assigns a collection to each layer of the cake.
+   * Assigns a layer to each layer of the cake.
    */
   layers: {
-    [layerId: CakeLayerId]: CollectionRef;
+    [layerId: CakeLayerId]: LayerRef;
   };
 }
 
@@ -59,6 +59,6 @@ export type CakesTable = RljsonTable<Cake, 'cakes'>;
 
 // .............................................................................
 /**
- * Provides an example collectionsTable for test purposes
+ * Provides an example cakes table for test purposes
  */
 export const exampleCakesTable = (): CakesTable => bakeryExample().cakes;

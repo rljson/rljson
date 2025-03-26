@@ -15,28 +15,28 @@ import { PropertiesRef } from './properties.ts';
 
 // .............................................................................
 /**
- * A CollectionRef is a hash pointing to a collection
+ * A LayerRef is a hash pointing to a layer
  */
-export type CollectionRef = Ref;
+export type LayerRef = Ref;
 
 // .............................................................................
 /**
- * A collection assigns properties to item ids
+ * A layer assigns properties to item ids
  */
-export interface Collection extends Json {
+export interface Layer extends Json {
   /**
-   * `base` an optional base collection that is extended by this collection
+   * `base` an optional base layer that is extended by this layer
    */
-  base?: CollectionRef;
+  base?: LayerRef;
 
   /**
-   * The item ids of the collection. If present, the item ids in `assign`
+   * The item ids of the layer. If present, the item ids in `assign`
    * must match these ids. The item id sets can be found in the idSets table.
    */
   idSet?: IdSetRef;
 
   /**
-   * The table containing the item ids of the collection
+   * The table containing the item ids of the layer
    */
   idSetsTable?: TableKey;
 
@@ -47,19 +47,19 @@ export interface Collection extends Json {
   propertiesTable: TableKey;
 
   /**
-   * Assign properties to each item of the collection.
+   * Assign properties to each item of the layer.
    */
   assign: Record<ItemId, PropertiesRef>;
 }
 
 // .............................................................................
 /**
- * A table containing collections
+ * A table containing layers
  */
-export type CollectionsTable = RljsonTable<Collection, 'collections'>;
+export type LayersTable = RljsonTable<Layer, 'layers'>;
 
 /**
- * Provides an example collectionsTable for test purposes
+ * Provides an example layersTable for test purposes
  */
-export const exampleCollectionsTable = (): CollectionsTable =>
+export const exampleLayersTable = (): LayersTable =>
   bakeryExample().layers;

@@ -9,8 +9,8 @@ import { exampleJsonObject } from '@rljson/json';
 
 import { BuffetsTable } from './content/buffet.ts';
 import { Cake, CakesTable } from './content/cake.ts';
-import { Collection, CollectionsTable } from './content/collection.ts';
 import { IdSetsTable } from './content/id-set.ts';
+import { Layer, LayersTable } from './content/layer.ts';
 import { PropertiesTable } from './content/properties.ts';
 import { TablesCfgTable } from './content/table-cfg.ts';
 import { bakeryExample } from './example/bakery-example.ts';
@@ -172,15 +172,15 @@ export class Example {
       const property0 = properties._data[0];
       const property1 = properties._data[1];
 
-      const collection0: Collection = hip({
+      const layer0: Layer = hip({
         idSetsTable: 'idSets',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
         propertiesTable: 'properties',
         assign: {},
       });
 
-      const collection1: Collection = hip({
-        base: collection0._hash as string,
+      const layer1: Layer = hip({
+        base: layer0._hash as string,
         idSetsTable: 'idSets',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
         propertiesTable: 'properties',
@@ -190,18 +190,18 @@ export class Example {
         },
       });
 
-      const collections: CollectionsTable = hip({
-        _type: 'collections',
-        _data: [collection0, collection1],
-      } as CollectionsTable);
+      const layers: LayersTable = hip({
+        _type: 'layers',
+        _data: [layer0, layer1],
+      } as LayersTable);
 
       const cake: Cake = hip({
         idSetsTable: 'idSets',
         idSet: idSets._data[0]._hash as string,
-        collectionsTable: 'collections',
+        layersTable: 'layers',
         layers: {
-          layer0: collection0._hash as string,
-          layer1: collection1._hash as string,
+          layer0: layer0._hash as string,
+          layer1: layer1._hash as string,
         },
       });
 
@@ -220,8 +220,8 @@ export class Example {
                 ref: cakes._data[0]._hash as string,
               },
               {
-                table: 'collections',
-                ref: collection0._hash as string,
+                table: 'layers',
+                ref: layer0._hash as string,
               },
             ],
           },
@@ -231,7 +231,7 @@ export class Example {
       return {
         idSets,
         properties,
-        collections,
+        layers,
         cakes,
         buffets,
       };
@@ -313,11 +313,11 @@ export class Example {
       },
     },
 
-    collections: {
+    layers: {
       missingBase: (): Rljson => {
         const result = Example.ok.complete();
-        const collection1 = result.collections._data[1];
-        collection1.base = 'MISSING'; // Missing base
+        const layer1 = result.layers._data[1];
+        layer1.base = 'MISSING'; // Missing base
 
         // Recalculate hashes
         return hip(result, true, false);
@@ -325,9 +325,9 @@ export class Example {
 
       missingIdSet: (): Rljson => {
         const result = Example.ok.complete();
-        const collection1 = result.collections._data[1];
+        const layer1 = result.layers._data[1];
 
-        collection1.idSet = 'MISSING1';
+        layer1.idSet = 'MISSING1';
 
         // Recalculate hashes
         return hip(result, true, false);
@@ -354,14 +354,14 @@ export class Example {
         return result;
       },
 
-      missingCollectionsTable: (): Rljson => {
+      missingLayersTable: (): Rljson => {
         const result = Example.ok.complete();
-        result.cakes._data[0].collectionsTable = 'MISSING'; // Missing collections table
+        result.cakes._data[0].layersTable = 'MISSING'; // Missing layers table
         hip(result.cakes, true, false);
         return result;
       },
 
-      missingLayerCollection: (): Rljson => {
+      missingCakeLayer: (): Rljson => {
         const result = Example.ok.complete();
         result.cakes._data[0].layers['layer0'] = 'MISSING0';
         result.cakes._data[0].layers['layer1'] = 'MISSING1';

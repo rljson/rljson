@@ -23,7 +23,7 @@ This document describes the architecture of the Rljson format.
 - [Data Types](#data-types)
   - [Properties](#properties)
   - [IdSet](#idset)
-  - [Collection](#collection)
+  - [Layer](#layer)
   - [Cake](#cake)
   - [Buffet](#buffet)
 
@@ -192,7 +192,7 @@ key-value pairs representing property assignments:
 
 ### IdSet
 
-For efficient management of large collections, item IDs are separated from their
+For efficient management of large layers, item IDs are separated from their
 properties. This allows fetching IDs first and retrieving details later. The
 following `IdSet` defines a set of three IDs:
 
@@ -214,9 +214,9 @@ Derived `IdSets` can be created by modifying an existing set:
 }
 ```
 
-### Collection
+### Layer
 
-A `Collection` consists of an `IdSet` and a mapping that links item IDs to their
+A `Layer` consists of an `IdSet` and a mapping that links item IDs to their
 properties:
 
 ```json
@@ -236,7 +236,7 @@ properties:
 
 Rljson supports `Cake` as a native data structure:
 
-- A `Cake` consists of layers, each representing a collection of items (slices).
+- A `Cake` consists of layers of items (slices).
 - All layers share the same item IDs (slice structure).
 - Each layer assigns different properties to the same items.
 
@@ -256,7 +256,7 @@ Rljson supports `Cake` as a native data structure:
 ### Buffet
 
 A `Buffet` is a heterogeneous collection of different but related items, such as
-cakes, collections, or properties:
+cakes, layers, or properties:
 
 ```json
 {

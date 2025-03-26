@@ -1,5 +1,5 @@
 {
-  "_type": "collections",
+  "_type": "layers",
   "_data": [
     {
       "propertiesTable": "recipes",
@@ -11,5 +11,5 @@
       "_hash": "vGMiig9oROJLAPIcKzpU0W"
     }
   ],
-  "_hash": "H0cMuZ7GEZKExXjmxCIKfh"
+  "_hash": "64y70u6viEZKnGJDyEC67d"
 }

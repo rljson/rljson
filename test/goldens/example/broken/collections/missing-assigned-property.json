@@ -22,8 +22,8 @@
     ],
     "_hash": "wCY-hulyFUGypW3Q9NTt8A"
   },
-  "collections": {
-    "_type": "collections",
+  "layers": {
+    "_type": "layers",
     "_data": [
       {
         "idSetsTable": "idSets",
@@ -55,7 +55,7 @@
       {
         "idSetsTable": "idSets",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "collectionsTable": "collections",
+        "layersTable": "layers",
         "layers": {
           "layer0": "Bqv4AEhsA71SnW2VScKrzA",
           "layer1": "nInjR03jNCy6SXhoOXSj0O",
@@ -77,7 +77,7 @@
             "_hash": "DXNDAFNSLYaZhciBFVsDhD"
           },
           {
-            "table": "collections",
+            "table": "layers",
             "ref": "Bqv4AEhsA71SnW2VScKrzA",
             "_hash": "6Hb8w4ofefgsdiHe2L8mHM"
           }

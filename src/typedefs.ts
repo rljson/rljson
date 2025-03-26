@@ -33,14 +33,14 @@ export type ColumnKey = JsonKey;
  *
  * - `buffets` Tables containing buffets
  * - `cakes` Tables containing cakes
- * - `collections` Tables containing collections
+ * - `layers` Tables containing layers
  * - `ids` Tables containing item ids
  * - `properties` Tables containing item properties
  */
 export const contentTypes = [
   'buffets',
   'cakes',
-  'collections',
+  'layers',
   'idSets',
   'properties',
 ] as const;
@@ -60,6 +60,6 @@ export const exampleTypedefs = (): {
     ref: 'ref',
     itemId: 'itemId',
     tableKey: 'tableKey',
-    contentType: 'collections',
+    contentType: 'layers',
   };
 };
