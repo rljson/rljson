@@ -7,12 +7,11 @@
 import { Hashed, hip } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
-import { SliceIdsTable } from '../../dist/content/slice-ids.ts';
-
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { IngredientsTable } from '../content/ingredients.ts';
 import { LayersTable } from '../content/layer.ts';
+import { SliceIdsTable } from '../content/slice-ids.ts';
 import { Rljson } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
 
