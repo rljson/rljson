@@ -1,0 +1,95 @@
+{
+  "sliceIds": {
+    "_type": "sliceIds",
+    "_data": [
+      {
+        "add": [
+          "id0",
+          "id1"
+        ],
+        "_hash": "MgHRBYSrhpyl4rvsOmAWcQ"
+      }
+    ],
+    "_hash": "mZnUcc1ZcQFGukqJZR4y8H"
+  },
+  "ingredients": {
+    "_type": "ingredients",
+    "_data": [
+      {
+        "a": "0",
+        "_hash": "AFhW-fMzdCiz6bUZscp1Lf"
+      },
+      {
+        "a": "1",
+        "_hash": "mv6w8rID8lQxLsje1EHQMY"
+      }
+    ],
+    "_hash": "YmWIYay0zsd2GmxoY6JLJg"
+  },
+  "layers": {
+    "_type": "layers",
+    "_data": [
+      {
+        "sliceIdsTable": "sliceIds",
+        "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
+        "ingredientsTable": "ingredients",
+        "assign": {
+          "_hash": "RBNvo1WzZ4oRRq0W9-hknp"
+        },
+        "_hash": "y5VKS77xAC34SBWAE6deLg"
+      },
+      {
+        "base": "y5VKS77xAC34SBWAE6deLg",
+        "sliceIdsTable": "sliceIds",
+        "idSet": "MISSING1",
+        "ingredientsTable": "ingredients",
+        "assign": {
+          "id0": "AFhW-fMzdCiz6bUZscp1Lf",
+          "id1": "mv6w8rID8lQxLsje1EHQMY",
+          "_hash": "MjlS39OaUdiaxDA9LrWxDH"
+        },
+        "_hash": "-jEZhztboe6H-GGtx16Pfh"
+      }
+    ],
+    "_hash": "_XNEy3dg4c8vf5FM_n_2oz"
+  },
+  "cakes": {
+    "_type": "cakes",
+    "_data": [
+      {
+        "sliceIdsTable": "sliceIds",
+        "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
+        "layersTable": "layers",
+        "layers": {
+          "layer0": "y5VKS77xAC34SBWAE6deLg",
+          "layer1": "d6s52Rmau5PEWu5Ktuca2w",
+          "_hash": "aJJfbr8ZUDFQ0OTQhXhFZL"
+        },
+        "_hash": "mIoy5AbschGILWhyv9TrDk"
+      }
+    ],
+    "_hash": "uNFapwx6jbBuCwQmLg8Wvi"
+  },
+  "buffets": {
+    "_type": "buffets",
+    "_data": [
+      {
+        "items": [
+          {
+            "table": "cakes",
+            "ref": "mIoy5AbschGILWhyv9TrDk",
+            "_hash": "Muv9NB70LJF_VQGl1nJwh4"
+          },
+          {
+            "table": "layers",
+            "ref": "y5VKS77xAC34SBWAE6deLg",
+            "_hash": "vVker1kuZz0Uz2mkRnBrpt"
+          }
+        ],
+        "_hash": "dsc8dzU_r5FEwpvde-HUui"
+      }
+    ],
+    "_hash": "DZoa5A_IFXIcBkKs9-vcNv"
+  },
+  "_hash": "IzM_JF0muQDhtC_o23CABr"
+}

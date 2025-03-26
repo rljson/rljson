@@ -9,7 +9,7 @@ import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
-import { CollectionsTable } from '../content/collection.ts';
+import { LayersTable } from '../content/layer.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
@@ -40,18 +40,18 @@ export interface BaseErrors extends Errors {
   // Reference errors
   refsNotFound?: Json;
 
-  // Collection errors
-  collectionBasesNotFound?: Json;
-  collectionIdSetsTableNotFound?: Json;
-  collectionIdSetNotFound?: Json;
-  collectionPropertyTablesNotFound?: Json;
-  collectionPropertyAssignmentsNotFound?: Json;
+  // Layer errors
+  layerBasesNotFound?: Json;
+  layerSliceIdsTableNotFound?: Json;
+  layerSliceIdsNotFound?: Json;
+  layerIngredientTablesNotFound?: Json;
+  layerIngredientAssignmentsNotFound?: Json;
 
   // Cake errors
-  cakeIdSetsTableNotFound?: Json;
-  cakeIdSetNotFound?: Json;
-  cakeCollectionTablesNotFound?: Json;
-  cakeLayerCollectionsNotFound?: Json;
+  cakeSliceIdsTableNotFound?: Json;
+  cakeSliceIdsNotFound?: Json;
+  cakeLayerTablesNotFound?: Json;
+  cakeLayersNotFound?: Json;
 
   // Buffet errors
   buffetReferencedTablesNotFound?: Json;
@@ -113,16 +113,16 @@ class _BaseValidator {
       // Check references
       () => this._refsNotFound(),
 
-      // Check collections
-      () => this._collectionBasesNotFound(),
-      () => this._collectionIdSetsTableNotFound(),
-      () => this._collectionIdSetNotFound(),
-      () => this._collectionPropertyAssignmentsNotFound(),
+      // Check layers
+      () => this._layerBasesNotFound(),
+      () => this._layerSliceIdsTableNotFound(),
+      () => this._layerSliceIdsNotFound(),
+      () => this._layerIngredientAssignmentsNotFound(),
 
       // Check cakes
-      () => this._cakeIdSetsTableNotFound(),
-      () => this._cakeIdSetNotFound(),
-      () => this._cakeCollectionTablesNotFound(),
+      () => this._cakeSliceIdsTableNotFound(),
+      () => this._cakeSliceIdsNotFound(),
+      () => this._cakeLayerTablesNotFound(),
 
       // Check buffets
       () => this._buffetReferencedTableNotFound(),
@@ -633,172 +633,172 @@ class _BaseValidator {
     }
   }
 
-  private _collectionBasesNotFound(): void {
-    const brokenCollections: any[] = [];
+  private _layerBasesNotFound(): void {
+    const brokenLayers: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
-      if (table._type !== 'collections') {
+      if (table._type !== 'layers') {
         return;
       }
 
-      const collectionsIndexed = this.rljsonIndexed[tableKey];
+      const layersIndexed = this.rljsonIndexed[tableKey];
 
-      const collectionsTable: CollectionsTable = table as CollectionsTable;
-      for (const collection of collectionsTable._data) {
-        const baseRef = collection.base;
+      const layersTable: LayersTable = table as LayersTable;
+      for (const layer of layersTable._data) {
+        const baseRef = layer.base;
         if (!baseRef) {
           continue;
         }
 
-        const baseCollection = collectionsIndexed._data[baseRef];
-        if (!baseCollection) {
-          brokenCollections.push({
-            collectionsTable: tableKey,
-            brokenCollection: collection._hash,
-            missingBaseCollection: baseRef,
+        const baseLayer = layersIndexed._data[baseRef];
+        if (!baseLayer) {
+          brokenLayers.push({
+            layersTable: tableKey,
+            brokenLayer: layer._hash,
+            missingBaseLayer: baseRef,
           });
         }
       }
     });
 
-    if (brokenCollections.length > 0) {
-      this.errors.collectionBasesNotFound = {
-        error: 'Base collections are missing',
-        brokenCollections,
+    if (brokenLayers.length > 0) {
+      this.errors.layerBasesNotFound = {
+        error: 'Base layers are missing',
+        brokenLayers,
       };
     }
   }
 
-  private _collectionIdSetsTableNotFound(): void {
-    const brokenCollections: any[] = [];
+  private _layerSliceIdsTableNotFound(): void {
+    const brokenLayers: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
-      if (table._type !== 'collections') {
+      if (table._type !== 'layers') {
         return;
       }
 
-      const collectionsTable: CollectionsTable = table as CollectionsTable;
-      for (const collection of collectionsTable._data) {
-        const idSets = collection.idSetsTable;
-        if (!idSets) {
+      const layersTable: LayersTable = table as LayersTable;
+      for (const layer of layersTable._data) {
+        const sliceIds = layer.sliceIdsTable;
+        if (!sliceIds) {
           continue;
         }
 
-        const idSetsTable = this.rljsonIndexed[idSets];
+        const sliceIdsTable = this.rljsonIndexed[sliceIds];
 
-        if (!idSetsTable) {
-          brokenCollections.push({
-            collectionsTable: tableKey,
-            collectionHash: collection._hash,
-            missingIdSetsTable: idSets,
+        if (!sliceIdsTable) {
+          brokenLayers.push({
+            layersTable: tableKey,
+            layerHash: layer._hash,
+            missingSliceIdsTable: sliceIds,
           });
         }
       }
     });
 
-    if (brokenCollections.length > 0) {
-      this.errors.collectionIdSetsTableNotFound = {
+    if (brokenLayers.length > 0) {
+      this.errors.layerSliceIdsTableNotFound = {
         error: 'Id sets tables are missing',
-        brokenCollections,
+        brokenLayers,
       };
     }
   }
 
-  private _collectionIdSetNotFound(): void {
-    const brokenCollections: any[] = [];
+  private _layerSliceIdsNotFound(): void {
+    const brokenLayers: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
-      if (table._type !== 'collections') {
+      if (table._type !== 'layers') {
         return;
       }
 
-      const collectionsTable: CollectionsTable = table as CollectionsTable;
-      for (const collection of collectionsTable._data) {
-        const idSetRef = collection.idSet;
+      const layersTable: LayersTable = table as LayersTable;
+      for (const layer of layersTable._data) {
+        const idSetRef = layer.idSet;
         if (!idSetRef) {
           continue;
         }
 
-        const idSets = collection.idSetsTable as string;
-        const idSetsTable = this.rljsonIndexed[idSets];
+        const sliceIds = layer.sliceIdsTable as string;
+        const sliceIdsTable = this.rljsonIndexed[sliceIds];
 
-        const idSet = idSetsTable._data[idSetRef];
+        const idSet = sliceIdsTable._data[idSetRef];
         if (!idSet) {
-          brokenCollections.push({
-            collectionsTable: tableKey,
-            collectionHash: collection._hash,
-            missingIdSet: idSetRef,
+          brokenLayers.push({
+            layersTable: tableKey,
+            layerHash: layer._hash,
+            missingSliceIds: idSetRef,
           });
         }
       }
     });
 
-    if (brokenCollections.length > 0) {
-      this.errors.collectionIdSetNotFound = {
-        error: 'Id sets of collections are missing',
-        brokenCollections,
+    if (brokenLayers.length > 0) {
+      this.errors.layerSliceIdsNotFound = {
+        error: 'Id sets of layers are missing',
+        brokenLayers,
       };
     }
   }
 
-  private _collectionPropertyAssignmentsNotFound(): void {
-    const missingPropertyTables: any[] = [];
+  private _layerIngredientAssignmentsNotFound(): void {
+    const missingIngredientTables: any[] = [];
     const brokenAssignments: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
-      if (table._type !== 'collections') {
+      if (table._type !== 'layers') {
         return;
       }
 
-      const collectionsTable: CollectionsTable = table as CollectionsTable;
-      for (const collection of collectionsTable._data) {
-        const propertyTableKey = collection.propertiesTable;
-        const propertiesTable = this.rljsonIndexed[propertyTableKey];
-        if (!propertiesTable) {
-          missingPropertyTables.push({
-            brokenCollection: collection._hash,
-            collectionsTable: tableKey,
-            missingPropertyTable: propertyTableKey,
+      const layersTable: LayersTable = table as LayersTable;
+      for (const layer of layersTable._data) {
+        const ingredientTableKey = layer.ingredientsTable;
+        const ingredientsTable = this.rljsonIndexed[ingredientTableKey];
+        if (!ingredientsTable) {
+          missingIngredientTables.push({
+            brokenLayer: layer._hash,
+            layersTable: tableKey,
+            missingIngredientTable: ingredientTableKey,
           });
           continue;
         }
 
-        const assignments = collection.assign;
-        for (const itemId in assignments) {
-          if (itemId.startsWith('_')) {
+        const assignments = layer.assign;
+        for (const sliceId in assignments) {
+          if (sliceId.startsWith('_')) {
             continue;
           }
 
-          const propertyHash = assignments[itemId];
-          if (!propertiesTable._data[propertyHash]) {
+          const ingredientHash = assignments[sliceId];
+          if (!ingredientsTable._data[ingredientHash]) {
             brokenAssignments.push({
-              collectionsTable: tableKey,
-              brokenCollection: collection._hash,
-              referencedPropertyTable: propertyTableKey,
-              brokenAssignment: itemId,
-              missingProperty: propertyHash,
+              layersTable: tableKey,
+              brokenLayer: layer._hash,
+              referencedIngredientTable: ingredientTableKey,
+              brokenAssignment: sliceId,
+              missingIngredient: ingredientHash,
             });
           }
         }
       }
     });
 
-    if (missingPropertyTables.length > 0) {
-      this.errors.collectionPropertyTablesNotFound = {
-        error: 'Collection property tables do not exist',
-        collections: missingPropertyTables,
+    if (missingIngredientTables.length > 0) {
+      this.errors.layerIngredientTablesNotFound = {
+        error: 'Layer ingredient tables do not exist',
+        layers: missingIngredientTables,
       };
     }
 
     if (brokenAssignments.length > 0) {
-      this.errors.collectionPropertyAssignmentsNotFound = {
-        error: 'Collection property assignments are broken',
+      this.errors.layerIngredientAssignmentsNotFound = {
+        error: 'Layer ingredient assignments are broken',
         brokenAssignments: brokenAssignments,
       };
     }
   }
 
-  private _cakeIdSetsTableNotFound(): void {
+  private _cakeSliceIdsTableNotFound(): void {
     const brokenCakes: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -808,32 +808,32 @@ class _BaseValidator {
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const idSetsRef = cake.idSetsTable;
-        if (!idSetsRef) {
+        const sliceIdsRef = cake.sliceIdsTable;
+        if (!sliceIdsRef) {
           continue;
         }
 
-        const idSets = this.rljsonIndexed[idSetsRef];
+        const sliceIds = this.rljsonIndexed[sliceIdsRef];
 
-        if (!idSets) {
+        if (!sliceIds) {
           brokenCakes.push({
             cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingIdSets: idSetsRef,
+            missingSliceIds: sliceIdsRef,
           });
         }
       }
     });
 
     if (brokenCakes.length > 0) {
-      this.errors.cakeIdSetsTableNotFound = {
+      this.errors.cakeSliceIdsTableNotFound = {
         error: 'Id sets tables referenced by cakes are missing',
         brokenCakes,
       };
     }
   }
 
-  private _cakeIdSetNotFound(): void {
+  private _cakeSliceIdsNotFound(): void {
     const brokenCakes: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -848,31 +848,31 @@ class _BaseValidator {
           continue;
         }
 
-        const idSetsRef = cake.idSetsTable as string;
-        const idSets = this.rljsonIndexed[idSetsRef];
+        const sliceIdsRef = cake.sliceIdsTable as string;
+        const sliceIds = this.rljsonIndexed[sliceIdsRef];
 
-        const idSet = idSets._data[idSetRef];
+        const idSet = sliceIds._data[idSetRef];
         if (!idSet) {
           brokenCakes.push({
             cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingIdSet: idSetRef,
+            missingSliceIds: idSetRef,
           });
         }
       }
     });
 
     if (brokenCakes.length > 0) {
-      this.errors.cakeIdSetNotFound = {
+      this.errors.cakeSliceIdsNotFound = {
         error: 'Id sets of cakes are missing',
         brokenCakes,
       };
     }
   }
 
-  private _cakeCollectionTablesNotFound(): void {
-    const missingCollectionTables: any[] = [];
-    const missingLayerCollections: any[] = [];
+  private _cakeLayerTablesNotFound(): void {
+    const missingLayerTables: any[] = [];
+    const missingCakeLayers: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
       if (table._type !== 'cakes') {
@@ -881,50 +881,50 @@ class _BaseValidator {
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const collectionsTableKey = cake.collectionsTable;
-        const collectionsTable = this.rljsonIndexed[collectionsTableKey];
-        if (!collectionsTable) {
-          missingCollectionTables.push({
+        const layersTableKey = cake.layersTable;
+        const layersTable = this.rljsonIndexed[layersTableKey];
+        if (!layersTable) {
+          missingLayerTables.push({
             cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingCollectionsTable: collectionsTableKey,
+            missingLayersTable: layersTableKey,
           });
 
           continue;
         }
 
-        for (const layer in cake.layers) {
-          if (layer.startsWith('_')) {
+        for (const layerKey in cake.layers) {
+          if (layerKey.startsWith('_')) {
             continue;
           }
 
-          const collectionRef = cake.layers[layer];
-          const collection = collectionsTable._data[collectionRef];
+          const layerRef = cake.layers[layerKey];
+          const layer = layersTable._data[layerRef];
 
-          if (!collection) {
-            missingLayerCollections.push({
+          if (!layer) {
+            missingCakeLayers.push({
               cakeTable: tableKey,
               brokenCake: cake._hash,
-              brokenLayerName: layer,
-              collectionsTable: collectionsTableKey,
-              missingCollection: collectionRef,
+              brokenLayerName: layerKey,
+              layersTable: layersTableKey,
+              missingLayer: layerRef,
             });
           }
         }
       }
     });
 
-    if (missingCollectionTables.length > 0) {
-      this.errors.cakeCollectionTablesNotFound = {
-        error: 'Collection tables of cakes are missing',
-        brokenCakes: missingCollectionTables,
+    if (missingLayerTables.length > 0) {
+      this.errors.cakeLayerTablesNotFound = {
+        error: 'Layer tables of cakes are missing',
+        brokenCakes: missingLayerTables,
       };
     }
 
-    if (missingLayerCollections.length > 0) {
-      this.errors.cakeLayerCollectionsNotFound = {
-        error: 'Layer collections of cakes are missing',
-        brokenCakes: missingLayerCollections,
+    if (missingCakeLayers.length > 0) {
+      this.errors.cakeLayersNotFound = {
+        error: 'Layer layers of cakes are missing',
+        brokenCakes: missingCakeLayers,
       };
     }
   }

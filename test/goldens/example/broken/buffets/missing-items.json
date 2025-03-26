@@ -1,6 +1,6 @@
 {
-  "idSets": {
-    "_type": "idSets",
+  "sliceIds": {
+    "_type": "sliceIds",
     "_data": [
       {
         "add": [
@@ -10,10 +10,10 @@
         "_hash": "MgHRBYSrhpyl4rvsOmAWcQ"
       }
     ],
-    "_hash": "ha3u_Et6DXSHLr2ncTV6MB"
+    "_hash": "mZnUcc1ZcQFGukqJZR4y8H"
   },
-  "properties": {
-    "_type": "properties",
+  "ingredients": {
+    "_type": "ingredients",
     "_data": [
       {
         "a": "0",
@@ -24,51 +24,51 @@
         "_hash": "mv6w8rID8lQxLsje1EHQMY"
       }
     ],
-    "_hash": "QnrUL_NvlY6K1qSnjgFDP8"
+    "_hash": "YmWIYay0zsd2GmxoY6JLJg"
   },
-  "collections": {
-    "_type": "collections",
+  "layers": {
+    "_type": "layers",
     "_data": [
       {
-        "idSetsTable": "idSets",
+        "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "propertiesTable": "properties",
+        "ingredientsTable": "ingredients",
         "assign": {
           "_hash": "RBNvo1WzZ4oRRq0W9-hknp"
         },
-        "_hash": "Bqv4AEhsA71SnW2VScKrzA"
+        "_hash": "y5VKS77xAC34SBWAE6deLg"
       },
       {
-        "base": "Bqv4AEhsA71SnW2VScKrzA",
-        "idSetsTable": "idSets",
+        "base": "y5VKS77xAC34SBWAE6deLg",
+        "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "propertiesTable": "properties",
+        "ingredientsTable": "ingredients",
         "assign": {
           "id0": "AFhW-fMzdCiz6bUZscp1Lf",
           "id1": "mv6w8rID8lQxLsje1EHQMY",
           "_hash": "MjlS39OaUdiaxDA9LrWxDH"
         },
-        "_hash": "nInjR03jNCy6SXhoOXSj0O"
+        "_hash": "d6s52Rmau5PEWu5Ktuca2w"
       }
     ],
-    "_hash": "hpwoIh_eQgNQV96OJh6HZh"
+    "_hash": "O2gwQc2Aa2VWJMhBgayzn6"
   },
   "cakes": {
     "_type": "cakes",
     "_data": [
       {
-        "idSetsTable": "idSets",
+        "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "collectionsTable": "collections",
+        "layersTable": "layers",
         "layers": {
-          "layer0": "Bqv4AEhsA71SnW2VScKrzA",
-          "layer1": "nInjR03jNCy6SXhoOXSj0O",
-          "_hash": "KJL_bb1AFJ4HYnx49-cLo-"
+          "layer0": "y5VKS77xAC34SBWAE6deLg",
+          "layer1": "d6s52Rmau5PEWu5Ktuca2w",
+          "_hash": "aJJfbr8ZUDFQ0OTQhXhFZL"
         },
-        "_hash": "oHhKZqmZgX-w4YTggIO_YQ"
+        "_hash": "mIoy5AbschGILWhyv9TrDk"
       }
     ],
-    "_hash": "sIE5KGvhtcWu3D8KJ7vksl"
+    "_hash": "uNFapwx6jbBuCwQmLg8Wvi"
   },
   "buffets": {
     "_type": "buffets",
@@ -81,15 +81,15 @@
             "_hash": "E2C2VY6jddg_dbpOm8XPQw"
           },
           {
-            "table": "collections",
+            "table": "layers",
             "ref": "MISSING1",
-            "_hash": "IejRyi0VUdyFQH3nTBrQAR"
+            "_hash": "u7vovIk9s-UhbDm_N29Bt0"
           }
         ],
-        "_hash": "VxrIW8ttLpbYx1z7hOwQ4j"
+        "_hash": "SkP-dNHpemvdC02UVyf0ad"
       }
     ],
-    "_hash": "G0BUbieVNhAnJmRJXSp9JF"
+    "_hash": "iEYg2ZLWepGaeHr7igwdGu"
   },
-  "_hash": "i63bEpgp49UHJP6eQgFMGN"
+  "_hash": "7bDeTO40mGlsENh8sL4idS"
 }

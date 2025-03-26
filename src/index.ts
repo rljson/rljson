@@ -6,9 +6,9 @@
 
 export * from './content/buffet.ts';
 export * from './content/cake.ts';
-export * from './content/collection.ts';
-export * from './content/id-set.ts';
-export * from './content/properties.ts';
+export * from './content/ingredients.ts';
+export * from './content/layer.ts';
+export * from './content/slice-ids.ts';
 export * from './content/table-cfg.ts';
 export * from './example.ts';
 export * from './example/bakery-example.ts';

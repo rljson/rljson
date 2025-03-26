@@ -55,8 +55,8 @@ describe('BaseValidator', async () => {
 
           it('for an rljson object with valid table names', () => {
             const r = validate({
-              tableOne: { _type: 'properties', _data: [] },
-              tableTwo: { _type: 'properties', _data: [] },
+              tableOne: { _type: 'ingredients', _data: [] },
+              tableTwo: { _type: 'ingredients', _data: [] },
             });
             expect(r).toEqual({ hasErrors: false });
           });
@@ -64,7 +64,7 @@ describe('BaseValidator', async () => {
 
         it('when private keys like _type or _hash are contained', () => {
           const r = validate({
-            _type: 'properties',
+            _type: 'ingredients',
             _data: [],
           });
           expect(r).toEqual({ hasErrors: false });
@@ -74,7 +74,7 @@ describe('BaseValidator', async () => {
       describe('returns an error JSON', () => {
         it('when a table name starts with a number', () => {
           const r = validate({
-            '1table': { _type: 'properties', _data: [] },
+            '1table': { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -83,7 +83,7 @@ describe('BaseValidator', async () => {
         });
         it('when a table name contains a space', () => {
           const r = validate({
-            'table one': { _type: 'properties', _data: [] },
+            'table one': { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -93,7 +93,7 @@ describe('BaseValidator', async () => {
 
         it('when a table name contains a dash', () => {
           const r = validate({
-            'table-one': { _type: 'properties', _data: [] },
+            'table-one': { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -103,7 +103,7 @@ describe('BaseValidator', async () => {
 
         it('when a table name contains an underscore', () => {
           const r = validate({
-            table_one: { _type: 'properties', _data: [] },
+            table_one: { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -113,7 +113,7 @@ describe('BaseValidator', async () => {
 
         it('when a table name contains a capital letter', () => {
           const r = validate({
-            TableOne: { _type: 'properties', _data: [] },
+            TableOne: { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -123,11 +123,11 @@ describe('BaseValidator', async () => {
 
         it('when multiple table names are invalid', () => {
           const r = validate({
-            '1table': { _type: 'properties', _data: [] },
-            'table one': { _type: 'properties', _data: [] },
-            'table-one': { _type: 'properties', _data: [] },
-            table_one: { _type: 'properties', _data: [] },
-            TableOne: { _type: 'properties', _data: [] },
+            '1table': { _type: 'ingredients', _data: [] },
+            'table one': { _type: 'ingredients', _data: [] },
+            'table-one': { _type: 'ingredients', _data: [] },
+            table_one: { _type: 'ingredients', _data: [] },
+            TableOne: { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -143,7 +143,7 @@ describe('BaseValidator', async () => {
 
         it('when a table name is an empty string', () => {
           const r = validate({
-            '': { _type: 'properties', _data: [] },
+            '': { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -158,8 +158,8 @@ describe('BaseValidator', async () => {
         it('when there are no table names ending with "Ref"', () => {
           expect(
             validate({
-              tableOne: { _type: 'properties', _data: [] },
-              tableTwo: { _type: 'properties', _data: [] },
+              tableOne: { _type: 'ingredients', _data: [] },
+              tableTwo: { _type: 'ingredients', _data: [] },
             }).hasErrors,
           ).toBe(false);
         });
@@ -172,7 +172,7 @@ describe('BaseValidator', async () => {
       describe('returns an error JSON', () => {
         it('when a table name ends with "Ref"', () => {
           const r = validate({
-            tableOneRef: { _type: 'properties', _data: [] },
+            tableOneRef: { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysDoNotEndWithRef).toEqual({
             error: 'Table names must not end with "Ref"',
@@ -182,8 +182,8 @@ describe('BaseValidator', async () => {
 
         it('when multiple table names end with "Ref"', () => {
           const r = validate({
-            tableOneRef: { _type: 'properties', _data: [] },
-            tableTwoRef: { _type: 'properties', _data: [] },
+            tableOneRef: { _type: 'ingredients', _data: [] },
+            tableTwoRef: { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysDoNotEndWithRef).toEqual({
             error: 'Table names must not end with "Ref"',
@@ -197,8 +197,8 @@ describe('BaseValidator', async () => {
       describe('returns "ok"', () => {
         it('when all column names have camel case fields', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ columnOne: 123 }] },
-            tableTwo: { _type: 'properties', _data: [{ columnTwo: 456 }] },
+            tableOne: { _type: 'ingredients', _data: [{ columnOne: 123 }] },
+            tableTwo: { _type: 'ingredients', _data: [{ columnTwo: 456 }] },
           });
           expect(r).toEqual({ hasErrors: false });
         });
@@ -206,7 +206,7 @@ describe('BaseValidator', async () => {
         it('when private keys are like _type or _hash are contained', () => {
           const r = validate({
             tableOne: {
-              _type: 'properties',
+              _type: 'ingredients',
               _data: [{ _type: 123 }],
             },
           });
@@ -217,7 +217,7 @@ describe('BaseValidator', async () => {
       describe('returns an error JSON', () => {
         it('when a column name starts with a number', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ '1column': 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ '1column': 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -227,7 +227,7 @@ describe('BaseValidator', async () => {
 
         it('when a column name contains a space', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ 'column one': 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ 'column one': 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -237,7 +237,7 @@ describe('BaseValidator', async () => {
 
         it('when a column name contains a dash', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ 'column-one': 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ 'column-one': 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -247,7 +247,7 @@ describe('BaseValidator', async () => {
 
         it('when a column name contains an underscore', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ column_one: 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ column_one: 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -257,7 +257,7 @@ describe('BaseValidator', async () => {
 
         it('when a column name contains a capital letter', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ ColumnOne: 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ ColumnOne: 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -268,7 +268,7 @@ describe('BaseValidator', async () => {
         it('when multiple column names are invalid', () => {
           const r = validate({
             tableOne: {
-              _type: 'properties',
+              _type: 'ingredients',
               _data: [
                 { '1column': 123, 'column one': 456, 'column-one': 789 },
                 { column_one: 101, ColumnOne: 202 },
@@ -276,7 +276,7 @@ describe('BaseValidator', async () => {
             },
 
             tableTwo: {
-              _type: 'properties',
+              _type: 'ingredients',
               _data: [{ '1xyz': 123 }, { xy_38: 101 }],
             },
           });
@@ -297,7 +297,7 @@ describe('BaseValidator', async () => {
 
         it('when a column name is an empty string', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ '': 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ '': 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -312,8 +312,8 @@ describe('BaseValidator', async () => {
         it('when there are no hashes', () => {
           expect(
             validate({
-              tableOne: { _type: 'properties', _data: [] },
-              tableTwo: { _type: 'properties', _data: [] },
+              tableOne: { _type: 'ingredients', _data: [] },
+              tableTwo: { _type: 'ingredients', _data: [] },
             }).hasErrors,
           ).toBe(false);
         });
@@ -322,8 +322,8 @@ describe('BaseValidator', async () => {
           expect(
             validate(
               hip({
-                tableOne: { _type: 'properties', _data: [] },
-                tableTwo: { _type: 'properties', _data: [] },
+                tableOne: { _type: 'ingredients', _data: [] },
+                tableTwo: { _type: 'ingredients', _data: [] },
               }),
             ).hasErrors,
           ).toBe(false);
@@ -333,14 +333,14 @@ describe('BaseValidator', async () => {
       describe('throws', () => {
         it('when hashes are invalid', () => {
           const errors = validate({
-            tableOne: { _type: 'properties', _data: [], _hash: 'invalid' },
+            tableOne: { _type: 'ingredients', _data: [], _hash: 'invalid' },
           });
 
           expect(errors).toEqual({
             hasErrors: true,
             hashesNotValid: {
               error:
-                'Hash "invalid" does not match the newly calculated one "DKwor-pULmCs6RY-sMyfrM". ' +
+                'Hash "invalid" does not match the newly calculated one "2Mdbi9i3x8M8rrr6dAs2Hf". ' +
                 'Please make sure that all systems are producing the same hashes.',
             },
           });
@@ -362,8 +362,8 @@ describe('BaseValidator', async () => {
       it('returns no errors when data is found', () => {
         expect(
           validate({
-            tableOne: { _type: 'properties', _data: [] },
-            tableTwo: { _type: 'properties', _data: [] },
+            tableOne: { _type: 'ingredients', _data: [] },
+            tableTwo: { _type: 'ingredients', _data: [] },
           }),
         ).toEqual({
           hasErrors: false,
@@ -373,9 +373,9 @@ describe('BaseValidator', async () => {
       it('returns an error when data is not found', () => {
         expect(
           validate({
-            tableOne: { _type: 'properties' },
-            tableTwo: { _type: 'properties', _data: [] },
-            tableThree: { _type: 'properties' },
+            tableOne: { _type: 'ingredients' },
+            tableTwo: { _type: 'ingredients', _data: [] },
+            tableThree: { _type: 'ingredients' },
           }),
         ).toEqual({
           dataNotFound: {
@@ -391,8 +391,8 @@ describe('BaseValidator', async () => {
       it('returns no errors when data is an array', () => {
         expect(
           validate({
-            tableOne: { _type: 'properties', _data: [] },
-            tableTwo: { _type: 'properties', _data: [] },
+            tableOne: { _type: 'ingredients', _data: [] },
+            tableTwo: { _type: 'ingredients', _data: [] },
           }),
         ).toEqual({
           hasErrors: false,
@@ -402,9 +402,9 @@ describe('BaseValidator', async () => {
       it('returns an error when data is not an array', () => {
         expect(
           validate({
-            tableOne: { _type: 'properties', _data: {} },
-            tableTwo: { _type: 'properties', _data: [] },
-            tableThree: { _type: 'properties', _data: 'string' },
+            tableOne: { _type: 'ingredients', _data: {} },
+            tableTwo: { _type: 'ingredients', _data: [] },
+            tableThree: { _type: 'ingredients', _data: 'string' },
           }),
         ).toEqual({
           dataHasWrongType: {
@@ -422,7 +422,7 @@ describe('BaseValidator', async () => {
           validate({
             tableOne: { _type: 'xyz', _data: [] },
             tableTwo: { _type: 'abc', _data: [] },
-            tableThree: { _type: 'properties', _data: [] },
+            tableThree: { _type: 'ingredients', _data: [] },
           }),
         ).toEqual({
           hasErrors: true,
@@ -431,13 +431,13 @@ describe('BaseValidator', async () => {
             tables: [
               {
                 allowedTypes:
-                  'buffets | cakes | collections | idSets | properties',
+                  'buffets | cakes | layers | sliceIds | ingredients',
                 table: 'tableOne',
                 type: 'xyz',
               },
               {
                 allowedTypes:
-                  'buffets | cakes | collections | idSets | properties',
+                  'buffets | cakes | layers | sliceIds | ingredients',
                 table: 'tableTwo',
                 type: 'abc',
               },
@@ -465,7 +465,7 @@ describe('BaseValidator', async () => {
               tables: [
                 {
                   table: 'table',
-                  typeInConfig: 'properties',
+                  typeInConfig: 'ingredients',
                   typeInTable: 'cakes',
                   tableCfg,
                 },
@@ -661,8 +661,8 @@ describe('BaseValidator', async () => {
     });
   });
 
-  describe('collection errors', () => {
-    describe('collectionBasesNotFound()', () => {
+  describe('layer errors', () => {
+    describe('layerBasesNotFound()', () => {
       it('returns no errors when all base refs are found', () => {
         expect(validate(Example.ok.complete())).toEqual({
           hasErrors: false,
@@ -670,44 +670,44 @@ describe('BaseValidator', async () => {
       });
 
       it('returns an error when a base ref is not found', () => {
-        const rljson = Example.broken.collections.missingBase();
-        const collection = rljson.collections._data[1];
+        const rljson = Example.broken.layers.missingBase();
+        const layer = rljson.layers._data[1];
         expect(validate(rljson)).toEqual({
-          collectionBasesNotFound: {
-            brokenCollections: [
+          layerBasesNotFound: {
+            brokenLayers: [
               {
-                brokenCollection: collection._hash,
-                collectionsTable: 'collections',
-                missingBaseCollection: 'MISSING',
+                brokenLayer: layer._hash,
+                layersTable: 'layers',
+                missingBaseLayer: 'MISSING',
               },
             ],
-            error: 'Base collections are missing',
+            error: 'Base layers are missing',
           },
           hasErrors: true,
         });
       });
     });
 
-    describe('collectionIdSetsTableNotFound()', () => {
-      it('returns an error when an reference idSets table is not found', () => {
+    describe('layerSliceIdsTableNotFound()', () => {
+      it('returns an error when an reference sliceIds table is not found', () => {
         const rljson = Example.ok.complete();
-        const collection0 = rljson.collections._data[0];
-        const collection1 = rljson.collections._data[1];
-        delete rljson.idSets;
+        const layer0 = rljson.layers._data[0];
+        const layer1 = rljson.layers._data[1];
+        delete rljson.sliceIds;
         hip(rljson, true, false);
 
         expect(validate(rljson)).toEqual({
-          collectionIdSetsTableNotFound: {
-            brokenCollections: [
+          layerSliceIdsTableNotFound: {
+            brokenLayers: [
               {
-                collectionHash: collection0._hash,
-                collectionsTable: 'collections',
-                missingIdSetsTable: 'idSets',
+                layerHash: layer0._hash,
+                layersTable: 'layers',
+                missingSliceIdsTable: 'sliceIds',
               },
               {
-                collectionHash: collection1._hash,
-                collectionsTable: 'collections',
-                missingIdSetsTable: 'idSets',
+                layerHash: layer1._hash,
+                layersTable: 'layers',
+                missingSliceIdsTable: 'sliceIds',
               },
             ],
             error: 'Id sets tables are missing',
@@ -717,22 +717,22 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('collectionIdSetNotFound()', () => {
+    describe('layerSliceIdsNotFound()', () => {
       it('returns an error when idSetRef is not found', () => {
-        const rljson = Example.broken.collections.missingIdSet();
-        const collection = rljson.collections._data[1];
-        expect(collection.idSet).toBe('MISSING1');
+        const rljson = Example.broken.layers.missingSliceIdSet();
+        const layer = rljson.layers._data[1];
+        expect(layer.idSet).toBe('MISSING1');
 
         expect(validate(rljson)).toEqual({
-          collectionIdSetNotFound: {
-            brokenCollections: [
+          layerSliceIdsNotFound: {
+            brokenLayers: [
               {
-                collectionHash: collection._hash,
-                collectionsTable: 'collections',
-                missingIdSet: 'MISSING1',
+                layerHash: layer._hash,
+                layersTable: 'layers',
+                missingSliceIds: 'MISSING1',
               },
             ],
-            error: 'Id sets of collections are missing',
+            error: 'Id sets of layers are missing',
           },
           hasErrors: true,
         });
@@ -746,19 +746,19 @@ describe('BaseValidator', async () => {
         });
 
         // delete idSet reference
-        const collection1 = result.collections._data[1];
-        delete collection1.idSet;
-        hip(collection1, true, false);
+        const layer1 = result.layers._data[1];
+        delete layer1.idSet;
+        hip(layer1, true, false);
 
         // Update cake layers
         const cake = result.cakes._data[0];
-        cake.layers['layer1'] = collection1._hash;
+        cake.layers['layer1'] = layer1._hash;
         hip(cake, true, false);
 
-        // Update buffet items
+        // Update buffet slices
         const buffet = result.buffets._data[0];
         buffet.items[0].ref = cake._hash;
-        buffet.items[1].ref = collection1._hash;
+        buffet.items[1].ref = layer1._hash;
 
         hip(result, true, false);
 
@@ -769,52 +769,51 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('collectionAssignedPropertiesFound', () => {
-      it('returns an error when the properties table is not foun', () => {
-        const rljson =
-          Example.broken.collections.missingAssignedPropertyTable();
-        const collection0 = rljson.collections._data[0];
-        const collection1 = rljson.collections._data[1];
+    describe('layerAssignedIngredientsFound', () => {
+      it('returns an error when the ingredients table is not foun', () => {
+        const rljson = Example.broken.layers.missingAssignedIngredientTable();
+        const layer0 = rljson.layers._data[0];
+        const layer1 = rljson.layers._data[1];
 
         expect(validate(rljson)).toEqual({
-          collectionPropertyTablesNotFound: {
-            collections: [
+          layerIngredientTablesNotFound: {
+            layers: [
               {
-                brokenCollection: collection0._hash,
-                missingPropertyTable: 'properties',
-                collectionsTable: 'collections',
+                brokenLayer: layer0._hash,
+                missingIngredientTable: 'ingredients',
+                layersTable: 'layers',
               },
               {
-                brokenCollection: collection1._hash,
-                collectionsTable: 'collections',
-                missingPropertyTable: 'properties',
+                brokenLayer: layer1._hash,
+                layersTable: 'layers',
+                missingIngredientTable: 'ingredients',
               },
             ],
-            error: 'Collection property tables do not exist',
+            error: 'Layer ingredient tables do not exist',
           },
           hasErrors: true,
         });
       });
 
-      it('returns an error when an assigned property is not found', () => {
+      it('returns an error when an assigned ingredient is not found', () => {
         const rljsonOk = Example.ok.complete();
-        const property = rljsonOk.properties._data[1];
+        const ingredient = rljsonOk.ingredients._data[1];
 
-        const rljson = Example.broken.collections.missingAssignedProperty();
-        const collection = rljson.collections._data[1];
+        const rljson = Example.broken.layers.missingAssignedIngredient();
+        const layer = rljson.layers._data[1];
 
         expect(validate(rljson)).toEqual({
-          collectionPropertyAssignmentsNotFound: {
+          layerIngredientAssignmentsNotFound: {
             brokenAssignments: [
               {
-                brokenCollection: collection._hash,
+                brokenLayer: layer._hash,
                 brokenAssignment: 'id1',
-                missingProperty: property._hash,
-                referencedPropertyTable: 'properties',
-                collectionsTable: 'collections',
+                missingIngredient: ingredient._hash,
+                referencedIngredientTable: 'ingredients',
+                layersTable: 'layers',
               },
             ],
-            error: 'Collection property assignments are broken',
+            error: 'Layer ingredient assignments are broken',
           },
           hasErrors: true,
         });
@@ -823,22 +822,22 @@ describe('BaseValidator', async () => {
   });
 
   describe('cake errors', () => {
-    describe('cakeIdSetNotFound', () => {
-      it('returns no errors when all idSets are found', () => {
+    describe('cakeSliceIdsNotFound', () => {
+      it('returns no errors when all sliceIds are found', () => {
         expect(validate(Example.ok.complete())).toEqual({
           hasErrors: false,
         });
       });
 
-      it('returns no errors when no idSets is specified', () => {
+      it('returns no errors when no sliceIds is specified', () => {
         const rljson = Example.ok.complete();
         delete rljson.cakes._data[0].idSet;
         hip(rljson, true, false);
 
-        // Update buffet items
+        // Update buffet slices
         const buffet = rljson.buffets._data[0];
         buffet.items[0].ref = rljson.cakes._data[0]._hash;
-        buffet.items[1].ref = rljson.collections._data[1]._hash;
+        buffet.items[1].ref = rljson.layers._data[1]._hash;
         hip(rljson, true, false);
 
         // Validate
@@ -848,15 +847,15 @@ describe('BaseValidator', async () => {
       });
 
       it('returns an error when an idSet is not found', () => {
-        const rljson = Example.broken.cakes.missingIdSet();
+        const rljson = Example.broken.cakes.missingSliceIdSet();
         const cake = rljson.cakes._data[0];
         expect(validate(rljson)).toEqual({
-          cakeIdSetNotFound: {
+          cakeSliceIdsNotFound: {
             brokenCakes: [
               {
                 brokenCake: cake._hash,
                 cakeTable: 'cakes',
-                missingIdSet: 'MISSING',
+                missingSliceIds: 'MISSING',
               },
             ],
             error: 'Id sets of cakes are missing',
@@ -866,11 +865,11 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('cakeIdSetsTableNotFound', () => {
-      it('returns no error when no idSets table is specified', () => {
+    describe('cakeSliceIdsTableNotFound', () => {
+      it('returns no error when no sliceIds table is specified', () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
-        delete cake.idSetsTable;
+        delete cake.sliceIdsTable;
         delete cake.idSet;
         delete rljson.buffets;
         hip(rljson, true, false);
@@ -878,19 +877,19 @@ describe('BaseValidator', async () => {
         expect(validate(rljson)).toEqual({ hasErrors: false });
       });
 
-      it('returns an error when an referenced idSets is not found', () => {
+      it('returns an error when an referenced sliceIds is not found', () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
-        cake.idSetsTable = 'MISSINGIDSET';
+        cake.sliceIdsTable = 'MISSINGIDSET';
         hip(rljson, true, false);
 
         expect(validate(rljson)).toEqual({
-          cakeIdSetsTableNotFound: {
+          cakeSliceIdsTableNotFound: {
             brokenCakes: [
               {
                 brokenCake: cake._hash,
                 cakeTable: 'cakes',
-                missingIdSets: 'MISSINGIDSET',
+                missingSliceIds: 'MISSINGIDSET',
               },
             ],
             error: 'Id sets tables referenced by cakes are missing',
@@ -900,49 +899,49 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('cakeCollectionTablesNotFound', () => {
-      it('returns an error when the collection table is not found', () => {
-        const rljson = Example.broken.cakes.missingCollectionsTable();
+    describe('cakeLayerTablesNotFound', () => {
+      it('returns an error when the layer table is not found', () => {
+        const rljson = Example.broken.cakes.missingLayersTable();
         const cake = rljson.cakes._data[0];
         expect(validate(rljson)).toEqual({
-          cakeCollectionTablesNotFound: {
+          cakeLayerTablesNotFound: {
             brokenCakes: [
               {
                 brokenCake: cake._hash,
                 cakeTable: 'cakes',
-                missingCollectionsTable: 'MISSING',
+                missingLayersTable: 'MISSING',
               },
             ],
-            error: 'Collection tables of cakes are missing',
+            error: 'Layer tables of cakes are missing',
           },
           hasErrors: true,
         });
       });
     });
 
-    describe('cakeLayerCollectionsNotFound', () => {
-      it('returns an error when the collection of a layer is not found', () => {
-        const rljson = Example.broken.cakes.missingLayerCollection();
+    describe('cakeLayersNotFound', () => {
+      it('returns an error when the layer of a layer is not found', () => {
+        const rljson = Example.broken.cakes.missingCakeLayer();
         const cake = rljson.cakes._data[0];
         expect(validate(rljson)).toEqual({
-          cakeLayerCollectionsNotFound: {
+          cakeLayersNotFound: {
             brokenCakes: [
               {
                 brokenCake: cake._hash,
                 brokenLayerName: 'layer0',
                 cakeTable: 'cakes',
-                collectionsTable: 'collections',
-                missingCollection: 'MISSING0',
+                layersTable: 'layers',
+                missingLayer: 'MISSING0',
               },
               {
                 brokenCake: cake._hash,
                 brokenLayerName: 'layer1',
                 cakeTable: 'cakes',
-                collectionsTable: 'collections',
-                missingCollection: 'MISSING1',
+                layersTable: 'layers',
+                missingLayer: 'MISSING1',
               },
             ],
-            error: 'Layer collections of cakes are missing',
+            error: 'Layer layers of cakes are missing',
           },
           hasErrors: true,
         });
@@ -993,7 +992,7 @@ describe('BaseValidator', async () => {
               {
                 brokenBuffet: buffet._hash,
                 buffetTable: 'buffets',
-                itemTable: 'collections',
+                itemTable: 'layers',
                 missingItem: 'MISSING1',
               },
             ],

@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Append table to table references` here and below
+Replace `Rename collection -> layer and properties into ingredient` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Append table to table references"
+node scripts/create-branch.js "Rename collection -> layer and properties into ingredient"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Append table to table references"
+git commit -am"Rename collection -> layer and properties into ingredient"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Append table to table references" --body " "
+gh pr create --base main --title "Rename collection -> layer and properties into ingredient" --body " "
 ```
 
 ## Code review

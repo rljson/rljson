@@ -6,14 +6,12 @@
 
 import { describe, it } from 'vitest';
 
-import { exampleCollectionsTable } from '../../src/content/collection.ts';
+import { exampleSliceIdsTable } from '../../src/content/slice-ids.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
-describe('CollectionsTable', () => {
-  it('provides a list of collections', async () => {
-    await expectGolden('content/collections.json').toBe(
-      exampleCollectionsTable(),
-    );
+describe('SliceIdsTable', () => {
+  it('provides a list of slice-idss', async () => {
+    await expectGolden('content/slice-idss.json').toBe(exampleSliceIdsTable());
   });
 });

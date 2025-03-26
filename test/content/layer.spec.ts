@@ -6,12 +6,14 @@
 
 import { describe, it } from 'vitest';
 
-import { exampleIdSetsTable } from '../../src/content/id-set.ts';
+import { exampleLayersTable } from '../../src/content/layer.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
-describe('IdSetsTable', () => {
-  it('provides a list of id-sets', async () => {
-    await expectGolden('content/id-sets.json').toBe(exampleIdSetsTable());
+describe('LayersTable', () => {
+  it('provides a list of layers', async () => {
+    await expectGolden('content/layers.json').toBe(
+      exampleLayersTable(),
+    );
   });
 });

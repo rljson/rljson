@@ -7,12 +7,11 @@
 import { Hashed, hip } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
-import { IdSetsTable } from '../../dist/content/id-set.ts';
-
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
-import { CollectionsTable } from '../content/collection.ts';
-import { PropertiesTable } from '../content/properties.ts';
+import { IngredientsTable } from '../content/ingredients.ts';
+import { LayersTable } from '../content/layer.ts';
+import { SliceIdsTable } from '../content/slice-ids.ts';
 import { Rljson } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
 
@@ -28,7 +27,7 @@ export interface RecipeIngredient extends Json {
   quantity: number;
 }
 
-export type IngredientsTypeTable = PropertiesTable<Ingredient>;
+export type IngredientsTypeTable = IngredientsTable<Ingredient>;
 
 export interface NutritionalValues extends Json {
   energy: number;
@@ -41,18 +40,18 @@ export interface NutritionalValues extends Json {
 export interface Bakery extends Rljson {
   buffets: BuffetsTable;
   cakes: CakesTable;
-  slices: IdSetsTable;
-  layers: CollectionsTable;
-  recipes: CollectionsTable;
-  recipeIngredients: PropertiesTable<RecipeIngredient>;
-  ingredients: PropertiesTable<Ingredient>;
-  nutritionalValues: PropertiesTable<NutritionalValues>;
+  slices: SliceIdsTable;
+  layers: LayersTable;
+  recipes: LayersTable;
+  recipeIngredients: IngredientsTable<RecipeIngredient>;
+  ingredients: IngredientsTable<Ingredient>;
+  nutritionalValues: IngredientsTable<NutritionalValues>;
 }
 
 // .............................................................................
 export const bakeryExample = (): Bakery => {
-  const nutritionalValues: Hashed<PropertiesTable<any>> = hip({
-    _type: 'properties',
+  const nutritionalValues: Hashed<IngredientsTable<any>> = hip({
+    _type: 'ingredients',
     _data: [
       {
         energy: 364,
@@ -65,8 +64,8 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const ingredients: Hashed<PropertiesTable<any>> = hip({
-    _type: 'properties',
+  const ingredients: Hashed<IngredientsTable<any>> = hip({
+    _type: 'ingredients',
     _data: [
       {
         name: 'flour',
@@ -78,8 +77,8 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const recipeIngredients: Hashed<PropertiesTable<any>> = hip({
-    _type: 'properties',
+  const recipeIngredients: Hashed<IngredientsTable<any>> = hip({
+    _type: 'ingredients',
     _data: [
       {
         ingredientsRef: ingredients._data[0]._hash as string,
@@ -90,11 +89,11 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const recipes: Hashed<CollectionsTable> = hip({
-    _type: 'collections',
+  const recipes: Hashed<LayersTable> = hip({
+    _type: 'layers',
     _data: [
       {
-        propertiesTable: 'recipeIngredients',
+        ingredientsTable: 'recipeIngredients',
         assign: {
           flour: recipeIngredients._data[0]._hash as string,
         },
@@ -103,11 +102,11 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const layers: Hashed<CollectionsTable> = hip({
-    _type: 'collections',
+  const layers: Hashed<LayersTable> = hip({
+    _type: 'layers',
     _data: [
       {
-        propertiesTable: 'recipes',
+        ingredientsTable: 'recipes',
         assign: {
           slice0: recipes._data[0]._hash as string,
           slice1: recipes._data[0]._hash as string,
@@ -116,8 +115,8 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const slices: Hashed<IdSetsTable> = hip({
-    _type: 'idSets',
+  const slices: Hashed<SliceIdsTable> = hip({
+    _type: 'sliceIds',
     _data: [
       {
         add: ['slice0', 'slice1'],
@@ -132,9 +131,9 @@ export const bakeryExample = (): Bakery => {
     _type: 'cakes',
     _data: [
       {
-        idSetsTable: 'slices',
+        sliceIdsTable: 'slices',
         idSet: slices._data[0]._hash as string,
-        collectionsTable: 'layers',
+        layersTable: 'layers',
         layers: {
           flour: layers._data[0]._hash as string,
         },

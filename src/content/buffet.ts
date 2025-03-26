@@ -8,31 +8,31 @@ import { Json } from '@rljson/json';
 
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { ItemId, Ref, TableKey } from '../typedefs.ts';
+import { Ref, TableKey } from '../typedefs.ts';
 
 // .............................................................................
 /**
  * A buffet id is a name or id of a buffet
  */
-export type BuffetId = ItemId;
+export type BuffetId = string;
 
 // .............................................................................
 /**
  * A buffet is a collection of arbitrary but related items, e.g. cakes,
- * collections, or items.
+ * layers, or slices.
  */
 export interface Buffet extends Json {
   /**
-   * The items of the buffet
+   * The slices of the buffet
    */
   items: Array<{
     /**
-     * The table the item is taken from
+     * The table the slice is taken from
      */
     table: TableKey;
 
     /**
-     * The hash of the item in the able
+     * The hash of the slice in the able
      */
     ref: Ref;
   }>;

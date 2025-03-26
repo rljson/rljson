@@ -1,19 +1,16 @@
 {
-  "idSets": {
-    "_type": "idSets",
+  "sliceIds": {
+    "_type": "sliceIds",
     "_data": [
       {
-        "add": [
-          "id0",
-          "id1"
-        ],
+        "add": ["id0", "id1"],
         "_hash": "MgHRBYSrhpyl4rvsOmAWcQ"
       }
     ],
     "_hash": "ha3u_Et6DXSHLr2ncTV6MB"
   },
-  "properties": {
-    "_type": "properties",
+  "ingredients": {
+    "_type": "ingredients",
     "_data": [
       {
         "a": "0",
@@ -26,13 +23,13 @@
     ],
     "_hash": "QnrUL_NvlY6K1qSnjgFDP8"
   },
-  "collections": {
-    "_type": "collections",
+  "layers": {
+    "_type": "layers",
     "_data": [
       {
-        "idSetsTable": "idSets",
+        "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "propertiesTable": "properties",
+        "ingredientsTable": "ingredients",
         "assign": {
           "_hash": "RBNvo1WzZ4oRRq0W9-hknp"
         },
@@ -40,9 +37,9 @@
       },
       {
         "base": "Bqv4AEhsA71SnW2VScKrzA",
-        "idSetsTable": "idSets",
+        "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "propertiesTable": "properties",
+        "ingredientsTable": "ingredients",
         "assign": {
           "id0": "AFhW-fMzdCiz6bUZscp1Lf",
           "id1": "mv6w8rID8lQxLsje1EHQMY",
@@ -57,31 +54,31 @@
     "_type": "cakes",
     "_data": [
       {
-        "idSetsTable": "idSets",
+        "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "collectionsTable": "MISSING",
+        "layersTable": "layers",
         "layers": {
-          "layer0": "Bqv4AEhsA71SnW2VScKrzA",
-          "layer1": "nInjR03jNCy6SXhoOXSj0O",
-          "_hash": "KJL_bb1AFJ4HYnx49-cLo-"
+          "layer0": "MISSING0",
+          "layer1": "MISSING1",
+          "_hash": "shG3giFAqO-xc2gR4_I1yU"
         },
-        "_hash": "eRA6oxwKPMmVkyLOUI-qg7"
+        "_hash": "NQ4GHrHLdtKKRs131yQ6pp"
       }
     ],
-    "_hash": "6EfEP1hBjSHjNTBmJK7tVh"
+    "_hash": "sj_50xsIJBjjp5Xqo6OqlI"
   },
   "buffets": {
     "_type": "buffets",
     "_data": [
       {
-        "items": [
+        "slices": [
           {
             "table": "cakes",
             "ref": "oHhKZqmZgX-w4YTggIO_YQ",
             "_hash": "DXNDAFNSLYaZhciBFVsDhD"
           },
           {
-            "table": "collections",
+            "table": "layers",
             "ref": "Bqv4AEhsA71SnW2VScKrzA",
             "_hash": "6Hb8w4ofefgsdiHe2L8mHM"
           }

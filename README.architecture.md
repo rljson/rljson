@@ -1,3 +1,11 @@
+<!--
+@license
+Copyright (c) 2025 Rljson
+
+Use of this source code is governed by terms that can be
+found in the LICENSE file in the root of this package.
+-->
+
 # Rljson Architecture
 
 This document describes the architecture of the Rljson format.
@@ -21,9 +29,9 @@ This document describes the architecture of the Rljson format.
   - [Hashes](#hashes)
   - [Linking Tables Using References](#linking-tables-using-references)
 - [Data Types](#data-types)
-  - [Properties](#properties)
-  - [IdSet](#idset)
-  - [Collection](#collection)
+  - [Ingredients](#ingredients)
+  - [SliceIds](#sliceids)
+  - [Layer](#layer)
   - [Cake](#cake)
   - [Buffet](#buffet)
 
@@ -91,7 +99,7 @@ containing the table rows and a `_type` property describing the table type:
 ```json
 {
   "table0": {
-    "_type": "properties",
+    "_type": "ingredients",
     "_data": []
   }
 }
@@ -129,7 +137,7 @@ Rljson uses hashes to identify and reference data. Using the `hash-in-place`
 const jsonWithHashes = hip({
   a: {
     _data: [{ a: 10 }],
-    _type: 'properties',
+    _type: 'ingredients',
   },
 });
 ```
@@ -147,7 +155,7 @@ This results in:
       }
     ],
     "_hash": "FfCIOVQsrK1g5o5_G-AxP4",
-    "_type": "properties"
+    "_type": "ingredients"
   }
 }
 ```
@@ -161,7 +169,7 @@ table `b` references table `a` using `aRef`:
 {
   "b": {
     "_data": [{ "aRef": "LeFJOCQVgToOfbUuKJQ-GO" }],
-    "_type": "properties"
+    "_type": "ingredients"
   }
 }
 ```
@@ -173,96 +181,153 @@ This reference structure enables automated denormalization of JSON data.
 Rljson provides several core data structures and table types to manage and
 synchronize large datasets.
 
-### Properties
+### Ingredients
 
-`Properties` are the fundamental data concept. A `PropertiesTable` contains
-key-value pairs representing property assignments:
+`Ingredients` are the fundamental data concept. An `IngredientsTable` contains
+key-value pairs assigning values to ingredient names.
 
 ```json
 {
-  "sizes": {
-    "_type": "properties",
+  "ingredients": {
+    "_type": "ingredients",
     "_data": [
-      { "w": 10, "h": 20 },
-      { "w": 30, "h": 40 }
+      {
+        "name": "flour",
+        "amountUnit": "g",
+        "nutritionalValuesRef": "gZXFSlrl5QAs5hOVsq5sWB"
+      }
+    ]
+  },
+
+  "nutritionalValues": {
+    "_type": "ingredients",
+    "_data": [
+      {
+        "energy": 364,
+        "fat": 0.98,
+        "protein": 10.33,
+        "carbohydrates": 76.31,
+        "_hash": "gZXFSlrl5QAs5hOVsq5sWB"
+      }
     ]
   }
 }
 ```
 
-### IdSet
+### SliceIds
 
-For efficient management of large collections, item IDs are separated from their
-properties. This allows fetching IDs first and retrieving details later. The
-following `IdSet` defines a set of three IDs:
+For efficient management of large layers, slice IDs are separated from their
+ingredients. This allows fetching IDs first and retrieving details later. The
+following `SliceIds` define a set of three slice IDs:
 
 ```json
 {
-  "add": ["id0", "id1", "id2"],
-  "_hash": "IDS0"
+  "slices": {
+    "_type": "sliceIds",
+    "_data": [
+      {
+        "add": ["slice0", "slice1"],
+        "remove": [],
+        "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
+      }
+    ]
+  }
 }
 ```
 
-Derived `IdSets` can be created by modifying an existing set:
+Derived `SliceIds` can be created by modifying an existing set:
 
 ```json
 {
-  "base": "IDS0",
-  "add": ["id3", "id4"],
-  "remove": ["id0"],
-  "_hash": "IDS1"
+  "slices": {
+    "_type": "sliceIds",
+    "_data": [
+      {
+        "add": ["slice0", "slice1"],
+        "remove": [],
+        "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
+      },
+      {
+        "base": "wyYfK5E4ArrMKQ_zvi2-EE",
+        "add": ["slice2"],
+        "remove": []
+      }
+    ]
+  }
 }
 ```
 
-### Collection
+### Layer
 
-A `Collection` consists of an `IdSet` and a mapping that links item IDs to their
-properties:
+Cake layers assign ingredients to slices.
 
 ```json
 {
-  "idSets": "personIds",
-  "idSet": "IDS0",
-  "properties": "addresses",
-  "assign": {
-    "id0": "P0HASH",
-    "id1": "P1HASH"
-  },
-  "_hash": "C0HASH"
+  "layers": {
+    "_type": "layers",
+    "_data": [
+      {
+        "ingredientsTable": "recipes",
+        "assign": {
+          "slice0": "H8KK9vMjOxxQr_G_9XeDM-",
+          "slice1": "H8KK9vMjOxxQr_G_9XeDM-"
+        },
+        "_hash": "rrFBguLFLhXjrDqAxJx1p-"
+      }
+    ]
+  }
 }
 ```
 
 ### Cake
 
-Rljson supports `Cake` as a native data structure:
-
-- A `Cake` consists of layers, each representing a collection of items (slices).
-- All layers share the same item IDs (slice structure).
-- Each layer assigns different properties to the same items.
+A `Cake` consists of layers of slices.
+All layers share the same slice structure, i.e. the same slice ids.
+Each layer assigns different ingredients to slices.
 
 ```json
 {
-  "itemIdsTable": "ingredientIds",
-  "itemIds": "IDS1",
-  "layersTable": "HASH",
-  "assign": {
-    "base": "HASH15",
-    "cherries": "HASH16",
-    "creme": "HASH17"
+  "cakes": {
+    "_type": "cakes",
+    "_data": [
+      {
+        "sliceIdsTable": "slices",
+        "idSet": "wyYfK5E4ArrMKQ_zvi2-EE",
+        "layersTable": "layers",
+        "layers": {
+          "flour": "rrFBguLFLhXjrDqAxJx1p-",
+          "_hash": "JSoUx1N6lso-18vkzG63Pm"
+        },
+        "_hash": "bOlQ1lPpZEYB00F14nGvOP"
+      }
+    ],
+    "_hash": "hsL7dD0mFDqmT2i-1fx_1a"
   }
 }
 ```
 
 ### Buffet
 
-A `Buffet` is a heterogeneous collection of different but related items, such as
-cakes, collections, or properties:
+A `Buffet` is a heterogeneous collection of different but related items,
+such as cakes, layers, or ingredients:
 
 ```json
 {
-  "items": [
-    { "table": "drinks", "ref": "HASH20" },
-    { "table": "cakes", "ref": "HASH21" }
-  ]
+  "buffets": {
+    "_type": "buffets",
+    "_data": [
+      {
+        "items": [
+          {
+            "table": "cakes",
+            "ref": "bOlQ1lPpZEYB00F14nGvOP",
+            "_hash": "ma47UGAZbu5Ql5yXWFHLAT"
+          }
+        ],
+        "_hash": "jPv5bXjs3XVOLRbQvoWcjw"
+      }
+    ],
+    "_hash": "FYK9ItHMDCe2CnD_TGRs8_"
+  }
 }
 ```

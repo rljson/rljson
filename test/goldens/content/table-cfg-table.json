@@ -1,12 +1,12 @@
 {
-  "_hash": "Y7hehzJ9GVOq4OeRQu1EMT",
-  "_type": "properties",
+  "_hash": "S6ohb7UkjLl8uBHB8A7zZ1",
+  "_type": "ingredients",
   "_data": [
     {
       "version": 0,
-      "_hash": "eha2XgPvob1n-yn2AzspLX",
+      "_hash": "4qqBj31UpKNYFv5dHJn04Z",
       "key": "table",
-      "type": "properties",
+      "type": "ingredients",
       "columns": {
         "int": {
           "key": "int",

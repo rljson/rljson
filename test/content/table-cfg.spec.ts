@@ -27,7 +27,7 @@ describe('TableCfg', () => {
           type: 'boolean',
         },
       },
-      type: 'properties',
+      type: 'ingredients',
     };
 
     const result = exampleTableCfg(partialCfg);
@@ -39,7 +39,7 @@ describe('TableCfg', () => {
         type: 'boolean',
       },
     });
-    expect(result.type).toBe('properties');
+    expect(result.type).toBe('ingredients');
   });
 
   it('exampleTableCfg with default values', () => {
@@ -56,6 +56,6 @@ describe('TableCfg', () => {
         type: 'number',
       },
     });
-    expect(result.type).toBe('properties');
+    expect(result.type).toBe('ingredients');
   });
 });
