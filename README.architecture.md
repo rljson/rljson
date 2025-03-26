@@ -22,7 +22,7 @@ This document describes the architecture of the Rljson format.
   - [Linking Tables Using References](#linking-tables-using-references)
 - [Data Types](#data-types)
   - [Ingredients](#ingredients)
-  - [IdSet](#idset)
+  - [SliceIdSet](#idset)
   - [Layer](#layer)
   - [Cake](#cake)
   - [Buffet](#buffet)
@@ -190,11 +190,11 @@ key-value pairs representing property assignments:
 }
 ```
 
-### IdSet
+### SliceIdSet
 
-For efficient management of large layers, item IDs are separated from their
+For efficient management of large layers, slice IDs are separated from their
 ingredients. This allows fetching IDs first and retrieving details later. The
-following `IdSet` defines a set of three IDs:
+following `SliceIdSet` defines a set of three slice IDs:
 
 ```json
 {
@@ -203,7 +203,7 @@ following `IdSet` defines a set of three IDs:
 }
 ```
 
-Derived `IdSets` can be created by modifying an existing set:
+Derived `SliceIdSets` can be created by modifying an existing set:
 
 ```json
 {
@@ -216,7 +216,7 @@ Derived `IdSets` can be created by modifying an existing set:
 
 ### Layer
 
-A `Layer` consists of an `IdSet` and a mapping that links item IDs to their
+A `Layer` consists of an `SliceIdSet` and a mapping that links item IDs to their
 ingredients:
 
 ```json

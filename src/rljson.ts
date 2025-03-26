@@ -8,9 +8,9 @@ import { Json } from '@rljson/json';
 
 import { BuffetsTable } from './content/buffet.ts';
 import { CakesTable } from './content/cake.ts';
-import { LayersTable } from './content/layer.ts';
-import { IdSetsTable } from './content/id-set.ts';
 import { IngredientsTable } from './content/ingredients.ts';
+import { LayersTable } from './content/layer.ts';
+import { SliceIdSetsTable } from './content/slice-id-set.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
 import { ContentType, Ref, TableKey } from './typedefs.ts';
@@ -28,7 +28,7 @@ export type TableType =
   | BuffetsTable
   | IngredientsTable<any>
   | LayersTable
-  | IdSetsTable
+  | SliceIdSetsTable
   | CakesTable;
 
 // .............................................................................
@@ -49,7 +49,7 @@ export type RljsonPrivate = {
   /**
    * Contains id sets used accross the Rljson object
    */
-  _idSet?: IdSetsTable;
+  _idSet?: SliceIdSetsTable;
 
   /**
    * References that are not part of the Rljson object

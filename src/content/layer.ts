@@ -10,8 +10,8 @@ import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { ItemId, Ref, TableKey } from '../typedefs.ts';
 
-import { IdSetRef } from './id-set.ts';
 import { IngredientsRef } from './ingredients.ts';
+import { SliceIdSetRef } from './slice-id-set.ts';
 
 // .............................................................................
 /**
@@ -33,7 +33,7 @@ export interface Layer extends Json {
    * The item ids of the layer. If present, the item ids in `assign`
    * must match these ids. The item id sets can be found in the idSets table.
    */
-  idSet?: IdSetRef;
+  idSet?: SliceIdSetRef;
 
   /**
    * The table containing the item ids of the layer
@@ -61,5 +61,4 @@ export type LayersTable = RljsonTable<Layer, 'layers'>;
 /**
  * Provides an example layersTable for test purposes
  */
-export const exampleLayersTable = (): LayersTable =>
-  bakeryExample().layers;
+export const exampleLayersTable = (): LayersTable => bakeryExample().layers;

@@ -9,9 +9,9 @@ import { exampleJsonObject } from '@rljson/json';
 
 import { BuffetsTable } from './content/buffet.ts';
 import { Cake, CakesTable } from './content/cake.ts';
-import { IdSetsTable } from './content/id-set.ts';
-import { Layer, LayersTable } from './content/layer.ts';
 import { IngredientsTable } from './content/ingredients.ts';
+import { Layer, LayersTable } from './content/layer.ts';
+import { SliceIdSetsTable } from './content/slice-id-set.ts';
 import { TablesCfgTable } from './content/table-cfg.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
@@ -156,7 +156,7 @@ export class Example {
       };
     },
     complete: (): Rljson => {
-      const idSets: IdSetsTable = hip({
+      const idSets: SliceIdSetsTable = hip({
         _type: 'idSets',
         _data: [
           {
@@ -323,7 +323,7 @@ export class Example {
         return hip(result, true, false);
       },
 
-      missingIdSet: (): Rljson => {
+      missingSliceIdSet: (): Rljson => {
         const result = Example.ok.complete();
         const layer1 = result.layers._data[1];
 
@@ -347,7 +347,7 @@ export class Example {
     },
 
     cakes: {
-      missingIdSet: (): Rljson => {
+      missingSliceIdSet: (): Rljson => {
         const result = Example.ok.complete();
         result.cakes._data[0].idSet = 'MISSING'; // Missing ID set
         hip(result.cakes, true, false);

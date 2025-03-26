@@ -42,14 +42,14 @@ export interface BaseErrors extends Errors {
 
   // Layer errors
   layerBasesNotFound?: Json;
-  layerIdSetsTableNotFound?: Json;
-  layerIdSetNotFound?: Json;
+  layerSliceIdSetsTableNotFound?: Json;
+  layerSliceIdSetNotFound?: Json;
   layerPropertyTablesNotFound?: Json;
   layerPropertyAssignmentsNotFound?: Json;
 
   // Cake errors
-  cakeIdSetsTableNotFound?: Json;
-  cakeIdSetNotFound?: Json;
+  cakeSliceIdSetsTableNotFound?: Json;
+  cakeSliceIdSetNotFound?: Json;
   cakeLayerTablesNotFound?: Json;
   cakeLayersNotFound?: Json;
 
@@ -115,13 +115,13 @@ class _BaseValidator {
 
       // Check layers
       () => this._layerBasesNotFound(),
-      () => this._layerIdSetsTableNotFound(),
-      () => this._layerIdSetNotFound(),
+      () => this._layerSliceIdSetsTableNotFound(),
+      () => this._layerSliceIdSetNotFound(),
       () => this._layerPropertyAssignmentsNotFound(),
 
       // Check cakes
-      () => this._cakeIdSetsTableNotFound(),
-      () => this._cakeIdSetNotFound(),
+      () => this._cakeSliceIdSetsTableNotFound(),
+      () => this._cakeSliceIdSetNotFound(),
       () => this._cakeLayerTablesNotFound(),
 
       // Check buffets
@@ -669,7 +669,7 @@ class _BaseValidator {
     }
   }
 
-  private _layerIdSetsTableNotFound(): void {
+  private _layerSliceIdSetsTableNotFound(): void {
     const brokenLayers: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -690,21 +690,21 @@ class _BaseValidator {
           brokenLayers.push({
             layersTable: tableKey,
             layerHash: layer._hash,
-            missingIdSetsTable: idSets,
+            missingSliceIdSetsTable: idSets,
           });
         }
       }
     });
 
     if (brokenLayers.length > 0) {
-      this.errors.layerIdSetsTableNotFound = {
+      this.errors.layerSliceIdSetsTableNotFound = {
         error: 'Id sets tables are missing',
         brokenLayers,
       };
     }
   }
 
-  private _layerIdSetNotFound(): void {
+  private _layerSliceIdSetNotFound(): void {
     const brokenLayers: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -727,14 +727,14 @@ class _BaseValidator {
           brokenLayers.push({
             layersTable: tableKey,
             layerHash: layer._hash,
-            missingIdSet: idSetRef,
+            missingSliceIdSet: idSetRef,
           });
         }
       }
     });
 
     if (brokenLayers.length > 0) {
-      this.errors.layerIdSetNotFound = {
+      this.errors.layerSliceIdSetNotFound = {
         error: 'Id sets of layers are missing',
         brokenLayers,
       };
@@ -798,7 +798,7 @@ class _BaseValidator {
     }
   }
 
-  private _cakeIdSetsTableNotFound(): void {
+  private _cakeSliceIdSetsTableNotFound(): void {
     const brokenCakes: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -819,21 +819,21 @@ class _BaseValidator {
           brokenCakes.push({
             cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingIdSets: idSetsRef,
+            missingSliceIdSets: idSetsRef,
           });
         }
       }
     });
 
     if (brokenCakes.length > 0) {
-      this.errors.cakeIdSetsTableNotFound = {
+      this.errors.cakeSliceIdSetsTableNotFound = {
         error: 'Id sets tables referenced by cakes are missing',
         brokenCakes,
       };
     }
   }
 
-  private _cakeIdSetNotFound(): void {
+  private _cakeSliceIdSetNotFound(): void {
     const brokenCakes: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -856,14 +856,14 @@ class _BaseValidator {
           brokenCakes.push({
             cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingIdSet: idSetRef,
+            missingSliceIdSet: idSetRef,
           });
         }
       }
     });
 
     if (brokenCakes.length > 0) {
-      this.errors.cakeIdSetNotFound = {
+      this.errors.cakeSliceIdSetNotFound = {
         error: 'Id sets of cakes are missing',
         brokenCakes,
       };

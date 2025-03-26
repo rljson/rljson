@@ -10,8 +10,8 @@ import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { ItemId, TableKey } from '../typedefs.ts';
 
-import { IdSetRef } from './id-set.ts';
 import { LayerRef } from './layer.ts';
+import { SliceIdSetRef } from './slice-id-set.ts';
 
 // .............................................................................
 /**
@@ -31,7 +31,7 @@ export interface Cake extends Json {
    * The item ids of the layer. If present, the item ids in the layers
    * must match these ids. The item id sets can be found in the idSets table.
    */
-  idSet?: IdSetRef;
+  idSet?: SliceIdSetRef;
 
   /**
    * The table containing the item ids of the layer

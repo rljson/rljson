@@ -12,20 +12,20 @@ import { ItemId, Ref } from '../typedefs.ts';
 
 // .............................................................................
 /**
- * An IdSetRef is a hash pointing to an Ids
+ * An SliceIdSetRef is a hash pointing to an Ids
  */
-export type IdSetRef = Ref;
+export type SliceIdSetRef = Ref;
 
 // .............................................................................
 /**
  * An Ids manages list of item ids
  */
-export interface IdSet extends Json {
+export interface SliceIdSet extends Json {
   /**
    * The hash of another item id list which is extended by this one.
    * Must be empty or null, when the list is the root.
    */
-  base?: IdSetRef;
+  base?: SliceIdSetRef;
 
   /**
    * The item ids added to base
@@ -42,10 +42,11 @@ export interface IdSet extends Json {
 /**
  * A table containing item ids
  */
-export type IdSetsTable = RljsonTable<IdSet, 'idSets'>;
+export type SliceIdSetsTable = RljsonTable<SliceIdSet, 'idSets'>;
 
 // .............................................................................
 /**
  * Returns one of the layers of the example cake
  */
-export const exampleIdSetsTable = (): IdSetsTable => bakeryExample().slices;
+export const exampleSliceIdSetsTable = (): SliceIdSetsTable =>
+  bakeryExample().slices;
