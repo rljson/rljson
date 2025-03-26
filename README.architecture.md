@@ -242,8 +242,8 @@ Rljson supports `Cake` as a native data structure:
 
 ```json
 {
-  "itemIdsTable": "ingredientIds",
-  "itemIds": "IDS1",
+  "sliceIdsTable": "ingredientIds",
+  "sliceIds": "IDS1",
   "layersTable": "HASH",
   "assign": {
     "base": "HASH15",

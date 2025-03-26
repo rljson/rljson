@@ -764,18 +764,18 @@ class _BaseValidator {
         }
 
         const assignments = layer.assign;
-        for (const itemId in assignments) {
-          if (itemId.startsWith('_')) {
+        for (const sliceId in assignments) {
+          if (sliceId.startsWith('_')) {
             continue;
           }
 
-          const propertyHash = assignments[itemId];
+          const propertyHash = assignments[sliceId];
           if (!ingredientsTable._data[propertyHash]) {
             brokenAssignments.push({
               layersTable: tableKey,
               brokenLayer: layer._hash,
               referencedPropertyTable: propertyTableKey,
-              brokenAssignment: itemId,
+              brokenAssignment: sliceId,
               missingProperty: propertyHash,
             });
           }

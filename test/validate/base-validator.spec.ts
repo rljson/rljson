@@ -717,7 +717,7 @@ describe('BaseValidator', async () => {
 
     describe('layerSliceIdsNotFound()', () => {
       it('returns an error when idSetRef is not found', () => {
-        const rljson = Example.broken.layers.missingSliceIds();
+        const rljson = Example.broken.layers.missingSliceIdSet();
         const layer = rljson.layers._data[1];
         expect(layer.idSet).toBe('MISSING1');
 
@@ -845,7 +845,7 @@ describe('BaseValidator', async () => {
       });
 
       it('returns an error when an idSet is not found', () => {
-        const rljson = Example.broken.cakes.missingSliceIds();
+        const rljson = Example.broken.cakes.missingSliceIdSet();
         const cake = rljson.cakes._data[0];
         expect(validate(rljson)).toEqual({
           cakeSliceIdsNotFound: {

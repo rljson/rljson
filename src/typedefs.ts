@@ -52,13 +52,13 @@ export type ContentType = (typeof contentTypes)[number];
  */
 export const exampleTypedefs = (): {
   ref: Ref;
-  itemId: ItemId;
+  sliceId: ItemId;
   tableKey: TableKey;
   contentType: ContentType;
 } => {
   return {
     ref: 'ref',
-    itemId: 'itemId',
+    sliceId: 'sliceId',
     tableKey: 'tableKey',
     contentType: 'layers',
   };

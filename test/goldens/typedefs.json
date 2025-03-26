@@ -1,6 +1,6 @@
 {
   "ref": "ref",
-  "itemId": "itemId",
+  "sliceId": "sliceId",
   "tableKey": "tableKey",
   "contentType": "layers"
 }
