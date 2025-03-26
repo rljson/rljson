@@ -37,7 +37,7 @@ export interface Cake extends Json {
   /**
    * The table containing the slice ids of the layer
    */
-  idSetsTable?: TableKey;
+  sliceIdsTable?: TableKey;
 
   /**
    * The table containing the slice layers defining the layers

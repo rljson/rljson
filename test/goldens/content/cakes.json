@@ -2,15 +2,15 @@
   "_type": "cakes",
   "_data": [
     {
-      "idSetsTable": "slices",
+      "sliceIdsTable": "slices",
       "idSet": "wyYfK5E4ArrMKQ_zvi2-EE",
       "layersTable": "layers",
       "layers": {
         "flour": "rrFBguLFLhXjrDqAxJx1p-",
         "_hash": "JSoUx1N6lso-18vkzG63Pm"
       },
-      "_hash": "j28DhNeLb9WfFFGFALUDu5"
+      "_hash": "bOlQ1lPpZEYB00F14nGvOP"
     }
   ],
-  "_hash": "6LrY9ekwYWJYNO546U5LXp"
+  "_hash": "hsL7dD0mFDqmT2i-1fx_1a"
 }

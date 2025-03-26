@@ -430,12 +430,14 @@ describe('BaseValidator', async () => {
             error: 'Tables with invalid types',
             tables: [
               {
-                allowedTypes: 'buffets | cakes | layers | idSets | ingredients',
+                allowedTypes:
+                  'buffets | cakes | layers | sliceIds | ingredients',
                 table: 'tableOne',
                 type: 'xyz',
               },
               {
-                allowedTypes: 'buffets | cakes | layers | idSets | ingredients',
+                allowedTypes:
+                  'buffets | cakes | layers | sliceIds | ingredients',
                 table: 'tableTwo',
                 type: 'abc',
               },
@@ -687,11 +689,11 @@ describe('BaseValidator', async () => {
     });
 
     describe('layerSliceIdsTableNotFound()', () => {
-      it('returns an error when an reference idSets table is not found', () => {
+      it('returns an error when an reference sliceIds table is not found', () => {
         const rljson = Example.ok.complete();
         const layer0 = rljson.layers._data[0];
         const layer1 = rljson.layers._data[1];
-        delete rljson.idSets;
+        delete rljson.sliceIds;
         hip(rljson, true, false);
 
         expect(validate(rljson)).toEqual({
@@ -700,12 +702,12 @@ describe('BaseValidator', async () => {
               {
                 layerHash: layer0._hash,
                 layersTable: 'layers',
-                missingSliceIdsTable: 'idSets',
+                missingSliceIdsTable: 'sliceIds',
               },
               {
                 layerHash: layer1._hash,
                 layersTable: 'layers',
-                missingSliceIdsTable: 'idSets',
+                missingSliceIdsTable: 'sliceIds',
               },
             ],
             error: 'Id sets tables are missing',
@@ -821,13 +823,13 @@ describe('BaseValidator', async () => {
 
   describe('cake errors', () => {
     describe('cakeSliceIdsNotFound', () => {
-      it('returns no errors when all idSets are found', () => {
+      it('returns no errors when all sliceIds are found', () => {
         expect(validate(Example.ok.complete())).toEqual({
           hasErrors: false,
         });
       });
 
-      it('returns no errors when no idSets is specified', () => {
+      it('returns no errors when no sliceIds is specified', () => {
         const rljson = Example.ok.complete();
         delete rljson.cakes._data[0].idSet;
         hip(rljson, true, false);
@@ -864,10 +866,10 @@ describe('BaseValidator', async () => {
     });
 
     describe('cakeSliceIdsTableNotFound', () => {
-      it('returns no error when no idSets table is specified', () => {
+      it('returns no error when no sliceIds table is specified', () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
-        delete cake.idSetsTable;
+        delete cake.sliceIdsTable;
         delete cake.idSet;
         delete rljson.buffets;
         hip(rljson, true, false);
@@ -875,10 +877,10 @@ describe('BaseValidator', async () => {
         expect(validate(rljson)).toEqual({ hasErrors: false });
       });
 
-      it('returns an error when an referenced idSets is not found', () => {
+      it('returns an error when an referenced sliceIds is not found', () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
-        cake.idSetsTable = 'MISSINGIDSET';
+        cake.sliceIdsTable = 'MISSINGIDSET';
         hip(rljson, true, false);
 
         expect(validate(rljson)).toEqual({

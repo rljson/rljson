@@ -41,7 +41,7 @@ export const contentTypes = [
   'buffets',
   'cakes',
   'layers',
-  'idSets',
+  'sliceIds',
   'ingredients',
 ] as const;
 

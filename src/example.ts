@@ -156,8 +156,8 @@ export class Example {
       };
     },
     complete: (): Rljson => {
-      const idSets: SliceIdsTable = hip({
-        _type: 'idSets',
+      const sliceIds: SliceIdsTable = hip({
+        _type: 'sliceIds',
         _data: [
           {
             add: ['id0', 'id1'],
@@ -173,7 +173,7 @@ export class Example {
       const ingredient1 = ingredients._data[1];
 
       const layer0: Layer = hip({
-        idSetsTable: 'idSets',
+        sliceIdsTable: 'sliceIds',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
         ingredientsTable: 'ingredients',
         assign: {},
@@ -181,7 +181,7 @@ export class Example {
 
       const layer1: Layer = hip({
         base: layer0._hash as string,
-        idSetsTable: 'idSets',
+        sliceIdsTable: 'sliceIds',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
         ingredientsTable: 'ingredients',
         assign: {
@@ -196,8 +196,8 @@ export class Example {
       } as LayersTable);
 
       const cake: Cake = hip({
-        idSetsTable: 'idSets',
-        idSet: idSets._data[0]._hash as string,
+        sliceIdsTable: 'sliceIds',
+        idSet: sliceIds._data[0]._hash as string,
         layersTable: 'layers',
         layers: {
           layer0: layer0._hash as string,
@@ -229,7 +229,7 @@ export class Example {
       });
 
       return {
-        idSets,
+        sliceIds,
         ingredients,
         layers,
         cakes,

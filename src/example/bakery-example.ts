@@ -117,7 +117,7 @@ export const bakeryExample = (): Bakery => {
   });
 
   const slices: Hashed<SliceIdsTable> = hip({
-    _type: 'idSets',
+    _type: 'sliceIds',
     _data: [
       {
         add: ['slice0', 'slice1'],
@@ -132,7 +132,7 @@ export const bakeryExample = (): Bakery => {
     _type: 'cakes',
     _data: [
       {
-        idSetsTable: 'slices',
+        sliceIdsTable: 'slices',
         idSet: slices._data[0]._hash as string,
         layersTable: 'layers',
         layers: {

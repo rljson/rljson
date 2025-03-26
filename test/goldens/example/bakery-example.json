@@ -6,33 +6,33 @@
         "items": [
           {
             "table": "cakes",
-            "ref": "j28DhNeLb9WfFFGFALUDu5",
-            "_hash": "zT8NvSVDoUg-AdD_nXUeeM"
+            "ref": "bOlQ1lPpZEYB00F14nGvOP",
+            "_hash": "ma47UGAZbu5Ql5yXWFHLAT"
           }
         ],
-        "_hash": "DviXusHF98uSRqkeYl4nT3"
+        "_hash": "jPv5bXjs3XVOLRbQvoWcjw"
       }
     ],
-    "_hash": "T-pWDDrV43Hph1dHV3mY8C"
+    "_hash": "FYK9ItHMDCe2CnD_TGRs8_"
   },
   "cakes": {
     "_type": "cakes",
     "_data": [
       {
-        "idSetsTable": "slices",
+        "sliceIdsTable": "slices",
         "idSet": "wyYfK5E4ArrMKQ_zvi2-EE",
         "layersTable": "layers",
         "layers": {
           "flour": "rrFBguLFLhXjrDqAxJx1p-",
           "_hash": "JSoUx1N6lso-18vkzG63Pm"
         },
-        "_hash": "j28DhNeLb9WfFFGFALUDu5"
+        "_hash": "bOlQ1lPpZEYB00F14nGvOP"
       }
     ],
-    "_hash": "6LrY9ekwYWJYNO546U5LXp"
+    "_hash": "hsL7dD0mFDqmT2i-1fx_1a"
   },
   "slices": {
-    "_type": "idSets",
+    "_type": "sliceIds",
     "_data": [
       {
         "add": [
@@ -43,7 +43,7 @@
         "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
       }
     ],
-    "_hash": "Qt6FzyzwHdEdYC3fKUXaAm"
+    "_hash": "cnGg1WO4AHE2QX2CO2_aQL"
   },
   "layers": {
     "_type": "layers",
@@ -110,5 +110,5 @@
     ],
     "_hash": "4OXxJLzAQnFaeOnB5SrF0h"
   },
-  "_hash": "vgCTTwZfSWm9-EHjEwUTbI"
+  "_hash": "Cc0RdIUQQdum1ZgsCGtheS"
 }

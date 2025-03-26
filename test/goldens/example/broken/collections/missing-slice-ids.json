@@ -1,6 +1,6 @@
 {
-  "idSets": {
-    "_type": "idSets",
+  "sliceIds": {
+    "_type": "sliceIds",
     "_data": [
       {
         "add": ["id0", "id1"],
@@ -27,7 +27,7 @@
     "_type": "layers",
     "_data": [
       {
-        "idSetsTable": "idSets",
+        "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
         "ingredientsTable": "ingredients",
         "assign": {
@@ -37,7 +37,7 @@
       },
       {
         "base": "Bqv4AEhsA71SnW2VScKrzA",
-        "idSetsTable": "idSets",
+        "sliceIdsTable": "sliceIds",
         "idSet": "MISSING1",
         "ingredientsTable": "ingredients",
         "assign": {
@@ -54,7 +54,7 @@
     "_type": "cakes",
     "_data": [
       {
-        "idSetsTable": "idSets",
+        "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
         "layersTable": "layers",
         "layers": {

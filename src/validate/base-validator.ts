@@ -679,18 +679,18 @@ class _BaseValidator {
 
       const layersTable: LayersTable = table as LayersTable;
       for (const layer of layersTable._data) {
-        const idSets = layer.idSetsTable;
-        if (!idSets) {
+        const sliceIds = layer.sliceIdsTable;
+        if (!sliceIds) {
           continue;
         }
 
-        const idSetsTable = this.rljsonIndexed[idSets];
+        const sliceIdsTable = this.rljsonIndexed[sliceIds];
 
-        if (!idSetsTable) {
+        if (!sliceIdsTable) {
           brokenLayers.push({
             layersTable: tableKey,
             layerHash: layer._hash,
-            missingSliceIdsTable: idSets,
+            missingSliceIdsTable: sliceIds,
           });
         }
       }
@@ -719,10 +719,10 @@ class _BaseValidator {
           continue;
         }
 
-        const idSets = layer.idSetsTable as string;
-        const idSetsTable = this.rljsonIndexed[idSets];
+        const sliceIds = layer.sliceIdsTable as string;
+        const sliceIdsTable = this.rljsonIndexed[sliceIds];
 
-        const idSet = idSetsTable._data[idSetRef];
+        const idSet = sliceIdsTable._data[idSetRef];
         if (!idSet) {
           brokenLayers.push({
             layersTable: tableKey,
@@ -808,18 +808,18 @@ class _BaseValidator {
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const idSetsRef = cake.idSetsTable;
-        if (!idSetsRef) {
+        const sliceIdsRef = cake.sliceIdsTable;
+        if (!sliceIdsRef) {
           continue;
         }
 
-        const idSets = this.rljsonIndexed[idSetsRef];
+        const sliceIds = this.rljsonIndexed[sliceIdsRef];
 
-        if (!idSets) {
+        if (!sliceIds) {
           brokenCakes.push({
             cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingSliceIds: idSetsRef,
+            missingSliceIds: sliceIdsRef,
           });
         }
       }
@@ -848,10 +848,10 @@ class _BaseValidator {
           continue;
         }
 
-        const idSetsRef = cake.idSetsTable as string;
-        const idSets = this.rljsonIndexed[idSetsRef];
+        const sliceIdsRef = cake.sliceIdsTable as string;
+        const sliceIds = this.rljsonIndexed[sliceIdsRef];
 
-        const idSet = idSets._data[idSetRef];
+        const idSet = sliceIds._data[idSetRef];
         if (!idSet) {
           brokenCakes.push({
             cakeTable: tableKey,

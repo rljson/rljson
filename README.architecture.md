@@ -221,7 +221,7 @@ ingredients:
 
 ```json
 {
-  "idSets": "personIds",
+  "sliceIds": "personIds",
   "idSet": "IDS0",
   "ingredients": "addresses",
   "assign": {

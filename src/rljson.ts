@@ -18,7 +18,7 @@ import { ContentType, Ref, TableKey } from './typedefs.ts';
 // .............................................................................
 export const reservedFieldNames = ['_type', '_data'];
 
-export const reservedTableKeys = ['_hash', 'idSets', 'tableCfgs'];
+export const reservedTableKeys = ['_hash', 'sliceIds', 'tableCfgs'];
 
 // .............................................................................
 /**
