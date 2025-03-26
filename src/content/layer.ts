@@ -8,7 +8,7 @@ import { Json } from '@rljson/json';
 
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { ItemId, Ref, TableKey } from '../typedefs.ts';
+import { Ref, SliceId, TableKey } from '../typedefs.ts';
 
 import { IngredientsRef } from './ingredients.ts';
 import { SliceIdsRef } from './slice-ids.ts';
@@ -49,7 +49,7 @@ export interface Layer extends Json {
   /**
    * Assign ingredients to each item of the layer.
    */
-  assign: Record<ItemId, IngredientsRef>;
+  assign: Record<SliceId, IngredientsRef>;
 }
 
 // .............................................................................

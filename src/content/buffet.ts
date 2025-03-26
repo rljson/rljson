@@ -8,13 +8,13 @@ import { Json } from '@rljson/json';
 
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { ItemId, Ref, TableKey } from '../typedefs.ts';
+import { Ref, TableKey } from '../typedefs.ts';
 
 // .............................................................................
 /**
  * A buffet id is a name or id of a buffet
  */
-export type BuffetId = ItemId;
+export type BuffetId = string;
 
 // .............................................................................
 /**

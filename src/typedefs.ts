@@ -15,7 +15,7 @@ export type Ref = string;
  * An `id` is a *user defined* name or identifier of an slice.
  * It exists in parallel with the auto generated `_hash`.
  */
-export type ItemId = string;
+export type SliceId = string;
 
 /**
  * A table id reference to a table. The table ids are used as keys in the top
@@ -52,7 +52,7 @@ export type ContentType = (typeof contentTypes)[number];
  */
 export const exampleTypedefs = (): {
   ref: Ref;
-  sliceId: ItemId;
+  sliceId: SliceId;
   tableKey: TableKey;
   contentType: ContentType;
 } => {

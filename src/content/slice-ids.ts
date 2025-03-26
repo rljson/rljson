@@ -8,7 +8,7 @@ import { Json } from '@rljson/json';
 
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { ItemId, Ref } from '../typedefs.ts';
+import { Ref, SliceId } from '../typedefs.ts';
 
 // .............................................................................
 /**
@@ -29,12 +29,12 @@ export interface SliceIds extends Json {
   /**
    * The slice ids added to base
    */
-  add: ItemId[];
+  add: SliceId[];
 
   /**
    * The slice ids removed from base
    */
-  remove?: ItemId[];
+  remove?: SliceId[];
 }
 
 // .............................................................................
