@@ -769,49 +769,49 @@ describe('BaseValidator', async () => {
 
     describe('layerAssignedIngredientsFound', () => {
       it('returns an error when the ingredients table is not foun', () => {
-        const rljson = Example.broken.layers.missingAssignedPropertyTable();
+        const rljson = Example.broken.layers.missingAssignedIngredientTable();
         const layer0 = rljson.layers._data[0];
         const layer1 = rljson.layers._data[1];
 
         expect(validate(rljson)).toEqual({
-          layerPropertyTablesNotFound: {
+          layerIngredientTablesNotFound: {
             layers: [
               {
                 brokenLayer: layer0._hash,
-                missingPropertyTable: 'ingredients',
+                missingIngredientTable: 'ingredients',
                 layersTable: 'layers',
               },
               {
                 brokenLayer: layer1._hash,
                 layersTable: 'layers',
-                missingPropertyTable: 'ingredients',
+                missingIngredientTable: 'ingredients',
               },
             ],
-            error: 'Layer property tables do not exist',
+            error: 'Layer ingredient tables do not exist',
           },
           hasErrors: true,
         });
       });
 
-      it('returns an error when an assigned property is not found', () => {
+      it('returns an error when an assigned ingredient is not found', () => {
         const rljsonOk = Example.ok.complete();
-        const property = rljsonOk.ingredients._data[1];
+        const ingredient = rljsonOk.ingredients._data[1];
 
-        const rljson = Example.broken.layers.missingAssignedProperty();
+        const rljson = Example.broken.layers.missingAssignedIngredient();
         const layer = rljson.layers._data[1];
 
         expect(validate(rljson)).toEqual({
-          layerPropertyAssignmentsNotFound: {
+          layerIngredientAssignmentsNotFound: {
             brokenAssignments: [
               {
                 brokenLayer: layer._hash,
                 brokenAssignment: 'id1',
-                missingProperty: property._hash,
-                referencedPropertyTable: 'ingredients',
+                missingIngredient: ingredient._hash,
+                referencedIngredientTable: 'ingredients',
                 layersTable: 'layers',
               },
             ],
-            error: 'Layer property assignments are broken',
+            error: 'Layer ingredient assignments are broken',
           },
           hasErrors: true,
         });

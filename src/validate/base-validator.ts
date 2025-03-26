@@ -44,8 +44,8 @@ export interface BaseErrors extends Errors {
   layerBasesNotFound?: Json;
   layerSliceIdsTableNotFound?: Json;
   layerSliceIdsNotFound?: Json;
-  layerPropertyTablesNotFound?: Json;
-  layerPropertyAssignmentsNotFound?: Json;
+  layerIngredientTablesNotFound?: Json;
+  layerIngredientAssignmentsNotFound?: Json;
 
   // Cake errors
   cakeSliceIdsTableNotFound?: Json;
@@ -117,7 +117,7 @@ class _BaseValidator {
       () => this._layerBasesNotFound(),
       () => this._layerSliceIdsTableNotFound(),
       () => this._layerSliceIdsNotFound(),
-      () => this._layerPropertyAssignmentsNotFound(),
+      () => this._layerIngredientAssignmentsNotFound(),
 
       // Check cakes
       () => this._cakeSliceIdsTableNotFound(),
@@ -741,8 +741,8 @@ class _BaseValidator {
     }
   }
 
-  private _layerPropertyAssignmentsNotFound(): void {
-    const missingPropertyTables: any[] = [];
+  private _layerIngredientAssignmentsNotFound(): void {
+    const missingIngredientTables: any[] = [];
     const brokenAssignments: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -752,13 +752,13 @@ class _BaseValidator {
 
       const layersTable: LayersTable = table as LayersTable;
       for (const layer of layersTable._data) {
-        const propertyTableKey = layer.ingredientsTable;
-        const ingredientsTable = this.rljsonIndexed[propertyTableKey];
+        const ingredientTableKey = layer.ingredientsTable;
+        const ingredientsTable = this.rljsonIndexed[ingredientTableKey];
         if (!ingredientsTable) {
-          missingPropertyTables.push({
+          missingIngredientTables.push({
             brokenLayer: layer._hash,
             layersTable: tableKey,
-            missingPropertyTable: propertyTableKey,
+            missingIngredientTable: ingredientTableKey,
           });
           continue;
         }
@@ -769,30 +769,30 @@ class _BaseValidator {
             continue;
           }
 
-          const propertyHash = assignments[sliceId];
-          if (!ingredientsTable._data[propertyHash]) {
+          const ingredientHash = assignments[sliceId];
+          if (!ingredientsTable._data[ingredientHash]) {
             brokenAssignments.push({
               layersTable: tableKey,
               brokenLayer: layer._hash,
-              referencedPropertyTable: propertyTableKey,
+              referencedIngredientTable: ingredientTableKey,
               brokenAssignment: sliceId,
-              missingProperty: propertyHash,
+              missingIngredient: ingredientHash,
             });
           }
         }
       }
     });
 
-    if (missingPropertyTables.length > 0) {
-      this.errors.layerPropertyTablesNotFound = {
-        error: 'Layer property tables do not exist',
-        layers: missingPropertyTables,
+    if (missingIngredientTables.length > 0) {
+      this.errors.layerIngredientTablesNotFound = {
+        error: 'Layer ingredient tables do not exist',
+        layers: missingIngredientTables,
       };
     }
 
     if (brokenAssignments.length > 0) {
-      this.errors.layerPropertyAssignmentsNotFound = {
-        error: 'Layer property assignments are broken',
+      this.errors.layerIngredientAssignmentsNotFound = {
+        error: 'Layer ingredient assignments are broken',
         brokenAssignments: brokenAssignments,
       };
     }

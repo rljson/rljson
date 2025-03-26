@@ -176,7 +176,7 @@ synchronize large datasets.
 ### Ingredients
 
 `Ingredients` are the fundamental data concept. A `IngredientsTable` contains
-key-value pairs representing property assignments:
+key-value pairs representing ingredient assignments:
 
 ```json
 {

@@ -169,8 +169,8 @@ export class Example {
         _type: 'ingredients',
         _data: [{ a: '0' }, { a: '1' }],
       });
-      const property0 = ingredients._data[0];
-      const property1 = ingredients._data[1];
+      const ingredient0 = ingredients._data[0];
+      const ingredient1 = ingredients._data[1];
 
       const layer0: Layer = hip({
         idSetsTable: 'idSets',
@@ -185,8 +185,8 @@ export class Example {
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
         ingredientsTable: 'ingredients',
         assign: {
-          id0: property0._hash,
-          id1: property1._hash,
+          id0: ingredient0._hash,
+          id1: ingredient1._hash,
         },
       });
 
@@ -333,15 +333,15 @@ export class Example {
         return hip(result, true, false);
       },
 
-      missingAssignedPropertyTable: (): Rljson => {
+      missingAssignedIngredientTable: (): Rljson => {
         const result = Example.ok.complete();
         delete result.ingredients; // Remove ingredients table
         return result;
       },
 
-      missingAssignedProperty: (): Rljson => {
+      missingAssignedIngredient: (): Rljson => {
         const result = Example.ok.complete();
-        result.ingredients._data.splice(1, 2); // Remove an property that is assigned
+        result.ingredients._data.splice(1, 2); // Remove an ingredient that is assigned
         return hip(result, true, false);
       },
     },
