@@ -1,3 +1,11 @@
+<!--
+@license
+Copyright (c) 2025 Rljson
+
+Use of this source code is governed by terms that can be
+found in the LICENSE file in the root of this package.
+-->
+
 # Rljson Architecture
 
 This document describes the architecture of the Rljson format.
@@ -175,16 +183,32 @@ synchronize large datasets.
 
 ### Ingredients
 
-`Ingredients` are the fundamental data concept. A `IngredientsTable` contains
+`Ingredients` are the fundamental data concept. An `IngredientsTable` contains
 key-value pairs assigning values to ingredient names.
 
 ```json
 {
-  "sizes": {
+  "ingredients": {
     "_type": "ingredients",
     "_data": [
-      { "w": 10, "h": 20 },
-      { "w": 30, "h": 40 }
+      {
+        "name": "flour",
+        "amountUnit": "g",
+        "nutritionalValuesRef": "gZXFSlrl5QAs5hOVsq5sWB"
+      }
+    ]
+  },
+
+  "nutritionalValues": {
+    "_type": "ingredients",
+    "_data": [
+      {
+        "energy": 364,
+        "fat": 0.98,
+        "protein": 10.33,
+        "carbohydrates": 76.31,
+        "_hash": "gZXFSlrl5QAs5hOVsq5sWB"
+      }
     ]
   }
 }
@@ -194,12 +218,20 @@ key-value pairs assigning values to ingredient names.
 
 For efficient management of large layers, slice IDs are separated from their
 ingredients. This allows fetching IDs first and retrieving details later. The
-following `SliceIds` defines a set of three slice IDs:
+following `SliceIds` define a set of three slice IDs:
 
 ```json
 {
-  "add": ["id0", "id1", "id2"],
-  "_hash": "IDS0"
+  "slices": {
+    "_type": "sliceIds",
+    "_data": [
+      {
+        "add": ["slice0", "slice1"],
+        "remove": [],
+        "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
+      }
+    ]
+  }
 }
 ```
 
@@ -207,62 +239,95 @@ Derived `SliceIds` can be created by modifying an existing set:
 
 ```json
 {
-  "base": "IDS0",
-  "add": ["id3", "id4"],
-  "remove": ["id0"],
-  "_hash": "IDS1"
+  "slices": {
+    "_type": "sliceIds",
+    "_data": [
+      {
+        "add": ["slice0", "slice1"],
+        "remove": [],
+        "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
+      },
+      {
+        "base": "wyYfK5E4ArrMKQ_zvi2-EE",
+        "add": ["slice2"],
+        "remove": []
+      }
+    ]
+  }
 }
 ```
 
 ### Layer
 
-A `Layer` consists of `SliceIds` and a mapping that links slice IDs to their
-ingredients:
+Cake layers assign ingredients to slices.
 
 ```json
 {
-  "sliceIds": "personIds",
-  "idSet": "IDS0",
-  "ingredients": "addresses",
-  "assign": {
-    "id0": "P0HASH",
-    "id1": "P1HASH"
-  },
-  "_hash": "C0HASH"
+  "layers": {
+    "_type": "layers",
+    "_data": [
+      {
+        "ingredientsTable": "recipes",
+        "assign": {
+          "slice0": "H8KK9vMjOxxQr_G_9XeDM-",
+          "slice1": "H8KK9vMjOxxQr_G_9XeDM-"
+        },
+        "_hash": "rrFBguLFLhXjrDqAxJx1p-"
+      }
+    ]
+  }
 }
 ```
 
 ### Cake
 
-Rljson supports `Cake` as a native data structure:
-
-- A `Cake` consists of layers of slices.
-- All layers share the same slice structure, i.e. the same slice ids.
-- Each layer assigns different ingredients to the same slices.
+A `Cake` consists of layers of slices.
+All layers share the same slice structure, i.e. the same slice ids.
+Each layer assigns different ingredients to slices.
 
 ```json
 {
-  "sliceIdsTable": "ingredientIds",
-  "sliceIds": "IDS1",
-  "layersTable": "HASH",
-  "assign": {
-    "base": "HASH15",
-    "cherries": "HASH16",
-    "creme": "HASH17"
+  "cakes": {
+    "_type": "cakes",
+    "_data": [
+      {
+        "sliceIdsTable": "slices",
+        "idSet": "wyYfK5E4ArrMKQ_zvi2-EE",
+        "layersTable": "layers",
+        "layers": {
+          "flour": "rrFBguLFLhXjrDqAxJx1p-",
+          "_hash": "JSoUx1N6lso-18vkzG63Pm"
+        },
+        "_hash": "bOlQ1lPpZEYB00F14nGvOP"
+      }
+    ],
+    "_hash": "hsL7dD0mFDqmT2i-1fx_1a"
   }
 }
 ```
 
 ### Buffet
 
-A `Buffet` is a heterogeneous collection of different but related items, such as
-cakes, layers, or ingredients:
+A `Buffet` is a heterogeneous collection of different but related items,
+such as cakes, layers, or ingredients:
 
 ```json
 {
-  "items": [
-    { "table": "drinks", "ref": "HASH20" },
-    { "table": "cakes", "ref": "HASH21" }
-  ]
+  "buffets": {
+    "_type": "buffets",
+    "_data": [
+      {
+        "items": [
+          {
+            "table": "cakes",
+            "ref": "bOlQ1lPpZEYB00F14nGvOP",
+            "_hash": "ma47UGAZbu5Ql5yXWFHLAT"
+          }
+        ],
+        "_hash": "jPv5bXjs3XVOLRbQvoWcjw"
+      }
+    ],
+    "_hash": "FYK9ItHMDCe2CnD_TGRs8_"
+  }
 }
 ```
