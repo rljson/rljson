@@ -12,10 +12,10 @@ import { JsonKey } from '@rljson/json';
 export type Ref = string;
 
 /**
- * An `id` is a *user defined* name or identifier of an item.
+ * An `id` is a *user defined* name or identifier of an slice.
  * It exists in parallel with the auto generated `_hash`.
  */
-export type ItemId = string;
+export type SliceId = string;
 
 /**
  * A table id reference to a table. The table ids are used as keys in the top
@@ -33,16 +33,16 @@ export type ColumnKey = JsonKey;
  *
  * - `buffets` Tables containing buffets
  * - `cakes` Tables containing cakes
- * - `collections` Tables containing collections
- * - `ids` Tables containing item ids
- * - `properties` Tables containing item properties
+ * - `layers` Tables containing layers
+ * - `ids` Tables containing slice ids
+ * - `ingredients` Tables containing slice ingredients
  */
 export const contentTypes = [
   'buffets',
   'cakes',
-  'collections',
-  'idSets',
-  'properties',
+  'layers',
+  'sliceIds',
+  'ingredients',
 ] as const;
 
 export type ContentType = (typeof contentTypes)[number];
@@ -52,14 +52,14 @@ export type ContentType = (typeof contentTypes)[number];
  */
 export const exampleTypedefs = (): {
   ref: Ref;
-  itemId: ItemId;
+  sliceId: SliceId;
   tableKey: TableKey;
   contentType: ContentType;
 } => {
   return {
     ref: 'ref',
-    itemId: 'itemId',
+    sliceId: 'sliceId',
     tableKey: 'tableKey',
-    contentType: 'collections',
+    contentType: 'layers',
   };
 };

@@ -13,18 +13,18 @@ import { Ref } from '../typedefs.ts';
 // .............................................................................
 
 /**
- * A reference to a properties row in a properties table
+ * A reference to a ingredients row in a ingredients table
  */
-export type PropertiesRef = Ref;
+export type IngredientsRef = Ref;
 
 // .............................................................................
 /**
- * A table containing item properties
+ * A table containing ingredients
  */
-export type PropertiesTable<T extends Json> = RljsonTable<T, 'properties'>;
+export type IngredientsTable<T extends Json> = RljsonTable<T, 'ingredients'>;
 
 /**
- * Provides an example collectionsTable for test purposes
+ * Provides an example ingredients table for test purposes
  */
-export const examplePropertiesTable = (): PropertiesTable<NutritionalValues> =>
-  bakeryExample().nutritionalValues;
+export const exampleIngredientsTable =
+  (): IngredientsTable<NutritionalValues> => bakeryExample().nutritionalValues;

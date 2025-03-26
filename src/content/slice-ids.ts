@@ -8,44 +8,43 @@ import { Json } from '@rljson/json';
 
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { ItemId, Ref } from '../typedefs.ts';
+import { Ref, SliceId } from '../typedefs.ts';
 
 // .............................................................................
 /**
- * An IdSetRef is a hash pointing to an Ids
+ * An SliceIdsRef is a hash pointing to an Ids
  */
-export type IdSetRef = Ref;
+export type SliceIdsRef = Ref;
 
 // .............................................................................
 /**
- * An Ids manages list of item ids
+ * A list of slice ids
  */
-export interface IdSet extends Json {
+export interface SliceIds extends Json {
   /**
-   * The hash of another item id list which is extended by this one.
-   * Must be empty or null, when the list is the root.
+   * The base list of slice ids
    */
-  base?: IdSetRef;
+  base?: SliceIdsRef;
 
   /**
-   * The item ids added to base
+   * The slice ids added to base
    */
-  add: ItemId[];
+  add: SliceId[];
 
   /**
-   * The item ids removed from base
+   * The slice ids removed from base
    */
-  remove?: ItemId[];
+  remove?: SliceId[];
 }
 
 // .............................................................................
 /**
- * A table containing item ids
+ * A table containing slice ids
  */
-export type IdSetsTable = RljsonTable<IdSet, 'idSets'>;
+export type SliceIdsTable = RljsonTable<SliceIds, 'sliceIds'>;
 
 // .............................................................................
 /**
  * Returns one of the layers of the example cake
  */
-export const exampleIdSetsTable = (): IdSetsTable => bakeryExample().slices;
+export const exampleSliceIdsTable = (): SliceIdsTable => bakeryExample().slices;

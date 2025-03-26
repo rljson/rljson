@@ -6,14 +6,14 @@
 
 import { describe, it } from 'vitest';
 
-import { examplePropertiesTable } from '../../src/content/properties.ts';
+import { exampleIngredientsTable } from '../../src/content/ingredients.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
-describe('PropertiesTable', () => {
-  it('provides a list of properties', async () => {
-    await expectGolden('content/properties.json').toBe(
-      examplePropertiesTable(),
+describe('IngredientsTable', () => {
+  it('provides a list of ingredients', async () => {
+    await expectGolden('content/ingredients.json').toBe(
+      exampleIngredientsTable(),
     );
   });
 });

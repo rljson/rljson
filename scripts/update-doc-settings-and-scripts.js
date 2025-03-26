@@ -66,8 +66,8 @@ function copyRecursive(src, dest) {
     if (!fs.existsSync(dest)) {
       fs.mkdirSync(dest, { recursive: true });
     }
-    for (const item of fs.readdirSync(src)) {
-      copyRecursive(path.join(src, item), path.join(dest, item));
+    for (const slice of fs.readdirSync(src)) {
+      copyRecursive(path.join(src, slice), path.join(dest, slice));
     }
   } else {
     fs.mkdirSync(path.dirname(dest), { recursive: true });
