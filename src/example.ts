@@ -11,7 +11,7 @@ import { BuffetsTable } from './content/buffet.ts';
 import { Cake, CakesTable } from './content/cake.ts';
 import { IngredientsTable } from './content/ingredients.ts';
 import { Layer, LayersTable } from './content/layer.ts';
-import { SliceIdSetsTable } from './content/slice-id-set.ts';
+import { SliceIdsTable } from './content/slice-ids.ts';
 import { TablesCfgTable } from './content/table-cfg.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
@@ -156,7 +156,7 @@ export class Example {
       };
     },
     complete: (): Rljson => {
-      const idSets: SliceIdSetsTable = hip({
+      const idSets: SliceIdsTable = hip({
         _type: 'idSets',
         _data: [
           {

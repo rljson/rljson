@@ -10,7 +10,7 @@ import { BuffetsTable } from './content/buffet.ts';
 import { CakesTable } from './content/cake.ts';
 import { IngredientsTable } from './content/ingredients.ts';
 import { LayersTable } from './content/layer.ts';
-import { SliceIdSetsTable } from './content/slice-id-set.ts';
+import { SliceIdsTable } from './content/slice-ids.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
 import { ContentType, Ref, TableKey } from './typedefs.ts';
@@ -28,7 +28,7 @@ export type TableType =
   | BuffetsTable
   | IngredientsTable<any>
   | LayersTable
-  | SliceIdSetsTable
+  | SliceIdsTable
   | CakesTable;
 
 // .............................................................................
@@ -49,7 +49,7 @@ export type RljsonPrivate = {
   /**
    * Contains id sets used accross the Rljson object
    */
-  _idSet?: SliceIdSetsTable;
+  _idSet?: SliceIdsTable;
 
   /**
    * References that are not part of the Rljson object

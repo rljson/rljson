@@ -11,7 +11,7 @@ import { RljsonTable } from '../rljson.ts';
 import { ItemId, Ref, TableKey } from '../typedefs.ts';
 
 import { IngredientsRef } from './ingredients.ts';
-import { SliceIdSetRef } from './slice-id-set.ts';
+import { SliceIdsRef } from './slice-ids.ts';
 
 // .............................................................................
 /**
@@ -33,7 +33,7 @@ export interface Layer extends Json {
    * The item ids of the layer. If present, the item ids in `assign`
    * must match these ids. The item id sets can be found in the idSets table.
    */
-  idSet?: SliceIdSetRef;
+  idSet?: SliceIdsRef;
 
   /**
    * The table containing the item ids of the layer

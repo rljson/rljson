@@ -7,7 +7,7 @@
 import { Hashed, hip } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
-import { SliceIdSetsTable } from '../../dist/content/slice-id-set.ts';
+import { SliceIdsTable } from '../../dist/content/slice-ids.ts';
 
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
@@ -41,7 +41,7 @@ export interface NutritionalValues extends Json {
 export interface Bakery extends Rljson {
   buffets: BuffetsTable;
   cakes: CakesTable;
-  slices: SliceIdSetsTable;
+  slices: SliceIdsTable;
   layers: LayersTable;
   recipes: LayersTable;
   recipeIngredients: IngredientsTable<RecipeIngredient>;
@@ -116,7 +116,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const slices: Hashed<SliceIdSetsTable> = hip({
+  const slices: Hashed<SliceIdsTable> = hip({
     _type: 'idSets',
     _data: [
       {
