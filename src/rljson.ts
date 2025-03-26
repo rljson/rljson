@@ -10,7 +10,7 @@ import { BuffetsTable } from './content/buffet.ts';
 import { CakesTable } from './content/cake.ts';
 import { LayersTable } from './content/layer.ts';
 import { IdSetsTable } from './content/id-set.ts';
-import { PropertiesTable } from './content/properties.ts';
+import { IngredientsTable } from './content/ingredients.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
 import { ContentType, Ref, TableKey } from './typedefs.ts';
@@ -26,7 +26,7 @@ export const reservedTableKeys = ['_hash', 'idSets', 'tableCfgs'];
  */
 export type TableType =
   | BuffetsTable
-  | PropertiesTable<any>
+  | IngredientsTable<any>
   | LayersTable
   | IdSetsTable
   | CakesTable;
@@ -78,7 +78,7 @@ export interface RljsonTable<Data extends Json, Type extends ContentType>
   /** The data rows of the table */
   _data: Data[];
 
-  /**  The type of the table. If not set, the type is "properties" */
+  /**  The type of the table. If not set, the type is "ingredients" */
   _type: Type;
 
   /** The columns configuration of the table */

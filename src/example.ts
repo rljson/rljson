@@ -11,7 +11,7 @@ import { BuffetsTable } from './content/buffet.ts';
 import { Cake, CakesTable } from './content/cake.ts';
 import { IdSetsTable } from './content/id-set.ts';
 import { Layer, LayersTable } from './content/layer.ts';
-import { PropertiesTable } from './content/properties.ts';
+import { IngredientsTable } from './content/ingredients.ts';
 import { TablesCfgTable } from './content/table-cfg.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
@@ -27,7 +27,7 @@ export class Example {
     binary: (): Rljson => {
       return {
         table: {
-          _type: 'properties',
+          _type: 'ingredients',
           _data: [
             { a: false, b: false },
             { a: false, b: true },
@@ -42,13 +42,13 @@ export class Example {
       const tableCfgs: TablesCfgTable = hip({
         _hash: '',
 
-        _type: 'properties',
+        _type: 'ingredients',
         _data: [
           {
             version: 0,
             _hash: '',
             key: 'table',
-            type: 'properties',
+            type: 'ingredients',
             columns: {
               int: {
                 key: 'int',
@@ -90,7 +90,7 @@ export class Example {
       const result: Rljson = {
         tableCfgs: tableCfgs,
         table: {
-          _type: 'properties',
+          _type: 'ingredients',
           _tableCfg: tableCfgs._data[0]._hash as string,
           _data: [exampleJsonObject()],
           _hash: '',
@@ -102,7 +102,7 @@ export class Example {
     multipleRows: (): Rljson => {
       return {
         table: {
-          _type: 'properties',
+          _type: 'ingredients',
           _data: [
             {
               string: 'str0',
@@ -135,7 +135,7 @@ export class Example {
     singleRef: (): Rljson => {
       return {
         tableA: {
-          _type: 'properties',
+          _type: 'ingredients',
           _data: [
             {
               keyA0: 'a0',
@@ -146,7 +146,7 @@ export class Example {
           ],
         },
         tableB: {
-          _type: 'properties',
+          _type: 'ingredients',
           _data: [
             {
               tableARef: 'KFQrf4mEz0UPmUaFHwH4T6',
@@ -165,17 +165,17 @@ export class Example {
         ],
       });
 
-      const properties: PropertiesTable<any> = hip({
-        _type: 'properties',
+      const ingredients: IngredientsTable<any> = hip({
+        _type: 'ingredients',
         _data: [{ a: '0' }, { a: '1' }],
       });
-      const property0 = properties._data[0];
-      const property1 = properties._data[1];
+      const property0 = ingredients._data[0];
+      const property1 = ingredients._data[1];
 
       const layer0: Layer = hip({
         idSetsTable: 'idSets',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        propertiesTable: 'properties',
+        ingredientsTable: 'ingredients',
         assign: {},
       });
 
@@ -183,7 +183,7 @@ export class Example {
         base: layer0._hash as string,
         idSetsTable: 'idSets',
         idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        propertiesTable: 'properties',
+        ingredientsTable: 'ingredients',
         assign: {
           id0: property0._hash,
           id1: property1._hash,
@@ -230,7 +230,7 @@ export class Example {
 
       return {
         idSets,
-        properties,
+        ingredients,
         layers,
         cakes,
         buffets,
@@ -243,7 +243,7 @@ export class Example {
       brokenTableKey: () => {
         return {
           brok$en: {
-            _type: 'properties',
+            _type: 'ingredients',
             _data: [],
           },
         };
@@ -252,7 +252,7 @@ export class Example {
       missingData: () => {
         return {
           table: {
-            _type: 'properties',
+            _type: 'ingredients',
           },
         } as unknown as Rljson;
       },
@@ -260,7 +260,7 @@ export class Example {
       dataNotBeingAnArray: () => {
         return {
           table: {
-            _type: 'properties',
+            _type: 'ingredients',
             _data: {},
           },
         } as unknown as Rljson;
@@ -269,7 +269,7 @@ export class Example {
       missingRef: (): Rljson => {
         return {
           tableA: {
-            _type: 'properties',
+            _type: 'ingredients',
             _data: [
               {
                 keyA0: 'a0',
@@ -280,7 +280,7 @@ export class Example {
             ],
           },
           tableB: {
-            _type: 'properties',
+            _type: 'ingredients',
             _data: [
               {
                 tableARef: 'MISSINGREF', // MISSINGREF does not exist in tableA
@@ -293,7 +293,7 @@ export class Example {
       missingReferencedTable: (): Rljson => {
         return {
           tableB: {
-            _type: 'properties',
+            _type: 'ingredients',
             _data: [
               {
                 tableARef: 'MISSINGREF', // tableA is missing
@@ -335,13 +335,13 @@ export class Example {
 
       missingAssignedPropertyTable: (): Rljson => {
         const result = Example.ok.complete();
-        delete result.properties; // Remove properties table
+        delete result.ingredients; // Remove ingredients table
         return result;
       },
 
       missingAssignedProperty: (): Rljson => {
         const result = Example.ok.complete();
-        result.properties._data.splice(1, 2); // Remove an property that is assigned
+        result.ingredients._data.splice(1, 2); // Remove an property that is assigned
         return hip(result, true, false);
       },
     },

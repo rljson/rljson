@@ -11,7 +11,7 @@ import { RljsonTable } from '../rljson.ts';
 import { ItemId, Ref, TableKey } from '../typedefs.ts';
 
 import { IdSetRef } from './id-set.ts';
-import { PropertiesRef } from './properties.ts';
+import { IngredientsRef } from './ingredients.ts';
 
 // .............................................................................
 /**
@@ -21,7 +21,7 @@ export type LayerRef = Ref;
 
 // .............................................................................
 /**
- * A layer assigns properties to item ids
+ * A layer assigns ingredients to item ids
  */
 export interface Layer extends Json {
   /**
@@ -41,15 +41,15 @@ export interface Layer extends Json {
   idSetsTable?: TableKey;
 
   /**
-   * The table containing the properties that are assigned to the items
+   * The table containing the ingredients that are assigned to the items
    * with the assign property below
    */
-  propertiesTable: TableKey;
+  ingredientsTable: TableKey;
 
   /**
-   * Assign properties to each item of the layer.
+   * Assign ingredients to each item of the layer.
    */
-  assign: Record<ItemId, PropertiesRef>;
+  assign: Record<ItemId, IngredientsRef>;
 }
 
 // .............................................................................

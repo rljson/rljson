@@ -21,7 +21,7 @@ This document describes the architecture of the Rljson format.
   - [Hashes](#hashes)
   - [Linking Tables Using References](#linking-tables-using-references)
 - [Data Types](#data-types)
-  - [Properties](#properties)
+  - [Ingredients](#ingredients)
   - [IdSet](#idset)
   - [Layer](#layer)
   - [Cake](#cake)
@@ -91,7 +91,7 @@ containing the table rows and a `_type` property describing the table type:
 ```json
 {
   "table0": {
-    "_type": "properties",
+    "_type": "ingredients",
     "_data": []
   }
 }
@@ -129,7 +129,7 @@ Rljson uses hashes to identify and reference data. Using the `hash-in-place`
 const jsonWithHashes = hip({
   a: {
     _data: [{ a: 10 }],
-    _type: 'properties',
+    _type: 'ingredients',
   },
 });
 ```
@@ -147,7 +147,7 @@ This results in:
       }
     ],
     "_hash": "FfCIOVQsrK1g5o5_G-AxP4",
-    "_type": "properties"
+    "_type": "ingredients"
   }
 }
 ```
@@ -161,7 +161,7 @@ table `b` references table `a` using `aRef`:
 {
   "b": {
     "_data": [{ "aRef": "LeFJOCQVgToOfbUuKJQ-GO" }],
-    "_type": "properties"
+    "_type": "ingredients"
   }
 }
 ```
@@ -173,15 +173,15 @@ This reference structure enables automated denormalization of JSON data.
 Rljson provides several core data structures and table types to manage and
 synchronize large datasets.
 
-### Properties
+### Ingredients
 
-`Properties` are the fundamental data concept. A `PropertiesTable` contains
+`Ingredients` are the fundamental data concept. A `IngredientsTable` contains
 key-value pairs representing property assignments:
 
 ```json
 {
   "sizes": {
-    "_type": "properties",
+    "_type": "ingredients",
     "_data": [
       { "w": 10, "h": 20 },
       { "w": 30, "h": 40 }
@@ -193,7 +193,7 @@ key-value pairs representing property assignments:
 ### IdSet
 
 For efficient management of large layers, item IDs are separated from their
-properties. This allows fetching IDs first and retrieving details later. The
+ingredients. This allows fetching IDs first and retrieving details later. The
 following `IdSet` defines a set of three IDs:
 
 ```json
@@ -217,13 +217,13 @@ Derived `IdSets` can be created by modifying an existing set:
 ### Layer
 
 A `Layer` consists of an `IdSet` and a mapping that links item IDs to their
-properties:
+ingredients:
 
 ```json
 {
   "idSets": "personIds",
   "idSet": "IDS0",
-  "properties": "addresses",
+  "ingredients": "addresses",
   "assign": {
     "id0": "P0HASH",
     "id1": "P1HASH"
@@ -238,7 +238,7 @@ Rljson supports `Cake` as a native data structure:
 
 - A `Cake` consists of layers of items (slices).
 - All layers share the same item IDs (slice structure).
-- Each layer assigns different properties to the same items.
+- Each layer assigns different ingredients to the same items.
 
 ```json
 {
@@ -256,7 +256,7 @@ Rljson supports `Cake` as a native data structure:
 ### Buffet
 
 A `Buffet` is a heterogeneous collection of different but related items, such as
-cakes, layers, or properties:
+cakes, layers, or ingredients:
 
 ```json
 {

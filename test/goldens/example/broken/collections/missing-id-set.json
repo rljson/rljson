@@ -12,8 +12,8 @@
     ],
     "_hash": "ha3u_Et6DXSHLr2ncTV6MB"
   },
-  "properties": {
-    "_type": "properties",
+  "ingredients": {
+    "_type": "ingredients",
     "_data": [
       {
         "a": "0",
@@ -32,7 +32,7 @@
       {
         "idSetsTable": "idSets",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "propertiesTable": "properties",
+        "ingredientsTable": "ingredients",
         "assign": {
           "_hash": "RBNvo1WzZ4oRRq0W9-hknp"
         },
@@ -42,7 +42,7 @@
         "base": "Bqv4AEhsA71SnW2VScKrzA",
         "idSetsTable": "idSets",
         "idSet": "MISSING1",
-        "propertiesTable": "properties",
+        "ingredientsTable": "ingredients",
         "assign": {
           "id0": "AFhW-fMzdCiz6bUZscp1Lf",
           "id1": "mv6w8rID8lQxLsje1EHQMY",

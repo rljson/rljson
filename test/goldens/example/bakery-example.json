@@ -6,14 +6,14 @@
         "items": [
           {
             "table": "cakes",
-            "ref": "-97fHUXxE_e61VKgL4srHZ",
-            "_hash": "TjTDx3oGiveTLZaV4qZWDr"
+            "ref": "j28DhNeLb9WfFFGFALUDu5",
+            "_hash": "zT8NvSVDoUg-AdD_nXUeeM"
           }
         ],
-        "_hash": "atQvu6mhGwry6QHrJAqHCR"
+        "_hash": "DviXusHF98uSRqkeYl4nT3"
       }
     ],
-    "_hash": "KhlGBL4kq55OJhMenPqBHh"
+    "_hash": "T-pWDDrV43Hph1dHV3mY8C"
   },
   "cakes": {
     "_type": "cakes",
@@ -23,13 +23,13 @@
         "idSet": "wyYfK5E4ArrMKQ_zvi2-EE",
         "layersTable": "layers",
         "layers": {
-          "flour": "vGMiig9oROJLAPIcKzpU0W",
-          "_hash": "eOHYrQ0c_fiZzlCr4c5zNI"
+          "flour": "rrFBguLFLhXjrDqAxJx1p-",
+          "_hash": "JSoUx1N6lso-18vkzG63Pm"
         },
-        "_hash": "-97fHUXxE_e61VKgL4srHZ"
+        "_hash": "j28DhNeLb9WfFFGFALUDu5"
       }
     ],
-    "_hash": "CuN9xfusD9l-s09rStsMD0"
+    "_hash": "6LrY9ekwYWJYNO546U5LXp"
   },
   "slices": {
     "_type": "idSets",
@@ -49,33 +49,33 @@
     "_type": "layers",
     "_data": [
       {
-        "propertiesTable": "recipes",
+        "ingredientsTable": "recipes",
         "assign": {
-          "slice0": "ELTA1fSBNn5jspOTZMXcoH",
-          "slice1": "ELTA1fSBNn5jspOTZMXcoH",
-          "_hash": "PPUcCqjKvqp8NcQcynTFzT"
+          "slice0": "H8KK9vMjOxxQr_G_9XeDM-",
+          "slice1": "H8KK9vMjOxxQr_G_9XeDM-",
+          "_hash": "iooM5qpudZ2VbpD_otNfyB"
         },
-        "_hash": "vGMiig9oROJLAPIcKzpU0W"
+        "_hash": "rrFBguLFLhXjrDqAxJx1p-"
       }
     ],
-    "_hash": "64y70u6viEZKnGJDyEC67d"
+    "_hash": "pk7kWlJO_gRqWt4lTTFcSh"
   },
   "recipes": {
     "_type": "layers",
     "_data": [
       {
-        "propertiesTable": "recipeIngredients",
+        "ingredientsTable": "recipeIngredients",
         "assign": {
           "flour": "o9n0nkjbhbHuyiDYmYaYc3",
           "_hash": "eQm4SLO_jBK9My9weiapVt"
         },
-        "_hash": "ELTA1fSBNn5jspOTZMXcoH"
+        "_hash": "H8KK9vMjOxxQr_G_9XeDM-"
       }
     ],
-    "_hash": "gD0ZybU5iWcUjoENytY6TK"
+    "_hash": "IqEnP0kpTTBnCeiiKdOsPn"
   },
   "recipeIngredients": {
-    "_type": "properties",
+    "_type": "ingredients",
     "_data": [
       {
         "ingredientsRef": "fJX-GW-pTMtDfhNxxEOlSa",
@@ -83,10 +83,10 @@
         "_hash": "o9n0nkjbhbHuyiDYmYaYc3"
       }
     ],
-    "_hash": "bRSLptUv4AhjyU7oTD5Qaq"
+    "_hash": "V5LJCVRP2g_IpLE-IdcTmw"
   },
   "ingredients": {
-    "_type": "properties",
+    "_type": "ingredients",
     "_data": [
       {
         "name": "flour",
@@ -95,10 +95,10 @@
         "_hash": "fJX-GW-pTMtDfhNxxEOlSa"
       }
     ],
-    "_hash": "1BAoLLJVGQOC-FWaaF2aBF"
+    "_hash": "xWQZVE6yc771yrVApQo37b"
   },
   "nutritionalValues": {
-    "_type": "properties",
+    "_type": "ingredients",
     "_data": [
       {
         "energy": 364,
@@ -108,7 +108,7 @@
         "_hash": "gZXFSlrl5QAs5hOVsq5sWB"
       }
     ],
-    "_hash": "7k4OqQtk71w3yVGMoA9F6p"
+    "_hash": "4OXxJLzAQnFaeOnB5SrF0h"
   },
-  "_hash": "KrO--NWeuGAdgJDGKHfdRC"
+  "_hash": "vgCTTwZfSWm9-EHjEwUTbI"
 }

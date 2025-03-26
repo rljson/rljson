@@ -64,7 +64,7 @@ export interface TableCfg extends Json {
 /**
  * A table containing columns
  */
-export type TablesCfgTable = RljsonTable<TableCfg, 'properties'>;
+export type TablesCfgTable = RljsonTable<TableCfg, 'ingredients'>;
 
 /**
  * Example matching allTypesRow
@@ -88,6 +88,6 @@ export const exampleTableCfg = (
         type: 'number',
       },
     },
-    type: tableCfg?.type ?? 'properties',
+    type: tableCfg?.type ?? 'ingredients',
   };
 };

@@ -752,9 +752,9 @@ class _BaseValidator {
 
       const layersTable: LayersTable = table as LayersTable;
       for (const layer of layersTable._data) {
-        const propertyTableKey = layer.propertiesTable;
-        const propertiesTable = this.rljsonIndexed[propertyTableKey];
-        if (!propertiesTable) {
+        const propertyTableKey = layer.ingredientsTable;
+        const ingredientsTable = this.rljsonIndexed[propertyTableKey];
+        if (!ingredientsTable) {
           missingPropertyTables.push({
             brokenLayer: layer._hash,
             layersTable: tableKey,
@@ -770,7 +770,7 @@ class _BaseValidator {
           }
 
           const propertyHash = assignments[itemId];
-          if (!propertiesTable._data[propertyHash]) {
+          if (!ingredientsTable._data[propertyHash]) {
             brokenAssignments.push({
               layersTable: tableKey,
               brokenLayer: layer._hash,

@@ -55,8 +55,8 @@ describe('BaseValidator', async () => {
 
           it('for an rljson object with valid table names', () => {
             const r = validate({
-              tableOne: { _type: 'properties', _data: [] },
-              tableTwo: { _type: 'properties', _data: [] },
+              tableOne: { _type: 'ingredients', _data: [] },
+              tableTwo: { _type: 'ingredients', _data: [] },
             });
             expect(r).toEqual({ hasErrors: false });
           });
@@ -64,7 +64,7 @@ describe('BaseValidator', async () => {
 
         it('when private keys like _type or _hash are contained', () => {
           const r = validate({
-            _type: 'properties',
+            _type: 'ingredients',
             _data: [],
           });
           expect(r).toEqual({ hasErrors: false });
@@ -74,7 +74,7 @@ describe('BaseValidator', async () => {
       describe('returns an error JSON', () => {
         it('when a table name starts with a number', () => {
           const r = validate({
-            '1table': { _type: 'properties', _data: [] },
+            '1table': { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -83,7 +83,7 @@ describe('BaseValidator', async () => {
         });
         it('when a table name contains a space', () => {
           const r = validate({
-            'table one': { _type: 'properties', _data: [] },
+            'table one': { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -93,7 +93,7 @@ describe('BaseValidator', async () => {
 
         it('when a table name contains a dash', () => {
           const r = validate({
-            'table-one': { _type: 'properties', _data: [] },
+            'table-one': { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -103,7 +103,7 @@ describe('BaseValidator', async () => {
 
         it('when a table name contains an underscore', () => {
           const r = validate({
-            table_one: { _type: 'properties', _data: [] },
+            table_one: { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -113,7 +113,7 @@ describe('BaseValidator', async () => {
 
         it('when a table name contains a capital letter', () => {
           const r = validate({
-            TableOne: { _type: 'properties', _data: [] },
+            TableOne: { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -123,11 +123,11 @@ describe('BaseValidator', async () => {
 
         it('when multiple table names are invalid', () => {
           const r = validate({
-            '1table': { _type: 'properties', _data: [] },
-            'table one': { _type: 'properties', _data: [] },
-            'table-one': { _type: 'properties', _data: [] },
-            table_one: { _type: 'properties', _data: [] },
-            TableOne: { _type: 'properties', _data: [] },
+            '1table': { _type: 'ingredients', _data: [] },
+            'table one': { _type: 'ingredients', _data: [] },
+            'table-one': { _type: 'ingredients', _data: [] },
+            table_one: { _type: 'ingredients', _data: [] },
+            TableOne: { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -143,7 +143,7 @@ describe('BaseValidator', async () => {
 
         it('when a table name is an empty string', () => {
           const r = validate({
-            '': { _type: 'properties', _data: [] },
+            '': { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysNotLowerCamelCase).toEqual({
             error: 'Table names must be lower camel case',
@@ -158,8 +158,8 @@ describe('BaseValidator', async () => {
         it('when there are no table names ending with "Ref"', () => {
           expect(
             validate({
-              tableOne: { _type: 'properties', _data: [] },
-              tableTwo: { _type: 'properties', _data: [] },
+              tableOne: { _type: 'ingredients', _data: [] },
+              tableTwo: { _type: 'ingredients', _data: [] },
             }).hasErrors,
           ).toBe(false);
         });
@@ -172,7 +172,7 @@ describe('BaseValidator', async () => {
       describe('returns an error JSON', () => {
         it('when a table name ends with "Ref"', () => {
           const r = validate({
-            tableOneRef: { _type: 'properties', _data: [] },
+            tableOneRef: { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysDoNotEndWithRef).toEqual({
             error: 'Table names must not end with "Ref"',
@@ -182,8 +182,8 @@ describe('BaseValidator', async () => {
 
         it('when multiple table names end with "Ref"', () => {
           const r = validate({
-            tableOneRef: { _type: 'properties', _data: [] },
-            tableTwoRef: { _type: 'properties', _data: [] },
+            tableOneRef: { _type: 'ingredients', _data: [] },
+            tableTwoRef: { _type: 'ingredients', _data: [] },
           });
           expect(r.tableKeysDoNotEndWithRef).toEqual({
             error: 'Table names must not end with "Ref"',
@@ -197,8 +197,8 @@ describe('BaseValidator', async () => {
       describe('returns "ok"', () => {
         it('when all column names have camel case fields', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ columnOne: 123 }] },
-            tableTwo: { _type: 'properties', _data: [{ columnTwo: 456 }] },
+            tableOne: { _type: 'ingredients', _data: [{ columnOne: 123 }] },
+            tableTwo: { _type: 'ingredients', _data: [{ columnTwo: 456 }] },
           });
           expect(r).toEqual({ hasErrors: false });
         });
@@ -206,7 +206,7 @@ describe('BaseValidator', async () => {
         it('when private keys are like _type or _hash are contained', () => {
           const r = validate({
             tableOne: {
-              _type: 'properties',
+              _type: 'ingredients',
               _data: [{ _type: 123 }],
             },
           });
@@ -217,7 +217,7 @@ describe('BaseValidator', async () => {
       describe('returns an error JSON', () => {
         it('when a column name starts with a number', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ '1column': 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ '1column': 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -227,7 +227,7 @@ describe('BaseValidator', async () => {
 
         it('when a column name contains a space', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ 'column one': 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ 'column one': 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -237,7 +237,7 @@ describe('BaseValidator', async () => {
 
         it('when a column name contains a dash', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ 'column-one': 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ 'column-one': 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -247,7 +247,7 @@ describe('BaseValidator', async () => {
 
         it('when a column name contains an underscore', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ column_one: 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ column_one: 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -257,7 +257,7 @@ describe('BaseValidator', async () => {
 
         it('when a column name contains a capital letter', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ ColumnOne: 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ ColumnOne: 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -268,7 +268,7 @@ describe('BaseValidator', async () => {
         it('when multiple column names are invalid', () => {
           const r = validate({
             tableOne: {
-              _type: 'properties',
+              _type: 'ingredients',
               _data: [
                 { '1column': 123, 'column one': 456, 'column-one': 789 },
                 { column_one: 101, ColumnOne: 202 },
@@ -276,7 +276,7 @@ describe('BaseValidator', async () => {
             },
 
             tableTwo: {
-              _type: 'properties',
+              _type: 'ingredients',
               _data: [{ '1xyz': 123 }, { xy_38: 101 }],
             },
           });
@@ -297,7 +297,7 @@ describe('BaseValidator', async () => {
 
         it('when a column name is an empty string', () => {
           const r = validate({
-            tableOne: { _type: 'properties', _data: [{ '': 123 }] },
+            tableOne: { _type: 'ingredients', _data: [{ '': 123 }] },
           });
           expect(r.columnNamesNotLowerCamelCase).toEqual({
             error: 'Column names must be lower camel case',
@@ -312,8 +312,8 @@ describe('BaseValidator', async () => {
         it('when there are no hashes', () => {
           expect(
             validate({
-              tableOne: { _type: 'properties', _data: [] },
-              tableTwo: { _type: 'properties', _data: [] },
+              tableOne: { _type: 'ingredients', _data: [] },
+              tableTwo: { _type: 'ingredients', _data: [] },
             }).hasErrors,
           ).toBe(false);
         });
@@ -322,8 +322,8 @@ describe('BaseValidator', async () => {
           expect(
             validate(
               hip({
-                tableOne: { _type: 'properties', _data: [] },
-                tableTwo: { _type: 'properties', _data: [] },
+                tableOne: { _type: 'ingredients', _data: [] },
+                tableTwo: { _type: 'ingredients', _data: [] },
               }),
             ).hasErrors,
           ).toBe(false);
@@ -333,14 +333,14 @@ describe('BaseValidator', async () => {
       describe('throws', () => {
         it('when hashes are invalid', () => {
           const errors = validate({
-            tableOne: { _type: 'properties', _data: [], _hash: 'invalid' },
+            tableOne: { _type: 'ingredients', _data: [], _hash: 'invalid' },
           });
 
           expect(errors).toEqual({
             hasErrors: true,
             hashesNotValid: {
               error:
-                'Hash "invalid" does not match the newly calculated one "DKwor-pULmCs6RY-sMyfrM". ' +
+                'Hash "invalid" does not match the newly calculated one "2Mdbi9i3x8M8rrr6dAs2Hf". ' +
                 'Please make sure that all systems are producing the same hashes.',
             },
           });
@@ -362,8 +362,8 @@ describe('BaseValidator', async () => {
       it('returns no errors when data is found', () => {
         expect(
           validate({
-            tableOne: { _type: 'properties', _data: [] },
-            tableTwo: { _type: 'properties', _data: [] },
+            tableOne: { _type: 'ingredients', _data: [] },
+            tableTwo: { _type: 'ingredients', _data: [] },
           }),
         ).toEqual({
           hasErrors: false,
@@ -373,9 +373,9 @@ describe('BaseValidator', async () => {
       it('returns an error when data is not found', () => {
         expect(
           validate({
-            tableOne: { _type: 'properties' },
-            tableTwo: { _type: 'properties', _data: [] },
-            tableThree: { _type: 'properties' },
+            tableOne: { _type: 'ingredients' },
+            tableTwo: { _type: 'ingredients', _data: [] },
+            tableThree: { _type: 'ingredients' },
           }),
         ).toEqual({
           dataNotFound: {
@@ -391,8 +391,8 @@ describe('BaseValidator', async () => {
       it('returns no errors when data is an array', () => {
         expect(
           validate({
-            tableOne: { _type: 'properties', _data: [] },
-            tableTwo: { _type: 'properties', _data: [] },
+            tableOne: { _type: 'ingredients', _data: [] },
+            tableTwo: { _type: 'ingredients', _data: [] },
           }),
         ).toEqual({
           hasErrors: false,
@@ -402,9 +402,9 @@ describe('BaseValidator', async () => {
       it('returns an error when data is not an array', () => {
         expect(
           validate({
-            tableOne: { _type: 'properties', _data: {} },
-            tableTwo: { _type: 'properties', _data: [] },
-            tableThree: { _type: 'properties', _data: 'string' },
+            tableOne: { _type: 'ingredients', _data: {} },
+            tableTwo: { _type: 'ingredients', _data: [] },
+            tableThree: { _type: 'ingredients', _data: 'string' },
           }),
         ).toEqual({
           dataHasWrongType: {
@@ -422,7 +422,7 @@ describe('BaseValidator', async () => {
           validate({
             tableOne: { _type: 'xyz', _data: [] },
             tableTwo: { _type: 'abc', _data: [] },
-            tableThree: { _type: 'properties', _data: [] },
+            tableThree: { _type: 'ingredients', _data: [] },
           }),
         ).toEqual({
           hasErrors: true,
@@ -430,12 +430,12 @@ describe('BaseValidator', async () => {
             error: 'Tables with invalid types',
             tables: [
               {
-                allowedTypes: 'buffets | cakes | layers | idSets | properties',
+                allowedTypes: 'buffets | cakes | layers | idSets | ingredients',
                 table: 'tableOne',
                 type: 'xyz',
               },
               {
-                allowedTypes: 'buffets | cakes | layers | idSets | properties',
+                allowedTypes: 'buffets | cakes | layers | idSets | ingredients',
                 table: 'tableTwo',
                 type: 'abc',
               },
@@ -463,7 +463,7 @@ describe('BaseValidator', async () => {
               tables: [
                 {
                   table: 'table',
-                  typeInConfig: 'properties',
+                  typeInConfig: 'ingredients',
                   typeInTable: 'cakes',
                   tableCfg,
                 },
@@ -767,8 +767,8 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('layerAssignedPropertiesFound', () => {
-      it('returns an error when the properties table is not foun', () => {
+    describe('layerAssignedIngredientsFound', () => {
+      it('returns an error when the ingredients table is not foun', () => {
         const rljson = Example.broken.layers.missingAssignedPropertyTable();
         const layer0 = rljson.layers._data[0];
         const layer1 = rljson.layers._data[1];
@@ -778,13 +778,13 @@ describe('BaseValidator', async () => {
             layers: [
               {
                 brokenLayer: layer0._hash,
-                missingPropertyTable: 'properties',
+                missingPropertyTable: 'ingredients',
                 layersTable: 'layers',
               },
               {
                 brokenLayer: layer1._hash,
                 layersTable: 'layers',
-                missingPropertyTable: 'properties',
+                missingPropertyTable: 'ingredients',
               },
             ],
             error: 'Layer property tables do not exist',
@@ -795,7 +795,7 @@ describe('BaseValidator', async () => {
 
       it('returns an error when an assigned property is not found', () => {
         const rljsonOk = Example.ok.complete();
-        const property = rljsonOk.properties._data[1];
+        const property = rljsonOk.ingredients._data[1];
 
         const rljson = Example.broken.layers.missingAssignedProperty();
         const layer = rljson.layers._data[1];
@@ -807,7 +807,7 @@ describe('BaseValidator', async () => {
                 brokenLayer: layer._hash,
                 brokenAssignment: 'id1',
                 missingProperty: property._hash,
-                referencedPropertyTable: 'properties',
+                referencedPropertyTable: 'ingredients',
                 layersTable: 'layers',
               },
             ],
