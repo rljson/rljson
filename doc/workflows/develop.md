@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Improve naming of slice id sets of cakes and layers` here and below
+Replace `Publish new version` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Improve naming of slice id sets of cakes and layers"
+node scripts/create-branch.js "Publish new version"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Improve naming of slice id sets of cakes and layers"
+git commit -am"Publish new version"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Improve naming of slice id sets of cakes and layers" --body " "
+gh pr create --base main --title "Publish new version" --body " "
 ```
 
 ## Code review
