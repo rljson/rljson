@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Rename collection -> layer and properties into ingredient` here and below
+Replace `Improve naming of slice id sets of cakes and layers` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Rename collection -> layer and properties into ingredient"
+node scripts/create-branch.js "Improve naming of slice id sets of cakes and layers"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Rename collection -> layer and properties into ingredient"
+git commit -am"Improve naming of slice id sets of cakes and layers"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Rename collection -> layer and properties into ingredient" --body " "
+gh pr create --base main --title "Improve naming of slice id sets of cakes and layers" --body " "
 ```
 
 ## Code review
