@@ -132,7 +132,7 @@ export const bakeryExample = (): Bakery => {
     _data: [
       {
         sliceIdsTable: 'slices',
-        idSet: slices._data[0]._hash as string,
+        sliceIds: slices._data[0]._hash as string,
         layersTable: 'layers',
         layers: {
           flour: layers._data[0]._hash as string,

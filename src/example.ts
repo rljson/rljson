@@ -174,7 +174,7 @@ export class Example {
 
       const layer0: Layer = hip({
         sliceIdsTable: 'sliceIds',
-        idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
+        sliceIds: 'MgHRBYSrhpyl4rvsOmAWcQ',
         ingredientsTable: 'ingredients',
         assign: {},
       });
@@ -182,7 +182,7 @@ export class Example {
       const layer1: Layer = hip({
         base: layer0._hash as string,
         sliceIdsTable: 'sliceIds',
-        idSet: 'MgHRBYSrhpyl4rvsOmAWcQ',
+        sliceIds: 'MgHRBYSrhpyl4rvsOmAWcQ',
         ingredientsTable: 'ingredients',
         assign: {
           id0: ingredient0._hash,
@@ -197,7 +197,7 @@ export class Example {
 
       const cake: Cake = hip({
         sliceIdsTable: 'sliceIds',
-        idSet: sliceIds._data[0]._hash as string,
+        sliceIds: sliceIds._data[0]._hash as string,
         layersTable: 'layers',
         layers: {
           layer0: layer0._hash as string,
@@ -327,7 +327,7 @@ export class Example {
         const result = Example.ok.complete();
         const layer1 = result.layers._data[1];
 
-        layer1.idSet = 'MISSING1';
+        layer1.sliceIds = 'MISSING1';
 
         // Recalculate hashes
         return hip(result, true, false);
@@ -349,7 +349,7 @@ export class Example {
     cakes: {
       missingSliceIdSet: (): Rljson => {
         const result = Example.ok.complete();
-        result.cakes._data[0].idSet = 'MISSING'; // Missing ID set
+        result.cakes._data[0].sliceIds = 'MISSING'; // Missing ID set
         hip(result.cakes, true, false);
         return result;
       },

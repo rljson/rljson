@@ -721,7 +721,7 @@ describe('BaseValidator', async () => {
       it('returns an error when idSetRef is not found', () => {
         const rljson = Example.broken.layers.missingSliceIdSet();
         const layer = rljson.layers._data[1];
-        expect(layer.idSet).toBe('MISSING1');
+        expect(layer.sliceIds).toBe('MISSING1');
 
         expect(validate(rljson)).toEqual({
           layerSliceIdsNotFound: {
@@ -747,7 +747,7 @@ describe('BaseValidator', async () => {
 
         // delete idSet reference
         const layer1 = result.layers._data[1];
-        delete layer1.idSet;
+        delete layer1.sliceIds;
         hip(layer1, true, false);
 
         // Update cake layers
@@ -831,7 +831,7 @@ describe('BaseValidator', async () => {
 
       it('returns no errors when no sliceIds is specified', () => {
         const rljson = Example.ok.complete();
-        delete rljson.cakes._data[0].idSet;
+        delete rljson.cakes._data[0].sliceIds;
         hip(rljson, true, false);
 
         // Update buffet slices
@@ -846,7 +846,7 @@ describe('BaseValidator', async () => {
         });
       });
 
-      it('returns an error when an idSet is not found', () => {
+      it('returns an error when slice ids are not found', () => {
         const rljson = Example.broken.cakes.missingSliceIdSet();
         const cake = rljson.cakes._data[0];
         expect(validate(rljson)).toEqual({
@@ -870,7 +870,7 @@ describe('BaseValidator', async () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
         delete cake.sliceIdsTable;
-        delete cake.idSet;
+        delete cake.sliceIds;
         delete rljson.buffets;
         hip(rljson, true, false);
 
@@ -880,7 +880,7 @@ describe('BaseValidator', async () => {
       it('returns an error when an referenced sliceIds is not found', () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
-        cake.sliceIdsTable = 'MISSINGIDSET';
+        cake.sliceIdsTable = 'MISSING';
         hip(rljson, true, false);
 
         expect(validate(rljson)).toEqual({
@@ -889,7 +889,7 @@ describe('BaseValidator', async () => {
               {
                 brokenCake: cake._hash,
                 cakeTable: 'cakes',
-                missingSliceIds: 'MISSINGIDSET',
+                missingSliceIdsTable: 'MISSING',
               },
             ],
             error: 'Id sets tables referenced by cakes are missing',
