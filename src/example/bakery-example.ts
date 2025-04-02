@@ -54,6 +54,7 @@ export const bakeryExample = (): Bakery => {
     _type: 'ingredients',
     _data: [
       {
+        id: 'flour',
         energy: 364,
         fat: 0.98,
         protein: 10.33,
@@ -68,7 +69,7 @@ export const bakeryExample = (): Bakery => {
     _type: 'ingredients',
     _data: [
       {
-        name: 'flour',
+        id: 'flour',
         amountUnit: 'g',
         nutritionalValuesRef: nutritionalValues._data[0]._hash as string,
         _hash: '',
@@ -81,6 +82,7 @@ export const bakeryExample = (): Bakery => {
     _type: 'ingredients',
     _data: [
       {
+        id: 'flour',
         ingredientsRef: ingredients._data[0]._hash as string,
         quantity: 500,
         _hash: '',
@@ -93,6 +95,7 @@ export const bakeryExample = (): Bakery => {
     _type: 'layers',
     _data: [
       {
+        id: 'tastyCake',
         ingredientsTable: 'recipeIngredients',
         assign: {
           flour: recipeIngredients._data[0]._hash as string,
@@ -131,6 +134,7 @@ export const bakeryExample = (): Bakery => {
     _type: 'cakes',
     _data: [
       {
+        id: 'cake1',
         sliceIdsTable: 'slices',
         sliceIds: slices._data[0]._hash as string,
         layersTable: 'layers',
@@ -146,6 +150,7 @@ export const bakeryExample = (): Bakery => {
     _type: 'buffets',
     _data: [
       {
+        id: 'salesCounter',
         items: [
           {
             table: 'cakes',

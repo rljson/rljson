@@ -2,34 +2,36 @@
   "buffets": {
     "_type": "buffets",
     "_data": {
-      "k58gWkVWKukuU9LOjvgrWl": {
+      "baOC9UaVHg4KpiS-fmGCD7": {
+        "id": "salesCounter",
         "items": [
           {
             "table": "cakes",
-            "ref": "mfF3H9htgQWu7DQIxawrAF",
-            "_hash": "XqEXqamLs4mAtshm-WJ23r"
+            "ref": "Gy4sD92uxlJYHTgTZhsD1T",
+            "_hash": "FiQOn_IeoQldgvOg_bbABW"
           }
         ],
-        "_hash": "k58gWkVWKukuU9LOjvgrWl"
+        "_hash": "baOC9UaVHg4KpiS-fmGCD7"
       }
     },
-    "_hash": "DgxIxSXICUxTdeMg_-plbo"
+    "_hash": "6_Shv-qEpvUV3VlA_TeWfl"
   },
   "cakes": {
     "_type": "cakes",
     "_data": {
-      "mfF3H9htgQWu7DQIxawrAF": {
+      "Gy4sD92uxlJYHTgTZhsD1T": {
+        "id": "cake1",
         "sliceIdsTable": "slices",
         "sliceIds": "wyYfK5E4ArrMKQ_zvi2-EE",
         "layersTable": "layers",
         "layers": {
-          "flour": "rrFBguLFLhXjrDqAxJx1p-",
-          "_hash": "JSoUx1N6lso-18vkzG63Pm"
+          "flour": "hn-2XthOKVlr9zvJaGlNNh",
+          "_hash": "2OCWqUWiEthQWFIIcQud6I"
         },
-        "_hash": "mfF3H9htgQWu7DQIxawrAF"
+        "_hash": "Gy4sD92uxlJYHTgTZhsD1T"
       }
     },
-    "_hash": "BFU6xHSupRqkDCmqefKJKY"
+    "_hash": "Fyy0P_R6fMldtcmVU-EKuX"
   },
   "slices": {
     "_type": "sliceIds",
@@ -48,67 +50,70 @@
   "layers": {
     "_type": "layers",
     "_data": {
-      "rrFBguLFLhXjrDqAxJx1p-": {
+      "hn-2XthOKVlr9zvJaGlNNh": {
         "ingredientsTable": "recipes",
         "assign": {
-          "slice0": "H8KK9vMjOxxQr_G_9XeDM-",
-          "slice1": "H8KK9vMjOxxQr_G_9XeDM-",
-          "_hash": "iooM5qpudZ2VbpD_otNfyB"
+          "slice0": "IaZuXtJLwBmy8Zc6ggoJbO",
+          "slice1": "IaZuXtJLwBmy8Zc6ggoJbO",
+          "_hash": "aP8k92XilDTl92pzBWvIvO"
         },
-        "_hash": "rrFBguLFLhXjrDqAxJx1p-"
+        "_hash": "hn-2XthOKVlr9zvJaGlNNh"
       }
     },
-    "_hash": "pk7kWlJO_gRqWt4lTTFcSh"
+    "_hash": "UA2q-Bym7y3ivErq4snFlR"
   },
   "recipes": {
     "_type": "layers",
     "_data": {
-      "H8KK9vMjOxxQr_G_9XeDM-": {
+      "IaZuXtJLwBmy8Zc6ggoJbO": {
+        "id": "tastyCake",
         "ingredientsTable": "recipeIngredients",
         "assign": {
-          "flour": "o9n0nkjbhbHuyiDYmYaYc3",
-          "_hash": "eQm4SLO_jBK9My9weiapVt"
+          "flour": "4coxp7hPCsH7hSnAVeUVZj",
+          "_hash": "5LxOnZOPBtIqV3PlOC_ulB"
         },
-        "_hash": "H8KK9vMjOxxQr_G_9XeDM-"
+        "_hash": "IaZuXtJLwBmy8Zc6ggoJbO"
       }
     },
-    "_hash": "IqEnP0kpTTBnCeiiKdOsPn"
+    "_hash": "GdeNa6_4O4F5hgvj9inIi-"
   },
   "recipeIngredients": {
     "_type": "ingredients",
     "_data": {
-      "o9n0nkjbhbHuyiDYmYaYc3": {
-        "ingredientsRef": "fJX-GW-pTMtDfhNxxEOlSa",
+      "4coxp7hPCsH7hSnAVeUVZj": {
+        "id": "flour",
+        "ingredientsRef": "A5d-4if1fQpQERfwFsjKqb",
         "quantity": 500,
-        "_hash": "o9n0nkjbhbHuyiDYmYaYc3"
+        "_hash": "4coxp7hPCsH7hSnAVeUVZj"
       }
     },
-    "_hash": "V5LJCVRP2g_IpLE-IdcTmw"
+    "_hash": "L_GjhRhKBQ1699guawlhj9"
   },
   "ingredients": {
     "_type": "ingredients",
     "_data": {
-      "fJX-GW-pTMtDfhNxxEOlSa": {
-        "name": "flour",
+      "A5d-4if1fQpQERfwFsjKqb": {
+        "id": "flour",
         "amountUnit": "g",
-        "nutritionalValuesRef": "gZXFSlrl5QAs5hOVsq5sWB",
-        "_hash": "fJX-GW-pTMtDfhNxxEOlSa"
+        "nutritionalValuesRef": "R165gWZn_Pcj_je3AwSsXI",
+        "_hash": "A5d-4if1fQpQERfwFsjKqb"
       }
     },
-    "_hash": "xWQZVE6yc771yrVApQo37b"
+    "_hash": "lJ15nqUpRVXq2fMG7V5Pnd"
   },
   "nutritionalValues": {
     "_type": "ingredients",
     "_data": {
-      "gZXFSlrl5QAs5hOVsq5sWB": {
+      "R165gWZn_Pcj_je3AwSsXI": {
+        "id": "flour",
         "energy": 364,
         "fat": 0.98,
         "protein": 10.33,
         "carbohydrates": 76.31,
-        "_hash": "gZXFSlrl5QAs5hOVsq5sWB"
+        "_hash": "R165gWZn_Pcj_je3AwSsXI"
       }
     },
-    "_hash": "4OXxJLzAQnFaeOnB5SrF0h"
+    "_hash": "aSecKyiBNa5CfXZ5Ty1Zrc"
   },
-  "_hash": "bZvZk2Mag0WJdADLcaoBF3"
+  "_hash": "zLtxL9AoK9XkWnrCdbRETE"
 }

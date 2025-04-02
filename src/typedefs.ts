@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { JsonKey } from '@rljson/json';
+import { Json, JsonKey } from '@rljson/json';
 
 /**
  * A ref is a hash that references to another element
@@ -63,3 +63,8 @@ export const exampleTypedefs = (): {
     contentType: 'layers',
   };
 };
+
+/**
+ * A json object with an optional id
+ */
+export type JsonWithId = Json & { id?: string };

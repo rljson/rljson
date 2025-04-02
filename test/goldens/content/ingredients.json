@@ -2,12 +2,13 @@
   "_type": "ingredients",
   "_data": [
     {
+      "id": "flour",
       "energy": 364,
       "fat": 0.98,
       "protein": 10.33,
       "carbohydrates": 76.31,
-      "_hash": "gZXFSlrl5QAs5hOVsq5sWB"
+      "_hash": "R165gWZn_Pcj_je3AwSsXI"
     }
   ],
-  "_hash": "4OXxJLzAQnFaeOnB5SrF0h"
+  "_hash": "aSecKyiBNa5CfXZ5Ty1Zrc"
 }

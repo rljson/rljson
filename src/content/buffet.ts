@@ -36,6 +36,11 @@ export interface Buffet extends Json {
      */
     ref: Ref;
   }>;
+
+  /**
+   * An optional ID of the buffet.
+   */
+  id?: BuffetId;
 }
 
 // .............................................................................
