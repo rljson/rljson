@@ -173,7 +173,10 @@ export class Example {
           row: 'MgHRBYSrhpyl4rvsOmAWcQ',
         },
         ingredientsTable: 'ingredients',
-        assign: {},
+        assign: {
+          id0: ingredient0._hash,
+          id1: ingredient1._hash,
+        },
       });
 
       const layer1: Layer = hip({

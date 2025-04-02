@@ -10,6 +10,7 @@ import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { LayersTable } from '../content/layer.ts';
+import { SliceIds } from '../content/slice-ids.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
@@ -49,6 +50,7 @@ export interface BaseErrors extends Errors {
   layerSliceIdsRowNotFound?: Json;
   layerIngredientTablesNotFound?: Json;
   layerIngredientAssignmentsNotFound?: Json;
+  layerAssignmentsDoNotMatchSliceIds?: Json;
 
   // Cake errors
   cakeSliceIdsTableNotFound?: Json;
@@ -123,6 +125,7 @@ class _BaseValidator {
       () => this._layerSliceIdsTableNotFound(),
       () => this._layerSliceIdsRowNotFound(),
       () => this._layerIngredientAssignmentsNotFound(),
+      () => this._layerAssignmentsDoNotMatchSliceIds(),
 
       // Check cakes
       () => this._cakeSliceIdsTableNotFound(),
@@ -893,6 +896,56 @@ class _BaseValidator {
       this.errors.layerIngredientAssignmentsNotFound = {
         error: 'Layer ingredient assignments are broken',
         brokenAssignments: brokenAssignments,
+      };
+    }
+  }
+
+  private _layerAssignmentsDoNotMatchSliceIds(): void {
+    const layersWithMissingAssignments: {
+      brokenLayer: string;
+      layersTable: string;
+      unassignedSliceIds: string[];
+    }[] = [];
+
+    iterateTables(this.rljson, (tableKey, table) => {
+      if (table._type !== 'layers') {
+        return;
+      }
+
+      const layersTable: LayersTable = table as LayersTable;
+      for (const layer of layersTable._data) {
+        if (!layer.sliceIds) {
+          continue;
+        }
+
+        const sliceIdsTable = this.rljsonIndexed[layer.sliceIds.table];
+        const sliceIdsRow = sliceIdsTable._data[layer.sliceIds.row] as SliceIds;
+        const sliceIds = sliceIdsRow.add;
+
+        const sliceIdsInLayer = Object.keys(layer.assign);
+        const unassignedSliceIds: string[] = [];
+
+        for (const expectedSliceId of sliceIds) {
+          if (sliceIdsInLayer.indexOf(expectedSliceId) === -1) {
+            unassignedSliceIds.push(expectedSliceId);
+          }
+        }
+
+        if (unassignedSliceIds.length) {
+          layersWithMissingAssignments.push({
+            brokenLayer: layer._hash as string,
+            layersTable: tableKey,
+            unassignedSliceIds: unassignedSliceIds,
+          });
+          continue;
+        }
+      }
+    });
+
+    if (layersWithMissingAssignments.length > 0) {
+      this.errors.layerAssignmentsDoNotMatchSliceIds = {
+        error: 'Layers have missing assignments',
+        layers: layersWithMissingAssignments,
       };
     }
   }
