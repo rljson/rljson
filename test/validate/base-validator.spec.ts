@@ -1005,19 +1005,19 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('layerSliceIdsNotFound()', () => {
+    describe('layerSliceIdsRowNotFound()', () => {
       it('returns an error when idSetRef is not found', () => {
         const rljson = Example.broken.layers.missingSliceIdSet();
         const layer = rljson.layers._data[1];
-        expect(layer.sliceIds).toBe('MISSING1');
+        expect(layer.sliceIds.row).toBe('MISSING1');
 
         expect(validate(rljson)).toEqual({
-          layerSliceIdsNotFound: {
+          layerSliceIdsRowNotFound: {
             brokenLayers: [
               {
                 layerHash: layer._hash,
                 layersTable: 'layers',
-                missingSliceIds: 'MISSING1',
+                missingSliceIdsRow: 'MISSING1',
               },
             ],
             error: 'Id sets of layers are missing',
@@ -1158,7 +1158,7 @@ describe('BaseValidator', async () => {
               {
                 brokenCake: cake._hash,
                 cakeTable: 'cakes',
-                missingSliceIds: 'MISSING',
+                missingSliceIdsRow: 'MISSING',
               },
             ],
             error: 'Id sets of cakes are missing',
@@ -1186,7 +1186,7 @@ describe('BaseValidator', async () => {
       it('returns an error when an referenced sliceIds is not found', () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
-        cake.sliceIdsTable = 'MISSING';
+        cake.sliceIds.table = 'MISSING';
         hip(rljson, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,

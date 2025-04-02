@@ -29,16 +29,17 @@ export interface Layer extends Json {
    */
   base?: LayerRef;
 
-  /**
-   * The item ids of the layer. If present, the item ids in `assign`
-   * must match these ids. The item id sets can be found in the sliceIds table.
-   */
-  sliceIds?: SliceIdsRef;
+  sliceIds?: {
+    /**
+     * The table containing the item ids of the layer
+     */
+    table: TableKey;
 
-  /**
-   * The table containing the item ids of the layer
-   */
-  sliceIdsTable?: TableKey;
+    /**
+     * A row in table, that contains the slice ids of the layer
+     */
+    row: SliceIdsRef;
+  };
 
   /**
    * The table containing the ingredients that are assigned to the items
