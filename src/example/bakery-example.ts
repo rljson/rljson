@@ -125,11 +125,8 @@ export const bakeryExample = (): Bakery => {
       {
         id: 'tastyCake',
         ingredientsTable: 'recipeIngredients',
-
-        sliceIds: {
-          table: 'ingredientTypes',
-          row: ingredientTypes._data[0]._hash as string,
-        },
+        sliceIdsTable: 'ingredientTypes',
+        sliceIdsTableRow: ingredientTypes._data[0]._hash as string,
         assign: {
           flour: recipeIngredients._data[0]._hash as string,
         },
@@ -143,10 +140,10 @@ export const bakeryExample = (): Bakery => {
     _data: [
       {
         ingredientsTable: 'recipes',
-        sliceIds: {
-          table: 'slices',
-          row: slices._data[0]._hash as string,
-        },
+
+        sliceIdsTable: 'slices',
+        sliceIdsTableRow: slices._data[0]._hash as string,
+
         assign: {
           slice0: recipes._data[0]._hash as string,
           slice1: recipes._data[0]._hash as string,
@@ -160,11 +157,8 @@ export const bakeryExample = (): Bakery => {
     _data: [
       {
         id: 'cake1',
-        sliceIds: {
-          table: 'slices',
-          row: slices._data[0]._hash as string,
-        },
-
+        sliceIdsTable: 'slices',
+        sliceIdsRow: slices._data[0]._hash as string,
         layersTable: 'layers',
         layers: {
           flour: layers._data[0]._hash as string,
