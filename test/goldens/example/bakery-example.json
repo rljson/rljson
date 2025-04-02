@@ -111,9 +111,17 @@
         "protein": 10.33,
         "carbohydrates": 76.31,
         "_hash": "R165gWZn_Pcj_je3AwSsXI"
+      },
+      {
+        "id": "flour",
+        "energy": 364.1,
+        "fat": 0.981,
+        "protein": 10.331,
+        "carbohydrates": 76.311,
+        "_hash": "IqeoWJjZQNlr-NVk2QT15B"
       }
     ],
-    "_hash": "aSecKyiBNa5CfXZ5Ty1Zrc"
+    "_hash": "5CrNbJK8Yl7YS4rvbp5KaQ"
   },
-  "_hash": "zLtxL9AoK9XkWnrCdbRETE"
+  "_hash": "kVnUr1PQKTPRNN8bkySmne"
 }

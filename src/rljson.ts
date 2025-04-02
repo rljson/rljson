@@ -10,6 +10,7 @@ import { BuffetsTable } from './content/buffet.ts';
 import { CakesTable } from './content/cake.ts';
 import { IngredientsTable } from './content/ingredients.ts';
 import { LayersTable } from './content/layer.ts';
+import { RevisionsTable } from './content/revision.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
@@ -35,7 +36,8 @@ export type TableType =
   | IngredientsTable<any>
   | LayersTable
   | SliceIdsTable
-  | CakesTable;
+  | CakesTable
+  | RevisionsTable;
 
 // .............................................................................
 /** The rljson data format */

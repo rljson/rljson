@@ -61,6 +61,14 @@ export const bakeryExample = (): Bakery => {
         carbohydrates: 76.31,
         _hash: '',
       },
+      {
+        id: 'flour',
+        energy: 364.1,
+        fat: 0.981,
+        protein: 10.331,
+        carbohydrates: 76.311,
+        _hash: '',
+      },
     ],
     _hash: '',
   });
