@@ -50,7 +50,7 @@ export interface Bakery extends Rljson {
 
 // .............................................................................
 export const bakeryExample = (): Bakery => {
-  const nutritionalValues: IngredientsTable<any> = hip({
+  const nutritionalValues = hip<IngredientsTable<any>>({
     _type: 'ingredients',
     _data: [
       {
@@ -73,7 +73,7 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const ingredients: IngredientsTable<any> = hip({
+  const ingredients = hip<IngredientsTable<any>>({
     _type: 'ingredients',
     _data: [
       {
@@ -86,7 +86,7 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const recipeIngredients: IngredientsTable<any> = hip({
+  const recipeIngredients = hip<IngredientsTable<any>>({
     _type: 'ingredients',
     _data: [
       {
@@ -99,7 +99,7 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const slices: SliceIdsTable = hip({
+  const slices = hip<SliceIdsTable>({
     _type: 'sliceIds',
     _data: [
       {
@@ -109,7 +109,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const ingredientTypes: SliceIdsTable = hip({
+  const ingredientTypes = hip<SliceIdsTable>({
     _type: 'sliceIds',
     _data: [
       {
@@ -119,7 +119,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const recipes: LayersTable = hip({
+  const recipes = hip<LayersTable>({
     _type: 'layers',
     _data: [
       {
@@ -138,7 +138,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const layers: LayersTable = hip({
+  const layers = hip<LayersTable>({
     _type: 'layers',
     _data: [
       {
@@ -155,7 +155,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const cakes: CakesTable = hip({
+  const cakes = hip<CakesTable>({
     _type: 'cakes',
     _data: [
       {
@@ -173,7 +173,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const buffets: BuffetsTable = hip({
+  const buffets = hip<BuffetsTable>({
     _type: 'buffets',
     _data: [
       {
