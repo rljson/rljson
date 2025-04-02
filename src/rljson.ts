@@ -10,6 +10,7 @@ import { BuffetsTable } from './content/buffet.ts';
 import { CakesTable } from './content/cake.ts';
 import { IngredientsTable } from './content/ingredients.ts';
 import { LayersTable } from './content/layer.ts';
+import { RevisionsTable } from './content/revision.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
@@ -18,7 +19,13 @@ import { ContentType, Ref, TableKey } from './typedefs.ts';
 // .............................................................................
 export const reservedFieldNames = ['_type', '_data'];
 
-export const reservedTableKeys = ['_hash', 'sliceIds', 'tableCfgs'];
+export const reservedTableKeys = [
+  '_hash',
+  'sliceIds',
+  'tableCfgs',
+  'reverseRefs',
+  'revisions',
+];
 
 // .............................................................................
 /**
@@ -29,7 +36,8 @@ export type TableType =
   | IngredientsTable<any>
   | LayersTable
   | SliceIdsTable
-  | CakesTable;
+  | CakesTable
+  | RevisionsTable;
 
 // .............................................................................
 /** The rljson data format */

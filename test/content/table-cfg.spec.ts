@@ -48,11 +48,9 @@ describe('TableCfg', () => {
     expect(result.key).toBe('table');
     expect(result.columns).toEqual({
       a: {
-        key: 'a',
         type: 'string',
       },
       b: {
-        key: 'b',
         type: 'number',
       },
     });

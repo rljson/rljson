@@ -20,11 +20,6 @@ export type TableCfgRef = Ref;
  */
 export interface ColumnCfg extends Json {
   /**
-   * The key of the column used in data
-   */
-  key: ColumnKey;
-
-  /**
    * The type of the column
    */
   type: JsonValueType;
@@ -59,6 +54,33 @@ export interface TableCfg extends Json {
    * Needs to be increased when new columns are added.
    */
   version: number;
+
+  /**
+   * Head tables serve as versioning entry points.
+   *
+   * - Head tables must contain an id column
+   * - Rows in an head table must contain a non-null id
+   * - Same row ids must refer to the same physical object
+   * - Head tables have no or only one parent table
+   */
+  isHead: boolean;
+
+  /**
+   * Root tables are tables that have no parent table.
+   *
+   * - Root tables are also head tables
+   */
+  isRoot: boolean;
+
+  /**
+   * Shared tables are tables that are used by multiple parents.
+   *
+   * - The don't need an id column
+   * - Same id can refer to different physical objects
+   * - Shared tables can have multiple parents
+   * - Shared tables can not be head or root tables
+   */
+  isShared: boolean;
 }
 
 /**
@@ -80,14 +102,15 @@ export const exampleTableCfg = (
     version: 1,
     columns: tableCfg?.columns ?? {
       a: {
-        key: 'a',
         type: 'string',
       },
       b: {
-        key: 'b',
         type: 'number',
       },
     },
     type: tableCfg?.type ?? 'ingredients',
+    isHead: true,
+    isRoot: true,
+    isShared: false,
   };
 };

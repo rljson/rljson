@@ -26,7 +26,13 @@ describe('Rljson', () => {
   });
 
   it('reservedTableKeys', () => {
-    expect(reservedTableKeys).toEqual(['_hash', 'sliceIds', 'tableCfgs']);
+    expect(reservedTableKeys).toEqual([
+      '_hash',
+      'sliceIds',
+      'tableCfgs',
+      'reverseRefs',
+      'revisions',
+    ]);
   });
 
   describe('iterate', () => {

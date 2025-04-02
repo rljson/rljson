@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Publish new version` here and below
+Replace `Prepare versioning, reverse references, ids and root tables` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Publish new version"
+node scripts/create-branch.js "Prepare versioning, reverse references, ids and root tables"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Publish new version"
+git commit -am"Prepare versioning, reverse references, ids and root tables"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Publish new version" --body " "
+gh pr create --base main --title "Prepare versioning, reverse references, ids and root tables" --body " "
 ```
 
 ## Code review

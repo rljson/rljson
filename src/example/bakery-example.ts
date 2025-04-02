@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { Hashed, hip } from '@rljson/hash';
+import { hip } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
 import { BuffetsTable } from '../content/buffet.ts';
@@ -50,25 +50,34 @@ export interface Bakery extends Rljson {
 
 // .............................................................................
 export const bakeryExample = (): Bakery => {
-  const nutritionalValues: Hashed<IngredientsTable<any>> = hip({
+  const nutritionalValues: IngredientsTable<any> = hip({
     _type: 'ingredients',
     _data: [
       {
+        id: 'flour',
         energy: 364,
         fat: 0.98,
         protein: 10.33,
         carbohydrates: 76.31,
         _hash: '',
       },
+      {
+        id: 'flour',
+        energy: 364.1,
+        fat: 0.981,
+        protein: 10.331,
+        carbohydrates: 76.311,
+        _hash: '',
+      },
     ],
     _hash: '',
   });
 
-  const ingredients: Hashed<IngredientsTable<any>> = hip({
+  const ingredients: IngredientsTable<any> = hip({
     _type: 'ingredients',
     _data: [
       {
-        name: 'flour',
+        id: 'flour',
         amountUnit: 'g',
         nutritionalValuesRef: nutritionalValues._data[0]._hash as string,
         _hash: '',
@@ -77,10 +86,11 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const recipeIngredients: Hashed<IngredientsTable<any>> = hip({
+  const recipeIngredients: IngredientsTable<any> = hip({
     _type: 'ingredients',
     _data: [
       {
+        id: 'flour',
         ingredientsRef: ingredients._data[0]._hash as string,
         quantity: 500,
         _hash: '',
@@ -89,10 +99,11 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const recipes: Hashed<LayersTable> = hip({
+  const recipes: LayersTable = hip({
     _type: 'layers',
     _data: [
       {
+        id: 'tastyCake',
         ingredientsTable: 'recipeIngredients',
         assign: {
           flour: recipeIngredients._data[0]._hash as string,
@@ -102,7 +113,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const layers: Hashed<LayersTable> = hip({
+  const layers: LayersTable = hip({
     _type: 'layers',
     _data: [
       {
@@ -115,29 +126,27 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const slices: Hashed<SliceIdsTable> = hip({
+  const slices: SliceIdsTable = hip({
     _type: 'sliceIds',
     _data: [
       {
         add: ['slice0', 'slice1'],
         remove: [],
-        _hash: '',
       },
     ],
-    _hash: '',
   });
 
-  const cakes: Hashed<CakesTable> = hip({
+  const cakes: CakesTable = hip({
     _type: 'cakes',
     _data: [
       {
+        id: 'cake1',
         sliceIdsTable: 'slices',
         sliceIds: slices._data[0]._hash as string,
         layersTable: 'layers',
         layers: {
           flour: layers._data[0]._hash as string,
         },
-        _hash: '',
       },
     ],
   });
@@ -146,6 +155,7 @@ export const bakeryExample = (): Bakery => {
     _type: 'buffets',
     _data: [
       {
+        id: 'salesCounter',
         items: [
           {
             table: 'cakes',

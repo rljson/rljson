@@ -50,6 +50,11 @@ export interface Cake extends Json {
   layers: {
     [layerId: CakeLayerId]: LayerRef;
   };
+
+  /**
+   * An optional ID of the cake.
+   */
+  id?: string;
 }
 
 // .............................................................................
