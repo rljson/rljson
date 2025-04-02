@@ -1,62 +1,57 @@
 {
   "tableCfgs": {
-    "_hash": "xkQOSJNN3tNFg2XX7-q9Hh",
+    "_hash": "2zf5RvUquRk5GQqCiF76bl",
     "_type": "ingredients",
     "_data": [
       {
         "version": 0,
-        "_hash": "0kaOn7378IGbhVyspA8_FH",
+        "_hash": "bwuh---qdWzTfuH9h8tavC",
         "key": "table",
         "type": "ingredients",
+        "isHead": false,
+        "isRoot": false,
+        "isShared": true,
         "columns": {
           "int": {
-            "key": "int",
             "type": "numberBroken",
-            "_hash": "sfSVk2YGseFgIoGqGXY3oT"
+            "_hash": "FFW77CD8EDbwEBG4dzVRL-"
           },
           "double": {
-            "key": "double",
             "type": "number",
-            "_hash": "XD0G8ZLa0-tKYnVUuEwkdS"
+            "_hash": "zd-Cda-hVAhTMHlYGtJ_lb"
           },
           "string": {
-            "key": "string",
             "type": "string",
-            "_hash": "eg0iPUTzUY2j_xTKwRIrUp"
+            "_hash": "AEBOaGQVNw8XEcTXrPopBU"
           },
           "boolean": {
-            "key": "boolean",
             "type": "boolean",
-            "_hash": "16MfBHbWYzez1R4r8NoPYp"
+            "_hash": "fLVB6E8iZ1SkbCHHnxMfoo"
           },
           "null": {
-            "key": "null",
             "type": "null",
-            "_hash": "Q2K3CkVvxAMO6cXyz4YEtD"
+            "_hash": "vN43Xr1Mus9lExEYEXODax"
           },
           "jsonArray": {
-            "key": "jsonArray",
             "type": "jsonArray",
-            "_hash": "PMwRJkviMj35S60qjN3UpG"
+            "_hash": "qGhCmXI-v7wnpYxWEqbkBZ"
           },
           "json": {
-            "key": "json",
             "type": "json",
-            "_hash": "NuhgezXe-Mkdf-hg96MNLG"
+            "_hash": "CLlzqcsvw9Jsfn3rn71YUK"
           },
           "jsonValue": {
-            "key": "jsonValue",
             "type": "jsonValue",
-            "_hash": "1LtHkc_tVAXXqH2OFXQ8rG"
+            "_hash": "rJnlZgUxG19A2D3b2c0aaH"
           },
-          "_hash": "sQl3M7s5tJ-xTeReVSxQDL"
+          "_hash": "Q26CJJ1MA0eqIShRuOZJ_P"
         }
       }
     ]
   },
   "table": {
     "_type": "ingredients",
-    "_tableCfg": "4qqBj31UpKNYFv5dHJn04Z",
+    "_tableCfg": "Sai2V-4hg0lOt_qm-4gPgw",
     "_data": [
       {
         "int": 5,
@@ -92,7 +87,7 @@
         "_hash": "r63TJIT73TYatXyqS4251G"
       }
     ],
-    "_hash": "zc_-kjVr1HmAfQi7qaOfBZ"
+    "_hash": "dfvHBEweZplhib8QBP_ZeP"
   },
-  "_hash": "03UDBVZKxDNQF5SDegwCuM"
+  "_hash": "8zaFaTlbMHdrMT8PJT0G8b"
 }
