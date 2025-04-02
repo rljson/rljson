@@ -3,13 +3,18 @@
   "_data": [
     {
       "ingredientsTable": "recipes",
-      "assign": {
-        "slice0": "IaZuXtJLwBmy8Zc6ggoJbO",
-        "slice1": "IaZuXtJLwBmy8Zc6ggoJbO",
-        "_hash": "aP8k92XilDTl92pzBWvIvO"
+      "sliceIds": {
+        "table": "slices",
+        "row": "wyYfK5E4ArrMKQ_zvi2-EE",
+        "_hash": "btT_a5o_PaicuRuiTC-qmV"
       },
-      "_hash": "hn-2XthOKVlr9zvJaGlNNh"
+      "assign": {
+        "slice0": "hYZ9Dqvuvm2OI_seLP4PPv",
+        "slice1": "hYZ9Dqvuvm2OI_seLP4PPv",
+        "_hash": "GNQjT29jvpKcz0bJ8S-Zta"
+      },
+      "_hash": "pcX-O7vO8I-89FLtQY92o3"
     }
   ],
-  "_hash": "UA2q-Bym7y3ivErq4snFlR"
+  "_hash": "ut0FbW5Jv91gH35KdVHeyz"
 }

@@ -7,31 +7,34 @@
         "items": [
           {
             "table": "cakes",
-            "ref": "Gy4sD92uxlJYHTgTZhsD1T",
-            "_hash": "FiQOn_IeoQldgvOg_bbABW"
+            "ref": "llG_gG-Klj7RZw0muCe_Rj",
+            "_hash": "UZthoPS9TpbS4l9eBo8Uge"
           }
         ],
-        "_hash": "baOC9UaVHg4KpiS-fmGCD7"
+        "_hash": "x3NJ6SkeTtDA8sKfViLN9k"
       }
     ],
-    "_hash": "6_Shv-qEpvUV3VlA_TeWfl"
+    "_hash": "6Q8sZlyPmIWEwyCpzgAyON"
   },
   "cakes": {
     "_type": "cakes",
     "_data": [
       {
         "id": "cake1",
-        "sliceIdsTable": "slices",
-        "sliceIds": "wyYfK5E4ArrMKQ_zvi2-EE",
+        "sliceIds": {
+          "table": "slices",
+          "row": "wyYfK5E4ArrMKQ_zvi2-EE",
+          "_hash": "btT_a5o_PaicuRuiTC-qmV"
+        },
         "layersTable": "layers",
         "layers": {
-          "flour": "hn-2XthOKVlr9zvJaGlNNh",
-          "_hash": "2OCWqUWiEthQWFIIcQud6I"
+          "flour": "pcX-O7vO8I-89FLtQY92o3",
+          "_hash": "6ZScXsaW3A50O0Dde0tvzj"
         },
-        "_hash": "Gy4sD92uxlJYHTgTZhsD1T"
+        "_hash": "llG_gG-Klj7RZw0muCe_Rj"
       }
     ],
-    "_hash": "Fyy0P_R6fMldtcmVU-EKuX"
+    "_hash": "9GTnB4Yj_nWgkM5-G1cHlY"
   },
   "slices": {
     "_type": "sliceIds",
@@ -47,20 +50,38 @@
     ],
     "_hash": "cnGg1WO4AHE2QX2CO2_aQL"
   },
+  "ingredientTypes": {
+    "_type": "sliceIds",
+    "_data": [
+      {
+        "add": [
+          "flour"
+        ],
+        "remove": [],
+        "_hash": "UNxHIyPK7AACyUsbISW7bp"
+      }
+    ],
+    "_hash": "c1w4IVG4J4JANpcTu8p7Jd"
+  },
   "layers": {
     "_type": "layers",
     "_data": [
       {
         "ingredientsTable": "recipes",
-        "assign": {
-          "slice0": "IaZuXtJLwBmy8Zc6ggoJbO",
-          "slice1": "IaZuXtJLwBmy8Zc6ggoJbO",
-          "_hash": "aP8k92XilDTl92pzBWvIvO"
+        "sliceIds": {
+          "table": "slices",
+          "row": "wyYfK5E4ArrMKQ_zvi2-EE",
+          "_hash": "btT_a5o_PaicuRuiTC-qmV"
         },
-        "_hash": "hn-2XthOKVlr9zvJaGlNNh"
+        "assign": {
+          "slice0": "hYZ9Dqvuvm2OI_seLP4PPv",
+          "slice1": "hYZ9Dqvuvm2OI_seLP4PPv",
+          "_hash": "GNQjT29jvpKcz0bJ8S-Zta"
+        },
+        "_hash": "pcX-O7vO8I-89FLtQY92o3"
       }
     ],
-    "_hash": "UA2q-Bym7y3ivErq4snFlR"
+    "_hash": "ut0FbW5Jv91gH35KdVHeyz"
   },
   "recipes": {
     "_type": "layers",
@@ -68,14 +89,19 @@
       {
         "id": "tastyCake",
         "ingredientsTable": "recipeIngredients",
+        "sliceIds": {
+          "table": "ingredientTypes",
+          "row": "UNxHIyPK7AACyUsbISW7bp",
+          "_hash": "kdpBcw0mVseEGiG5d6cNud"
+        },
         "assign": {
           "flour": "4coxp7hPCsH7hSnAVeUVZj",
           "_hash": "5LxOnZOPBtIqV3PlOC_ulB"
         },
-        "_hash": "IaZuXtJLwBmy8Zc6ggoJbO"
+        "_hash": "hYZ9Dqvuvm2OI_seLP4PPv"
       }
     ],
-    "_hash": "GdeNa6_4O4F5hgvj9inIi-"
+    "_hash": "3TqNwXOtUxNq0mOdJPofHT"
   },
   "recipeIngredients": {
     "_type": "ingredients",
@@ -123,5 +149,5 @@
     ],
     "_hash": "5CrNbJK8Yl7YS4rvbp5KaQ"
   },
-  "_hash": "kVnUr1PQKTPRNN8bkySmne"
+  "_hash": "QVD3H9kPS8XEGkJRLn3mG8"
 }

@@ -99,12 +99,37 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
+  const slices: SliceIdsTable = hip({
+    _type: 'sliceIds',
+    _data: [
+      {
+        add: ['slice0', 'slice1'],
+        remove: [],
+      },
+    ],
+  });
+
+  const ingredientTypes: SliceIdsTable = hip({
+    _type: 'sliceIds',
+    _data: [
+      {
+        add: ['flour'],
+        remove: [],
+      },
+    ],
+  });
+
   const recipes: LayersTable = hip({
     _type: 'layers',
     _data: [
       {
         id: 'tastyCake',
         ingredientsTable: 'recipeIngredients',
+
+        sliceIds: {
+          table: 'ingredientTypes',
+          row: ingredientTypes._data[0]._hash as string,
+        },
         assign: {
           flour: recipeIngredients._data[0]._hash as string,
         },
@@ -118,20 +143,14 @@ export const bakeryExample = (): Bakery => {
     _data: [
       {
         ingredientsTable: 'recipes',
+        sliceIds: {
+          table: 'slices',
+          row: slices._data[0]._hash as string,
+        },
         assign: {
           slice0: recipes._data[0]._hash as string,
           slice1: recipes._data[0]._hash as string,
         },
-      },
-    ],
-  });
-
-  const slices: SliceIdsTable = hip({
-    _type: 'sliceIds',
-    _data: [
-      {
-        add: ['slice0', 'slice1'],
-        remove: [],
       },
     ],
   });
@@ -141,8 +160,11 @@ export const bakeryExample = (): Bakery => {
     _data: [
       {
         id: 'cake1',
-        sliceIdsTable: 'slices',
-        sliceIds: slices._data[0]._hash as string,
+        sliceIds: {
+          table: 'slices',
+          row: slices._data[0]._hash as string,
+        },
+
         layersTable: 'layers',
         layers: {
           flour: layers._data[0]._hash as string,
@@ -170,6 +192,7 @@ export const bakeryExample = (): Bakery => {
     buffets,
     cakes,
     slices,
+    ingredientTypes,
     layers,
     recipes,
     recipeIngredients,

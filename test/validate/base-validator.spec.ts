@@ -9,6 +9,7 @@ import { Json } from '@rljson/json';
 
 import { describe, expect, it } from 'vitest';
 
+import { Layer } from '../../src/content/layer.ts';
 import { ColumnCfg, TableCfg } from '../../src/content/table-cfg.ts';
 import { Example } from '../../src/example.ts';
 import { Rljson, RljsonPrivate } from '../../src/rljson.ts';
@@ -1005,19 +1006,19 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('layerSliceIdsNotFound()', () => {
+    describe('layerSliceIdsRowNotFound()', () => {
       it('returns an error when idSetRef is not found', () => {
         const rljson = Example.broken.layers.missingSliceIdSet();
         const layer = rljson.layers._data[1];
-        expect(layer.sliceIds).toBe('MISSING1');
+        expect(layer.sliceIds.row).toBe('MISSING1');
 
         expect(validate(rljson)).toEqual({
-          layerSliceIdsNotFound: {
+          layerSliceIdsRowNotFound: {
             brokenLayers: [
               {
                 layerHash: layer._hash,
                 layersTable: 'layers',
-                missingSliceIds: 'MISSING1',
+                missingSliceIdsRow: 'MISSING1',
               },
             ],
             error: 'Id sets of layers are missing',
@@ -1066,7 +1067,7 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('layerAssignedIngredientsFound', () => {
+    describe('layerIngredientAssignmentsNotFound', () => {
       it('returns an error when the ingredients table is not foun', () => {
         const rljson = Example.broken.layers.missingAssignedIngredientTable();
         const layer0 = rljson.layers._data[0];
@@ -1103,6 +1104,13 @@ describe('BaseValidator', async () => {
           layerIngredientAssignmentsNotFound: {
             brokenAssignments: [
               {
+                brokenAssignment: 'id1',
+                brokenLayer: 'CjHAE2K9hhxIHK55kUVfsi',
+                layersTable: 'layers',
+                missingIngredient: 'mv6w8rID8lQxLsje1EHQMY',
+                referencedIngredientTable: 'ingredients',
+              },
+              {
                 brokenLayer: layer._hash,
                 brokenAssignment: 'id1',
                 missingIngredient: ingredient._hash,
@@ -1113,6 +1121,39 @@ describe('BaseValidator', async () => {
             error: 'Layer ingredient assignments are broken',
           },
           hasErrors: true,
+        });
+      });
+    });
+
+    describe('layerAssignmentsDoNotMatchSliceIds', () => {
+      it('returns no errors when all assignments match', () => {
+        expect(validate(Example.ok.complete())).toEqual({
+          hasErrors: false,
+        });
+      });
+
+      it('returns an error when the assignments do not match', () => {
+        const rljson = Example.ok.complete();
+        const layer = rljson.layers._data[1] as Layer;
+        delete layer.assign.id0;
+        delete layer.assign.id1;
+        hip(rljson, {
+          throwOnWrongHashes: false,
+          updateExistingHashes: true,
+        });
+
+        expect(validate(rljson)).toEqual({
+          hasErrors: true,
+          layerAssignmentsDoNotMatchSliceIds: {
+            error: 'Layers have missing assignments',
+            layers: [
+              {
+                brokenLayer: 'EB2ypamFfxpG9xr_uOCYWF',
+                layersTable: 'layers',
+                unassignedSliceIds: ['id0', 'id1'],
+              },
+            ],
+          },
         });
       });
     });
@@ -1158,7 +1199,7 @@ describe('BaseValidator', async () => {
               {
                 brokenCake: cake._hash,
                 cakeTable: 'cakes',
-                missingSliceIds: 'MISSING',
+                missingSliceIdsRow: 'MISSING',
               },
             ],
             error: 'Id sets of cakes are missing',
@@ -1186,7 +1227,7 @@ describe('BaseValidator', async () => {
       it('returns an error when an referenced sliceIds is not found', () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
-        cake.sliceIdsTable = 'MISSING';
+        cake.sliceIds.table = 'MISSING';
         hip(rljson, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
