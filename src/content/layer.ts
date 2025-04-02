@@ -29,17 +29,15 @@ export interface Layer extends Json {
    */
   base?: LayerRef;
 
-  sliceIds: {
-    /**
-     * The table containing the item ids of the layer
-     */
-    table: TableKey;
+  /**
+   * The table containing the item ids of the layer
+   */
+  sliceIdsTable: TableKey;
 
-    /**
-     * A row in table, that contains the slice ids of the layer
-     */
-    row: SliceIdsRef;
-  };
+  /**
+   * A row in table, that contains the slice ids of the layer
+   */
+  sliceIdsTableRow: SliceIdsRef;
 
   /**
    * The table containing the ingredients that are assigned to the items

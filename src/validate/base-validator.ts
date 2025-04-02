@@ -781,18 +781,13 @@ class _BaseValidator {
 
       const layersTable: LayersTable = table as LayersTable;
       for (const layer of layersTable._data) {
-        const sliceIds = layer.sliceIds;
-        if (!sliceIds) {
-          continue;
-        }
-
-        const sliceIdsTable = this.rljsonIndexed[sliceIds.table];
+        const sliceIdsTable = this.rljsonIndexed[layer.sliceIdsTable];
 
         if (!sliceIdsTable) {
           brokenLayers.push({
             layersTable: tableKey,
             layerHash: layer._hash,
-            missingSliceIdsTable: sliceIds.table,
+            missingSliceIdsTable: layer.sliceIdsTable,
           });
         }
       }
@@ -816,20 +811,15 @@ class _BaseValidator {
 
       const layersTable: LayersTable = table as LayersTable;
       for (const layer of layersTable._data) {
-        const sliceIds = layer.sliceIds;
-        if (!sliceIds) {
-          continue;
-        }
-
-        const sliceIdsTableName = sliceIds.table as string;
+        const sliceIdsTableName = layer.sliceIdsTable as string;
         const sliceIdsTable = this.rljsonIndexed[sliceIdsTableName];
 
-        const idSet = sliceIdsTable._data[sliceIds.row];
+        const idSet = sliceIdsTable._data[layer.sliceIdsTableRow];
         if (!idSet) {
           brokenLayers.push({
             layersTable: tableKey,
             layerHash: layer._hash,
-            missingSliceIdsRow: sliceIds.row,
+            missingSliceIdsRow: layer.sliceIdsTableRow,
           });
         }
       }
@@ -914,12 +904,10 @@ class _BaseValidator {
 
       const layersTable: LayersTable = table as LayersTable;
       for (const layer of layersTable._data) {
-        if (!layer.sliceIds) {
-          continue;
-        }
-
-        const sliceIdsTable = this.rljsonIndexed[layer.sliceIds.table];
-        const sliceIdsRow = sliceIdsTable._data[layer.sliceIds.row] as SliceIds;
+        const sliceIdsTable = this.rljsonIndexed[layer.sliceIdsTable];
+        const sliceIdsRow = sliceIdsTable._data[
+          layer.sliceIdsTableRow
+        ] as SliceIds;
         const sliceIds = sliceIdsRow.add;
 
         const sliceIdsInLayer = Object.keys(layer.assign);
@@ -960,18 +948,13 @@ class _BaseValidator {
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const sliceIds = cake.sliceIds;
-        if (!sliceIds) {
-          continue;
-        }
-
-        const sliceIdsTable = this.rljsonIndexed[sliceIds.table];
+        const sliceIdsTable = this.rljsonIndexed[cake.sliceIdsTable];
 
         if (!sliceIdsTable) {
           brokenCakes.push({
             cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingSliceIdsTable: sliceIds.table,
+            missingSliceIdsTable: cake.sliceIdsTable,
           });
         }
       }
@@ -995,20 +978,15 @@ class _BaseValidator {
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const sliceIds = cake.sliceIds;
-        if (!sliceIds) {
-          continue;
-        }
-
-        const sliceIdsTableName = cake.sliceIds.table as string;
+        const sliceIdsTableName = cake.sliceIdsTable as string;
         const sliceIdsTable = this.rljsonIndexed[sliceIdsTableName];
 
-        const sliceIdValues = sliceIdsTable._data[sliceIds.row];
+        const sliceIdValues = sliceIdsTable._data[cake.sliceIdsRow];
         if (!sliceIdValues) {
           brokenCakes.push({
             cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingSliceIdsRow: sliceIds.row,
+            missingSliceIdsRow: cake.sliceIdsRow,
           });
         }
       }

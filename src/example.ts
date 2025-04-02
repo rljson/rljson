@@ -39,7 +39,7 @@ export class Example {
     },
 
     singleRow: (): Rljson => {
-      const tableCfgs: TablesCfgTable = hip({
+      const tableCfgs = hip<TablesCfgTable>({
         _hash: '',
 
         _type: 'ingredients',
@@ -151,7 +151,7 @@ export class Example {
       };
     },
     complete: (): Rljson => {
-      const sliceIds: SliceIdsTable = hip({
+      const sliceIds = hip<SliceIdsTable>({
         _type: 'sliceIds',
         _data: [
           {
@@ -160,18 +160,16 @@ export class Example {
         ],
       });
 
-      const ingredients: IngredientsTable<any> = hip({
+      const ingredients = hip<IngredientsTable<any>>({
         _type: 'ingredients',
         _data: [{ a: '0' }, { a: '1' }],
       });
       const ingredient0 = ingredients._data[0];
       const ingredient1 = ingredients._data[1];
 
-      const layer0: Layer = hip({
-        sliceIds: {
-          table: 'sliceIds',
-          row: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        },
+      const layer0 = hip<Layer>({
+        sliceIdsTable: 'sliceIds',
+        sliceIdsTableRow: 'MgHRBYSrhpyl4rvsOmAWcQ',
         ingredientsTable: 'ingredients',
         assign: {
           id0: ingredient0._hash,
@@ -179,12 +177,10 @@ export class Example {
         },
       });
 
-      const layer1: Layer = hip({
+      const layer1 = hip<Layer>({
         base: layer0._hash as string,
-        sliceIds: {
-          table: 'sliceIds',
-          row: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        },
+        sliceIdsTable: 'sliceIds',
+        sliceIdsTableRow: 'MgHRBYSrhpyl4rvsOmAWcQ',
         ingredientsTable: 'ingredients',
         assign: {
           id0: ingredient0._hash,
@@ -192,16 +188,14 @@ export class Example {
         },
       });
 
-      const layers: LayersTable = hip({
+      const layers = hip<LayersTable>({
         _type: 'layers',
         _data: [layer0, layer1],
       } as LayersTable);
 
-      const cake: Cake = hip({
-        sliceIds: {
-          table: 'sliceIds',
-          row: sliceIds._data[0]._hash as string,
-        },
+      const cake = hip<Cake>({
+        sliceIdsTable: 'sliceIds',
+        sliceIdsRow: sliceIds._data[0]._hash as string,
         layersTable: 'layers',
         layers: {
           layer0: layer0._hash as string,
@@ -209,12 +203,12 @@ export class Example {
         },
       });
 
-      const cakes: CakesTable = hip({
+      const cakes = hip<CakesTable>({
         _type: 'cakes',
         _data: [cake],
       });
 
-      const buffets: BuffetsTable = hip({
+      const buffets = hip<BuffetsTable>({
         _type: 'buffets',
         _data: [
           {
@@ -335,9 +329,9 @@ export class Example {
 
       missingSliceIdSet: (): Rljson => {
         const result = Example.ok.complete();
-        const layer1 = result.layers._data[1];
+        const layer1 = (result.layers as LayersTable)._data[1];
 
-        layer1.sliceIds.row = 'MISSING1';
+        layer1.sliceIdsTableRow = 'MISSING1';
 
         // Recalculate hashes
         return hip(result, {
@@ -365,14 +359,15 @@ export class Example {
     cakes: {
       missingSliceIdSet: (): Rljson => {
         const result = Example.ok.complete();
-        result.cakes._data[0].sliceIds.row = 'MISSING'; // Missing ID set
+        (result.cakes as CakesTable)._data[0].sliceIdsRow = 'MISSING'; // Missing ID set
+
         hip(result.cakes, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
         });
 
-        result.buffets._data[0].items[0].ref = result.cakes._data[0]
-          ._hash as string; // Update buffet reference
+        (result.buffets as BuffetsTable)._data[0].items[0].ref = result.cakes
+          ._data[0]._hash as string; // Update buffet reference
 
         hip(result.buffets, {
           updateExistingHashes: true,
