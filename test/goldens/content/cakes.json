@@ -3,18 +3,15 @@
   "_data": [
     {
       "id": "cake1",
-      "sliceIds": {
-        "table": "slices",
-        "row": "wyYfK5E4ArrMKQ_zvi2-EE",
-        "_hash": "btT_a5o_PaicuRuiTC-qmV"
-      },
+      "sliceIdsTable": "slices",
+      "sliceIdsRow": "wyYfK5E4ArrMKQ_zvi2-EE",
       "layersTable": "layers",
       "layers": {
-        "flour": "pcX-O7vO8I-89FLtQY92o3",
-        "_hash": "6ZScXsaW3A50O0Dde0tvzj"
+        "flour": "I0zT7120s1gWEDrGhhSr6n",
+        "_hash": "xt5lXBmDHfp0XI8PaiLWT-"
       },
-      "_hash": "llG_gG-Klj7RZw0muCe_Rj"
+      "_hash": "FShJOllEImdno0ZPZS0Ucr"
     }
   ],
-  "_hash": "9GTnB4Yj_nWgkM5-G1cHlY"
+  "_hash": "-9w6vZJ39JIye2PrWCevoy"
 }

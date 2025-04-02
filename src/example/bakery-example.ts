@@ -50,7 +50,7 @@ export interface Bakery extends Rljson {
 
 // .............................................................................
 export const bakeryExample = (): Bakery => {
-  const nutritionalValues: IngredientsTable<any> = hip({
+  const nutritionalValues = hip<IngredientsTable<any>>({
     _type: 'ingredients',
     _data: [
       {
@@ -73,7 +73,7 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const ingredients: IngredientsTable<any> = hip({
+  const ingredients = hip<IngredientsTable<any>>({
     _type: 'ingredients',
     _data: [
       {
@@ -86,7 +86,7 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const recipeIngredients: IngredientsTable<any> = hip({
+  const recipeIngredients = hip<IngredientsTable<any>>({
     _type: 'ingredients',
     _data: [
       {
@@ -99,7 +99,7 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const slices: SliceIdsTable = hip({
+  const slices = hip<SliceIdsTable>({
     _type: 'sliceIds',
     _data: [
       {
@@ -109,7 +109,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const ingredientTypes: SliceIdsTable = hip({
+  const ingredientTypes = hip<SliceIdsTable>({
     _type: 'sliceIds',
     _data: [
       {
@@ -119,17 +119,14 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const recipes: LayersTable = hip({
+  const recipes = hip<LayersTable>({
     _type: 'layers',
     _data: [
       {
         id: 'tastyCake',
         ingredientsTable: 'recipeIngredients',
-
-        sliceIds: {
-          table: 'ingredientTypes',
-          row: ingredientTypes._data[0]._hash as string,
-        },
+        sliceIdsTable: 'ingredientTypes',
+        sliceIdsTableRow: ingredientTypes._data[0]._hash as string,
         assign: {
           flour: recipeIngredients._data[0]._hash as string,
         },
@@ -138,15 +135,15 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const layers: LayersTable = hip({
+  const layers = hip<LayersTable>({
     _type: 'layers',
     _data: [
       {
         ingredientsTable: 'recipes',
-        sliceIds: {
-          table: 'slices',
-          row: slices._data[0]._hash as string,
-        },
+
+        sliceIdsTable: 'slices',
+        sliceIdsTableRow: slices._data[0]._hash as string,
+
         assign: {
           slice0: recipes._data[0]._hash as string,
           slice1: recipes._data[0]._hash as string,
@@ -155,16 +152,13 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const cakes: CakesTable = hip({
+  const cakes = hip<CakesTable>({
     _type: 'cakes',
     _data: [
       {
         id: 'cake1',
-        sliceIds: {
-          table: 'slices',
-          row: slices._data[0]._hash as string,
-        },
-
+        sliceIdsTable: 'slices',
+        sliceIdsRow: slices._data[0]._hash as string,
         layersTable: 'layers',
         layers: {
           flour: layers._data[0]._hash as string,
@@ -173,7 +167,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const buffets: BuffetsTable = hip({
+  const buffets = hip<BuffetsTable>({
     _type: 'buffets',
     _data: [
       {
