@@ -37,6 +37,7 @@ export interface BaseErrors extends Errors {
   dataDoesNotMatchColumnConfig?: Json;
   tableTypesDoNotMatch?: Json;
   rootOrHeadTableHasNoIdColumn?: Json;
+  tableCfgHasRootHeadSharedError?: Json;
 
   // Reference errors
   refsNotFound?: Json;
@@ -110,6 +111,7 @@ class _BaseValidator {
       () => this._missingColumnConfigs(),
       () => this._dataDoesNotMatchColumnConfig(),
       () => this._tableTypesDoNotMatch(),
+      () => this._tableCfgHasRootHeadSharedError(),
       () => this._rootOrHeadTableHasNoIdColumn(),
 
       // Check references
@@ -514,6 +516,56 @@ class _BaseValidator {
       this.errors.tableTypesDoNotMatch = {
         error: 'Table types do not match table config',
         tables: tablesWithTypeMissmatch,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _tableCfgHasRootHeadSharedError(): void {
+    const rljson = this.rljson;
+    const inconsistentTableCfgs: {
+      table: string;
+      tableCfg: string;
+      error: string;
+    }[] = [];
+
+    // Iterate all tables
+    for (const tableKey of this.tableKeys) {
+      const table = rljson[tableKey];
+
+      // Get table config
+      const cfgRef = table._tableCfg;
+      if (!cfgRef) {
+        continue;
+      }
+      const cfg = this.rljsonIndexed.tableCfgs._data[cfgRef]! as TableCfg;
+      const { isRoot, isHead, isShared } = cfg;
+      if (isShared && (isRoot || isHead)) {
+        inconsistentTableCfgs.push({
+          error:
+            'Tables with isShared = true must have isRoot = false and isHead = false',
+          table: tableKey,
+          tableCfg: cfgRef,
+        });
+      } else if (isRoot && !isHead) {
+        inconsistentTableCfgs.push({
+          error: 'Tables with isRoot = true must also have isHead = true',
+          table: tableKey,
+          tableCfg: cfgRef,
+        });
+      } else if (!isRoot && !isHead && !isShared) {
+        inconsistentTableCfgs.push({
+          error: 'Tables must be either root, root+head or shared',
+          table: tableKey,
+          tableCfg: cfgRef,
+        });
+      }
+    }
+
+    if (inconsistentTableCfgs.length > 0) {
+      this.errors.tableCfgHasRootHeadSharedError = {
+        error: 'Table configs have inconsistent root/head/shared settings',
+        tables: inconsistentTableCfgs,
       };
     }
   }

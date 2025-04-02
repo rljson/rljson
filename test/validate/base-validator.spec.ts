@@ -480,6 +480,148 @@ describe('BaseValidator', async () => {
       });
     });
 
+    describe('tableCfgHasRootHeadSharedError()', () => {
+      const create = (config: {
+        isHead: boolean;
+        isRoot: boolean;
+        isShared: boolean;
+      }) => {
+        const columns: Record<string, ColumnCfg> = {
+          name: { type: 'string' },
+          id: { type: 'string' },
+        };
+
+        const tableCfg = hip<TableCfg>({
+          version: 1,
+          key: 'tableOne',
+          type: 'ingredients',
+          columns,
+          isHead: config.isHead,
+          isRoot: config.isRoot,
+          isShared: config.isShared,
+        });
+
+        const row: Json = { name: 'item1', id: 'id1' };
+
+        const rljson = {
+          tableOne: {
+            _type: 'ingredients',
+            _tableCfg: tableCfg._hash as string,
+            _data: [row],
+          },
+
+          tableCfgs: {
+            _type: 'ingredients',
+            _data: [tableCfg],
+          },
+        };
+
+        return rljson;
+      };
+
+      describe('returns errors', () => {
+        it('when root table is not also an head table', () => {
+          const rljson = create({
+            isRoot: true,
+            isHead: false,
+            isShared: false,
+          });
+          expect(validate(rljson)).toEqual({
+            hasErrors: true,
+            tableCfgHasRootHeadSharedError: {
+              error:
+                'Table configs have inconsistent root/head/shared settings',
+              tables: [
+                {
+                  error:
+                    'Tables with isRoot = true must also have isHead = true',
+                  table: 'tableOne',
+                  tableCfg: rljson.tableCfgs._data[0]._hash,
+                },
+              ],
+            },
+          });
+        });
+
+        it('when a shared table is also a root table', () => {
+          const rljson = create({
+            isRoot: true,
+            isHead: false,
+            isShared: true,
+          });
+          expect(validate(rljson)).toEqual({
+            hasErrors: true,
+            tableCfgHasRootHeadSharedError: {
+              error:
+                'Table configs have inconsistent root/head/shared settings',
+
+              tables: [
+                {
+                  error:
+                    'Tables with isShared = true must have isRoot = false and isHead = false',
+                  table: 'tableOne',
+                  tableCfg: rljson.tableCfgs._data[0]._hash,
+                },
+              ],
+            },
+          });
+        });
+
+        it('when a table is not head, root or shared', () => {
+          const rljson = create({
+            isRoot: false,
+            isHead: false,
+            isShared: false,
+          });
+          expect(validate(rljson)).toEqual({
+            hasErrors: true,
+            tableCfgHasRootHeadSharedError: {
+              error:
+                'Table configs have inconsistent root/head/shared settings',
+
+              tables: [
+                {
+                  error: 'Tables must be either root, root+head or shared',
+
+                  table: 'tableOne',
+                  tableCfg: rljson.tableCfgs._data[0]._hash,
+                },
+              ],
+            },
+          });
+        });
+      });
+
+      describe('returns no errors', () => {
+        it('when isRoot is true + isHead is true and isShared is false', () => {
+          const rljson = create({
+            isRoot: true,
+            isHead: true,
+            isShared: false,
+          });
+          expect(validate(rljson)).toEqual({ hasErrors: false });
+        });
+
+        it('when isRoot is false, isHead is true and isShared is false', () => {
+          const rljson = create({
+            isRoot: false,
+            isHead: true,
+            isShared: false,
+          });
+          expect(validate(rljson)).toEqual({ hasErrors: false });
+        });
+
+        it('when isRoot is false, isHead is false and isShared is true', () => {
+          const rljson = create({
+            isRoot: false,
+            isHead: false,
+            isShared: true,
+          });
+          expect(validate(rljson)).toEqual({ hasErrors: false });
+        });
+      });
+    });
+
     describe('rootOrHeadTableHasNoIdColumn()', () => {
       const create = (config: {
         isHead: boolean;
@@ -571,7 +713,7 @@ describe('BaseValidator', async () => {
 
         it('with root tables', () => {
           const rljson = create({
-            isHead: false,
+            isHead: true,
             isRoot: true,
             addIdColumn: false,
           });
