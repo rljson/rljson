@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Refactor handling of sliceIds in cakes and layers` here and below
+Replace `Add revisions.ts to index.ts` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Refactor handling of sliceIds in cakes and layers"
+node scripts/create-branch.js "Add revisions.ts to index.ts"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Refactor handling of sliceIds in cakes and layers"
+git commit -am"Add revisions.ts to index.ts"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Refactor handling of sliceIds in cakes and layers" --body " "
+gh pr create --base main --title "Add revisions.ts to index.ts" --body " "
 ```
 
 ## Code review
