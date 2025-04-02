@@ -29,7 +29,7 @@ export interface Layer extends Json {
    */
   base?: LayerRef;
 
-  sliceIds?: {
+  sliceIds: {
     /**
      * The table containing the item ids of the layer
      */
