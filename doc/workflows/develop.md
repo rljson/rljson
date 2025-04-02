@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Prepare versioning, reverse references, ids and root tables` here and below
+Replace `Refactor handling of sliceIds in cakes and layers` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Prepare versioning, reverse references, ids and root tables"
+node scripts/create-branch.js "Refactor handling of sliceIds in cakes and layers"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Prepare versioning, reverse references, ids and root tables"
+git commit -am"Refactor handling of sliceIds in cakes and layers"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Prepare versioning, reverse references, ids and root tables" --body " "
+gh pr create --base main --title "Refactor handling of sliceIds in cakes and layers" --body " "
 ```
 
 ## Code review

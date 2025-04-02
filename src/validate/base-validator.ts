@@ -10,6 +10,7 @@ import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { LayersTable } from '../content/layer.ts';
+import { SliceIds } from '../content/slice-ids.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
@@ -44,10 +45,12 @@ export interface BaseErrors extends Errors {
 
   // Layer errors
   layerBasesNotFound?: Json;
+  layerSliceIdsGivenButNoTable?: Json;
   layerSliceIdsTableNotFound?: Json;
-  layerSliceIdsNotFound?: Json;
+  layerSliceIdsRowNotFound?: Json;
   layerIngredientTablesNotFound?: Json;
   layerIngredientAssignmentsNotFound?: Json;
+  layerAssignmentsDoNotMatchSliceIds?: Json;
 
   // Cake errors
   cakeSliceIdsTableNotFound?: Json;
@@ -120,8 +123,9 @@ class _BaseValidator {
       // Check layers
       () => this._layerBasesNotFound(),
       () => this._layerSliceIdsTableNotFound(),
-      () => this._layerSliceIdsNotFound(),
+      () => this._layerSliceIdsRowNotFound(),
       () => this._layerIngredientAssignmentsNotFound(),
+      () => this._layerAssignmentsDoNotMatchSliceIds(),
 
       // Check cakes
       () => this._cakeSliceIdsTableNotFound(),
@@ -777,18 +781,18 @@ class _BaseValidator {
 
       const layersTable: LayersTable = table as LayersTable;
       for (const layer of layersTable._data) {
-        const sliceIds = layer.sliceIdsTable;
+        const sliceIds = layer.sliceIds;
         if (!sliceIds) {
           continue;
         }
 
-        const sliceIdsTable = this.rljsonIndexed[sliceIds];
+        const sliceIdsTable = this.rljsonIndexed[sliceIds.table];
 
         if (!sliceIdsTable) {
           brokenLayers.push({
             layersTable: tableKey,
             layerHash: layer._hash,
-            missingSliceIdsTable: sliceIds,
+            missingSliceIdsTable: sliceIds.table,
           });
         }
       }
@@ -802,7 +806,7 @@ class _BaseValidator {
     }
   }
 
-  private _layerSliceIdsNotFound(): void {
+  private _layerSliceIdsRowNotFound(): void {
     const brokenLayers: any[] = [];
 
     iterateTables(this.rljson, (tableKey, table) => {
@@ -812,27 +816,27 @@ class _BaseValidator {
 
       const layersTable: LayersTable = table as LayersTable;
       for (const layer of layersTable._data) {
-        const idSetRef = layer.sliceIds;
-        if (!idSetRef) {
+        const sliceIds = layer.sliceIds;
+        if (!sliceIds) {
           continue;
         }
 
-        const sliceIds = layer.sliceIdsTable as string;
-        const sliceIdsTable = this.rljsonIndexed[sliceIds];
+        const sliceIdsTableName = sliceIds.table as string;
+        const sliceIdsTable = this.rljsonIndexed[sliceIdsTableName];
 
-        const idSet = sliceIdsTable._data[idSetRef];
+        const idSet = sliceIdsTable._data[sliceIds.row];
         if (!idSet) {
           brokenLayers.push({
             layersTable: tableKey,
             layerHash: layer._hash,
-            missingSliceIds: idSetRef,
+            missingSliceIdsRow: sliceIds.row,
           });
         }
       }
     });
 
     if (brokenLayers.length > 0) {
-      this.errors.layerSliceIdsNotFound = {
+      this.errors.layerSliceIdsRowNotFound = {
         error: 'Id sets of layers are missing',
         brokenLayers,
       };
@@ -896,6 +900,56 @@ class _BaseValidator {
     }
   }
 
+  private _layerAssignmentsDoNotMatchSliceIds(): void {
+    const layersWithMissingAssignments: {
+      brokenLayer: string;
+      layersTable: string;
+      unassignedSliceIds: string[];
+    }[] = [];
+
+    iterateTables(this.rljson, (tableKey, table) => {
+      if (table._type !== 'layers') {
+        return;
+      }
+
+      const layersTable: LayersTable = table as LayersTable;
+      for (const layer of layersTable._data) {
+        if (!layer.sliceIds) {
+          continue;
+        }
+
+        const sliceIdsTable = this.rljsonIndexed[layer.sliceIds.table];
+        const sliceIdsRow = sliceIdsTable._data[layer.sliceIds.row] as SliceIds;
+        const sliceIds = sliceIdsRow.add;
+
+        const sliceIdsInLayer = Object.keys(layer.assign);
+        const unassignedSliceIds: string[] = [];
+
+        for (const expectedSliceId of sliceIds) {
+          if (sliceIdsInLayer.indexOf(expectedSliceId) === -1) {
+            unassignedSliceIds.push(expectedSliceId);
+          }
+        }
+
+        if (unassignedSliceIds.length) {
+          layersWithMissingAssignments.push({
+            brokenLayer: layer._hash as string,
+            layersTable: tableKey,
+            unassignedSliceIds: unassignedSliceIds,
+          });
+          continue;
+        }
+      }
+    });
+
+    if (layersWithMissingAssignments.length > 0) {
+      this.errors.layerAssignmentsDoNotMatchSliceIds = {
+        error: 'Layers have missing assignments',
+        layers: layersWithMissingAssignments,
+      };
+    }
+  }
+
   private _cakeSliceIdsTableNotFound(): void {
     const brokenCakes: any[] = [];
 
@@ -906,18 +960,18 @@ class _BaseValidator {
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const sliceIdsTableName = cake.sliceIdsTable;
-        if (!sliceIdsTableName) {
+        const sliceIds = cake.sliceIds;
+        if (!sliceIds) {
           continue;
         }
 
-        const sliceIdsTable = this.rljsonIndexed[sliceIdsTableName];
+        const sliceIdsTable = this.rljsonIndexed[sliceIds.table];
 
         if (!sliceIdsTable) {
           brokenCakes.push({
             cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingSliceIdsTable: sliceIdsTableName,
+            missingSliceIdsTable: sliceIds.table,
           });
         }
       }
@@ -941,20 +995,20 @@ class _BaseValidator {
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const sliceIdsRef = cake.sliceIds;
-        if (!sliceIdsRef) {
+        const sliceIds = cake.sliceIds;
+        if (!sliceIds) {
           continue;
         }
 
-        const sliceIdsTableName = cake.sliceIdsTable as string;
+        const sliceIdsTableName = cake.sliceIds.table as string;
         const sliceIdsTable = this.rljsonIndexed[sliceIdsTableName];
 
-        const sliceIds = sliceIdsTable._data[sliceIdsRef];
-        if (!sliceIds) {
+        const sliceIdValues = sliceIdsTable._data[sliceIds.row];
+        if (!sliceIdValues) {
           brokenCakes.push({
             cakeTable: tableKey,
             brokenCake: cake._hash,
-            missingSliceIds: sliceIdsRef,
+            missingSliceIdsRow: sliceIds.row,
           });
         }
       }

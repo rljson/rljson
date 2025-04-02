@@ -32,12 +32,17 @@ export interface Cake extends Json {
    * must match these slice ids of the layers.
    * The slice ids can be found in the idSet table.
    */
-  sliceIds: SliceIdsRef;
+  sliceIds: {
+    /**
+     * The table containing the item ids of the layer
+     */
+    table: TableKey;
 
-  /**
-   * The table containing the slice ids of the layer
-   */
-  sliceIdsTable: TableKey;
+    /**
+     * A row in table, that contains the slice ids of the layer
+     */
+    row: SliceIdsRef;
+  };
 
   /**
    * The table containing the slice layers defining the layers

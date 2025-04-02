@@ -46,6 +46,7 @@ describe('Rljson', () => {
         'buffets',
         'cakes',
         'slices',
+        'ingredientTypes',
         'layers',
         'recipes',
         'recipeIngredients',
