@@ -49,37 +49,32 @@ export class Example {
             _hash: '',
             key: 'table',
             type: 'ingredients',
+            isHead: false,
+            isRoot: false,
+            isShared: true,
             columns: {
               int: {
-                key: 'int',
                 type: 'number',
               },
               double: {
-                key: 'double',
                 type: 'number',
               },
               string: {
-                key: 'string',
                 type: 'string',
               },
               boolean: {
-                key: 'boolean',
                 type: 'boolean',
               },
               null: {
-                key: 'null',
                 type: 'null',
               },
               jsonArray: {
-                key: 'jsonArray',
                 type: 'jsonArray',
               },
               json: {
-                key: 'json',
                 type: 'json',
               },
               jsonValue: {
-                key: 'jsonValue',
                 type: 'jsonValue',
               },
             },
@@ -309,7 +304,10 @@ export class Example {
         const result = Example.ok.singleRow();
         const tableCfg = result.tableCfgs._data[0];
         tableCfg.columns['int'].type = 'numberBroken'; // Break one of the types
-        return hip(result, true, false);
+        return hip(result, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
       },
     },
 
@@ -320,7 +318,10 @@ export class Example {
         layer1.base = 'MISSING'; // Missing base
 
         // Recalculate hashes
-        return hip(result, true, false);
+        return hip(result, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
       },
 
       missingSliceIdSet: (): Rljson => {
@@ -330,7 +331,10 @@ export class Example {
         layer1.sliceIds = 'MISSING1';
 
         // Recalculate hashes
-        return hip(result, true, false);
+        return hip(result, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
       },
 
       missingAssignedIngredientTable: (): Rljson => {
@@ -342,7 +346,10 @@ export class Example {
       missingAssignedIngredient: (): Rljson => {
         const result = Example.ok.complete();
         result.ingredients._data.splice(1, 2); // Remove an ingredient that is assigned
-        return hip(result, true, false);
+        return hip(result, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
       },
     },
 
@@ -350,14 +357,20 @@ export class Example {
       missingSliceIdSet: (): Rljson => {
         const result = Example.ok.complete();
         result.cakes._data[0].sliceIds = 'MISSING'; // Missing ID set
-        hip(result.cakes, true, false);
+        hip(result.cakes, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
         return result;
       },
 
       missingLayersTable: (): Rljson => {
         const result = Example.ok.complete();
         result.cakes._data[0].layersTable = 'MISSING'; // Missing layers table
-        hip(result.cakes, true, false);
+        hip(result.cakes, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
         return result;
       },
 
@@ -365,7 +378,10 @@ export class Example {
         const result = Example.ok.complete();
         result.cakes._data[0].layers['layer0'] = 'MISSING0';
         result.cakes._data[0].layers['layer1'] = 'MISSING1';
-        hip(result.cakes, true, false);
+        hip(result.cakes, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
         return result;
       },
     },
@@ -376,7 +392,7 @@ export class Example {
         const buffet = result.buffets._data[0];
         buffet.items[0].table = 'MISSING0';
         buffet.items[1].table = 'MISSING1';
-        hip(result, true, false);
+        hip(result, { updateExistingHashes: true, throwOnWrongHashes: false });
         return result;
       },
 
@@ -385,7 +401,7 @@ export class Example {
         const buffet = result.buffets._data[0];
         buffet.items[0].ref = 'MISSING0';
         buffet.items[1].ref = 'MISSING1';
-        hip(result, true, false);
+        hip(result, { updateExistingHashes: true, throwOnWrongHashes: false });
         return result;
       },
     },

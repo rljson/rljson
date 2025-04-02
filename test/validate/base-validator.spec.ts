@@ -5,10 +5,11 @@
 // found in the LICENSE file in the root of this package.
 
 import { hip } from '@rljson/hash';
+import { Json } from '@rljson/json';
 
 import { describe, expect, it } from 'vitest';
 
-import { TableCfg } from '../../src/content/table-cfg.ts';
+import { ColumnCfg, TableCfg } from '../../src/content/table-cfg.ts';
 import { Example } from '../../src/example.ts';
 import { Rljson, RljsonPrivate } from '../../src/rljson.ts';
 import {
@@ -455,7 +456,10 @@ describe('BaseValidator', async () => {
           table._type = 'cakes';
           const tableCfg = rljson.tableCfgs._data[0]._hash;
 
-          hip(rljson, true, false);
+          hip(rljson, {
+            updateExistingHashes: true,
+            throwOnWrongHashes: false,
+          });
 
           const result = validate(rljson);
           expect(result).toEqual({
@@ -475,6 +479,130 @@ describe('BaseValidator', async () => {
         });
       });
     });
+
+    describe('rootOrHeadTableHasNoIdColumn()', () => {
+      const create = (config: {
+        isHead: boolean;
+        isRoot: boolean;
+        addIdColumn: boolean;
+      }) => {
+        const columns: Record<string, ColumnCfg> = {
+          name: { type: 'string' },
+        };
+
+        if (config.addIdColumn) {
+          columns.id = { type: 'string' };
+        }
+
+        const tableCfg = hip<TableCfg>({
+          version: 1,
+          key: 'tableOne',
+          type: 'ingredients',
+          columns,
+          isHead: config.isHead,
+          isRoot: config.isRoot,
+          isShared: !config.isHead && !config.isRoot,
+        });
+
+        const row: Json = { name: 'item1' };
+        if (config.addIdColumn) {
+          row.id = 'item1';
+        }
+
+        const rljson = {
+          tableOne: {
+            _type: 'ingredients',
+            _tableCfg: tableCfg._hash as string,
+            _data: [row],
+          },
+
+          tableCfgs: {
+            _type: 'ingredients',
+            _data: [tableCfg],
+          },
+        };
+
+        return rljson;
+      };
+
+      describe('returns no errors when root or head tables have an id column', () => {
+        it('with head tables', () => {
+          const rljson = create({
+            isHead: true,
+            isRoot: false,
+            addIdColumn: true,
+          });
+          expect(validate(rljson)).toEqual({ hasErrors: false });
+        });
+
+        it('with root tables', () => {
+          const rljson = create({
+            isHead: true,
+            isRoot: true,
+            addIdColumn: true,
+          });
+          expect(validate(rljson)).toEqual({ hasErrors: false });
+        });
+      });
+
+      describe('returns an error when a root or head table does not have an id column', () => {
+        it('with head tables', () => {
+          const rljson = create({
+            isHead: true,
+            isRoot: false,
+            addIdColumn: false,
+          });
+
+          const tableCfgRef = rljson.tableCfgs._data[0]._hash;
+
+          expect(validate(rljson)).toEqual({
+            hasErrors: true,
+            rootOrHeadTableHasNoIdColumn: {
+              error: 'Root or head tables must have an id column',
+              tables: [
+                {
+                  table: 'tableOne',
+                  tableCfg: tableCfgRef,
+                },
+              ],
+            },
+          });
+        });
+
+        it('with root tables', () => {
+          const rljson = create({
+            isHead: false,
+            isRoot: true,
+            addIdColumn: false,
+          });
+
+          const tableCfgRef = rljson.tableCfgs._data[0]._hash;
+
+          expect(validate(rljson)).toEqual({
+            hasErrors: true,
+            rootOrHeadTableHasNoIdColumn: {
+              error: 'Root or head tables must have an id column',
+              tables: [
+                {
+                  table: 'tableOne',
+                  tableCfg: tableCfgRef,
+                },
+              ],
+            },
+          });
+        });
+      });
+
+      it('returns no errors when non-root or non-head tables do not have an id column', () => {
+        const rljson = create({
+          isHead: false,
+          isRoot: false,
+          addIdColumn: false,
+        });
+
+        expect(validate(rljson)).toEqual({ hasErrors: false });
+      });
+    });
   });
 
   describe('tableCfg errors', () => {
@@ -483,7 +611,10 @@ describe('BaseValidator', async () => {
         const rljson = Example.ok.singleRow();
         (rljson as unknown as RljsonPrivate).tableCfgs!._data[0].key =
           'MISSING';
-        hip(rljson, true, false);
+        hip(rljson, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
         const tableCfg: TableCfg = rljson.tableCfgs._data[0];
 
         expect(validate(rljson)).toEqual({
@@ -528,7 +659,10 @@ describe('BaseValidator', async () => {
       it('returns an error when a referenced table config is not found', () => {
         const rljson = Example.ok.singleRow();
         rljson.table._tableCfg = 'MISSING';
-        hip(rljson, true, false);
+        hip(rljson, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
 
         expect(validate(rljson)).toEqual({
           hasErrors: true,
@@ -554,9 +688,15 @@ describe('BaseValidator', async () => {
 
         // Remove one column config
         delete tableCfg.columns['int'];
-        hip(tableCfg, true, false);
+        hip(tableCfg, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
         rljson.table._tableCfg = tableCfg._hash;
-        hip(rljson, true, false);
+        hip(rljson, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
 
         expect(validate(rljson)).toEqual({
           columnConfigNotFound: {
@@ -586,7 +726,10 @@ describe('BaseValidator', async () => {
         const row = rljson.table._data[0];
         row.int = 'string';
         row.double = true;
-        hip(tableCfg, true, false);
+        hip(tableCfg, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
         const tableCfgHash = rljson.table._tableCfg;
 
         expect(validate(rljson)).toEqual({
@@ -694,7 +837,10 @@ describe('BaseValidator', async () => {
         const layer0 = rljson.layers._data[0];
         const layer1 = rljson.layers._data[1];
         delete rljson.sliceIds;
-        hip(rljson, true, false);
+        hip(rljson, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
 
         expect(validate(rljson)).toEqual({
           layerSliceIdsTableNotFound: {
@@ -748,19 +894,28 @@ describe('BaseValidator', async () => {
         // delete idSet reference
         const layer1 = result.layers._data[1];
         delete layer1.sliceIds;
-        hip(layer1, true, false);
+        hip(layer1, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
 
         // Update cake layers
         const cake = result.cakes._data[0];
         cake.layers['layer1'] = layer1._hash;
-        hip(cake, true, false);
+        hip(cake, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
 
         // Update buffet slices
         const buffet = result.buffets._data[0];
         buffet.items[0].ref = cake._hash;
         buffet.items[1].ref = layer1._hash;
 
-        hip(result, true, false);
+        hip(result, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
 
         // Validate -> no error
         expect(validate(result)).toEqual({
@@ -832,13 +987,19 @@ describe('BaseValidator', async () => {
       it('returns no errors when no sliceIds is specified', () => {
         const rljson = Example.ok.complete();
         delete rljson.cakes._data[0].sliceIds;
-        hip(rljson, true, false);
+        hip(rljson, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
 
         // Update buffet slices
         const buffet = rljson.buffets._data[0];
         buffet.items[0].ref = rljson.cakes._data[0]._hash;
         buffet.items[1].ref = rljson.layers._data[1]._hash;
-        hip(rljson, true, false);
+        hip(rljson, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
 
         // Validate
         expect(validate(rljson)).toEqual({
@@ -872,7 +1033,10 @@ describe('BaseValidator', async () => {
         delete cake.sliceIdsTable;
         delete cake.sliceIds;
         delete rljson.buffets;
-        hip(rljson, true, false);
+        hip(rljson, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
 
         expect(validate(rljson)).toEqual({ hasErrors: false });
       });
@@ -881,7 +1045,10 @@ describe('BaseValidator', async () => {
         const rljson = Example.ok.complete();
         const cake = rljson.cakes._data[0];
         cake.sliceIdsTable = 'MISSING';
-        hip(rljson, true, false);
+        hip(rljson, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
 
         expect(validate(rljson)).toEqual({
           cakeSliceIdsTableNotFound: {

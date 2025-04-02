@@ -16,13 +16,10 @@ import { expectGolden } from './setup/goldens';
 
 describe('RljsonIndexed', () => {
   it('should create indexes for all rows of all tables', () => {
-    const updateExistingHashes = true;
-    const throwOnWrongHashes = false;
-    const bakery = hip(
-      Example.ok.bakery(),
-      updateExistingHashes,
-      throwOnWrongHashes,
-    );
+    const bakery = hip(Example.ok.bakery(), {
+      updateExistingHashes: true,
+      throwOnWrongHashes: false,
+    });
     const indexedBakery = rljsonIndexed(bakery);
     expectGolden('rljson-indexed.json').toBe(indexedBakery);
 

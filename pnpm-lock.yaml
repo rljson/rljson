@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@rljson/hash':
-        specifier: ^0.0.12
-        version: 0.0.12
+        specifier: ^0.0.13
+        version: 0.0.13
       '@rljson/json':
         specifier: ^0.0.18
         version: 0.0.18
@@ -394,12 +394,8 @@ packages:
     resolution: {integrity: sha512-fdDH1LSGfZdTH2sxdpVMw31BanV28K/Gry0cVFxaNP77neJSkd82mM8ErPNYs9e+0O7SdHBLTDzDgwUuy18RnQ==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
 
-  '@rljson/hash@0.0.12':
-    resolution: {integrity: sha512-f1mv8/fQ5ung4hKln+cbQ2tNicVFnMWA2Yu5AnP2MMcvSv3z4/rXjJHiSXoTivF6HnG+1FArn44zxxvzLEg0Rw==}
-    engines: {node: '>=22.14.0'}
-
-  '@rljson/json@0.0.15':
-    resolution: {integrity: sha512-FqtRd5VGwEAmxIJ7OcxJ+l9UCe6hgHaXm9/OWjaAFoFSuclXwZ9wcO1turmTbRgy6Se2BmB8lmchAxn6TOLtVg==}
+  '@rljson/hash@0.0.13':
+    resolution: {integrity: sha512-6K3ASn2PnyWOdqgU1/FtaU8vNUcHubcm7MlrhUUE63UOizBheoApYaMY91r3SaIRI0hbvR8NOa2k30PR/Ms/cw==}
     engines: {node: '>=22.14.0'}
 
   '@rljson/json@0.0.18':
@@ -2008,13 +2004,11 @@ snapshots:
 
   '@pkgr/core@0.1.2': {}
 
-  '@rljson/hash@0.0.12':
+  '@rljson/hash@0.0.13':
     dependencies:
       '@aws-crypto/sha256-js': 5.2.0
-      '@rljson/json': 0.0.15
+      '@rljson/json': 0.0.18
       js-base64: 3.7.7
-
-  '@rljson/json@0.0.15': {}
 
   '@rljson/json@0.0.18': {}
 

@@ -50,7 +50,7 @@
     "vitest-dom": "^0.1.1"
   },
   "dependencies": {
-    "@rljson/hash": "^0.0.12",
+    "@rljson/hash": "^0.0.13",
     "@rljson/json": "^0.0.18"
   },
   "pnpm": {
