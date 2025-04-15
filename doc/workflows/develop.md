@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Add revisions.ts to index.ts` here and below
+Replace `Fix iterateTables` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Add revisions.ts to index.ts"
+node scripts/create-branch.js "Fix iterateTables"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Add revisions.ts to index.ts"
+git commit -am"Fix iterateTables"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Add revisions.ts to index.ts" --body " "
+gh pr create --base main --title "Fix iterateTables" --body " "
 ```
 
 ## Code review
