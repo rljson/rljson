@@ -13,7 +13,7 @@ import { LayersTable } from '../content/layer.ts';
 import { SliceIds } from '../content/slice-ids.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
-import { iterateTables, Rljson, RljsonTable } from '../rljson.ts';
+import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
 import { contentTypes } from '../typedefs.ts';
 
 import { Errors, Validator } from './validate.ts';
@@ -343,7 +343,7 @@ class _BaseValidator {
     const tableCfgNotFound: Json[] = [];
 
     // Iterate all tables
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       // If table has no config reference, continue
       const tableCfgRef = table._tableCfg;
       if (!tableCfgRef) {
@@ -377,7 +377,7 @@ class _BaseValidator {
     const missingColumnConfigs: Json[] = [];
 
     // Iterate all tables
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       // If table has no config reference, continue
       const tableCfgRef = table._tableCfg;
       if (!tableCfgRef) {
@@ -431,7 +431,7 @@ class _BaseValidator {
     const brokenValues: Json[] = [];
 
     // Iterate all tables
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       // If table has no config reference, continue
       const tableCfgRef = table._tableCfg;
       if (!tableCfgRef) {
@@ -682,7 +682,7 @@ class _BaseValidator {
     }[] = [];
 
     // Iterate all tables
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       // Iterate all items in the table
       const tableData = table._data as Json[];
       for (const item of tableData) {
@@ -738,7 +738,7 @@ class _BaseValidator {
   private _layerBasesNotFound(): void {
     const brokenLayers: any[] = [];
 
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'layers') {
         return;
       }
@@ -774,7 +774,7 @@ class _BaseValidator {
   private _layerSliceIdsTableNotFound(): void {
     const brokenLayers: any[] = [];
 
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'layers') {
         return;
       }
@@ -804,7 +804,7 @@ class _BaseValidator {
   private _layerSliceIdsRowNotFound(): void {
     const brokenLayers: any[] = [];
 
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'layers') {
         return;
       }
@@ -837,7 +837,7 @@ class _BaseValidator {
     const missingIngredientTables: any[] = [];
     const brokenAssignments: any[] = [];
 
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'layers') {
         return;
       }
@@ -897,7 +897,7 @@ class _BaseValidator {
       unassignedSliceIds: string[];
     }[] = [];
 
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'layers') {
         return;
       }
@@ -941,7 +941,7 @@ class _BaseValidator {
   private _cakeSliceIdsTableNotFound(): void {
     const brokenCakes: any[] = [];
 
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'cakes') {
         return;
       }
@@ -971,7 +971,7 @@ class _BaseValidator {
   private _cakeSliceIdsNotFound(): void {
     const brokenCakes: any[] = [];
 
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'cakes') {
         return;
       }
@@ -1004,7 +1004,7 @@ class _BaseValidator {
     const missingLayerTables: any[] = [];
     const missingCakeLayers: any[] = [];
 
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'cakes') {
         return;
       }
@@ -1063,7 +1063,7 @@ class _BaseValidator {
     const missingTables: Json[] = [];
     const missingItems: Json[] = [];
 
-    iterateTables(this.rljson, (tableKey, table) => {
+    iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'buffets') {
         return;
       }
