@@ -93,22 +93,59 @@ export interface RljsonTable<Data extends Json, Type extends ContentType>
   _tableCfg?: TableCfgRef;
 }
 
+const _isTable = (value: TableType): value is RljsonTable<any, any> => {
+  return !(typeof value !== 'object' || !Array.isArray(value._data));
+};
+
 /**
  * Iterates over all tables of an Rljson object.
  * Skips private members starting with _
  * @param rljson - The Rljson object to iterate
  * @param callback - The callback to call for each table
  */
-export const iterateTables = (
+export const iterateTablesSync = (
   rljson: Rljson,
   callback: (tableKey: string, table: TableType) => void,
 ) => {
   for (const tableKey in rljson) {
     const value = rljson[tableKey];
-    if (typeof value !== 'object' || !Array.isArray(value._data)) {
+    if (!_isTable(value)) {
       continue;
     }
 
     callback(tableKey, rljson[tableKey]);
+  }
+};
+
+/**
+ * Iterates over all tables of an Rljson object.
+ * Skips private members starting with _
+ * @param rljson - The Rljson object to iterate
+ * @param callback - The callback to call for each table
+ *
+ * Note: The callbacks are executed in parallel.
+ */
+export const iterateTables = async (
+  rljson: Rljson,
+  callback: (tableKey: string, table: TableType) => Promise<void>,
+): Promise<void> => {
+  const array: Promise<void>[] = [];
+  const errors: { tableKey: string; error: any }[] = [];
+
+  for (const tableKey in rljson) {
+    const value = rljson[tableKey];
+    if (!_isTable(value)) {
+      continue;
+    }
+
+    const promise = callback(tableKey, rljson[tableKey]).catch((error) => {
+      errors.push({ tableKey, error });
+    });
+    array.push(promise);
+  }
+
+  await Promise.all(array);
+  if (errors.length) {
+    throw errors;
   }
 };

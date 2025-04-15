@@ -3,7 +3,7 @@ import { hip } from '@rljson/hash';
 import { describe, expect, it } from 'vitest';
 
 import { Example } from '../src/example';
-import { iterateTables, Rljson } from '../src/rljson';
+import { iterateTablesSync, Rljson } from '../src/rljson';
 import { rljsonIndexed } from '../src/rljson-indexed';
 
 import { expectGolden } from './setup/goldens';
@@ -29,7 +29,7 @@ describe('RljsonIndexed', () => {
     expect(tableKeysIndexed).toEqual(tableKeys);
 
     // Iterate all tables
-    iterateTables(bakery, (tableKey, table) => {
+    iterateTablesSync(bakery, (tableKey, table) => {
       const tableIndexed = indexedBakery[tableKey];
 
       // For each row of the table there is an index
