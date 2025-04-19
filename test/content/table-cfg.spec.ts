@@ -4,12 +4,13 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { describe, expect, it } from 'vitest';
+import { beforeEach, describe, expect, it } from 'vitest';
 
 import {
   exampleTableCfg,
   exampleTableCfgTable,
   TableCfg,
+  TableCfgTools,
 } from '../../src/content/table-cfg';
 
 import { expectGolden } from '../setup/goldens';
@@ -55,5 +56,37 @@ describe('TableCfg', () => {
       },
     });
     expect(result.type).toBe('ingredients');
+  });
+});
+
+describe('TableCfgTools', () => {
+  let tableCfgTools: TableCfgTools;
+  beforeEach(() => {
+    tableCfgTools = new TableCfgTools(exampleTableCfg());
+  });
+
+  describe('columnKeys', () => {
+    it('should return all column keys', () => {
+      const expectedKeys = ['a', 'b'];
+      const result = tableCfgTools.columnKeys;
+      expect(result).toEqual(expectedKeys);
+    });
+
+    it('should not include keys that start with "_"', () => {
+      const partialCfg: Partial<TableCfg> = {
+        columns: {
+          a: {
+            type: 'string',
+          },
+          _hiddenColumn: {
+            type: 'number',
+          },
+        },
+      };
+      tableCfgTools = new TableCfgTools(exampleTableCfg(partialCfg));
+      const expectedKeys = ['a'];
+      const result = tableCfgTools.columnKeys;
+      expect(result).toEqual(expectedKeys);
+    });
   });
 });
