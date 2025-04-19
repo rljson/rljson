@@ -88,6 +88,25 @@ export interface TableCfg extends Json {
  */
 export type TablesCfgTable = RljsonTable<TableCfg, 'ingredients'>;
 
+// .............................................................................
+/**
+ * Offers tools for working with table configurations
+ */
+export class TableCfgTools {
+  constructor(public readonly tableCfg: TableCfg) {}
+
+  /**
+   * Returns all column keys
+   */
+  public get columnKeys(): ColumnKey[] {
+    const columnNames = Object.keys(this.tableCfg.columns).filter(
+      (e) => !e.startsWith('_'),
+    );
+    return columnNames;
+  }
+}
+
+// .............................................................................
 /**
  * Example matching allTypesRow
  */
