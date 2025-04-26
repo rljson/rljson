@@ -311,16 +311,15 @@ class _BaseValidator {
     // Are all types valid?
     const brokenCfgs: Json[] = [];
     for (const item of tableCfgs._data) {
-      for (const columnKey in item.columns) {
-        if (columnKey.startsWith('_')) {
-          continue;
-        }
-        const column = item.columns[columnKey];
-        if (jsonValueTypes.indexOf(column.type) === -1) {
+      for (const columnCfg of item.columns as ColumnCfg[]) {
+        const columnKey = columnCfg.key;
+        const columnType = columnCfg.type;
+
+        if (jsonValueTypes.indexOf(columnType) === -1) {
           brokenCfgs.push({
             brokenTableCfg: item._hash,
             brokenColumnKey: columnKey,
-            brokenColumnType: column.type,
+            brokenColumnType: columnType,
           });
         }
       }
@@ -402,8 +401,12 @@ class _BaseValidator {
 
         for (const columnKey of newColumnKey) {
           // If column is not in the referenced table config, write an error
-          const columns = tableCfgData.columns! as Json;
-          if (!columns[columnKey]) {
+          const columns = tableCfgData.columns! as ColumnCfg[];
+          const columnConfig = columns.find(
+            (column) => column.key === columnKey,
+          );
+
+          if (!columnConfig) {
             missingColumnConfigs.push({
               tableCfg: tableCfgRef,
               row: row._hash,
@@ -450,8 +453,8 @@ class _BaseValidator {
 
         for (const columnKey of columnKeys) {
           // Continue when no columnConfig is available
-          const columns = tableCfgData.columns as Json;
-          const columnConfig = columns[columnKey] as ColumnCfg;
+          const columns = tableCfgData.columns as ColumnCfg[];
+          const columnConfig = columns.find((e) => e.key === columnKey)!;
 
           // Ignore null or undefined values
           const value = row[columnKey];
@@ -600,7 +603,7 @@ class _BaseValidator {
 
       // Make sure that the root or head table has an id field
       const columns = cfg.columns;
-      const idField = columns['id'] as ColumnCfg;
+      const idField = columns.find((e) => e.key === 'id');
 
       if (!idField) {
         rootOrHeadTablesWithoutIdColumns.push({

@@ -12,7 +12,7 @@ import { Cake, CakesTable } from './content/cake.ts';
 import { IngredientsTable } from './content/ingredients.ts';
 import { Layer, LayersTable } from './content/layer.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
-import { TablesCfgTable } from './content/table-cfg.ts';
+import { ColumnCfg, TablesCfgTable } from './content/table-cfg.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
@@ -52,32 +52,40 @@ export class Example {
             isHead: false,
             isRoot: false,
             isShared: true,
-            columns: {
-              int: {
+            columns: [
+              {
+                key: 'int',
                 type: 'number',
               },
-              double: {
+              {
+                key: 'double',
                 type: 'number',
               },
-              string: {
+              {
+                key: 'string',
                 type: 'string',
               },
-              boolean: {
+              {
+                key: 'boolean',
                 type: 'boolean',
               },
-              null: {
+              {
+                key: 'null',
                 type: 'null',
               },
-              jsonArray: {
+              {
+                key: 'jsonArray',
                 type: 'jsonArray',
               },
-              json: {
+              {
+                key: 'json',
                 type: 'json',
               },
-              jsonValue: {
+              {
+                key: 'jsonValue',
                 type: 'jsonValue',
               },
-            },
+            ],
           },
         ],
       });
@@ -305,8 +313,9 @@ export class Example {
     tableCfg: {
       wrongType: () => {
         const result = Example.ok.singleRow();
-        const tableCfg = result.tableCfgs._data[0];
-        tableCfg.columns['int'].type = 'numberBroken'; // Break one of the types
+        const columns = result.tableCfgs._data[0].columns as ColumnCfg[];
+        const intColumn = columns.find((c) => c.key === 'int')!;
+        intColumn.type = 'numberBroken' as any; // Break one of the types
         return hip(result, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
