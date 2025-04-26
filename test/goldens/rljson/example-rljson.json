@@ -1,11 +1,11 @@
 {
   "tableCfgs": {
-    "_hash": "5ixSjPAl9teLy8f2EUWfwp",
+    "_hash": "sYuQ1ABfypOWVpnV4nHXg6",
     "_type": "ingredients",
     "_data": [
       {
         "version": 0,
-        "_hash": "jKz-5CFKzEhkglb7OMILLa",
+        "_hash": "88qW3IEr7PHpgtrP6uhhRg",
         "key": "table",
         "type": "ingredients",
         "isHead": false,
@@ -34,8 +34,8 @@
           },
           {
             "key": "null",
-            "type": "null",
-            "_hash": "Q2K3CkVvxAMO6cXyz4YEtD"
+            "type": "string",
+            "_hash": "hitpP-3Kxy0kcfrNU6YIo1"
           },
           {
             "key": "jsonArray",
@@ -58,7 +58,7 @@
   },
   "table": {
     "_type": "ingredients",
-    "_tableCfg": "jKz-5CFKzEhkglb7OMILLa",
+    "_tableCfg": "88qW3IEr7PHpgtrP6uhhRg",
     "_data": [
       {
         "int": 5,

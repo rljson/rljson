@@ -9,11 +9,11 @@ importers:
   .:
     dependencies:
       '@rljson/hash':
-        specifier: ^0.0.13
-        version: 0.0.13
+        specifier: ^0.0.14
+        version: 0.0.14
       '@rljson/json':
-        specifier: ^0.0.18
-        version: 0.0.18
+        specifier: ^0.0.20
+        version: 0.0.20
     devDependencies:
       '@types/node':
         specifier: ^22.15.2
@@ -386,12 +386,12 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
-  '@rljson/hash@0.0.13':
-    resolution: {integrity: sha512-6K3ASn2PnyWOdqgU1/FtaU8vNUcHubcm7MlrhUUE63UOizBheoApYaMY91r3SaIRI0hbvR8NOa2k30PR/Ms/cw==}
+  '@rljson/hash@0.0.14':
+    resolution: {integrity: sha512-9DN+Pdq8IsgDsi1TQ13UE9x9I+VdGZLqDh/omvMESjZPn8VCG3dTCFv2GCgxj/rDvH9L8GBXteVlBF9XgpVrRg==}
     engines: {node: '>=22.14.0'}
 
-  '@rljson/json@0.0.18':
-    resolution: {integrity: sha512-sEFwnD6NwEbCl521PGKKX7xH2GyXXEBuJRx/RUxDsU6ZhKJkYyhYFe7G4TrGhDJefvBoillV0JqBGgYIJLjkYw==}
+  '@rljson/json@0.0.20':
+    resolution: {integrity: sha512-mvKCKwK6J+qmvxWBju9wn5izo9yBA3InWuJArrGE+xFaddg4D1J/zPepGVDRcTI/w9/0fPdbU3UR/HqyWIPOjQ==}
     engines: {node: '>=22.14.0'}
 
   '@rollup/pluginutils@5.1.4':
@@ -2002,13 +2002,13 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
-  '@rljson/hash@0.0.13':
+  '@rljson/hash@0.0.14':
     dependencies:
       '@aws-crypto/sha256-js': 5.2.0
-      '@rljson/json': 0.0.18
+      '@rljson/json': 0.0.20
       js-base64: 3.7.7
 
-  '@rljson/json@0.0.18': {}
+  '@rljson/json@0.0.20': {}
 
   '@rollup/pluginutils@5.1.4(rollup@4.40.0)':
     dependencies:

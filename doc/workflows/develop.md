@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Fix iterateTables` here and below
+Replace `Update Json types` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Fix iterateTables"
+node scripts/create-branch.js "Update Json types"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Fix iterateTables"
+git commit -am"Update Json types"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Fix iterateTables" --body " "
+gh pr create --base main --title "Update Json types" --body " "
 ```
 
 ## Code review

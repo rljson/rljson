@@ -466,6 +466,7 @@ class _BaseValidator {
           const typeShould = columnConfig.type;
 
           if (!jsonValueMatchesType(value, typeShould)) {
+            jsonValueMatchesType(value, typeShould);
             brokenValues.push({
               table: tableKey,
               row: row._hash,
