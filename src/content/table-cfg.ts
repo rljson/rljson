@@ -20,6 +20,11 @@ export type TableCfgRef = Ref;
  */
 export interface ColumnCfg extends Json {
   /**
+   * The technical lower camel case json identifier of the column
+   */
+  key: ColumnKey;
+
+  /**
    * The type of the column
    */
   type: JsonValueType;
@@ -37,7 +42,7 @@ export interface TableCfg extends Json {
   /**
    * A short description of the table
    */
-  columns: Record<ColumnKey, ColumnCfg>;
+  columns: ColumnCfg[];
 
   /**
    * The content type of the table
@@ -90,24 +95,6 @@ export type TablesCfgTable = RljsonTable<TableCfg, 'ingredients'>;
 
 // .............................................................................
 /**
- * Offers tools for working with table configurations
- */
-export class TableCfgTools {
-  constructor(public readonly tableCfg: TableCfg) {}
-
-  /**
-   * Returns all column keys
-   */
-  public get columnKeys(): ColumnKey[] {
-    const columnNames = Object.keys(this.tableCfg.columns).filter(
-      (e) => !e.startsWith('_'),
-    );
-    return columnNames;
-  }
-}
-
-// .............................................................................
-/**
  * Example matching allTypesRow
  */
 export const exampleTableCfgTable = (): TablesCfgTable =>
@@ -119,14 +106,16 @@ export const exampleTableCfg = (
   return {
     key: tableCfg?.key ?? 'table',
     version: 1,
-    columns: tableCfg?.columns ?? {
-      a: {
+    columns: tableCfg?.columns ?? [
+      {
+        key: 'a',
         type: 'string',
       },
-      b: {
+      {
+        key: 'b',
         type: 'number',
       },
-    },
+    ],
     type: tableCfg?.type ?? 'ingredients',
     isHead: true,
     isRoot: true,
