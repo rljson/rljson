@@ -488,10 +488,10 @@ describe('BaseValidator', async () => {
         isRoot: boolean;
         isShared: boolean;
       }) => {
-        const columns: Record<string, ColumnCfg> = {
-          name: { type: 'string' },
-          id: { type: 'string' },
-        };
+        const columns: ColumnCfg[] = [
+          { key: 'name', type: 'string' },
+          { key: 'id', type: 'string' },
+        ];
 
         const tableCfg = hip<TableCfg>({
           version: 1,
@@ -630,12 +630,10 @@ describe('BaseValidator', async () => {
         isRoot: boolean;
         addIdColumn: boolean;
       }) => {
-        const columns: Record<string, ColumnCfg> = {
-          name: { type: 'string' },
-        };
+        const columns: ColumnCfg[] = [{ key: 'name', type: 'string' }];
 
         if (config.addIdColumn) {
-          columns.id = { type: 'string' };
+          columns.push({ key: 'id', type: 'string' });
         }
 
         const tableCfg = hip<TableCfg>({
@@ -826,17 +824,20 @@ describe('BaseValidator', async () => {
     describe('missingColumnConfigs', () => {
       it('returns an error when no config is found for a column', () => {
         const rljson = Example.ok.singleRow();
-        const tableCfg = rljson.tableCfgs._data[0];
+        const tableCfg = rljson.tableCfgs._data[0] as TableCfg;
         const tableCfgRef = rljson.table._tableCfg;
         expect(tableCfgRef).toBe(tableCfg._hash);
 
-        // Remove one column config
-        delete tableCfg.columns['int'];
+        // Remove column 'int'
+        const index = tableCfg.columns.findIndex((e) => e.key === 'int');
+        tableCfg.columns.splice(index, 1);
         hip(tableCfg, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
         });
-        rljson.table._tableCfg = tableCfg._hash;
+
+        rljson.table._tableCfg = tableCfg._hash as string;
+
         hip(rljson, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,

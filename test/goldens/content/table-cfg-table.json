@@ -1,50 +1,57 @@
 {
-  "_hash": "EApLzu7UutOUdC5jVg-5h2",
+  "_hash": "5ixSjPAl9teLy8f2EUWfwp",
   "_type": "ingredients",
   "_data": [
     {
       "version": 0,
-      "_hash": "Sai2V-4hg0lOt_qm-4gPgw",
+      "_hash": "jKz-5CFKzEhkglb7OMILLa",
       "key": "table",
       "type": "ingredients",
       "isHead": false,
       "isRoot": false,
       "isShared": true,
-      "columns": {
-        "int": {
+      "columns": [
+        {
+          "key": "int",
           "type": "number",
-          "_hash": "zd-Cda-hVAhTMHlYGtJ_lb"
+          "_hash": "J-rki_omMRDnv_GF0hqn39"
         },
-        "double": {
+        {
+          "key": "double",
           "type": "number",
-          "_hash": "zd-Cda-hVAhTMHlYGtJ_lb"
+          "_hash": "XD0G8ZLa0-tKYnVUuEwkdS"
         },
-        "string": {
+        {
+          "key": "string",
           "type": "string",
-          "_hash": "AEBOaGQVNw8XEcTXrPopBU"
+          "_hash": "eg0iPUTzUY2j_xTKwRIrUp"
         },
-        "boolean": {
+        {
+          "key": "boolean",
           "type": "boolean",
-          "_hash": "fLVB6E8iZ1SkbCHHnxMfoo"
+          "_hash": "16MfBHbWYzez1R4r8NoPYp"
         },
-        "null": {
+        {
+          "key": "null",
           "type": "null",
-          "_hash": "vN43Xr1Mus9lExEYEXODax"
+          "_hash": "Q2K3CkVvxAMO6cXyz4YEtD"
         },
-        "jsonArray": {
+        {
+          "key": "jsonArray",
           "type": "jsonArray",
-          "_hash": "qGhCmXI-v7wnpYxWEqbkBZ"
+          "_hash": "PMwRJkviMj35S60qjN3UpG"
         },
-        "json": {
+        {
+          "key": "json",
           "type": "json",
-          "_hash": "CLlzqcsvw9Jsfn3rn71YUK"
+          "_hash": "NuhgezXe-Mkdf-hg96MNLG"
         },
-        "jsonValue": {
+        {
+          "key": "jsonValue",
           "type": "jsonValue",
-          "_hash": "rJnlZgUxG19A2D3b2c0aaH"
-        },
-        "_hash": "dI3C1ce5i5JAtrJ01oB1jY"
-      }
+          "_hash": "1LtHkc_tVAXXqH2OFXQ8rG"
+        }
+      ]
     }
   ]
 }
