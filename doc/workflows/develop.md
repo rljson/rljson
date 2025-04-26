@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Update Json types` here and below
+Replace `Add throwOnInvalidTableCfg` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Update Json types"
+node scripts/create-branch.js "Add throwOnInvalidTableCfg"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Update Json types"
+git commit -am"Add throwOnInvalidTableCfg"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Update Json types" --body " "
+gh pr create --base main --title "Add throwOnInvalidTableCfg" --body " "
 ```
 
 ## Code review

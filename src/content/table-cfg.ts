@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { Json, JsonValueType } from '@rljson/json';
+import { Json, JsonValueType, jsonValueTypes } from '@rljson/json';
 
 import { Example } from '../example.ts';
 import { RljsonTable } from '../rljson.ts';
@@ -93,6 +93,46 @@ export interface TableCfg extends Json {
  */
 export type TablesCfgTable = RljsonTable<TableCfg, 'ingredients'>;
 
+/**
+ * Throws an error if the table configuration is not valid.
+ * @param tableCfg - The table configuration to check
+ */
+export const throwOnInvalidTableCfg = (tableCfg: TableCfg): void => {
+  // Does the table have at least two columns?
+  if (tableCfg.columns.length < 2) {
+    throw new Error(
+      `Invalid table configuration: Table "${tableCfg.key}" ` +
+        `must have at least a _hash and a second column`,
+    );
+  }
+
+  // Is the first column the _hash column?
+  if (tableCfg.columns[0].key !== '_hash') {
+    throw new Error(
+      `Invalid table configuration: The first column of table ` +
+        `"${tableCfg.key}" must be "_hash"`,
+    );
+  }
+
+  // The first column must be of type string
+  if (tableCfg.columns[0].type !== 'string') {
+    throw new Error(
+      `Invalid table configuration: The first _hash column of table ` +
+        `"${tableCfg.key}" must be of type "string"`,
+    );
+  }
+
+  // All column types must be one of the supported types
+  for (const column of tableCfg.columns) {
+    if (!jsonValueTypes.includes(column.type)) {
+      throw new Error(
+        `Invalid table configuration: Column "${column.key}" of table ` +
+          `"${tableCfg.key}" has an unsupported type "${column.type}"`,
+      );
+    }
+  }
+};
+
 // .............................................................................
 /**
  * Example matching allTypesRow
@@ -107,6 +147,10 @@ export const exampleTableCfg = (
     key: tableCfg?.key ?? 'table',
     version: 1,
     columns: tableCfg?.columns ?? [
+      {
+        key: '_hash',
+        type: 'string',
+      },
       {
         key: 'a',
         type: 'string',
