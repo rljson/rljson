@@ -71,7 +71,7 @@ export class Example {
               },
               {
                 key: 'null',
-                type: 'null',
+                type: 'string',
               },
               {
                 key: 'jsonArray',

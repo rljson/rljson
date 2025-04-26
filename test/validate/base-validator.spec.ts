@@ -790,8 +790,8 @@ describe('BaseValidator', async () => {
             ],
             error:
               'Some of the columns have invalid types. ' +
-              'Valid types are: string, number, boolean, null, undefined, ' +
-              'json, jsonArray, jsonValue',
+              'Valid types are: ' +
+              'string, number, boolean, json, jsonArray, jsonValue',
           },
         });
       });
