@@ -494,7 +494,6 @@ describe('BaseValidator', async () => {
         ];
 
         const tableCfg = hip<TableCfg>({
-          version: 1,
           key: 'tableOne',
           type: 'ingredients',
           columns,
@@ -637,7 +636,6 @@ describe('BaseValidator', async () => {
         }
 
         const tableCfg = hip<TableCfg>({
-          version: 1,
           key: 'tableOne',
           type: 'ingredients',
           columns,
