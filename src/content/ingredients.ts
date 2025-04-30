@@ -19,10 +19,7 @@ export type IngredientsRef = Ref;
 /**
  * A table containing ingredients
  */
-export type IngredientsTable<T extends JsonWithId> = RljsonTable<
-  T,
-  'ingredients'
->;
+export type IngredientsTable<T extends JsonWithId> = RljsonTable<T>;
 
 /**
  * Provides an example ingredients table for test purposes

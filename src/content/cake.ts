@@ -61,7 +61,7 @@ export interface Cake extends Json {
 /**
  * A table containing cakes
  */
-export type CakesTable = RljsonTable<Cake, 'cakes'>;
+export type CakesTable = RljsonTable<Cake>;
 
 // .............................................................................
 /**
