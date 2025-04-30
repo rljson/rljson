@@ -4,6 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import { hsh } from '@rljson/hash';
 import { Json, JsonValueType, jsonValueTypes } from '@rljson/json';
 
 import { Example } from '../example.ts';
@@ -125,6 +126,37 @@ export const throwOnInvalidTableCfg = (tableCfg: TableCfg): void => {
       );
     }
   }
+};
+
+// .............................................................................
+
+/**
+ * Add columns to table config
+ * @param tableCfg - The table configuration to add columns to
+ * @param columns - The columns to add
+ * @returns The updated table configuration
+ * @throws Error if the columns already exist in the table configuration
+ */
+export const addColumnsToTableCfg = (
+  tableCfg: TableCfg,
+  columns: ColumnCfg[],
+): TableCfg => {
+  // Prüfe auf doppelte Keys
+  const existingKeys = new Set(tableCfg.columns.map((c) => c.key));
+  const duplicates = columns.filter((col) => existingKeys.has(col.key));
+
+  if (duplicates.length > 0) {
+    const keys = duplicates.map((d) => d.key).join(', ');
+    throw new Error(
+      `The following columns already exist in the table "${tableCfg.key}": ${keys}`,
+    );
+  }
+
+  // Füge die neuen Spalten hinzu
+  return hsh<TableCfg>({
+    ...tableCfg,
+    columns: [...tableCfg.columns, ...columns],
+  });
 };
 
 // .............................................................................
