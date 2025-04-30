@@ -41,7 +41,7 @@ export interface SliceIds extends Json {
 /**
  * A table containing slice ids
  */
-export type SliceIdsTable = RljsonTable<SliceIds, 'sliceIds'>;
+export type SliceIdsTable = RljsonTable<SliceIds>;
 
 // .............................................................................
 /**
