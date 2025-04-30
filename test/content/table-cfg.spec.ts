@@ -82,6 +82,7 @@ describe('TableCfg', () => {
         const rows = [
           { _hash: '1', a: 'foo', b: 10 },
           { _hash: '2', a: 'foo', b: 12 },
+          { _hash: '2', a: 'foo', b: null },
         ];
         const errors = validateRljsonAgainstTableCfg(rows, tableCfg);
         expect(errors).toEqual([]);
