@@ -15,6 +15,7 @@ import {
   exampleTableCfgTable,
   TableCfg,
   throwOnInvalidTableCfg,
+  validateRljsonAgainstTableCfg,
 } from '../../src/content/table-cfg';
 
 import { expectGolden } from '../setup/goldens';
@@ -70,6 +71,56 @@ describe('TableCfg', () => {
         expect(() => throwOnInvalidTableCfg(tableCfg)).toThrow(
           'Invalid table configuration: Column "b" of table "table" has an unsupported type "unknown"',
         );
+      });
+    });
+  });
+
+  describe('validateRljsonAgainstTableCfg', () => {
+    describe('returns an empty array', () => {
+      it('when data is valid', () => {
+        const tableCfg = exampleTableCfg();
+        const rows = [
+          { _hash: '1', a: 'foo', b: 10 },
+          { _hash: '2', a: 'foo', b: 12 },
+        ];
+        const errors = validateRljsonAgainstTableCfg(rows, tableCfg);
+        expect(errors).toEqual([]);
+      });
+    });
+
+    describe('returns errors', () => {
+      it('when data contain non existing columns', () => {
+        const tableCfg = exampleTableCfg();
+
+        const rows = [
+          { _hash: '1', a: 'foo', b: 10 },
+          { _hash: '2', a: 'foo', b: 12, nonExistingColumn: 'xyz' },
+          { _hash: '2', a: 'foo', b: 12, anotherWrongColumn: 'kij' },
+        ];
+
+        const errors = validateRljsonAgainstTableCfg(rows, tableCfg);
+
+        expect(errors).toEqual([
+          'Column "nonExistingColumn" in row 1 of table "table" does not exist.',
+          'Column "anotherWrongColumn" in row 2 of table "table" does not exist.',
+        ]);
+      });
+
+      it('when data contain columns with wrong types', () => {
+        const tableCfg = exampleTableCfg();
+
+        const rows = [
+          { _hash: '1', a: 'foo', b: 10 },
+          { _hash: '2', a: 12, b: 12 },
+          { _hash: '3', a: 'foo', b: 'wrongType' },
+        ];
+
+        const errors = validateRljsonAgainstTableCfg(rows, tableCfg);
+
+        expect(errors).toEqual([
+          'Column "a" in row 1 of "table" has type "number", but expected "string"',
+          'Column "b" in row 2 of "table" has type "string", but expected "number"',
+        ]);
       });
     });
   });

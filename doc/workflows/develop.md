@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Fix hash error` here and below
+Replace `Add validateRljsonAgainstTableCfg` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Fix hash error"
+node scripts/create-branch.js "Add validateRljsonAgainstTableCfg"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Fix hash error"
+git commit -am"Add validateRljsonAgainstTableCfg"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Fix hash error" --body " "
+gh pr create --base main --title "Add validateRljsonAgainstTableCfg" --body " "
 ```
 
 ## Code review
