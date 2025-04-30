@@ -165,6 +165,11 @@ export const validateRljsonAgainstTableCfg = (
 
       // Does type match?
       const expectedType = columnCfg.type;
+      const value = row[columnKey];
+      if (value === undefined || value === null) {
+        continue;
+      }
+
       const actualType = jsonValueType(row[columnKey]!);
       if (expectedType !== actualType) {
         errors.push(
