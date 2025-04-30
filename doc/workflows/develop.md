@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Add validateRljsonAgainstTableCfg` here and below
+Replace `Allow null values in validateRljsonAgainstTableCfg` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Add validateRljsonAgainstTableCfg"
+node scripts/create-branch.js "Allow null values in validateRljsonAgainstTableCfg"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Add validateRljsonAgainstTableCfg"
+git commit -am"Allow null values in validateRljsonAgainstTableCfg"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Add validateRljsonAgainstTableCfg" --body " "
+gh pr create --base main --title "Allow null values in validateRljsonAgainstTableCfg" --body " "
 ```
 
 ## Code review
