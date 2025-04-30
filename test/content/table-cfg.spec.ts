@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { rmhsh } from '@rljson/hash';
+import { hip, rmhsh } from '@rljson/hash';
 
 import { describe, expect, it } from 'vitest';
 
@@ -76,12 +76,14 @@ describe('TableCfg', () => {
 
   describe('addColumnsToTableCfg', () => {
     it('adds columns to the table configuration', () => {
-      const tableCfg = exampleTableCfg({
-        columns: [
-          { key: '_hash', type: 'string' },
-          { key: 'a', type: 'string' },
-        ],
-      });
+      const tableCfg = hip(
+        exampleTableCfg({
+          columns: [
+            { key: '_hash', type: 'string' },
+            { key: 'a', type: 'string' },
+          ],
+        }),
+      );
 
       const newColumns: ColumnCfg[] = [
         { key: 'b', type: 'number' },

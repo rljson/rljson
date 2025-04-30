@@ -153,10 +153,16 @@ export const addColumnsToTableCfg = (
   }
 
   // Füge die neuen Spalten hinzu
-  return hsh<TableCfg>({
-    ...tableCfg,
-    columns: [...tableCfg.columns, ...columns],
-  });
+  return hsh<TableCfg>(
+    {
+      ...tableCfg,
+      columns: [...tableCfg.columns, ...columns],
+    },
+    {
+      updateExistingHashes: true,
+      throwOnWrongHashes: false,
+    },
+  );
 };
 
 // .............................................................................
