@@ -5,7 +5,12 @@
 // found in the LICENSE file in the root of this package.
 
 import { hsh } from '@rljson/hash';
-import { Json, JsonValueType, jsonValueTypes } from '@rljson/json';
+import {
+  Json,
+  jsonValueType,
+  JsonValueType,
+  jsonValueTypes,
+} from '@rljson/json';
 
 import { Example } from '../example.ts';
 import { RljsonTable } from '../rljson.ts';
@@ -88,6 +93,7 @@ export interface TableCfg extends Json {
  */
 export type TablesCfgTable = RljsonTable<TableCfg, 'ingredients'>;
 
+// .............................................................................
 /**
  * Throws an error if the table configuration is not valid.
  * @param tableCfg - The table configuration to check
@@ -129,7 +135,50 @@ export const throwOnInvalidTableCfg = (tableCfg: TableCfg): void => {
 };
 
 // .............................................................................
+/**
+ * Validates the table configuration against the data.
+ * @param rows - The rows to validate
+ * @param tableCfg - The table configuration to validate against
+ * @returns - An array of error messages
+ */
+export const validateRljsonAgainstTableCfg = (
+  rows: Json[],
+  tableCfg: TableCfg,
+): string[] => {
+  const errors: string[] = [];
+  const tableKey = tableCfg.key as TableKey;
 
+  // Check if column keys and types match
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    for (const columnKey in row) {
+      const columnCfg = tableCfg.columns.find(
+        (column) => column.key === columnKey,
+      );
+
+      if (!columnCfg) {
+        errors.push(
+          `Column "${columnKey}" in row ${i} of table "${tableKey}" does not exist.`,
+        );
+        continue;
+      }
+
+      // Does type match?
+      const expectedType = columnCfg.type;
+      const actualType = jsonValueType(row[columnKey]!);
+      if (expectedType !== actualType) {
+        errors.push(
+          `Column "${columnKey}" in row ${i} of "${tableKey}" ` +
+            `has type "${actualType}", but expected "${expectedType}"`,
+        );
+      }
+    }
+  }
+
+  return errors;
+};
+
+// .............................................................................
 /**
  * Add columns to table config
  * @param tableCfg - The table configuration to add columns to
