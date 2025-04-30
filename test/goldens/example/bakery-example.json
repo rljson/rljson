@@ -1,6 +1,5 @@
 {
   "buffets": {
-    "_type": "buffets",
     "_data": [
       {
         "id": "salesCounter",
@@ -14,10 +13,9 @@
         "_hash": "z99Uy6hMEVPcBfFzsBxIyZ"
       }
     ],
-    "_hash": "uzUitT-fK9dCLvIxDQnZWQ"
+    "_hash": "ZQx14ILXKW4IuCFnbZdinu"
   },
   "cakes": {
-    "_type": "cakes",
     "_data": [
       {
         "id": "cake1",
@@ -31,10 +29,9 @@
         "_hash": "FShJOllEImdno0ZPZS0Ucr"
       }
     ],
-    "_hash": "-9w6vZJ39JIye2PrWCevoy"
+    "_hash": "WYUlAHMA-IZ2WeM8ZoPF2b"
   },
   "slices": {
-    "_type": "sliceIds",
     "_data": [
       {
         "add": [
@@ -45,10 +42,9 @@
         "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
       }
     ],
-    "_hash": "cnGg1WO4AHE2QX2CO2_aQL"
+    "_hash": "ALinWjiaJEFhjacrECHY8M"
   },
   "ingredientTypes": {
-    "_type": "sliceIds",
     "_data": [
       {
         "add": [
@@ -58,10 +54,9 @@
         "_hash": "UNxHIyPK7AACyUsbISW7bp"
       }
     ],
-    "_hash": "c1w4IVG4J4JANpcTu8p7Jd"
+    "_hash": "hIVfuZbrYzEznitJFfA9k1"
   },
   "layers": {
-    "_type": "layers",
     "_data": [
       {
         "ingredientsTable": "recipes",
@@ -75,10 +70,9 @@
         "_hash": "I0zT7120s1gWEDrGhhSr6n"
       }
     ],
-    "_hash": "Zh4Ujm1lnZqGtZ98rXZBpM"
+    "_hash": "t3vzfr4K9lxgMlQIrG_uo7"
   },
   "recipes": {
-    "_type": "layers",
     "_data": [
       {
         "id": "tastyCake",
@@ -92,10 +86,9 @@
         "_hash": "gqLuZbpbjOMyk0DjQ3AFFy"
       }
     ],
-    "_hash": "omAs5SCoaFqDO_XV-M41yk"
+    "_hash": "Tc2HX4GByL-dMnhkoBBx3H"
   },
   "recipeIngredients": {
-    "_type": "ingredients",
     "_data": [
       {
         "id": "flour",
@@ -104,10 +97,9 @@
         "_hash": "4coxp7hPCsH7hSnAVeUVZj"
       }
     ],
-    "_hash": "L_GjhRhKBQ1699guawlhj9"
+    "_hash": "IjsykBpNvws4TUd8G6jBzo"
   },
   "ingredients": {
-    "_type": "ingredients",
     "_data": [
       {
         "id": "flour",
@@ -116,10 +108,9 @@
         "_hash": "A5d-4if1fQpQERfwFsjKqb"
       }
     ],
-    "_hash": "lJ15nqUpRVXq2fMG7V5Pnd"
+    "_hash": "ztbu4SvLjKcyvsoqKemJ9A"
   },
   "nutritionalValues": {
-    "_type": "ingredients",
     "_data": [
       {
         "id": "flour",
@@ -138,7 +129,7 @@
         "_hash": "IqeoWJjZQNlr-NVk2QT15B"
       }
     ],
-    "_hash": "5CrNbJK8Yl7YS4rvbp5KaQ"
+    "_hash": "mWK3IcMjG0-okFnh5XJA7r"
   },
-  "_hash": "psd-1oZwF6hOu2s50pgPcO"
+  "_hash": "i1ziDEW1b6mdgEbBHHJ-E2"
 }

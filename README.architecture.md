@@ -94,12 +94,11 @@ and the table data is structured as dictionaries:
 ```
 
 Each table follows the `RljsonTable` interface, which defines a `_data` property
-containing the table rows and a `_type` property describing the table type:
+containing the table rows.
 
 ```json
 {
   "table0": {
-    "_type": "ingredients",
     "_data": []
   }
 }
@@ -137,7 +136,6 @@ Rljson uses hashes to identify and reference data. Using the `hash-in-place`
 const jsonWithHashes = hip({
   a: {
     _data: [{ a: 10 }],
-    _type: 'ingredients',
   },
 });
 ```
@@ -154,8 +152,7 @@ This results in:
         "a": 10
       }
     ],
-    "_hash": "FfCIOVQsrK1g5o5_G-AxP4",
-    "_type": "ingredients"
+    "_hash": "FfCIOVQsrK1g5o5_G-AxP4"
   }
 }
 ```
@@ -168,8 +165,7 @@ table `b` references table `a` using `aRef`:
 ```json
 {
   "b": {
-    "_data": [{ "aRef": "LeFJOCQVgToOfbUuKJQ-GO" }],
-    "_type": "ingredients"
+    "_data": [{ "aRef": "LeFJOCQVgToOfbUuKJQ-GO" }]
   }
 }
 ```
@@ -189,7 +185,6 @@ key-value pairs assigning values to ingredient names.
 ```json
 {
   "ingredients": {
-    "_type": "ingredients",
     "_data": [
       {
         "name": "flour",
@@ -200,7 +195,6 @@ key-value pairs assigning values to ingredient names.
   },
 
   "nutritionalValues": {
-    "_type": "ingredients",
     "_data": [
       {
         "energy": 364,
@@ -223,7 +217,6 @@ following `SliceIds` define a set of three slice IDs:
 ```json
 {
   "slices": {
-    "_type": "sliceIds",
     "_data": [
       {
         "add": ["slice0", "slice1"],
@@ -240,7 +233,6 @@ Derived `SliceIds` can be created by modifying an existing set:
 ```json
 {
   "slices": {
-    "_type": "sliceIds",
     "_data": [
       {
         "add": ["slice0", "slice1"],
@@ -264,7 +256,6 @@ Cake layers assign ingredients to slices.
 ```json
 {
   "layers": {
-    "_type": "layers",
     "_data": [
       {
         "ingredientsTable": "recipes",
@@ -288,7 +279,6 @@ Each layer assigns different ingredients to slices.
 ```json
 {
   "cakes": {
-    "_type": "cakes",
     "_data": [
       {
         "sliceIdsTable": "slices",
@@ -314,7 +304,6 @@ such as cakes, layers, or ingredients:
 ```json
 {
   "buffets": {
-    "_type": "buffets",
     "_data": [
       {
         "items": [

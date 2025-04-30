@@ -25,7 +25,7 @@ describe('Rljson', () => {
   });
 
   it('reservedFieldNames', () => {
-    expect(reservedFieldNames).toEqual(['_type', '_data']);
+    expect(reservedFieldNames).toEqual(['_data']);
   });
 
   it('reservedTableKeys', () => {
