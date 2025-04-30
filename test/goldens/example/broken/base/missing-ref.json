@@ -1,6 +1,5 @@
 {
   "tableA": {
-    "_type": "ingredients",
     "_data": [
       {
         "keyA0": "a0"
@@ -11,7 +10,6 @@
     ]
   },
   "tableB": {
-    "_type": "ingredients",
     "_data": [
       {
         "tableARef": "MISSINGREF"
