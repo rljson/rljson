@@ -17,7 +17,7 @@ import { Example } from './example.ts';
 import { Ref, TableKey } from './typedefs.ts';
 
 // .............................................................................
-export const reservedFieldNames = ['_type', '_data'];
+export const reservedFieldNames = ['_data'];
 
 export const reservedTableKeys = [
   '_hash',
