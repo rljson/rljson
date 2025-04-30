@@ -1,6 +1,5 @@
 {
   "tableB": {
-    "_type": "ingredients",
     "_data": [
       {
         "tableARef": "MISSINGREF"

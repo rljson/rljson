@@ -1,7 +1,6 @@
 {
   "tableCfgs": {
-    "_hash": "CLMwy9nAs4ywGOZupl-zX7",
-    "_type": "ingredients",
+    "_hash": "SxAEXvgQ9USev-ZI7eHxWo",
     "_data": [
       {
         "version": 0,
@@ -57,7 +56,6 @@
     ]
   },
   "table": {
-    "_type": "ingredients",
     "_tableCfg": "88qW3IEr7PHpgtrP6uhhRg",
     "_data": [
       {
@@ -94,7 +92,7 @@
         "_hash": "r63TJIT73TYatXyqS4251G"
       }
     ],
-    "_hash": "UVVJtLGiOL1QGtmJo7qOMb"
+    "_hash": "ueo4Eg2uzJX9qviuRbOd_V"
   },
-  "_hash": "ccviu6mFiIGqLNpswcPpKW"
+  "_hash": "bsn-ZSSnyAQ47bUcksl-T7"
 }

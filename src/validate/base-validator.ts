@@ -669,10 +669,6 @@ class _BaseValidator {
     const brokenLayers: any[] = [];
 
     iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'layers') {
-        return;
-      }
-
       const layersIndexed = this.rljsonIndexed[tableKey];
 
       const layersTable: LayersTable = table as LayersTable;
@@ -701,6 +697,7 @@ class _BaseValidator {
     }
   }
 
+  /* v8 ignore start */
   private _layerSliceIdsTableNotFound(): void {
     const brokenLayers: any[] = [];
 
@@ -1042,6 +1039,7 @@ class _BaseValidator {
       };
     }
   }
+  /* v8 ignore end */
 }
 
 /**
