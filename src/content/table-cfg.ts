@@ -91,7 +91,7 @@ export interface TableCfg extends Json {
 /**
  * A table containing columns
  */
-export type TablesCfgTable = RljsonTable<TableCfg, 'ingredients'>;
+export type TablesCfgTable = RljsonTable<TableCfg>;
 
 // .............................................................................
 /**

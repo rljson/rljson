@@ -419,69 +419,6 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe('invalidTableTypes()', () => {
-      it('returns no errors when table types are valid', () => {
-        expect(
-          validate({
-            tableOne: { _type: 'xyz', _data: [] },
-            tableTwo: { _type: 'abc', _data: [] },
-            tableThree: { _type: 'ingredients', _data: [] },
-          }),
-        ).toEqual({
-          hasErrors: true,
-          invalidTableTypes: {
-            error: 'Tables with invalid types',
-            tables: [
-              {
-                allowedTypes:
-                  'buffets | cakes | layers | sliceIds | ingredients',
-                table: 'tableOne',
-                type: 'xyz',
-              },
-              {
-                allowedTypes:
-                  'buffets | cakes | layers | sliceIds | ingredients',
-                table: 'tableTwo',
-                type: 'abc',
-              },
-            ],
-          },
-        });
-      });
-    });
-
-    describe('tableTypesDoNotMatch()', () => {
-      describe('returns an error', () => {
-        it('when table type does not match the configured type', () => {
-          const rljson = Example.ok.singleRow();
-          const table = rljson.table;
-          table._type = 'cakes';
-          const tableCfg = rljson.tableCfgs._data[0]._hash;
-
-          hip(rljson, {
-            updateExistingHashes: true,
-            throwOnWrongHashes: false,
-          });
-
-          const result = validate(rljson);
-          expect(result).toEqual({
-            hasErrors: true,
-            tableTypesDoNotMatch: {
-              error: 'Table types do not match table config',
-              tables: [
-                {
-                  table: 'table',
-                  typeInConfig: 'ingredients',
-                  typeInTable: 'cakes',
-                  tableCfg,
-                },
-              ],
-            },
-          });
-        });
-      });
-    });
-
     describe('tableCfgHasRootHeadSharedError()', () => {
       const create = (config: {
         isHead: boolean;

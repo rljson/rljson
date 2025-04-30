@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Allow null values in validateRljsonAgainstTableCfg` here and below
+Replace `Breaking change: Remove _type from Rljson tables` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Allow null values in validateRljsonAgainstTableCfg"
+node scripts/create-branch.js "Breaking change: Remove _type from Rljson tables"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Allow null values in validateRljsonAgainstTableCfg"
+git commit -am"Breaking change: Remove _type from Rljson tables"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Allow null values in validateRljsonAgainstTableCfg" --body " "
+gh pr create --base main --title "Breaking change: Remove _type from Rljson tables" --body " "
 ```
 
 ## Code review

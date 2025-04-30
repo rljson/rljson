@@ -43,7 +43,7 @@ export interface Revision extends Json {
 /**
  * A table containing revisions
  */
-export type RevisionsTable = RljsonTable<Revision, 'ingredients'>;
+export type RevisionsTable = RljsonTable<Revision>;
 
 /**
  * Example revision object for test purposes
