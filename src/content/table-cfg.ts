@@ -55,12 +55,6 @@ export interface TableCfg extends Json {
   previous?: TableCfgRef;
 
   /**
-   * The version of the table.
-   * Needs to be increased when new columns are added.
-   */
-  version: number;
-
-  /**
    * Head tables serve as versioning entry points.
    *
    * - Head tables must contain an id column
@@ -145,7 +139,6 @@ export const exampleTableCfg = (
 ): TableCfg => {
   return {
     key: tableCfg?.key ?? 'table',
-    version: 1,
     columns: tableCfg?.columns ?? [
       {
         key: '_hash',

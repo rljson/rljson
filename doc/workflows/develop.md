@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Add throwOnInvalidTableCfg` here and below
+Replace `Remove version from TableCfg because the hash will be sufficient for identification` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Add throwOnInvalidTableCfg"
+node scripts/create-branch.js "Remove version from TableCfg because the hash will be sufficient for identification"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Add throwOnInvalidTableCfg"
+git commit -am"Remove version from TableCfg because the hash will be sufficient for identification"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Add throwOnInvalidTableCfg" --body " "
+gh pr create --base main --title "Remove version from TableCfg because the hash will be sufficient for identification" --body " "
 ```
 
 ## Code review
