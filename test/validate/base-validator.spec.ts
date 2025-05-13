@@ -784,7 +784,7 @@ describe('BaseValidator', async () => {
             missingColumnConfigs: [
               {
                 column: 'int',
-                row: 'r63TJIT73TYatXyqS4251G',
+                row: 'Cxg2P0ZWlEbBX6pYOlOw8l',
                 tableCfg: rljson.table._tableCfg,
                 table: 'table',
               },
@@ -817,13 +817,13 @@ describe('BaseValidator', async () => {
             brokenValues: [
               {
                 column: 'int',
-                row: 'LNpv7AlHPSxqsyTRLy7e5Z',
+                row: '9ZLjUYyBMJvPjuj7MV_c62',
                 table: 'table',
                 tableCfg: tableCfgHash,
               },
               {
                 column: 'double',
-                row: 'LNpv7AlHPSxqsyTRLy7e5Z',
+                row: '9ZLjUYyBMJvPjuj7MV_c62',
                 table: 'table',
                 tableCfg: tableCfgHash,
               },
