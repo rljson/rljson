@@ -6,7 +6,7 @@
 
 ## ER diagram
 
-:::mermaid
+```mermaid
 erDiagram
 
     bakery ||--o{ buffet : contains
@@ -52,4 +52,4 @@ erDiagram
         string unit
     }
 
-:::
+```
