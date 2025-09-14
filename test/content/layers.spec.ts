@@ -6,14 +6,13 @@
 
 import { describe, it } from 'vitest';
 
-import { exampleIngredientsTable } from '../../src/content/ingredients.ts';
+import { exampleLayer } from '../../src/content/layers.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
-describe('IngredientsTable', () => {
-  it('provides a list of ingredients', async () => {
-    await expectGolden('content/ingredients.json').toBe(
-      exampleIngredientsTable(),
-    );
+
+describe('Stack', () => {
+  it('provides a layer', async () => {
+    await expectGolden('content/layer.json').toBe(exampleLayer());
   });
 });

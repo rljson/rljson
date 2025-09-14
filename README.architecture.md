@@ -29,11 +29,12 @@ This document describes the architecture of the Rljson format.
   - [Hashes](#hashes)
   - [Linking Tables Using References](#linking-tables-using-references)
 - [Data Types](#data-types)
-  - [Ingredients](#ingredients)
-  - [SliceIds](#sliceids)
+  - [Components](#components)
   - [Layer](#layer)
-  - [Cake](#cake)
-  - [Buffet](#buffet)
+  - [Stack](#stack)
+  - [Repository](#repository)
+  - [Relation](#relation)
+  - [Cluster](#cluster)
 
 ## What is Rljson?
 
@@ -177,146 +178,267 @@ This reference structure enables automated denormalization of JSON data.
 Rljson provides several core data structures and table types to manage and
 synchronize large datasets.
 
-### Ingredients
+### Components
 
-`Ingredients` are the fundamental data concept. An `IngredientsTable` contains
-key-value pairs assigning values to ingredient names.
+`Components` are the fundamental data concept. Components contains
+key-value pairs of simple and similar data.
 
-```json
-{
-  "ingredients": {
-    "_data": [
-      {
-        "name": "flour",
-        "amountUnit": "g",
-        "nutritionalValuesRef": "gZXFSlrl5QAs5hOVsq5sWB"
-      }
-    ]
-  },
+#### Data Components
 
-  "nutritionalValues": {
-    "_data": [
-      {
-        "energy": 364,
-        "fat": 0.98,
-        "protein": 10.33,
-        "carbohydrates": 76.31,
-        "_hash": "gZXFSlrl5QAs5hOVsq5sWB"
-      }
-    ]
-  }
-}
-```
-
-### SliceIds
-
-For efficient management of large layers, slice IDs are separated from their
-ingredients. This allows fetching IDs first and retrieving details later. The
-following `SliceIds` define a set of three slice IDs:
+In this example we hold general properties of real world cars in corresponding
+Components.
 
 ```json
-{
-  "slices": {
+"carGeneral": {
     "_data": [
       {
-        "add": ["slice0", "slice1"],
-        "remove": [],
-        "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
-      }
-    ]
-  }
-}
-```
-
-Derived `SliceIds` can be created by modifying an existing set:
-
-```json
-{
-  "slices": {
-    "_data": [
-      {
-        "add": ["slice0", "slice1"],
-        "remove": [],
-        "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
+        "manufacturer": "Volkswagen",
+        "type": "Golf",
+        "doors": 5,
+        "_hash": "GRZx0nnsDNXu7A_XtJq0ew"
       },
       {
-        "base": "wyYfK5E4ArrMKQ_zvi2-EE",
-        "add": ["slice2"],
-        "remove": []
+        "manufacturer": "BMW",
+        "type": "X3",
+        "doors": 5,
+        "_hash": "JWRWlfLU0hJTf1FqpU-Ftp"
       }
-    ]
+    ],
+    "_hash": "bIqYR8lTDIlZjJJyMuWCHy"
+  },
+```
+
+#### Index Components
+
+A special type of Component is `Index Components`. Index Components only hold
+indices of real world objects. These Index Components, as well as any other
+Components, can contain single key-value pairs as well as several key-value
+pairs. In this example below `vin` (Vehicle Identity Number) serves as an index
+for this real world example of cars.
+
+```json
+"carIndex": {
+    "_data": [
+      {
+        "vin": "2AFB34",
+        "_hash": "Odlff4D-HNegyejRQ-5OhS"
+      },
+      {
+        "vin": "C235F3",
+        "_hash": "DizwEA1fNsBkMIUXYdL5KK"
+      }
+    ],
+    "_hash": "pa0EVpvRWGHMDz2VrFwtZr"
   }
-}
 ```
 
 ### Layer
 
-Cake layers assign ingredients to slices.
+`Layers` link `Index Components` to `Data Components`. Think of it like
+associational tables in relational databases models, often used for M:N
+relations. But other than in the databases, it does not contain any data,
+it contains only references to the linking components.
+
+#### Data Layer
+
+In this example we link the car's VINs to their general properties.
 
 ```json
-{
-  "layers": {
+"carGeneralLayer": {
     "_data": [
       {
-        "ingredientsTable": "recipes",
-        "assign": {
-          "slice0": "H8KK9vMjOxxQr_G_9XeDM-",
-          "slice1": "H8KK9vMjOxxQr_G_9XeDM-"
-        },
-        "_hash": "rrFBguLFLhXjrDqAxJx1p-"
-      }
-    ]
-  }
-}
-```
-
-### Cake
-
-A `Cake` consists of layers of slices.
-All layers share the same slice structure, i.e. the same slice ids.
-Each layer assigns different ingredients to slices.
-
-```json
-{
-  "cakes": {
-    "_data": [
+        "carIndexRef": "Odlff4D-HNegyejRQ-5OhS",
+        "carGeneralRef": "GRZx0nnsDNXu7A_XtJq0ew",
+        "_hash": "66L1zLPAXQGCr1i5McLwJ7"
+      },
       {
-        "sliceIdsTable": "slices",
-        "idSet": "wyYfK5E4ArrMKQ_zvi2-EE",
-        "layersTable": "layers",
-        "layers": {
-          "flour": "rrFBguLFLhXjrDqAxJx1p-",
-          "_hash": "JSoUx1N6lso-18vkzG63Pm"
-        },
-        "_hash": "bOlQ1lPpZEYB00F14nGvOP"
+        "carIndexRef": "DizwEA1fNsBkMIUXYdL5KK",
+        "carGeneralRef": "JWRWlfLU0hJTf1FqpU-Ftp",
+        "_hash": "Pcd7kTmoctJgm1ql9OB8EG"
       }
     ],
-    "_hash": "hsL7dD0mFDqmT2i-1fx_1a"
+    "_hash": "47YcDGPtTxiNz-gsGBU120"
   }
-}
 ```
 
-### Buffet
+#### Index Layer
 
-A `Buffet` is a heterogeneous collection of different but related items,
-such as cakes, layers, or ingredients:
+As well as there is the concept of the Index Components, there is the
+`Index Layer`. It just holds the current set of indices references. We hold
+separate index layers, for being able to revision, update and expand them
+independently from the corresponding data layers.
 
 ```json
-{
-  "buffets": {
+  "carIndexLayer": {
     "_data": [
       {
-        "items": [
-          {
-            "table": "cakes",
-            "ref": "bOlQ1lPpZEYB00F14nGvOP",
-            "_hash": "ma47UGAZbu5Ql5yXWFHLAT"
-          }
-        ],
-        "_hash": "jPv5bXjs3XVOLRbQvoWcjw"
+        "carIndexRef": "Odlff4D-HNegyejRQ-5OhS",
+        "_hash": "WptSZpANOVfnPwm8iQn_9e"
+      },
+      {
+        "carIndexRef": "DizwEA1fNsBkMIUXYdL5KK",
+        "_hash": "rTMqW446E83SC_hyzYN8bN"
       }
     ],
-    "_hash": "FYK9ItHMDCe2CnD_TGRs8_"
+    "_hash": "fWK68a5DeJgYSQcOmsMFJ_"
   }
-}
+```
+
+### Stack
+
+A `Stack` contains a list of Layers. We use it for managing revisions of
+layer definitions. You can think of it like some kind of a repository where all
+changes in corresponding Index-Data relations lead to new versions of layer
+definitions.
+
+```json
+  "carGeneralStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "carGeneralLayer": "47YcDGPtTxiNz-gsGBU120",
+        "_hash": "hwhEVLgx7DpJe1p1rd5Zet"
+      }
+    ],
+    "_hash": "Yv9H7EeP7kVRo1q5_PkFnS"
+  }
+```
+
+### Repository
+
+A `Repository` contains the Index Layer as well as any corresponding Data Layer
+necessary or chosen for composing the real world object representations we need.
+
+```json
+  "carRepository": {
+    "_data": [
+      {
+        "carIndexLayer": "fWK68a5DeJgYSQcOmsMFJ_",
+        "carGeneralLayer": "47YcDGPtTxiNz-gsGBU120",
+        "carTechnicalLayer": "ttRVgGBZSWytTv7tq2iQrX",
+        "carColorLayer": "kvs4H_PkIU2JnvB6e8cDdu",
+        "car2WheelLayer": "Bl5fBYbp0VOVCclxBWt6li",
+        "_hash": "bn6d-EyurHjvDU3Y-zppBm"
+      }
+    ],
+    "_hash": "8AWADuxs70tK3LF4LDSacl"
+  }
+```
+
+### Relation
+
+A `Relation` is a Layer which links two Indices of two Index Layers.
+
+In this example we have two Indices. First the indices of Cars. As you know,
+the Index of one real world Object consists of its Components and a corresponding
+Layer.
+
+So here we have the Car's Index Components.
+
+```json
+  "carIndex": {
+    "_data": [
+      {
+        "vin": "2AFB34",
+        "_hash": "Odlff4D-HNegyejRQ-5OhS"
+      },
+      {
+        "vin": "C235F3",
+        "_hash": "DizwEA1fNsBkMIUXYdL5KK"
+      }
+    ],
+    "_hash": "pa0EVpvRWGHMDz2VrFwtZr"
+  }
+```
+
+And here we have the corresponding Layer.
+
+```json
+  "carIndexLayer": {
+    "_data": [
+      {
+        "carIndexRef": "Odlff4D-HNegyejRQ-5OhS",
+        "_hash": "WptSZpANOVfnPwm8iQn_9e"
+      },
+      {
+        "carIndexRef": "DizwEA1fNsBkMIUXYdL5KK",
+        "_hash": "rTMqW446E83SC_hyzYN8bN"
+      }
+    ],
+    "_hash": "fWK68a5DeJgYSQcOmsMFJ_"
+  }
+```
+
+And now we will take a look to Wheels. Here we have the Index Components.
+
+```json
+  "wheelIndex": {
+    "_data": [
+      {
+        "sn": "CDF744",
+        "_hash": "ggdByNSc5Lnq69GBh1PICs"
+      },
+      {
+        "sn": "01B223",
+        "_hash": "sSTay_Oc_o3X7PHtZ5UftI"
+      }
+    ],
+    "_hash": "D_SHAVfcxBRGL57O4ftamc"
+  }
+```
+
+And here we have the corresponding Index Layer.
+
+```json
+  "wheelIndexLayer": {
+    "_data": [
+      {
+        "wheelIndexRef": "ggdByNSc5Lnq69GBh1PICs",
+        "_hash": "vhlaHQha-6rmCIv1vhMJ9u"
+      },
+      {
+        "wheelIndexRef": "sSTay_Oc_o3X7PHtZ5UftI",
+        "_hash": "hS29Gw7FsklkY1Ulb6KABj"
+      }
+    ],
+    "_hash": "N2MRMyMZG3vGYeLLfeDLy6"
+  }
+```
+
+And now we introduce the Relation Layer Linking them both together.
+As you may notice, both of the cars have four wheels of different types each.
+
+```json
+"car2WheelLayer": {
+    "_data": [
+      {
+        "carIndexRef": "Odlff4D-HNegyejRQ-5OhS",
+        "wheelIndexRef": "ggdByNSc5Lnq69GBh1PICs",
+        "_hash": "DKJhnfvqrGtAscH0NM_kYk"
+      },
+      {
+        "carIndexRef": "DizwEA1fNsBkMIUXYdL5KK",
+        "wheelIndexRef": "sSTay_Oc_o3X7PHtZ5UftI",
+        "_hash": "cCnZXeSiQs0g6SEH_gykb6"
+      }
+    ],
+    "_hash": "Bl5fBYbp0VOVCclxBWt6li"
+  }
+```
+
+### Cluster
+
+A `Cluster` is a helping structure, hence it is just a list of table instances.
+It defines the whole set of instances ensuring that the Quadruple of Components,
+Layers, Stacks and Repositories is present for any given real world object representation we provide.
+
+This is the minimum Cluster configuration you need for Cars.
+
+```typescript
+  const cluster = Cluster<'Car'> = {
+    carIndex,
+    carIndexLayer,
+    carIndexStack,
+    carRepository,
+  };
 ```

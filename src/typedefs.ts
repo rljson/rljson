@@ -6,6 +6,7 @@
 
 import { Json, JsonKey } from '@rljson/json';
 
+
 /**
  * A ref is a hash that references to another element
  */
@@ -31,19 +32,11 @@ export type ColumnKey = JsonKey;
 /**
  * Types of tables that can be stored in an Rljson object
  *
- * - `buffets` Tables containing buffets
- * - `cakes` Tables containing cakes
- * - `layers` Tables containing layers
- * - `ids` Tables containing slice ids
- * - `ingredients` Tables containing slice ingredients
+ * - `components` Tables containing basic data in key-value pairs
+ * - `layer` Tables containing references between index components and data components
+ * - `layerTable` Tables containing a list of references to layers
  */
-export const contentTypes = [
-  'buffets',
-  'cakes',
-  'layers',
-  'sliceIds',
-  'ingredients',
-] as const;
+export const contentTypes = ['components', 'layer', 'layerTable'] as const;
 
 export type ContentType = (typeof contentTypes)[number];
 
@@ -52,15 +45,13 @@ export type ContentType = (typeof contentTypes)[number];
  */
 export const exampleTypedefs = (): {
   ref: Ref;
-  sliceId: SliceId;
   tableKey: TableKey;
   contentType: ContentType;
 } => {
   return {
     ref: 'ref',
-    sliceId: 'sliceId',
     tableKey: 'tableKey',
-    contentType: 'layers',
+    contentType: 'layer',
   };
 };
 

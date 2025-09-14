@@ -26,4 +26,4 @@ export type ComponentsTable<T extends JsonWithId> = RljsonTable<T>;
  * Provides an example components table for test purposes
  */
 export const exampleComponentsTable = (): ComponentsTable<CarIndex> =>
-  carExample().carIndexComponents;
+  carExample().carIndex;

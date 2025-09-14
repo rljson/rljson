@@ -6,12 +6,13 @@
 
 import { describe, it } from 'vitest';
 
-import { exampleCakesTable } from '../../src/content/cake.ts';
+import { exampleStack } from '../../src/content/stack.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
-describe('CakesTable', () => {
-  it('provides a list of cakes', async () => {
-    await expectGolden('content/cakes.json').toBe(exampleCakesTable());
+
+describe('Stack', () => {
+  it('provides stack', async () => {
+    await expectGolden('content/stack.json').toBe(exampleStack());
   });
 });

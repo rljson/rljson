@@ -8,6 +8,7 @@ import { rljsonIndexed } from '../src/rljson-indexed';
 
 import { expectGolden } from './setup/goldens';
 
+
 // @license
 // Copyright (c) 2025 Rljson
 //
@@ -16,20 +17,20 @@ import { expectGolden } from './setup/goldens';
 
 describe('RljsonIndexed', () => {
   it('should create indexes for all rows of all tables', () => {
-    const bakery = hip(Example.ok.bakery(), {
+    const cars = hip(Example.ok.cars(), {
       updateExistingHashes: true,
       throwOnWrongHashes: false,
     });
-    const indexedBakery = rljsonIndexed(bakery);
+    const indexedBakery = rljsonIndexed(cars);
     expectGolden('rljson-indexed.json').toBe(indexedBakery);
 
     // Check that all tables are indexed
-    const tableKeys = Object.keys(bakery);
+    const tableKeys = Object.keys(cars);
     const tableKeysIndexed = Object.keys(indexedBakery);
     expect(tableKeysIndexed).toEqual(tableKeys);
 
     // Iterate all tables
-    iterateTablesSync(bakery, (tableKey, table) => {
+    iterateTablesSync(cars, (tableKey, table) => {
       const tableIndexed = indexedBakery[tableKey];
 
       // For each row of the table there is an index
@@ -38,7 +39,7 @@ describe('RljsonIndexed', () => {
 
       // Each row's hash is used as index
       for (const row of table._data) {
-        const hash = row._hash;
+        const hash = row._hash as string;
         expect(tableIndexed._data[hash]).toBe(row);
       }
     });

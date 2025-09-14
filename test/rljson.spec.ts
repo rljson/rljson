@@ -10,14 +10,11 @@ import { describe, expect, it } from 'vitest';
 
 import { Example } from '../src/example.ts';
 import {
-  exampleRljson,
-  iterateTables,
-  iterateTablesSync,
-  reservedFieldNames,
-  reservedTableKeys,
+  exampleRljson, iterateTables, iterateTablesSync, reservedFieldNames, reservedTableKeys
 } from '../src/rljson.ts';
 
 import { expectGolden } from './setup/goldens.ts';
+
 
 describe('Rljson', () => {
   it('exampleRljson()', async () => {
@@ -31,7 +28,6 @@ describe('Rljson', () => {
   it('reservedTableKeys', () => {
     expect(reservedTableKeys).toEqual([
       '_hash',
-      'sliceIds',
       'tableCfgs',
       'reverseRefs',
       'revisions',
@@ -41,20 +37,36 @@ describe('Rljson', () => {
   describe('iterateTablesSync', () => {
     it('returns over all public tables', async () => {
       const tableKeys: string[] = [];
-      iterateTablesSync(Example.ok.bakery(), (tableKey) => {
+      iterateTablesSync(Example.ok.cars(), (tableKey) => {
         tableKeys.push(tableKey);
       });
 
       expect(tableKeys).toEqual([
-        'buffets',
-        'cakes',
-        'slices',
-        'ingredientTypes',
-        'layers',
-        'recipes',
-        'recipeIngredients',
-        'ingredients',
-        'nutritionalValues',
+        'carIndex',
+        'carGeneral',
+        'carTechnical',
+        'carColor',
+        'carIndexLayer',
+        'carGeneralLayer',
+        'carTechnicalLayer',
+        'carColorLayer',
+        'carRepository',
+        'carIndexStack',
+        'carGeneralStack',
+        'carTechnicalStack',
+        'carColorStack',
+        'wheelIndex',
+        'wheelManufacturer',
+        'wheelDimension',
+        'wheelIndexLayer',
+        'wheelManufacturerLayer',
+        'wheelDimensionLayer',
+        'wheelIndexStack',
+        'wheelManufacturerStack',
+        'wheelDimensionStack',
+        'wheelRepository',
+        'car2WheelLayer',
+        'car2WheelStack',
       ]);
     });
   });
@@ -62,7 +74,7 @@ describe('Rljson', () => {
   describe('iterateTables', () => {
     it('returns over all public tables', async () => {
       const tableKeys: string[] = [];
-      await iterateTables(Example.ok.bakery(), async (tableKey: string) => {
+      await iterateTables(Example.ok.cars(), async (tableKey: string) => {
         // Wait a millisecond to simulate async operation
         await new Promise((resolve) => setTimeout(resolve, 1));
 
@@ -71,15 +83,31 @@ describe('Rljson', () => {
       });
 
       expect(tableKeys).toEqual([
-        'buffets',
-        'cakes',
-        'slices',
-        'ingredientTypes',
-        'layers',
-        'recipes',
-        'recipeIngredients',
-        'ingredients',
-        'nutritionalValues',
+        'carIndex',
+        'carGeneral',
+        'carTechnical',
+        'carColor',
+        'carIndexLayer',
+        'carGeneralLayer',
+        'carTechnicalLayer',
+        'carColorLayer',
+        'carRepository',
+        'carIndexStack',
+        'carGeneralStack',
+        'carTechnicalStack',
+        'carColorStack',
+        'wheelIndex',
+        'wheelManufacturer',
+        'wheelDimension',
+        'wheelIndexLayer',
+        'wheelManufacturerLayer',
+        'wheelDimensionLayer',
+        'wheelIndexStack',
+        'wheelManufacturerStack',
+        'wheelDimensionStack',
+        'wheelRepository',
+        'car2WheelLayer',
+        'car2WheelStack',
       ]);
     });
 
@@ -88,7 +116,7 @@ describe('Rljson', () => {
 
       try {
         await iterateTables(
-          hip(Example.ok.bakery()),
+          hip(Example.ok.cars()),
           async (tableKey: string) => {
             // Wait a millisecond to simulate async operation
             await new Promise((resolve) => setTimeout(resolve, 1));
@@ -102,44 +130,16 @@ describe('Rljson', () => {
         error = err;
       }
 
-      expect(error).toEqual([
-        {
-          error: new Error('Test error: buffets'),
-          tableKey: 'buffets',
-        },
-        {
-          error: new Error('Test error: cakes'),
-          tableKey: 'cakes',
-        },
-        {
-          error: new Error('Test error: slices'),
-          tableKey: 'slices',
-        },
-        {
-          error: new Error('Test error: ingredientTypes'),
-          tableKey: 'ingredientTypes',
-        },
-        {
-          error: new Error('Test error: layers'),
-          tableKey: 'layers',
-        },
-        {
-          error: new Error('Test error: recipes'),
-          tableKey: 'recipes',
-        },
-        {
-          error: new Error('Test error: recipeIngredients'),
-          tableKey: 'recipeIngredients',
-        },
-        {
-          error: new Error('Test error: ingredients'),
-          tableKey: 'ingredients',
-        },
-        {
-          error: new Error('Test error: nutritionalValues'),
-          tableKey: 'nutritionalValues',
-        },
-      ]);
+      //error: new Error('Test error: buffets'),
+
+      const expectation = Object.entries(Example.ok.cars()).map(([k]) =>
+        Object.assign({
+          tableKey: k,
+          error: new Error('Test error: ' + k),
+        }),
+      );
+
+      expect(error).toEqual(expectation);
     });
   });
 });

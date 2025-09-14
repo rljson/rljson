@@ -9,16 +9,12 @@ import { hip, rmhsh } from '@rljson/hash';
 import { describe, expect, it } from 'vitest';
 
 import {
-  addColumnsToTableCfg,
-  ColumnCfg,
-  exampleTableCfg,
-  exampleTableCfgTable,
-  TableCfg,
-  throwOnInvalidTableCfg,
-  validateRljsonAgainstTableCfg,
+  addColumnsToTableCfg, ColumnCfg, exampleTableCfg, exampleTableCfgTable, TableCfg,
+  throwOnInvalidTableCfg, validateRljsonAgainstTableCfg
 } from '../../src/content/table-cfg';
 
 import { expectGolden } from '../setup/goldens';
+
 
 describe('TableCfg', () => {
   it('exampleTableCfgTable', () => {
@@ -167,7 +163,7 @@ describe('TableCfg', () => {
         isRoot: true,
         isShared: false,
         key: 'table',
-        type: 'ingredients',
+        type: 'components',
       });
     });
 
@@ -195,7 +191,7 @@ describe('TableCfg', () => {
           type: 'boolean',
         },
       ],
-      type: 'ingredients',
+      type: 'components',
     };
 
     const result = exampleTableCfg(partialCfg);
@@ -207,7 +203,7 @@ describe('TableCfg', () => {
         type: 'boolean',
       },
     ]);
-    expect(result.type).toBe('ingredients');
+    expect(result.type).toBe('components');
   });
 
   it('exampleTableCfg with default values', () => {
@@ -229,6 +225,6 @@ describe('TableCfg', () => {
         type: 'number',
       },
     ]);
-    expect(result.type).toBe('ingredients');
+    expect(result.type).toBe('components');
   });
 });

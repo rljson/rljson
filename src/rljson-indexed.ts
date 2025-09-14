@@ -9,6 +9,7 @@ import { Json } from '@rljson/json';
 
 import { Rljson } from './rljson.ts';
 
+
 // .............................................................................
 /**
  * An Rljson object where all tables' rows are indexed by their hash.
@@ -54,7 +55,7 @@ export const rljsonIndexed = (rljson: Rljson): RljsonIndexed => {
       const hash = hashedRow._hash;
 
       // Write the row to the indexed data
-      dataIndexed[hash] = hashedRow;
+      dataIndexed[hash as string] = hashedRow;
     }
 
     result[key]._data = dataIndexed;

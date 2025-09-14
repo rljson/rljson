@@ -1,12 +1,12 @@
 {
   "tableCfgs": {
-    "_hash": "SxAEXvgQ9USev-ZI7eHxWo",
+    "_hash": "X3nJGLvh1hxAukR1HXobms",
     "_data": [
       {
         "version": 0,
-        "_hash": "dfnEWm6x_5i79UqT89Gk65",
+        "_hash": "S4pWXYZ5cANwZqlhK96_nu",
         "key": "table",
-        "type": "ingredients",
+        "type": "components",
         "isHead": false,
         "isRoot": false,
         "isShared": true,
@@ -56,7 +56,7 @@
     ]
   },
   "table": {
-    "_tableCfg": "88qW3IEr7PHpgtrP6uhhRg",
+    "_tableCfg": "xWI80T2DgZBTm7GEY7siT1",
     "_data": [
       {
         "int": 5,
@@ -92,7 +92,7 @@
         "_hash": "Cxg2P0ZWlEbBX6pYOlOw8l"
       }
     ],
-    "_hash": "w1Bobs2u5cH7AM3TKBpkOf"
+    "_hash": "0QpKWELGzzdsAYy8QkdbX4"
   },
-  "_hash": "ZTOrR_i2N1YBzV0bCKqB8s"
+  "_hash": "lmVMJROe6j-ASTF0CpnO2t"
 }

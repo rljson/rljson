@@ -1,0 +1,107 @@
+{
+  "index": {
+    "_data": [
+      {
+        "id": "0",
+        "_hash": "FKNu82tgz740WgwYMIhvQJ"
+      },
+      {
+        "id": "1",
+        "_hash": "WBGWf1QNMA0kmrMK5oE1mn"
+      }
+    ],
+    "_hash": "5CZsK8Y-9BS55C2N52Y2Yp"
+  },
+  "value": {
+    "_data": [
+      {
+        "a": "0",
+        "_hash": "AFhW-fMzdCiz6bUZscp1Lf"
+      },
+      {
+        "a": "1",
+        "_hash": "mv6w8rID8lQxLsje1EHQMY"
+      }
+    ],
+    "_hash": "xSNfMXowSPlvvhYPoMp6PX"
+  },
+  "indexLayer": {
+    "_data": [
+      {
+        "indexRef": "FKNu82tgz740WgwYMIhvQJ",
+        "_hash": "fPIQjBcHHcVmaISdG4Vwtg"
+      },
+      {
+        "indexRef": "WBGWf1QNMA0kmrMK5oE1mn",
+        "_hash": "DsrXOx9tJrXnAiQnFEhxcS"
+      }
+    ],
+    "_hash": "PX2U1XssGyhFGIE2tFk6Z8"
+  },
+  "valueLayer": {
+    "_data": [
+      {
+        "indexRef": "FKNu82tgz740WgwYMIhvQJ",
+        "valueRef": "AFhW-fMzdCiz6bUZscp1Lf",
+        "_hash": "9Y0NrNtPArR1l0C3ftox6A"
+      },
+      {
+        "indexRef": "WBGWf1QNMA0kmrMK5oE1mn",
+        "valueRef": "mv6w8rID8lQxLsje1EHQMY",
+        "_hash": "lkJYmflwU6mUW0I0vlm_PJ"
+      }
+    ],
+    "_hash": "CXExbaWZ5TgBHkkSGCqafE"
+  },
+  "valueLayer2": {
+    "_data": [
+      {
+        "indexRef": "FKNu82tgz740WgwYMIhvQJ",
+        "valueRef": "AFhW-fMzdCiz6bUZscp1Lf",
+        "_hash": "9Y0NrNtPArR1l0C3ftox6A"
+      },
+      {
+        "indexRef": "WBGWf1QNMA0kmrMK5oE1mn",
+        "valueRef": "mv6w8rID8lQxLsje1EHQMY",
+        "_hash": "lkJYmflwU6mUW0I0vlm_PJ"
+      }
+    ],
+    "_hash": "CXExbaWZ5TgBHkkSGCqafE"
+  },
+  "indexStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "indexLayer": "PX2U1XssGyhFGIE2tFk6Z8",
+        "_hash": "Y7ejwKD9ZJH7TunvmB5Yhn"
+      }
+    ],
+    "_hash": "xZE6UC7NS8a4QNOWsG04LE"
+  },
+  "valueStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "valueLayer": "CXExbaWZ5TgBHkkSGCqafE",
+        "_hash": "PPywphdMv-ve6De9IhmNzd"
+      },
+      {
+        "valueLayer": "CXExbaWZ5TgBHkkSGCqafE",
+        "base": "PPywphdMv-ve6De9IhmNzd",
+        "_hash": "HMuQLBzhzwAHXoq-Uvr_Nq"
+      }
+    ],
+    "_hash": "aB-E5Oj6-gzUmJKndKyJxT"
+  },
+  "repository": {
+    "_type": "stack",
+    "_data": [
+      {
+        "indexLayer": "PX2U1XssGyhFGIE2tFk6Z8",
+        "valueLayer": "MISSING",
+        "_hash": "FUKkWU_MiL_WiRQOS2rmJr"
+      }
+    ],
+    "_hash": "7lXhOPzAbIYIVVoOpklsup"
+  }
+}

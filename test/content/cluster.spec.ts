@@ -6,12 +6,13 @@
 
 import { describe, it } from 'vitest';
 
-import { exampleLayersTable } from '../../src/content/layer.ts';
+import { exampleCluster } from '../../src/content/cluster.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
-describe('LayersTable', () => {
-  it('provides a list of layers', async () => {
-    await expectGolden('content/layers.json').toBe(exampleLayersTable());
+
+describe('Cluster', () => {
+  it('provides a cluster', async () => {
+    await expectGolden('content/cluster.json').toBe(exampleCluster());
   });
 });

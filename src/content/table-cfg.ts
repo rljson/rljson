@@ -5,16 +5,12 @@
 // found in the LICENSE file in the root of this package.
 
 import { hsh } from '@rljson/hash';
-import {
-  Json,
-  jsonValueType,
-  JsonValueType,
-  jsonValueTypes,
-} from '@rljson/json';
+import { Json, jsonValueType, JsonValueType, jsonValueTypes } from '@rljson/json';
 
 import { Example } from '../example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { ColumnKey, ContentType, Ref, TableKey } from '../typedefs.ts';
+
 
 /**
  * A ColumnsRef is a hash pointing to columns metadata
@@ -245,7 +241,7 @@ export const exampleTableCfg = (
         type: 'number',
       },
     ],
-    type: tableCfg?.type ?? 'ingredients',
+    type: tableCfg?.type ?? 'components',
     isHead: true,
     isRoot: true,
     isShared: false,
