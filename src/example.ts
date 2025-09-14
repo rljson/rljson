@@ -5,20 +5,19 @@
 // found in the LICENSE file in the root of this package.
 
 import { hip } from '@rljson/hash';
-import { exampleJsonObject } from '@rljson/json';
+import { exampleJsonObject, Json } from '@rljson/json';
 
-import { BuffetsTable } from './content/buffet.ts';
-import { Cake, CakesTable } from './content/cake.ts';
-import { IngredientsTable } from './content/ingredients.ts';
-import { Layer, LayersTable } from './content/layer.ts';
-import { SliceIdsTable } from './content/slice-ids.ts';
-import { ColumnCfg, TablesCfgTable } from './content/table-cfg.ts';
-import { bakeryExample } from './example/bakery-example.ts';
+import { ComponentsTable } from './content/components.ts';
+import { Layer, LayerRef } from './content/layers.ts';
+import { Stack } from './content/stack.ts';
+import { ColumnCfg, TableCfg, TablesCfgTable } from './content/table-cfg.ts';
+import { carExample } from './example/cars-example.ts';
 import { Rljson } from './rljson.ts';
+
 
 export class Example {
   static readonly ok = {
-    bakery: (): Rljson => bakeryExample(),
+    cars: (): Rljson => carExample(),
 
     empty: (): Rljson => {
       return {};
@@ -45,7 +44,7 @@ export class Example {
             version: 0,
             _hash: '',
             key: 'table',
-            type: 'ingredients',
+            type: 'components',
             isHead: false,
             isRoot: false,
             isShared: true,
@@ -151,83 +150,124 @@ export class Example {
         },
       };
     },
-    complete: (): Rljson => {
-      const sliceIds = hip<SliceIdsTable>({
-        _data: [
-          {
-            add: ['id0', 'id1'],
-          },
-        ],
+    complete: (): {
+      index?: ComponentsTable<Json>;
+      value: ComponentsTable<Json>;
+      indexLayer: Layer<{ index: LayerRef }>;
+      valueLayer: Layer<{ index: LayerRef; value: LayerRef }>;
+      valueLayer2: Layer<{ index: LayerRef; value: LayerRef }>;
+      indexStack?: Stack<{ indexLayer: LayerRef }>;
+      valueStack: Stack<{ valueLayer: LayerRef }>;
+      repository: Stack<{ indexLayer: LayerRef; valueLayer: LayerRef }>;
+    } => {
+      const index = hip<ComponentsTable<Json>>({
+        _data: [{ id: '0' }, { id: '1' }],
       });
+      const idxComponent0 = index._data[0];
+      const idxComponent1 = index._data[1];
 
-      const ingredients = hip<IngredientsTable<any>>({
+      const value = hip<ComponentsTable<Json>>({
         _data: [{ a: '0' }, { a: '1' }],
       });
-      const ingredient0 = ingredients._data[0];
-      const ingredient1 = ingredients._data[1];
+      const valueComponent0 = value._data[0];
+      const valueComponent1 = value._data[1];
 
-      const layer0 = hip<Layer>({
-        sliceIdsTable: 'sliceIds',
-        sliceIdsTableRow: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        ingredientsTable: 'ingredients',
-        assign: {
-          id0: ingredient0._hash,
-          id1: ingredient1._hash,
-        },
-      });
-
-      const layer1 = hip<Layer>({
-        base: layer0._hash as string,
-        sliceIdsTable: 'sliceIds',
-        sliceIdsTableRow: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        ingredientsTable: 'ingredients',
-        assign: {
-          id0: ingredient0._hash,
-          id1: ingredient1._hash,
-        },
-      });
-
-      const layers = hip<LayersTable>({
-        _data: [layer0, layer1],
-      } as LayersTable);
-
-      const cake = hip<Cake>({
-        sliceIdsTable: 'sliceIds',
-        sliceIdsRow: sliceIds._data[0]._hash as string,
-        layersTable: 'layers',
-        layers: {
-          layer0: layer0._hash as string,
-          layer1: layer1._hash as string,
-        },
-      });
-
-      const cakes = hip<CakesTable>({
-        _data: [cake],
-      });
-
-      const buffets = hip<BuffetsTable>({
+      const indexLayer = hip<Layer<{ index: LayerRef }>>({
         _data: [
           {
-            items: [
-              {
-                table: 'cakes',
-                ref: cakes._data[0]._hash as string,
-              },
-              {
-                table: 'layers',
-                ref: layer0._hash as string,
-              },
-            ],
+            indexRef: idxComponent0._hash as string,
+            _hash: '',
+          },
+          {
+            indexRef: idxComponent1._hash as string,
+            _hash: '',
+          },
+        ],
+        _hash: '',
+      });
+
+      const valueLayer = hip<Layer<{ index: LayerRef; value: LayerRef }>>({
+        _data: [
+          {
+            indexRef: idxComponent0._hash as string,
+            valueRef: valueComponent0._hash as string,
+            _hash: '',
+          },
+          {
+            indexRef: idxComponent1._hash as string,
+            valueRef: valueComponent1._hash as string,
+            _hash: '',
+          },
+        ],
+        _hash: '',
+      });
+
+      const valueLayer2 = hip<Layer<{ index: LayerRef; value: LayerRef }>>({
+        _data: [
+          {
+            indexRef: idxComponent0._hash as string,
+            valueRef: valueComponent0._hash as string,
+            _hash: '',
+          },
+          {
+            indexRef: idxComponent1._hash as string,
+            valueRef: valueComponent1._hash as string,
+            _hash: '',
+          },
+        ],
+        _hash: '',
+      });
+
+      const indexStack = hip<Stack<{ indexLayer: LayerRef }>>({
+        _type: 'stack',
+        _data: [
+          {
+            indexLayer: indexLayer._hash as string,
+            _hash: '',
+          },
+        ],
+        _hash: '',
+      });
+
+      const valueStack = hip<Stack<{ valueLayer: LayerRef }>>({
+        _type: 'stack',
+        _data: [
+          {
+            valueLayer: valueLayer._hash as string,
+            _hash: '',
+          },
+          {
+            valueLayer: valueLayer2._hash as string,
+            base: (hip({ valueLayer: valueLayer._hash as string }) as any)
+              ._hash as string,
+            _hash: '',
+          },
+        ],
+        _hash: '',
+      });
+
+      const repository = hip<
+        Stack<{ indexLayer: LayerRef; valueLayer: LayerRef }>
+      >({
+        _type: 'stack',
+        _data: [
+          {
+            indexLayer: indexStack._data[0].indexLayer as string,
+            valueLayer: valueStack._data[0].valueLayer as string,
+            _hash: '',
           },
         ],
       });
 
       return {
-        sliceIds,
-        ingredients,
-        layers,
-        cakes,
-        buffets,
+        index,
+        value,
+        indexLayer,
+        valueLayer,
+        valueLayer2,
+        indexStack,
+        valueStack,
+        repository,
       };
     },
   };
@@ -294,7 +334,8 @@ export class Example {
     tableCfg: {
       wrongType: () => {
         const result = Example.ok.singleRow();
-        const columns = result.tableCfgs._data[0].columns as ColumnCfg[];
+        const columns = (result.tableCfgs._data[0] as TableCfg)
+          .columns as ColumnCfg[];
         const intColumn = columns.find((c) => c.key === 'int')!;
         intColumn.type = 'numberBroken' as any; // Break one of the types
         return hip(result, {
@@ -307,8 +348,8 @@ export class Example {
     layers: {
       missingBase: (): Rljson => {
         const result = Example.ok.complete();
-        const layer1 = result.layers._data[1];
-        layer1.base = 'MISSING'; // Missing base
+        const layer = result.valueStack._data[1];
+        layer.base = 'MISSING'; // Missing base
 
         // Recalculate hashes
         return hip(result, {
@@ -316,95 +357,29 @@ export class Example {
           throwOnWrongHashes: false,
         });
       },
-
-      missingSliceIdSet: (): Rljson => {
-        const result = Example.ok.complete();
-        const layer1 = (result.layers as LayersTable)._data[1];
-
-        layer1.sliceIdsTableRow = 'MISSING1';
-
-        // Recalculate hashes
-        return hip(result, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-      },
-
-      missingAssignedIngredientTable: (): Rljson => {
-        const result = Example.ok.complete();
-        delete result.ingredients; // Remove ingredients table
-        return result;
-      },
-
-      missingAssignedIngredient: (): Rljson => {
-        const result = Example.ok.complete();
-        result.ingredients._data.splice(1, 2); // Remove an ingredient that is assigned
-        return hip(result, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-      },
     },
 
-    cakes: {
-      missingSliceIdSet: (): Rljson => {
+    stack: {
+      missingCorrespondingStack: (): Rljson => {
         const result = Example.ok.complete();
-        (result.cakes as CakesTable)._data[0].sliceIdsRow = 'MISSING'; // Missing ID set
 
-        hip(result.cakes, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
+        delete result.indexStack; // Missing index stack
 
-        (result.buffets as BuffetsTable)._data[0].items[0].ref = result.cakes
-          ._data[0]._hash as string; // Update buffet reference
-
-        hip(result.buffets, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        return result;
-      },
-
-      missingLayersTable: (): Rljson => {
-        const result = Example.ok.complete();
-        result.cakes._data[0].layersTable = 'MISSING'; // Missing layers table
-        hip(result.cakes, {
+        hip(result.repository, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
         });
         return result;
       },
-
-      missingCakeLayer: (): Rljson => {
+      missingCorrespondingLayer: (): Rljson => {
         const result = Example.ok.complete();
-        result.cakes._data[0].layers['layer0'] = 'MISSING0';
-        result.cakes._data[0].layers['layer1'] = 'MISSING1';
-        hip(result.cakes, {
+
+        result.repository._data[0].indexLayer = 'MISSING';
+
+        hip(result.repository, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
         });
-        return result;
-      },
-    },
-
-    buffets: {
-      missingTable: (): Rljson => {
-        const result = Example.ok.complete();
-        const buffet = result.buffets._data[0];
-        buffet.items[0].table = 'MISSING0';
-        buffet.items[1].table = 'MISSING1';
-        hip(result, { updateExistingHashes: true, throwOnWrongHashes: false });
-        return result;
-      },
-
-      missingItems: (): Rljson => {
-        const result = Example.ok.complete();
-        const buffet = result.buffets._data[0];
-        buffet.items[0].ref = 'MISSING0';
-        buffet.items[1].ref = 'MISSING1';
-        hip(result, { updateExistingHashes: true, throwOnWrongHashes: false });
         return result;
       },
     },

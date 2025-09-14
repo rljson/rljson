@@ -8,16 +8,17 @@ import { hsh } from '@rljson/hash';
 
 import { describe, it } from 'vitest';
 
-import { bakeryExample } from '../../src/example/bakery-example';
+import { carExample } from '../../src/example/cars-example';
 
 import { expectGolden } from '../setup/goldens';
 
-describe('bakeryExample', async () => {
-  it('should be a bakery example', async () => {
-    const bakeryExampleHashed = hsh(bakeryExample() as any, {
+
+describe('carExample', async () => {
+  it('should be a car example', async () => {
+    const carExampleHashed = hsh(carExample() as any, {
       updateExistingHashes: true,
       throwOnWrongHashes: false,
     });
-    await expectGolden('example/bakery-example.json').toBe(bakeryExampleHashed);
+    await expectGolden('example/cars-example.json').toBe(carExampleHashed);
   });
 });

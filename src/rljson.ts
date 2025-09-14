@@ -6,22 +6,19 @@
 
 import { Json } from '@rljson/json';
 
-import { BuffetsTable } from './content/buffet.ts';
-import { CakesTable } from './content/cake.ts';
-import { IngredientsTable } from './content/ingredients.ts';
-import { LayersTable } from './content/layer.ts';
-import { RevisionsTable } from './content/revision.ts';
-import { SliceIdsTable } from './content/slice-ids.ts';
+import { ComponentsTable } from './content/components.ts';
+import { Layer, LayerRef } from './content/layers.ts';
+import { Stack } from './content/stack.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
 import { Ref, TableKey } from './typedefs.ts';
+
 
 // .............................................................................
 export const reservedFieldNames = ['_data'];
 
 export const reservedTableKeys = [
   '_hash',
-  'sliceIds',
   'tableCfgs',
   'reverseRefs',
   'revisions',
@@ -32,12 +29,9 @@ export const reservedTableKeys = [
  * One of the supported Rljson table types
  */
 export type TableType =
-  | BuffetsTable
-  | IngredientsTable<any>
-  | LayersTable
-  | SliceIdsTable
-  | CakesTable
-  | RevisionsTable;
+  | ComponentsTable<Json>
+  | Layer<{ [key: string]: LayerRef }>
+  | Stack<{ [key: string]: LayerRef }>;
 
 // .............................................................................
 /** The rljson data format */
@@ -53,11 +47,6 @@ export type RljsonPrivate = {
    * The hash of the Rljson object
    */
   _hash: string;
-
-  /**
-   * Contains id sets used accross the Rljson object
-   */
-  _idSet?: SliceIdsTable;
 
   /**
    * References that are not part of the Rljson object

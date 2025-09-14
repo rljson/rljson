@@ -9,16 +9,12 @@ import { Json } from '@rljson/json';
 
 import { describe, expect, it } from 'vitest';
 
-import { CakesTable } from '../../src/content/cake.ts';
-import { Layer, LayersTable } from '../../src/content/layer.ts';
 import { ColumnCfg, TableCfg } from '../../src/content/table-cfg.ts';
 import { Example } from '../../src/example.ts';
 import { Rljson, RljsonPrivate } from '../../src/rljson.ts';
-import {
-  BaseValidator,
-  isValidFieldName,
-} from '../../src/validate/base-validator.ts';
+import { BaseValidator, isValidFieldName } from '../../src/validate/base-validator.ts';
 import { Errors } from '../../src/validate/validate.ts';
+
 
 describe('BaseValidator', async () => {
   const validate = (rljson: any): Errors => {
@@ -432,7 +428,7 @@ describe('BaseValidator', async () => {
 
         const tableCfg = hip<TableCfg>({
           key: 'tableOne',
-          type: 'ingredients',
+          type: 'components',
           columns,
           isHead: config.isHead,
           isRoot: config.isRoot,
@@ -574,7 +570,7 @@ describe('BaseValidator', async () => {
 
         const tableCfg = hip<TableCfg>({
           key: 'tableOne',
-          type: 'ingredients',
+          type: 'components',
           columns,
           isHead: config.isHead,
           isRoot: config.isRoot,
@@ -692,7 +688,7 @@ describe('BaseValidator', async () => {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
         });
-        const tableCfg: TableCfg = rljson.tableCfgs._data[0];
+        const tableCfg: TableCfg = rljson.tableCfgs._data[0] as TableCfg;
 
         expect(validate(rljson)).toEqual({
           hasErrors: true,
@@ -803,7 +799,7 @@ describe('BaseValidator', async () => {
         expect(tableCfgRef).toBe(tableCfg._hash);
 
         // Write a string into a number column
-        const row = rljson.table._data[0];
+        const row = rljson.table._data[0] as Json;
         row.int = 'string';
         row.double = true;
         hip(tableCfg, {
@@ -894,13 +890,14 @@ describe('BaseValidator', async () => {
 
       it('returns an error when a base ref is not found', () => {
         const rljson = Example.broken.layers.missingBase();
-        const layer = rljson.layers._data[1];
+        const layer = rljson.valueStack._data[1];
+
         expect(validate(rljson)).toEqual({
           layerBasesNotFound: {
             brokenLayers: [
               {
                 brokenLayer: layer._hash,
-                layersTable: 'layers',
+                layersTable: 'valueStack',
                 missingBaseLayer: 'MISSING',
               },
             ],
@@ -910,367 +907,48 @@ describe('BaseValidator', async () => {
         });
       });
     });
+  });
 
-    describe.skip('layerSliceIdsTableNotFound()', () => {
-      it('returns an error when an reference sliceIds table is not found', () => {
-        const rljson = Example.ok.complete();
-        const layer0 = rljson.layers._data[0];
-        const layer1 = rljson.layers._data[1];
-        delete rljson.sliceIds;
-        hip(rljson, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        expect(validate(rljson)).toEqual({
-          layerSliceIdsTableNotFound: {
-            brokenLayers: [
-              {
-                layerHash: layer0._hash,
-                layersTable: 'layers',
-                missingSliceIdsTable: 'sliceIds',
-              },
-              {
-                layerHash: layer1._hash,
-                layersTable: 'layers',
-                missingSliceIdsTable: 'sliceIds',
-              },
-            ],
-            error: 'Id sets tables are missing',
-          },
-          hasErrors: true,
-        });
-      });
-    });
-
-    describe.skip('layerSliceIdsRowNotFound()', () => {
-      it('returns an error when idSetRef is not found', () => {
-        const rljson = Example.broken.layers.missingSliceIdSet();
-        const layer = (rljson.layers as LayersTable)._data[1];
-        expect(layer.sliceIdsTableRow).toBe('MISSING1');
-
-        expect(validate(rljson)).toEqual({
-          layerSliceIdsRowNotFound: {
-            brokenLayers: [
-              {
-                layerHash: layer._hash,
-                layersTable: 'layers',
-                missingSliceIdsRow: 'MISSING1',
-              },
-            ],
-            error: 'Id sets of layers are missing',
-          },
-          hasErrors: true,
-        });
-      });
-
-      it('return no error, when no idSetRef is defined', () => {
-        // Set idSet to undefined
-        const result = Example.ok.complete();
-        expect(validate(result)).toEqual({
-          hasErrors: false,
-        });
-
-        // delete idSet reference
-        const layer1 = result.layers._data[1];
-        delete layer1.sliceIds;
-        hip(layer1, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        // Update cake layers
-        const cake = result.cakes._data[0];
-        cake.layers['layer1'] = layer1._hash;
-        hip(cake, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        // Update buffet slices
-        const buffet = result.buffets._data[0];
-        buffet.items[0].ref = cake._hash;
-        buffet.items[1].ref = layer1._hash;
-
-        hip(result, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        // Validate -> no error
-        expect(validate(result)).toEqual({
-          hasErrors: false,
-        });
-      });
-    });
-
-    describe.skip('layerIngredientAssignmentsNotFound', () => {
-      it('returns an error when the ingredients table is not foun', () => {
-        const rljson = Example.broken.layers.missingAssignedIngredientTable();
-        const layer0 = rljson.layers._data[0];
-        const layer1 = rljson.layers._data[1];
-
-        expect(validate(rljson)).toEqual({
-          layerIngredientTablesNotFound: {
-            layers: [
-              {
-                brokenLayer: layer0._hash,
-                missingIngredientTable: 'ingredients',
-                layersTable: 'layers',
-              },
-              {
-                brokenLayer: layer1._hash,
-                layersTable: 'layers',
-                missingIngredientTable: 'ingredients',
-              },
-            ],
-            error: 'Layer ingredient tables do not exist',
-          },
-          hasErrors: true,
-        });
-      });
-
-      it('returns an error when an assigned ingredient is not found', () => {
-        const rljsonOk = Example.ok.complete();
-        const ingredient = rljsonOk.ingredients._data[1];
-
-        const rljson = Example.broken.layers.missingAssignedIngredient();
-        const layer0 = rljson.layers._data[0];
-        const layer1 = rljson.layers._data[1];
-
-        expect(validate(rljson)).toEqual({
-          layerIngredientAssignmentsNotFound: {
-            brokenAssignments: [
-              {
-                brokenAssignment: 'id1',
-                brokenLayer: layer0._hash,
-                layersTable: 'layers',
-                missingIngredient: 'mv6w8rID8lQxLsje1EHQMY',
-                referencedIngredientTable: 'ingredients',
-              },
-              {
-                brokenLayer: layer1._hash,
-                brokenAssignment: 'id1',
-                missingIngredient: ingredient._hash,
-                referencedIngredientTable: 'ingredients',
-                layersTable: 'layers',
-              },
-            ],
-            error: 'Layer ingredient assignments are broken',
-          },
-          hasErrors: true,
-        });
-      });
-    });
-
-    describe.skip('layerAssignmentsDoNotMatchSliceIds', () => {
-      it('returns no errors when all assignments match', () => {
+  describe('stack errors', () => {
+    describe('stackReferencesNotFound()', () => {
+      it('returns no errors when all references are set correctly', () => {
         expect(validate(Example.ok.complete())).toEqual({
           hasErrors: false,
         });
       });
 
-      it('returns an error when the assignments do not match', () => {
-        const rljson = Example.ok.complete();
-        const layer = rljson.layers._data[1] as Layer;
-        delete layer.assign.id0;
-        delete layer.assign.id1;
-        hip(rljson, {
-          throwOnWrongHashes: false,
-          updateExistingHashes: true,
-        });
+      it('returns an error if an corresponding stack is missing', () => {
+        const rljson = Example.broken.stack.missingCorrespondingStack();
+        const layer = rljson.indexLayer;
 
         expect(validate(rljson)).toEqual({
-          hasErrors: true,
-          layerAssignmentsDoNotMatchSliceIds: {
-            error: 'Layers have missing assignments',
-            layers: [
+          stackReferencesNotFound: {
+            missingStacks: [
               {
-                brokenLayer: layer._hash,
-                layersTable: 'layers',
-                unassignedSliceIds: ['id0', 'id1'],
+                brokenLayer: 'indexLayer',
+                missingLayerInStack: layer._hash,
+                stack: 'repository',
               },
             ],
-          },
-        });
-      });
-    });
-  });
-
-  describe('cake errors', () => {
-    describe.skip('cakeSliceIdsNotFound', () => {
-      it('returns no errors when all sliceIds are found', () => {
-        expect(validate(Example.ok.complete())).toEqual({
-          hasErrors: false,
-        });
-      });
-
-      it('returns no errors when no sliceIds is specified', () => {
-        const rljson = Example.ok.complete();
-        delete rljson.cakes._data[0].sliceIds;
-        hip(rljson, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        // Update buffet slices
-        const buffet = rljson.buffets._data[0];
-        buffet.items[0].ref = rljson.cakes._data[0]._hash;
-        buffet.items[1].ref = rljson.layers._data[1]._hash;
-        hip(rljson, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        // Validate
-        expect(validate(rljson)).toEqual({
-          hasErrors: false,
-        });
-      });
-
-      it('returns an error when slice ids are not found', () => {
-        const rljson = Example.broken.cakes.missingSliceIdSet();
-        const cake = rljson.cakes._data[0];
-        expect(validate(rljson)).toEqual({
-          cakeSliceIdsNotFound: {
-            brokenCakes: [
-              {
-                brokenCake: cake._hash,
-                cakeTable: 'cakes',
-                missingSliceIdsRow: 'MISSING',
-              },
-            ],
-            error: 'Id sets of cakes are missing',
+            error: 'For given Layer there is no referencing Stack',
           },
           hasErrors: true,
         });
       });
-    });
 
-    describe.skip('cakeSliceIdsTableNotFound', () => {
-      it('returns an error when an referenced sliceIds is not found', () => {
-        const rljson = Example.ok.complete();
-        const cake = (rljson.cakes as CakesTable)._data[0];
-        cake.sliceIdsTable = 'MISSING';
-        hip(rljson, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
+      it('returns an error if an layer is missing on corresponding stacks', () => {
+        const rljson = Example.broken.stack.missingCorrespondingLayer();
 
         expect(validate(rljson)).toEqual({
-          cakeSliceIdsTableNotFound: {
-            brokenCakes: [
+          stackReferencesNotFound: {
+            missingLayers: [
               {
-                brokenCake: cake._hash,
-                cakeTable: 'cakes',
-                missingSliceIdsTable: 'MISSING',
+                brokenLayer: 'indexLayer',
+                missingLayer: 'MISSING',
+                stack: 'repository',
               },
             ],
-            error: 'Id sets tables referenced by cakes are missing',
-          },
-          hasErrors: true,
-        });
-      });
-    });
-
-    describe.skip('cakeLayerTablesNotFound', () => {
-      it('returns an error when the layer table is not found', () => {
-        const rljson = Example.broken.cakes.missingLayersTable();
-        const cake = rljson.cakes._data[0];
-        expect(validate(rljson)).toEqual({
-          cakeLayerTablesNotFound: {
-            brokenCakes: [
-              {
-                brokenCake: cake._hash,
-                cakeTable: 'cakes',
-                missingLayersTable: 'MISSING',
-              },
-            ],
-            error: 'Layer tables of cakes are missing',
-          },
-          hasErrors: true,
-        });
-      });
-    });
-
-    describe.skip('cakeLayersNotFound', () => {
-      it('returns an error when the layer of a layer is not found', () => {
-        const rljson = Example.broken.cakes.missingCakeLayer();
-        const cake = rljson.cakes._data[0];
-        expect(validate(rljson)).toEqual({
-          cakeLayersNotFound: {
-            brokenCakes: [
-              {
-                brokenCake: cake._hash,
-                brokenLayerName: 'layer0',
-                cakeTable: 'cakes',
-                layersTable: 'layers',
-                missingLayer: 'MISSING0',
-              },
-              {
-                brokenCake: cake._hash,
-                brokenLayerName: 'layer1',
-                cakeTable: 'cakes',
-                layersTable: 'layers',
-                missingLayer: 'MISSING1',
-              },
-            ],
-            error: 'Layer layers of cakes are missing',
-          },
-          hasErrors: true,
-        });
-      });
-    });
-  });
-
-  describe('buffet errors', () => {
-    describe.skip('buffetReferencedTablesNotFound', () => {
-      it('returns an error when the referenced table is not found', () => {
-        const rljson = Example.broken.buffets.missingTable();
-        const buffet = rljson.buffets._data[0];
-
-        expect(validate(rljson)).toEqual({
-          buffetReferencedTablesNotFound: {
-            brokenBuffets: [
-              {
-                brokenBuffet: buffet._hash,
-                buffetTable: 'buffets',
-                missingItemTable: 'MISSING0',
-              },
-              {
-                brokenBuffet: buffet._hash,
-                buffetTable: 'buffets',
-                missingItemTable: 'MISSING1',
-              },
-            ],
-            error: 'Referenced tables of buffets are missing',
-          },
-          hasErrors: true,
-        });
-      });
-    });
-
-    describe.skip('buffetReferencedItemsNotFound', () => {
-      it('returns an error when the referenced table is not found', () => {
-        const rljson = Example.broken.buffets.missingItems();
-        const buffet = rljson.buffets._data[0];
-        expect(validate(rljson)).toEqual({
-          buffetReferencedItemsNotFound: {
-            brokenItems: [
-              {
-                brokenBuffet: buffet._hash,
-                buffetTable: 'buffets',
-                itemTable: 'cakes',
-                missingItem: 'MISSING0',
-              },
-              {
-                brokenBuffet: buffet._hash,
-                buffetTable: 'buffets',
-                itemTable: 'layers',
-                missingItem: 'MISSING1',
-              },
-            ],
-            error: 'Referenced items of buffets are missing',
+            error: 'Layers in stacks are missing',
           },
           hasErrors: true,
         });

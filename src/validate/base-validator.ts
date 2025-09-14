@@ -7,15 +7,14 @@
 import { hsh } from '@rljson/hash';
 import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 
-import { BuffetsTable } from '../content/buffet.ts';
-import { CakesTable } from '../content/cake.ts';
-import { LayersTable } from '../content/layer.ts';
-import { SliceIds } from '../content/slice-ids.ts';
+import { LayerRef } from '../content/layers.ts';
+import { Stack } from '../content/stack.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
 
 import { Errors, Validator } from './validate.ts';
+
 
 // .............................................................................
 export interface BaseErrors extends Errors {
@@ -118,18 +117,9 @@ class _BaseValidator {
 
       // Check layers
       () => this._layerBasesNotFound(),
-      () => this._layerSliceIdsTableNotFound(),
-      () => this._layerSliceIdsRowNotFound(),
-      () => this._layerIngredientAssignmentsNotFound(),
-      () => this._layerAssignmentsDoNotMatchSliceIds(),
 
-      // Check cakes
-      () => this._cakeSliceIdsTableNotFound(),
-      () => this._cakeSliceIdsNotFound(),
-      () => this._cakeLayerTablesNotFound(),
-
-      // Check buffets
-      () => this._buffetReferencedTableNotFound(),
+      // Check stacks
+      () => this._stackReferencesNotFound(),
     ];
 
     for (const step of steps) {
@@ -453,7 +443,7 @@ class _BaseValidator {
           const columnConfig = columns.find((e) => e.key === columnKey)!;
 
           // Ignore null or undefined values
-          const value = row[columnKey];
+          const value = (row as Record<string, string>)[columnKey];
           if (value == null || value == undefined) {
             continue;
           }
@@ -671,7 +661,9 @@ class _BaseValidator {
     iterateTablesSync(this.rljson, (tableKey, table) => {
       const layersIndexed = this.rljsonIndexed[tableKey];
 
-      const layersTable: LayersTable = table as LayersTable;
+      const layersTable: Stack<{ [key: string]: LayerRef }> = table as Stack<{
+        [key: string]: LayerRef;
+      }>;
       for (const layer of layersTable._data) {
         const baseRef = layer.base;
         if (!baseRef) {
@@ -697,348 +689,87 @@ class _BaseValidator {
     }
   }
 
-  /* v8 ignore start */
-  private _layerSliceIdsTableNotFound(): void {
-    const brokenLayers: any[] = [];
+  private _stackReferencesNotFound(): void {
+    const missingStacks: any[] = [];
+    const missingLayerReferencesInOtherStacks: any[] = [];
+    const missingLayers: any[] = [];
 
     iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'layers') {
+      if (table._type !== 'stack') {
         return;
       }
 
-      const layersTable: LayersTable = table as LayersTable;
-      for (const layer of layersTable._data) {
-        const sliceIdsTable = this.rljsonIndexed[layer.sliceIdsTable];
+      const stack: Stack<{ [key: string]: LayerRef }> = table as Stack<{
+        [key: string]: LayerRef;
+      }>;
 
-        if (!sliceIdsTable) {
-          brokenLayers.push({
-            layersTable: tableKey,
-            layerHash: layer._hash,
-            missingSliceIdsTable: layer.sliceIdsTable,
-          });
-        }
-      }
-    });
-
-    if (brokenLayers.length > 0) {
-      this.errors.layerSliceIdsTableNotFound = {
-        error: 'Id sets tables are missing',
-        brokenLayers,
-      };
-    }
-  }
-
-  private _layerSliceIdsRowNotFound(): void {
-    const brokenLayers: any[] = [];
-
-    iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'layers') {
-        return;
-      }
-
-      const layersTable: LayersTable = table as LayersTable;
-      for (const layer of layersTable._data) {
-        const sliceIdsTableName = layer.sliceIdsTable as string;
-        const sliceIdsTable = this.rljsonIndexed[sliceIdsTableName];
-
-        const idSet = sliceIdsTable._data[layer.sliceIdsTableRow];
-        if (!idSet) {
-          brokenLayers.push({
-            layersTable: tableKey,
-            layerHash: layer._hash,
-            missingSliceIdsRow: layer.sliceIdsTableRow,
-          });
-        }
-      }
-    });
-
-    if (brokenLayers.length > 0) {
-      this.errors.layerSliceIdsRowNotFound = {
-        error: 'Id sets of layers are missing',
-        brokenLayers,
-      };
-    }
-  }
-
-  private _layerIngredientAssignmentsNotFound(): void {
-    const missingIngredientTables: any[] = [];
-    const brokenAssignments: any[] = [];
-
-    iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'layers') {
-        return;
-      }
-
-      const layersTable: LayersTable = table as LayersTable;
-      for (const layer of layersTable._data) {
-        const ingredientTableKey = layer.ingredientsTable;
-        const ingredientsTable = this.rljsonIndexed[ingredientTableKey];
-        if (!ingredientsTable) {
-          missingIngredientTables.push({
-            brokenLayer: layer._hash,
-            layersTable: tableKey,
-            missingIngredientTable: ingredientTableKey,
-          });
-          continue;
-        }
-
-        const assignments = layer.assign;
-        for (const sliceId in assignments) {
-          if (sliceId.startsWith('_')) {
+      for (const stackItem of stack._data) {
+        for (const layerKey in stackItem) {
+          if (layerKey.startsWith('_') || layerKey === 'base') {
             continue;
           }
 
-          const ingredientHash = assignments[sliceId];
-          if (!ingredientsTable._data[ingredientHash]) {
-            brokenAssignments.push({
-              layersTable: tableKey,
-              brokenLayer: layer._hash,
-              referencedIngredientTable: ingredientTableKey,
-              brokenAssignment: sliceId,
-              missingIngredient: ingredientHash,
+          const layerHash = stackItem[layerKey];
+          const stackKey = layerKey.replace('Layer', 'Stack');
+
+          if (stackKey !== tableKey) {
+            //This is not the lowest Stack, search for referencing Stack and check if layer exists there
+            const referencingStack = this.rljson[stackKey];
+            if (!referencingStack) {
+              missingStacks.push({
+                stack: tableKey,
+                brokenLayer: layerKey,
+                missingLayerInStack: layerHash,
+              });
+              continue;
+            }
+
+            const isInReferencingStack = referencingStack._data
+              .map((l) => (l as Record<string, LayerRef>)[layerKey])
+              .includes(layerHash);
+            if (!isInReferencingStack) {
+              missingLayerReferencesInOtherStacks.push({
+                stack: tableKey,
+                brokenLayer: layerKey,
+                missingLayerInStack: layerHash,
+              });
+            }
+          }
+
+          if (this.rljson[layerKey]._hash !== layerHash) {
+            missingLayers.push({
+              stack: tableKey,
+              brokenLayer: layerKey,
+              missingLayer: layerHash,
             });
           }
         }
       }
     });
 
-    if (missingIngredientTables.length > 0) {
-      this.errors.layerIngredientTablesNotFound = {
-        error: 'Layer ingredient tables do not exist',
-        layers: missingIngredientTables,
+    if (missingStacks.length > 0) {
+      this.errors.stackReferencesNotFound = {
+        error: 'For given Layer there is no referencing Stack',
+        missingStacks: missingStacks,
       };
     }
 
-    if (brokenAssignments.length > 0) {
-      this.errors.layerIngredientAssignmentsNotFound = {
-        error: 'Layer ingredient assignments are broken',
-        brokenAssignments: brokenAssignments,
+    if (missingLayerReferencesInOtherStacks.length > 0) {
+      this.errors.stackReferencesNotFound = {
+        error: 'Layers in stacks are missing in referencing Stacks',
+        missingLayerReferencesInOtherStacks:
+          missingLayerReferencesInOtherStacks,
       };
     }
-  }
 
-  private _layerAssignmentsDoNotMatchSliceIds(): void {
-    const layersWithMissingAssignments: {
-      brokenLayer: string;
-      layersTable: string;
-      unassignedSliceIds: string[];
-    }[] = [];
-
-    iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'layers') {
-        return;
-      }
-
-      const layersTable: LayersTable = table as LayersTable;
-      for (const layer of layersTable._data) {
-        const sliceIdsTable = this.rljsonIndexed[layer.sliceIdsTable];
-        const sliceIdsRow = sliceIdsTable._data[
-          layer.sliceIdsTableRow
-        ] as SliceIds;
-        const sliceIds = sliceIdsRow.add;
-
-        const sliceIdsInLayer = Object.keys(layer.assign);
-        const unassignedSliceIds: string[] = [];
-
-        for (const expectedSliceId of sliceIds) {
-          if (sliceIdsInLayer.indexOf(expectedSliceId) === -1) {
-            unassignedSliceIds.push(expectedSliceId);
-          }
-        }
-
-        if (unassignedSliceIds.length) {
-          layersWithMissingAssignments.push({
-            brokenLayer: layer._hash as string,
-            layersTable: tableKey,
-            unassignedSliceIds: unassignedSliceIds,
-          });
-          continue;
-        }
-      }
-    });
-
-    if (layersWithMissingAssignments.length > 0) {
-      this.errors.layerAssignmentsDoNotMatchSliceIds = {
-        error: 'Layers have missing assignments',
-        layers: layersWithMissingAssignments,
+    if (missingLayers.length > 0) {
+      this.errors.stackReferencesNotFound = {
+        error: 'Layers in stacks are missing',
+        missingLayers: missingLayers,
       };
     }
   }
 
-  private _cakeSliceIdsTableNotFound(): void {
-    const brokenCakes: any[] = [];
-
-    iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'cakes') {
-        return;
-      }
-
-      const cakesTable: CakesTable = table as CakesTable;
-      for (const cake of cakesTable._data) {
-        const sliceIdsTable = this.rljsonIndexed[cake.sliceIdsTable];
-
-        if (!sliceIdsTable) {
-          brokenCakes.push({
-            cakeTable: tableKey,
-            brokenCake: cake._hash,
-            missingSliceIdsTable: cake.sliceIdsTable,
-          });
-        }
-      }
-    });
-
-    if (brokenCakes.length > 0) {
-      this.errors.cakeSliceIdsTableNotFound = {
-        error: 'Id sets tables referenced by cakes are missing',
-        brokenCakes,
-      };
-    }
-  }
-
-  private _cakeSliceIdsNotFound(): void {
-    const brokenCakes: any[] = [];
-
-    iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'cakes') {
-        return;
-      }
-
-      const cakesTable: CakesTable = table as CakesTable;
-      for (const cake of cakesTable._data) {
-        const sliceIdsTableName = cake.sliceIdsTable as string;
-        const sliceIdsTable = this.rljsonIndexed[sliceIdsTableName];
-
-        const sliceIdValues = sliceIdsTable._data[cake.sliceIdsRow];
-        if (!sliceIdValues) {
-          brokenCakes.push({
-            cakeTable: tableKey,
-            brokenCake: cake._hash,
-            missingSliceIdsRow: cake.sliceIdsRow,
-          });
-        }
-      }
-    });
-
-    if (brokenCakes.length > 0) {
-      this.errors.cakeSliceIdsNotFound = {
-        error: 'Id sets of cakes are missing',
-        brokenCakes,
-      };
-    }
-  }
-
-  private _cakeLayerTablesNotFound(): void {
-    const missingLayerTables: any[] = [];
-    const missingCakeLayers: any[] = [];
-
-    iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'cakes') {
-        return;
-      }
-
-      const cakesTable: CakesTable = table as CakesTable;
-      for (const cake of cakesTable._data) {
-        const layersTableKey = cake.layersTable;
-        const layersTable = this.rljsonIndexed[layersTableKey];
-        if (!layersTable) {
-          missingLayerTables.push({
-            cakeTable: tableKey,
-            brokenCake: cake._hash,
-            missingLayersTable: layersTableKey,
-          });
-
-          continue;
-        }
-
-        for (const layerKey in cake.layers) {
-          if (layerKey.startsWith('_')) {
-            continue;
-          }
-
-          const layerRef = cake.layers[layerKey];
-          const layer = layersTable._data[layerRef];
-
-          if (!layer) {
-            missingCakeLayers.push({
-              cakeTable: tableKey,
-              brokenCake: cake._hash,
-              brokenLayerName: layerKey,
-              layersTable: layersTableKey,
-              missingLayer: layerRef,
-            });
-          }
-        }
-      }
-    });
-
-    if (missingLayerTables.length > 0) {
-      this.errors.cakeLayerTablesNotFound = {
-        error: 'Layer tables of cakes are missing',
-        brokenCakes: missingLayerTables,
-      };
-    }
-
-    if (missingCakeLayers.length > 0) {
-      this.errors.cakeLayersNotFound = {
-        error: 'Layer layers of cakes are missing',
-        brokenCakes: missingCakeLayers,
-      };
-    }
-  }
-
-  private _buffetReferencedTableNotFound(): void {
-    const missingTables: Json[] = [];
-    const missingItems: Json[] = [];
-
-    iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'buffets') {
-        return;
-      }
-
-      const buffetsTable: BuffetsTable = table as BuffetsTable;
-      for (const buffet of buffetsTable._data) {
-        for (const item of buffet.items) {
-          // Table available?
-          const itemTableKey = item.table;
-          const itemTable = this.rljsonIndexed[itemTableKey];
-          if (!itemTable) {
-            missingTables.push({
-              buffetTable: tableKey,
-              brokenBuffet: buffet._hash,
-              missingItemTable: itemTableKey,
-            });
-            continue;
-          }
-
-          // Referenced item available?
-          const ref = item.ref;
-          const referencedItem = itemTable._data[ref];
-          if (!referencedItem) {
-            missingItems.push({
-              buffetTable: tableKey,
-              brokenBuffet: buffet._hash,
-              itemTable: itemTableKey,
-              missingItem: ref,
-            });
-          }
-        }
-      }
-    });
-
-    if (missingTables.length > 0) {
-      this.errors.buffetReferencedTablesNotFound = {
-        error: 'Referenced tables of buffets are missing',
-        brokenBuffets: missingTables,
-      };
-    }
-
-    if (missingItems.length > 0) {
-      this.errors.buffetReferencedItemsNotFound = {
-        error: 'Referenced items of buffets are missing',
-        brokenItems: missingItems,
-      };
-    }
-  }
   /* v8 ignore end */
 }
 

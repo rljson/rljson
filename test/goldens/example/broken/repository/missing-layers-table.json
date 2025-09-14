@@ -68,18 +68,16 @@
     ],
     "_hash": "CXExbaWZ5TgBHkkSGCqafE"
   },
-  "indexStack": {
-    "_type": "stack",
+  "indexLayerTable": {
     "_data": [
       {
         "indexLayer": "PX2U1XssGyhFGIE2tFk6Z8",
         "_hash": "Y7ejwKD9ZJH7TunvmB5Yhn"
       }
     ],
-    "_hash": "xZE6UC7NS8a4QNOWsG04LE"
+    "_hash": "8nEyXY21g2ju2zfqqvlCha"
   },
-  "valueStack": {
-    "_type": "stack",
+  "valueLayerTable": {
     "_data": [
       {
         "valueLayer": "CXExbaWZ5TgBHkkSGCqafE",
@@ -91,17 +89,16 @@
         "_hash": "HMuQLBzhzwAHXoq-Uvr_Nq"
       }
     ],
-    "_hash": "aB-E5Oj6-gzUmJKndKyJxT"
+    "_hash": "p9FSaB73ReG9O1d3T2E2bT"
   },
   "repository": {
-    "_type": "stack",
     "_data": [
       {
-        "indexLayer": "PX2U1XssGyhFGIE2tFk6Z8",
-        "valueLayer": "CXExbaWZ5TgBHkkSGCqafE",
-        "_hash": "2SF27SeZLz9ZK2HzMy7Dgs"
+        "indexLayer": "Y7ejwKD9ZJH7TunvmB5Yhn",
+        "valueLayer": "MISSING",
+        "_hash": "Snm4D-K8pQgMjVo1UgAt6W"
       }
     ],
-    "_hash": "7ZvN7Yq12ff1RVzE6X9xtq"
+    "_hash": "vZ5poeDGUSAJu_Q4MvuHBE"
   }
 }

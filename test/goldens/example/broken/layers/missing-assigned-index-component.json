@@ -30,13 +30,9 @@
       {
         "indexRef": "FKNu82tgz740WgwYMIhvQJ",
         "_hash": "fPIQjBcHHcVmaISdG4Vwtg"
-      },
-      {
-        "indexRef": "WBGWf1QNMA0kmrMK5oE1mn",
-        "_hash": "DsrXOx9tJrXnAiQnFEhxcS"
       }
     ],
-    "_hash": "PX2U1XssGyhFGIE2tFk6Z8"
+    "_hash": "GA6bUkt7LCbHiNksrkENVf"
   },
   "valueLayer": {
     "_data": [
@@ -103,5 +99,6 @@
       }
     ],
     "_hash": "7ZvN7Yq12ff1RVzE6X9xtq"
-  }
+  },
+  "_hash": "6HXX_1kJWD8iWfEsXmtBLF"
 }
