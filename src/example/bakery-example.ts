@@ -16,18 +16,18 @@ import { Rljson } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
 
 // .............................................................................
-export interface Component extends Json {
+export interface Ingredient extends Json {
   name: string;
   amountUnit: 'g' | 'ml';
   nutritionalValuesRef: Ref;
 }
 
-export interface RecipeComponent extends Json {
-  componentsRef: string;
+export interface RecipIngredient extends Json {
+  ingredientsRef: string;
   quantity: number;
 }
 
-export type ComponentsTypeTable = ComponentsTable<Component>;
+export type IngredientsTypeTable = ComponentsTable<Ingredient>;
 
 export interface NutritionalValues extends Json {
   energy: number;
@@ -43,8 +43,8 @@ export interface Bakery extends Rljson {
   slices: SliceIdsTable;
   recipes: LayersTable;
   recipeLayers: LayersTable;
-  recipeComponents: ComponentsTable<RecipeComponent>;
-  components: ComponentsTable<Component>;
+  recipeIngredients: ComponentsTable<RecipIngredient>;
+  ingredients: ComponentsTable<Ingredient>;
   nutritionalValues: ComponentsTable<NutritionalValues>;
 }
 
@@ -73,7 +73,7 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const components = hip<ComponentsTable<any>>({
+  const ingredients = hip<ComponentsTable<any>>({
     _type: 'components',
     _data: [
       {
@@ -86,12 +86,12 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const recipeComponents = hip<ComponentsTable<any>>({
+  const recipeIngredients = hip<ComponentsTable<any>>({
     _type: 'components',
     _data: [
       {
         id: 'flour',
-        componentsRef: components._data[0]._hash as string,
+        ingredientsRef: ingredients._data[0]._hash as string,
         quantity: 500,
         _hash: '',
       },
@@ -109,7 +109,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const componentTypes = hip<SliceIdsTable>({
+  const ingredientTypes = hip<SliceIdsTable>({
     _type: 'sliceIds',
     _data: [
       {
@@ -124,11 +124,11 @@ export const bakeryExample = (): Bakery => {
     _data: [
       {
         id: 'tastyCake',
-        componentsTable: 'recipeComponents',
-        sliceIdsTable: 'componentTypes',
-        sliceIdsTableRow: componentTypes._data[0]._hash as string,
+        componentsTable: 'recipeIngredients',
+        sliceIdsTable: 'ingredientTypes',
+        sliceIdsTableRow: ingredientTypes._data[0]._hash as string,
         add: {
-          flour: recipeComponents._data[0]._hash as string,
+          flour: recipeIngredients._data[0]._hash as string,
         },
         _hash: '',
       },
@@ -185,11 +185,11 @@ export const bakeryExample = (): Bakery => {
     buffets,
     cakes,
     slices,
-    componentTypes,
+    ingredientTypes,
     recipeLayers,
     recipes,
-    recipeComponents,
-    components,
+    recipeIngredients,
+    ingredients: ingredients,
     nutritionalValues,
   };
 

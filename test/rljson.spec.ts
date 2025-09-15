@@ -49,11 +49,11 @@ describe('Rljson', () => {
         'buffets',
         'cakes',
         'slices',
-        'componentTypes',
+        'ingredientTypes',
         'recipeLayers',
         'recipes',
-        'recipeComponents',
-        'components',
+        'recipeIngredients',
+        'ingredients',
         'nutritionalValues',
       ]);
     });
@@ -74,11 +74,11 @@ describe('Rljson', () => {
         'buffets',
         'cakes',
         'slices',
-        'componentTypes',
+        'ingredientTypes',
         'recipeLayers',
         'recipes',
-        'recipeComponents',
-        'components',
+        'recipeIngredients',
+        'ingredients',
         'nutritionalValues',
       ]);
     });
@@ -116,8 +116,8 @@ describe('Rljson', () => {
           tableKey: 'slices',
         },
         {
-          error: new Error('Test error: componentTypes'),
-          tableKey: 'componentTypes',
+          error: new Error('Test error: ingredientTypes'),
+          tableKey: 'ingredientTypes',
         },
         {
           error: new Error('Test error: recipeLayers'),
@@ -128,12 +128,12 @@ describe('Rljson', () => {
           tableKey: 'recipes',
         },
         {
-          error: new Error('Test error: recipeComponents'),
-          tableKey: 'recipeComponents',
+          error: new Error('Test error: recipeIngredients'),
+          tableKey: 'recipeIngredients',
         },
         {
-          error: new Error('Test error: components'),
-          tableKey: 'components',
+          error: new Error('Test error: ingredients'),
+          tableKey: 'ingredients',
         },
         {
           error: new Error('Test error: nutritionalValues'),
