@@ -9,7 +9,7 @@ import { exampleJsonObject } from '@rljson/json';
 
 import { BuffetsTable } from './content/buffet.ts';
 import { Cake, CakesTable } from './content/cake.ts';
-import { IngredientsTable } from './content/ingredients.ts';
+import { ComponentsTable } from './content/components.ts';
 import { Layer, LayersTable } from './content/layer.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { ColumnCfg, TablesCfgTable } from './content/table-cfg.ts';
@@ -45,7 +45,7 @@ export class Example {
             version: 0,
             _hash: '',
             key: 'table',
-            type: 'ingredients',
+            type: 'components',
             isHead: false,
             isRoot: false,
             isShared: true,
@@ -160,19 +160,19 @@ export class Example {
         ],
       });
 
-      const ingredients = hip<IngredientsTable<any>>({
+      const components = hip<ComponentsTable<any>>({
         _data: [{ a: '0' }, { a: '1' }],
       });
-      const ingredient0 = ingredients._data[0];
-      const ingredient1 = ingredients._data[1];
+      const component0 = components._data[0];
+      const component1 = components._data[1];
 
       const layer0 = hip<Layer>({
         sliceIdsTable: 'sliceIds',
         sliceIdsTableRow: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        ingredientsTable: 'ingredients',
+        componentsTable: 'components',
         assign: {
-          id0: ingredient0._hash,
-          id1: ingredient1._hash,
+          id0: component0._hash,
+          id1: component1._hash,
         },
       });
 
@@ -180,10 +180,10 @@ export class Example {
         base: layer0._hash as string,
         sliceIdsTable: 'sliceIds',
         sliceIdsTableRow: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        ingredientsTable: 'ingredients',
+        componentsTable: 'components',
         assign: {
-          id0: ingredient0._hash,
-          id1: ingredient1._hash,
+          id0: component0._hash,
+          id1: component1._hash,
         },
       });
 
@@ -224,7 +224,7 @@ export class Example {
 
       return {
         sliceIds,
-        ingredients,
+        components,
         layers,
         cakes,
         buffets,
@@ -330,15 +330,15 @@ export class Example {
         });
       },
 
-      missingAssignedIngredientTable: (): Rljson => {
+      missingAssignedComponentTable: (): Rljson => {
         const result = Example.ok.complete();
-        delete result.ingredients; // Remove ingredients table
+        delete result.components; // Remove components table
         return result;
       },
 
-      missingAssignedIngredient: (): Rljson => {
+      missingAssignedComponent: (): Rljson => {
         const result = Example.ok.complete();
-        result.ingredients._data.splice(1, 2); // Remove an ingredient that is assigned
+        result.components._data.splice(1, 2); // Remove an component that is assigned
         return hip(result, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,

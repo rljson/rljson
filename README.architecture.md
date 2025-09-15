@@ -29,7 +29,7 @@ This document describes the architecture of the Rljson format.
   - [Hashes](#hashes)
   - [Linking Tables Using References](#linking-tables-using-references)
 - [Data Types](#data-types)
-  - [Ingredients](#ingredients)
+  - [Components](#components)
   - [SliceIds](#sliceids)
   - [Layer](#layer)
   - [Cake](#cake)
@@ -177,14 +177,14 @@ This reference structure enables automated denormalization of JSON data.
 Rljson provides several core data structures and table types to manage and
 synchronize large datasets.
 
-### Ingredients
+### Components
 
-`Ingredients` are the fundamental data concept. An `IngredientsTable` contains
-key-value pairs assigning values to ingredient names.
+`Components` are the fundamental data concept. An `ComponentsTable` contains
+key-value pairs assigning values to component names.
 
 ```json
 {
-  "ingredients": {
+  "components": {
     "_data": [
       {
         "name": "flour",
@@ -211,7 +211,7 @@ key-value pairs assigning values to ingredient names.
 ### SliceIds
 
 For efficient management of large layers, slice IDs are separated from their
-ingredients. This allows fetching IDs first and retrieving details later. The
+components. This allows fetching IDs first and retrieving details later. The
 following `SliceIds` define a set of three slice IDs:
 
 ```json
@@ -251,14 +251,14 @@ Derived `SliceIds` can be created by modifying an existing set:
 
 ### Layer
 
-Cake layers assign ingredients to slices.
+Cake layers assign components to slices.
 
 ```json
 {
   "layers": {
     "_data": [
       {
-        "ingredientsTable": "recipes",
+        "componentsTable": "recipes",
         "assign": {
           "slice0": "H8KK9vMjOxxQr_G_9XeDM-",
           "slice1": "H8KK9vMjOxxQr_G_9XeDM-"
@@ -274,7 +274,7 @@ Cake layers assign ingredients to slices.
 
 A `Cake` consists of layers of slices.
 All layers share the same slice structure, i.e. the same slice ids.
-Each layer assigns different ingredients to slices.
+Each layer assigns different components to slices.
 
 ```json
 {
@@ -299,7 +299,7 @@ Each layer assigns different ingredients to slices.
 ### Buffet
 
 A `Buffet` is a heterogeneous collection of different but related items,
-such as cakes, layers, or ingredients:
+such as cakes, layers, or components:
 
 ```json
 {

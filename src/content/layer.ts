@@ -10,7 +10,7 @@ import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { Ref, SliceId, TableKey } from '../typedefs.ts';
 
-import { IngredientsRef } from './ingredients.ts';
+import { ComponentRef } from './components.ts';
 import { SliceIdsRef } from './slice-ids.ts';
 
 // .............................................................................
@@ -21,7 +21,7 @@ export type LayerRef = Ref;
 
 // .............................................................................
 /**
- * A layer assigns ingredients to item ids
+ * A layer assigns components to item ids
  */
 export interface Layer extends Json {
   /**
@@ -40,15 +40,15 @@ export interface Layer extends Json {
   sliceIdsTableRow: SliceIdsRef;
 
   /**
-   * The table containing the ingredients that are assigned to the items
+   * The table containing the components that are assigned to the items
    * with the assign property below
    */
-  ingredientsTable: TableKey;
+  componentsTable: TableKey;
 
   /**
-   * Assign ingredients to each item of the layer.
+   * Assign components to each item of the layer.
    */
-  assign: Record<SliceId, IngredientsRef>;
+  assign: Record<SliceId, ComponentRef>;
 }
 
 // .............................................................................

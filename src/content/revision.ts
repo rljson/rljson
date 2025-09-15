@@ -35,7 +35,7 @@ export interface Revision extends Json {
 
   /**
    * The optional ID of the revisioned element.
-   * Can be used get all revisions of a specific ingredient.
+   * Can be used get all revisions of a specific component.
    */
   id?: string;
 }

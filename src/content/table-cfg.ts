@@ -189,6 +189,7 @@ export const validateRljsonAgainstTableCfg = (
  * @param tableCfg - The table configuration to add columns to
  * @param columns - The columns to add
  * @returns The updated table configuration
+ // eslint-disable-next-line tsdoc/syntax
  * @throws Error if the columns already exist in the table configuration
  */
 export const addColumnsToTableCfg = (
@@ -245,7 +246,7 @@ export const exampleTableCfg = (
         type: 'number',
       },
     ],
-    type: tableCfg?.type ?? 'ingredients',
+    type: tableCfg?.type ?? 'components',
     isHead: true,
     isRoot: true,
     isShared: false,

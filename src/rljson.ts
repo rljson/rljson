@@ -8,7 +8,7 @@ import { Json } from '@rljson/json';
 
 import { BuffetsTable } from './content/buffet.ts';
 import { CakesTable } from './content/cake.ts';
-import { IngredientsTable } from './content/ingredients.ts';
+import { ComponentsTable } from './content/components.ts';
 import { LayersTable } from './content/layer.ts';
 import { RevisionsTable } from './content/revision.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
@@ -33,7 +33,7 @@ export const reservedTableKeys = [
  */
 export type TableType =
   | BuffetsTable
-  | IngredientsTable<any>
+  | ComponentsTable<any>
   | LayersTable
   | SliceIdsTable
   | CakesTable

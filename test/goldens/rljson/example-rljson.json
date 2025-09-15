@@ -1,12 +1,12 @@
 {
   "tableCfgs": {
-    "_hash": "WPT9G4X10kAKTXjlI8A4Rz",
+    "_hash": "j3kdvPrEzWO5lBJMBuJ1m7",
     "_data": [
       {
         "version": 0,
-        "_hash": "88qW3IEr7PHpgtrP6uhhRg",
+        "_hash": "xWI80T2DgZBTm7GEY7siT1",
         "key": "table",
-        "type": "ingredients",
+        "type": "components",
         "isHead": false,
         "isRoot": false,
         "isShared": true,
@@ -56,7 +56,7 @@
     ]
   },
   "table": {
-    "_tableCfg": "88qW3IEr7PHpgtrP6uhhRg",
+    "_tableCfg": "xWI80T2DgZBTm7GEY7siT1",
     "_data": [
       {
         "int": 5,

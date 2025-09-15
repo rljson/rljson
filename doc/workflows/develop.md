@@ -33,13 +33,13 @@ git pull
 
 ## Set pull request title
 
-Replace `Breaking change: Remove _type from Rljson tables` here and below
+Replace `Refactor basic concepts` here and below
 by your new pull request title.
 
 ## Create a feature branch
 
 ```bash
-node scripts/create-branch.js "Breaking change: Remove _type from Rljson tables"
+node scripts/create-branch.js "Refactor basic concepts"
 ```
 
 ## Update dependencies
@@ -65,7 +65,7 @@ In Vscode, press
 
 ```bash
 git add .
-git commit -am"Breaking change: Remove _type from Rljson tables"
+git commit -am"Refactor basic concepts"
 ```
 
 ## Increase version
@@ -96,7 +96,7 @@ node scripts/push-branch.js
 ## Create a pull request
 
 ```bash
-gh pr create --base main --title "Breaking change: Remove _type from Rljson tables" --body " "
+gh pr create --base main --title "Refactor basic concepts" --body " "
 ```
 
 ## Code review

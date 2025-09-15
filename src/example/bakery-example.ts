@@ -9,25 +9,25 @@ import { Json } from '@rljson/json';
 
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
-import { IngredientsTable } from '../content/ingredients.ts';
+import { ComponentsTable } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIdsTable } from '../content/slice-ids.ts';
 import { Rljson } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
 
 // .............................................................................
-export interface Ingredient extends Json {
+export interface Component extends Json {
   name: string;
   amountUnit: 'g' | 'ml';
   nutritionalValuesRef: Ref;
 }
 
-export interface RecipeIngredient extends Json {
-  ingredientsRef: string;
+export interface RecipeComponent extends Json {
+  componentsRef: string;
   quantity: number;
 }
 
-export type IngredientsTypeTable = IngredientsTable<Ingredient>;
+export type ComponentsTypeTable = ComponentsTable<Component>;
 
 export interface NutritionalValues extends Json {
   energy: number;
@@ -43,14 +43,14 @@ export interface Bakery extends Rljson {
   slices: SliceIdsTable;
   layers: LayersTable;
   recipes: LayersTable;
-  recipeIngredients: IngredientsTable<RecipeIngredient>;
-  ingredients: IngredientsTable<Ingredient>;
-  nutritionalValues: IngredientsTable<NutritionalValues>;
+  recipeComponents: ComponentsTable<RecipeComponent>;
+  components: ComponentsTable<Component>;
+  nutritionalValues: ComponentsTable<NutritionalValues>;
 }
 
 // .............................................................................
 export const bakeryExample = (): Bakery => {
-  const nutritionalValues = hip<IngredientsTable<any>>({
+  const nutritionalValues = hip<ComponentsTable<any>>({
     _data: [
       {
         id: 'flour',
@@ -72,7 +72,7 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const ingredients = hip<IngredientsTable<any>>({
+  const components = hip<ComponentsTable<any>>({
     _data: [
       {
         id: 'flour',
@@ -84,11 +84,11 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
-  const recipeIngredients = hip<IngredientsTable<any>>({
+  const recipeComponents = hip<ComponentsTable<any>>({
     _data: [
       {
         id: 'flour',
-        ingredientsRef: ingredients._data[0]._hash as string,
+        componentsRef: components._data[0]._hash as string,
         quantity: 500,
         _hash: '',
       },
@@ -105,7 +105,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const ingredientTypes = hip<SliceIdsTable>({
+  const componentTypes = hip<SliceIdsTable>({
     _data: [
       {
         add: ['flour'],
@@ -118,11 +118,11 @@ export const bakeryExample = (): Bakery => {
     _data: [
       {
         id: 'tastyCake',
-        ingredientsTable: 'recipeIngredients',
-        sliceIdsTable: 'ingredientTypes',
-        sliceIdsTableRow: ingredientTypes._data[0]._hash as string,
+        componentsTable: 'recipeComponents',
+        sliceIdsTable: 'componentTypes',
+        sliceIdsTableRow: componentTypes._data[0]._hash as string,
         assign: {
-          flour: recipeIngredients._data[0]._hash as string,
+          flour: recipeComponents._data[0]._hash as string,
         },
         _hash: '',
       },
@@ -132,7 +132,7 @@ export const bakeryExample = (): Bakery => {
   const layers = hip<LayersTable>({
     _data: [
       {
-        ingredientsTable: 'recipes',
+        componentsTable: 'recipes',
 
         sliceIdsTable: 'slices',
         sliceIdsTableRow: slices._data[0]._hash as string,
@@ -177,11 +177,11 @@ export const bakeryExample = (): Bakery => {
     buffets,
     cakes,
     slices,
-    ingredientTypes,
+    componentTypes,
     layers,
     recipes,
-    recipeIngredients,
-    ingredients,
+    recipeComponents,
+    components,
     nutritionalValues,
   };
 
