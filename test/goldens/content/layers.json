@@ -1,16 +1,17 @@
 {
+  "_type": "layers",
   "_data": [
     {
-      "ingredientsTable": "recipes",
+      "componentsTable": "recipes",
       "sliceIdsTable": "slices",
       "sliceIdsTableRow": "wyYfK5E4ArrMKQ_zvi2-EE",
-      "assign": {
-        "slice0": "gqLuZbpbjOMyk0DjQ3AFFy",
-        "slice1": "gqLuZbpbjOMyk0DjQ3AFFy",
-        "_hash": "yxVuARgdb10BPD_oCbczsI"
+      "add": {
+        "slice0": "NOVdgwVKlShXT1FTLaLrqK",
+        "slice1": "NOVdgwVKlShXT1FTLaLrqK",
+        "_hash": "2ZMgDUdpPd9PjVmQJZhCA2"
       },
-      "_hash": "I0zT7120s1gWEDrGhhSr6n"
+      "_hash": "PZhgu3fmAtLceImvnW7fTj"
     }
   ],
-  "_hash": "t3vzfr4K9lxgMlQIrG_uo7"
+  "_hash": "l7vcte9j_HNQixGpZD_JCD"
 }

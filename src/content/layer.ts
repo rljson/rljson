@@ -10,7 +10,7 @@ import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { Ref, SliceId, TableKey } from '../typedefs.ts';
 
-import { IngredientsRef } from './ingredients.ts';
+import { ComponentRef } from './components.ts';
 import { SliceIdsRef } from './slice-ids.ts';
 
 // .............................................................................
@@ -21,11 +21,11 @@ export type LayerRef = Ref;
 
 // .............................................................................
 /**
- * A layer assigns ingredients to item ids
+ * A layer assigns components to item ids
  */
 export interface Layer extends Json {
   /**
-   * `base` an optional base layer that is extended by this layer
+   * `base` an optional base layer that is extended or shrinked by this layer
    */
   base?: LayerRef;
 
@@ -40,24 +40,33 @@ export interface Layer extends Json {
   sliceIdsTableRow: SliceIdsRef;
 
   /**
-   * The table containing the ingredients that are assigned to the items
+   * The table containing the components that are assigned to the items
    * with the assign property below
    */
-  ingredientsTable: TableKey;
+  componentsTable: TableKey;
 
   /**
-   * Assign ingredients to each item of the layer.
+   * Assigns component properties to slice ids.
+   *
+   * If base is defined this will add
+   * or override assignments of the base layer.
    */
-  assign: Record<SliceId, IngredientsRef>;
+  add: Record<SliceId, ComponentRef>;
+
+  /**
+   * Use this property to remove assignments from the base layer.
+   */
+  remove?: Record<SliceId, ComponentRef>;
 }
 
 // .............................................................................
 /**
  * A table containing layers
  */
-export type LayersTable = RljsonTable<Layer>;
+export type LayersTable = RljsonTable<Layer, 'layers'>;
 
 /**
  * Provides an example layersTable for test purposes
  */
-export const exampleLayersTable = (): LayersTable => bakeryExample().layers;
+export const exampleLayersTable = (): LayersTable =>
+  bakeryExample().recipeLayers;

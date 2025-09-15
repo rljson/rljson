@@ -1,16 +1,17 @@
 {
+  "_type": "buffets",
   "_data": [
     {
       "id": "salesCounter",
       "items": [
         {
           "table": "cakes",
-          "ref": "FShJOllEImdno0ZPZS0Ucr",
-          "_hash": "etXmZamn5TADEsRvVwqRYF"
+          "ref": "Mge0ULLEbsemMq1ndUNZ6b",
+          "_hash": "VC_7itbevmNKG3Rc4XWyJz"
         }
       ],
-      "_hash": "z99Uy6hMEVPcBfFzsBxIyZ"
+      "_hash": "G7ZX04bp0TdBG9fHDR7Sgu"
     }
   ],
-  "_hash": "ZQx14ILXKW4IuCFnbZdinu"
+  "_hash": "0RyzLpZX1Nkfxej2WgXbEF"
 }

@@ -1,11 +1,12 @@
 {
-  "_hash": "WPT9G4X10kAKTXjlI8A4Rz",
+  "_hash": "EL8uR9s-WKZ6gFIr1lrRtW",
+  "_type": "tableCfgs",
   "_data": [
     {
       "version": 0,
-      "_hash": "88qW3IEr7PHpgtrP6uhhRg",
+      "_hash": "xWI80T2DgZBTm7GEY7siT1",
       "key": "table",
-      "type": "ingredients",
+      "type": "components",
       "isHead": false,
       "isRoot": false,
       "isShared": true,

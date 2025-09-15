@@ -50,7 +50,7 @@ describe('Rljson', () => {
         'cakes',
         'slices',
         'ingredientTypes',
-        'layers',
+        'recipeLayers',
         'recipes',
         'recipeIngredients',
         'ingredients',
@@ -75,7 +75,7 @@ describe('Rljson', () => {
         'cakes',
         'slices',
         'ingredientTypes',
-        'layers',
+        'recipeLayers',
         'recipes',
         'recipeIngredients',
         'ingredients',
@@ -120,8 +120,8 @@ describe('Rljson', () => {
           tableKey: 'ingredientTypes',
         },
         {
-          error: new Error('Test error: layers'),
-          tableKey: 'layers',
+          error: new Error('Test error: recipeLayers'),
+          tableKey: 'recipeLayers',
         },
         {
           error: new Error('Test error: recipes'),

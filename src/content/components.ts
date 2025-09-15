@@ -11,18 +11,21 @@ import { JsonWithId, Ref } from '../typedefs.ts';
 // .............................................................................
 
 /**
- * A reference to a ingredients row in a ingredients table
+ * A reference to a components row in a components table
  */
-export type IngredientsRef = Ref;
+export type ComponentRef = Ref;
 
 // .............................................................................
 /**
- * A table containing ingredients
+ * A table containing components
  */
-export type IngredientsTable<T extends JsonWithId> = RljsonTable<T>;
+export type ComponentsTable<T extends JsonWithId> = RljsonTable<
+  T,
+  'components'
+>;
 
 /**
- * Provides an example ingredients table for test purposes
+ * Provides an example components table for test purposes
  */
-export const exampleIngredientsTable =
-  (): IngredientsTable<NutritionalValues> => bakeryExample().nutritionalValues;
+export const exampleComponentsTable = (): ComponentsTable<NutritionalValues> =>
+  bakeryExample().nutritionalValues;

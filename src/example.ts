@@ -9,7 +9,7 @@ import { exampleJsonObject } from '@rljson/json';
 
 import { BuffetsTable } from './content/buffet.ts';
 import { Cake, CakesTable } from './content/cake.ts';
-import { IngredientsTable } from './content/ingredients.ts';
+import { ComponentsTable } from './content/components.ts';
 import { Layer, LayersTable } from './content/layer.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { ColumnCfg, TablesCfgTable } from './content/table-cfg.ts';
@@ -27,6 +27,7 @@ export class Example {
     binary: (): Rljson => {
       return {
         table: {
+          _type: 'components',
           _data: [
             { a: false, b: false },
             { a: false, b: true },
@@ -40,12 +41,13 @@ export class Example {
     singleRow: (): Rljson => {
       const tableCfgs = hip<TablesCfgTable>({
         _hash: '',
+        _type: 'tableCfgs',
         _data: [
           {
             version: 0,
             _hash: '',
             key: 'table',
-            type: 'ingredients',
+            type: 'components',
             isHead: false,
             isRoot: false,
             isShared: true,
@@ -91,6 +93,7 @@ export class Example {
         tableCfgs: tableCfgs,
         table: {
           _tableCfg: tableCfgs._data[0]._hash as string,
+          _type: 'components',
           _data: [exampleJsonObject()],
           _hash: '',
         },
@@ -101,6 +104,7 @@ export class Example {
     multipleRows: (): Rljson => {
       return {
         table: {
+          _type: 'components',
           _data: [
             {
               string: 'str0',
@@ -133,6 +137,7 @@ export class Example {
     singleRef: (): Rljson => {
       return {
         tableA: {
+          _type: 'components',
           _data: [
             {
               keyA0: 'a0',
@@ -143,6 +148,7 @@ export class Example {
           ],
         },
         tableB: {
+          _type: 'components',
           _data: [
             {
               tableARef: 'KFQrf4mEz0UPmUaFHwH4T6',
@@ -153,6 +159,7 @@ export class Example {
     },
     complete: (): Rljson => {
       const sliceIds = hip<SliceIdsTable>({
+        _type: 'sliceIds',
         _data: [
           {
             add: ['id0', 'id1'],
@@ -160,52 +167,54 @@ export class Example {
         ],
       });
 
-      const ingredients = hip<IngredientsTable<any>>({
+      const components = hip<ComponentsTable<any>>({
+        _type: 'components',
         _data: [{ a: '0' }, { a: '1' }],
       });
-      const ingredient0 = ingredients._data[0];
-      const ingredient1 = ingredients._data[1];
+      const component0 = components._data[0];
+      const component1 = components._data[1];
 
-      const layer0 = hip<Layer>({
+      const abLayer0 = hip<Layer>({
         sliceIdsTable: 'sliceIds',
         sliceIdsTableRow: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        ingredientsTable: 'ingredients',
-        assign: {
-          id0: ingredient0._hash,
-          id1: ingredient1._hash,
+        componentsTable: 'components',
+        add: {
+          id0: component0._hash,
+          id1: component1._hash,
         },
       });
 
-      const layer1 = hip<Layer>({
-        base: layer0._hash as string,
+      const abLayer1 = hip<Layer>({
+        base: abLayer0._hash as string,
         sliceIdsTable: 'sliceIds',
         sliceIdsTableRow: 'MgHRBYSrhpyl4rvsOmAWcQ',
-        ingredientsTable: 'ingredients',
-        assign: {
-          id0: ingredient0._hash,
-          id1: ingredient1._hash,
+        componentsTable: 'components',
+        add: {
+          id0: component0._hash,
+          id1: component1._hash,
         },
       });
 
-      const layers = hip<LayersTable>({
-        _data: [layer0, layer1],
-      } as LayersTable);
+      const abLayers = hip<LayersTable>({
+        _type: 'layers',
+        _data: [abLayer0, abLayer1],
+      });
 
       const cake = hip<Cake>({
         sliceIdsTable: 'sliceIds',
         sliceIdsRow: sliceIds._data[0]._hash as string,
-        layersTable: 'layers',
         layers: {
-          layer0: layer0._hash as string,
-          layer1: layer1._hash as string,
+          abLayers: abLayer1._hash as string,
         },
       });
 
       const cakes = hip<CakesTable>({
+        _type: 'cakes',
         _data: [cake],
       });
 
       const buffets = hip<BuffetsTable>({
+        _type: 'buffets',
         _data: [
           {
             items: [
@@ -214,8 +223,8 @@ export class Example {
                 ref: cakes._data[0]._hash as string,
               },
               {
-                table: 'layers',
-                ref: layer0._hash as string,
+                table: 'abLayers',
+                ref: abLayer0._hash as string,
               },
             ],
           },
@@ -224,8 +233,8 @@ export class Example {
 
       return {
         sliceIds,
-        ingredients,
-        layers,
+        components,
+        abLayers,
         cakes,
         buffets,
       };
@@ -259,6 +268,7 @@ export class Example {
       missingRef: (): Rljson => {
         return {
           tableA: {
+            _type: 'components',
             _data: [
               {
                 keyA0: 'a0',
@@ -269,6 +279,7 @@ export class Example {
             ],
           },
           tableB: {
+            _type: 'components',
             _data: [
               {
                 tableARef: 'MISSINGREF', // MISSINGREF does not exist in tableA
@@ -281,6 +292,7 @@ export class Example {
       missingReferencedTable: (): Rljson => {
         return {
           tableB: {
+            _type: 'components',
             _data: [
               {
                 tableARef: 'MISSINGREF', // tableA is missing
@@ -307,7 +319,7 @@ export class Example {
     layers: {
       missingBase: (): Rljson => {
         const result = Example.ok.complete();
-        const layer1 = result.layers._data[1];
+        const layer1 = result.abLayers._data[1];
         layer1.base = 'MISSING'; // Missing base
 
         // Recalculate hashes
@@ -319,7 +331,7 @@ export class Example {
 
       missingSliceIdSet: (): Rljson => {
         const result = Example.ok.complete();
-        const layer1 = (result.layers as LayersTable)._data[1];
+        const layer1 = (result.abLayers as LayersTable)._data[1];
 
         layer1.sliceIdsTableRow = 'MISSING1';
 
@@ -330,15 +342,15 @@ export class Example {
         });
       },
 
-      missingAssignedIngredientTable: (): Rljson => {
+      missingAssignedComponentTable: (): Rljson => {
         const result = Example.ok.complete();
-        delete result.ingredients; // Remove ingredients table
+        delete result.components; // Remove components table
         return result;
       },
 
-      missingAssignedIngredient: (): Rljson => {
+      missingAssignedComponent: (): Rljson => {
         const result = Example.ok.complete();
-        result.ingredients._data.splice(1, 2); // Remove an ingredient that is assigned
+        result.components._data.splice(1, 2); // Remove an component that is assigned
         return hip(result, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
@@ -369,7 +381,7 @@ export class Example {
 
       missingLayersTable: (): Rljson => {
         const result = Example.ok.complete();
-        result.cakes._data[0].layersTable = 'MISSING'; // Missing layers table
+        result.cakes._data[0].layers = { MISSING: 'HASH' }; // Missing layers table
         hip(result.cakes, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
@@ -379,8 +391,7 @@ export class Example {
 
       missingCakeLayer: (): Rljson => {
         const result = Example.ok.complete();
-        result.cakes._data[0].layers['layer0'] = 'MISSING0';
-        result.cakes._data[0].layers['layer1'] = 'MISSING1';
+        result.cakes._data[0].layers['abLayers'] = 'MISSING0';
         hip(result.cakes, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
