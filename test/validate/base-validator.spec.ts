@@ -37,7 +37,8 @@ describe('BaseValidator', async () => {
       };
 
       // Take a broken rljson object
-      const rljson: Rljson = Example.broken.base.brokenTableKey() as Rljson;
+      const rljson: Rljson =
+        Example.broken.base.brokenTableKey() as unknown as Rljson;
 
       // Validate it
       const resultSync = new BaseValidator().validateSync(rljson);
@@ -911,7 +912,7 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe.skip('layerSliceIdsTableNotFound()', () => {
+    describe('layerSliceIdsTableNotFound()', () => {
       it('returns an error when an reference sliceIds table is not found', () => {
         const rljson = Example.ok.complete();
         const layer0 = rljson.layers._data[0];
@@ -943,7 +944,7 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe.skip('layerSliceIdsRowNotFound()', () => {
+    describe('layerSliceIdsRowNotFound()', () => {
       it('returns an error when idSetRef is not found', () => {
         const rljson = Example.broken.layers.missingSliceIdSet();
         const layer = (rljson.layers as LayersTable)._data[1];
@@ -1004,7 +1005,7 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe.skip('layerComponentAssignmentsNotFound', () => {
+    describe('layerComponentAssignmentsNotFound', () => {
       it('returns an error when the components table is not foun', () => {
         const rljson = Example.broken.layers.missingAssignedComponentTable();
         const layer0 = rljson.layers._data[0];
@@ -1063,7 +1064,7 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe.skip('layerAssignmentsDoNotMatchSliceIds', () => {
+    describe('layerAssignmentsDoNotMatchSliceIds', () => {
       it('returns no errors when all assignments match', () => {
         expect(validate(Example.ok.complete())).toEqual({
           hasErrors: false,
@@ -1098,7 +1099,7 @@ describe('BaseValidator', async () => {
   });
 
   describe('cake errors', () => {
-    describe.skip('cakeSliceIdsNotFound', () => {
+    describe('cakeSliceIdsNotFound', () => {
       it('returns no errors when all sliceIds are found', () => {
         expect(validate(Example.ok.complete())).toEqual({
           hasErrors: false,
@@ -1147,7 +1148,7 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe.skip('cakeSliceIdsTableNotFound', () => {
+    describe('cakeSliceIdsTableNotFound', () => {
       it('returns an error when an referenced sliceIds is not found', () => {
         const rljson = Example.ok.complete();
         const cake = (rljson.cakes as CakesTable)._data[0];
@@ -1173,7 +1174,7 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe.skip('cakeLayerTablesNotFound', () => {
+    describe('cakeLayerTablesNotFound', () => {
       it('returns an error when the layer table is not found', () => {
         const rljson = Example.broken.cakes.missingLayersTable();
         const cake = rljson.cakes._data[0];
@@ -1193,7 +1194,7 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe.skip('cakeLayersNotFound', () => {
+    describe('cakeLayersNotFound', () => {
       it('returns an error when the layer of a layer is not found', () => {
         const rljson = Example.broken.cakes.missingCakeLayer();
         const cake = rljson.cakes._data[0];
@@ -1224,7 +1225,7 @@ describe('BaseValidator', async () => {
   });
 
   describe('buffet errors', () => {
-    describe.skip('buffetReferencedTablesNotFound', () => {
+    describe('buffetReferencedTablesNotFound', () => {
       it('returns an error when the referenced table is not found', () => {
         const rljson = Example.broken.buffets.missingTable();
         const buffet = rljson.buffets._data[0];
@@ -1250,7 +1251,7 @@ describe('BaseValidator', async () => {
       });
     });
 
-    describe.skip('buffetReferencedItemsNotFound', () => {
+    describe('buffetReferencedItemsNotFound', () => {
       it('returns an error when the referenced table is not found', () => {
         const rljson = Example.broken.buffets.missingItems();
         const buffet = rljson.buffets._data[0];

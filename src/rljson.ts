@@ -14,7 +14,7 @@ import { RevisionsTable } from './content/revision.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
-import { Ref, TableKey } from './typedefs.ts';
+import { ContentType, Ref, TableKey } from './typedefs.ts';
 
 // .............................................................................
 export const reservedFieldNames = ['_data'];
@@ -37,7 +37,8 @@ export type TableType =
   | LayersTable
   | SliceIdsTable
   | CakesTable
-  | RevisionsTable;
+  | RevisionsTable
+  | TablesCfgTable;
 
 // .............................................................................
 /** The rljson data format */
@@ -81,15 +82,19 @@ export const exampleRljson = (): Rljson => Example.ok.singleRow();
 
 // .............................................................................
 /** A table in the rljson format */
-export interface RljsonTable<Data extends Json> extends Json {
+export interface RljsonTable<Data extends Json, T extends ContentType>
+  extends Json {
   /** The data rows of the table */
   _data: Data[];
 
   /** The columns configuration of the table */
   _tableCfg?: TableCfgRef;
+
+  /** The type of the table. Must match the one in table cfg table */
+  _type: T;
 }
 
-const _isTable = (value: TableType): value is RljsonTable<any> => {
+const _isTable = (value: TableType): value is RljsonTable<any, any> => {
   return !(typeof value !== 'object' || !Array.isArray(value._data));
 };
 

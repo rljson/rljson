@@ -1,6 +1,7 @@
 {
   "tableCfgs": {
-    "_hash": "j3kdvPrEzWO5lBJMBuJ1m7",
+    "_hash": "EL8uR9s-WKZ6gFIr1lrRtW",
+    "_type": "tableCfgs",
     "_data": [
       {
         "version": 0,
@@ -57,6 +58,7 @@
   },
   "table": {
     "_tableCfg": "xWI80T2DgZBTm7GEY7siT1",
+    "_type": "components",
     "_data": [
       {
         "int": 5,

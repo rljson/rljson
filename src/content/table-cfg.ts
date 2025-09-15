@@ -91,7 +91,7 @@ export interface TableCfg extends Json {
 /**
  * A table containing columns
  */
-export type TablesCfgTable = RljsonTable<TableCfg>;
+export type TablesCfgTable = RljsonTable<TableCfg, 'tableCfgs'>;
 
 // .............................................................................
 /**
@@ -225,7 +225,7 @@ export const addColumnsToTableCfg = (
  * Example matching allTypesRow
  */
 export const exampleTableCfgTable = (): TablesCfgTable =>
-  Example.ok.singleRow().tableCfgs! as TablesCfgTable;
+  Example.ok.singleRow().tableCfgs! as unknown as TablesCfgTable;
 
 export const exampleTableCfg = (
   tableCfg: Partial<TableCfg> | undefined = undefined,

@@ -51,6 +51,7 @@ export interface Bakery extends Rljson {
 // .............................................................................
 export const bakeryExample = (): Bakery => {
   const nutritionalValues = hip<ComponentsTable<any>>({
+    _type: 'components',
     _data: [
       {
         id: 'flour',
@@ -73,6 +74,7 @@ export const bakeryExample = (): Bakery => {
   });
 
   const components = hip<ComponentsTable<any>>({
+    _type: 'components',
     _data: [
       {
         id: 'flour',
@@ -85,6 +87,7 @@ export const bakeryExample = (): Bakery => {
   });
 
   const recipeComponents = hip<ComponentsTable<any>>({
+    _type: 'components',
     _data: [
       {
         id: 'flour',
@@ -97,6 +100,7 @@ export const bakeryExample = (): Bakery => {
   });
 
   const slices = hip<SliceIdsTable>({
+    _type: 'sliceIds',
     _data: [
       {
         add: ['slice0', 'slice1'],
@@ -106,6 +110,7 @@ export const bakeryExample = (): Bakery => {
   });
 
   const componentTypes = hip<SliceIdsTable>({
+    _type: 'sliceIds',
     _data: [
       {
         add: ['flour'],
@@ -115,6 +120,7 @@ export const bakeryExample = (): Bakery => {
   });
 
   const recipes = hip<LayersTable>({
+    _type: 'layers',
     _data: [
       {
         id: 'tastyCake',
@@ -130,6 +136,7 @@ export const bakeryExample = (): Bakery => {
   });
 
   const layers = hip<LayersTable>({
+    _type: 'layers',
     _data: [
       {
         componentsTable: 'recipes',
@@ -146,6 +153,7 @@ export const bakeryExample = (): Bakery => {
   });
 
   const cakes = hip<CakesTable>({
+    _type: 'cakes',
     _data: [
       {
         id: 'cake1',
@@ -160,6 +168,7 @@ export const bakeryExample = (): Bakery => {
   });
 
   const buffets = hip<BuffetsTable>({
+    _type: 'buffets',
     _data: [
       {
         id: 'salesCounter',

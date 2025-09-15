@@ -55,7 +55,7 @@ export interface Layer extends Json {
 /**
  * A table containing layers
  */
-export type LayersTable = RljsonTable<Layer>;
+export type LayersTable = RljsonTable<Layer, 'layers'>;
 
 /**
  * Provides an example layersTable for test purposes

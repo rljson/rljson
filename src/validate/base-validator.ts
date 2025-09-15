@@ -195,7 +195,7 @@ class _BaseValidator {
     let hadErrors = false;
 
     for (const tableKey of this.tableKeys) {
-      const table = this.rljson[tableKey] as RljsonTable<any>;
+      const table = this.rljson[tableKey] as RljsonTable<any, 'components'>;
 
       if (!table._data || !Array.isArray(table._data)) {
         continue;
@@ -272,7 +272,7 @@ class _BaseValidator {
 
   // ...........................................................................
   private _tableCfgsReferencedTableKeyNotFound(): void {
-    const tableCfgs = this.rljson.tableCfgs as TablesCfgTable;
+    const tableCfgs = this.rljson.tableCfgs as unknown as TablesCfgTable;
     if (!tableCfgs) {
       return;
     }
@@ -299,7 +299,7 @@ class _BaseValidator {
 
   // ...........................................................................
   private _tableCfgsHaveWrongType(): void {
-    const tableCfgs = this.rljson.tableCfgs as TablesCfgTable;
+    const tableCfgs = this.rljson.tableCfgs as unknown as TablesCfgTable;
     if (!tableCfgs) {
       return;
     }
@@ -697,7 +697,6 @@ class _BaseValidator {
     }
   }
 
-  /* v8 ignore start */
   private _layerSliceIdsTableNotFound(): void {
     const brokenLayers: any[] = [];
 
@@ -1039,7 +1038,6 @@ class _BaseValidator {
       };
     }
   }
-  /* v8 ignore end */
 }
 
 /**

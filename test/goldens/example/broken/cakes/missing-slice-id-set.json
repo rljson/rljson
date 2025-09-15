@@ -1,5 +1,6 @@
 {
   "sliceIds": {
+    "_type": "sliceIds",
     "_data": [
       {
         "add": [
@@ -9,9 +10,10 @@
         "_hash": "MgHRBYSrhpyl4rvsOmAWcQ"
       }
     ],
-    "_hash": "qRZufOu87nL9T7lgt-vx-W"
+    "_hash": "mZnUcc1ZcQFGukqJZR4y8H"
   },
   "components": {
+    "_type": "components",
     "_data": [
       {
         "a": "0",
@@ -22,9 +24,10 @@
         "_hash": "mv6w8rID8lQxLsje1EHQMY"
       }
     ],
-    "_hash": "xSNfMXowSPlvvhYPoMp6PX"
+    "_hash": "-5Vx8KxAnjys562WbnoSTR"
   },
   "layers": {
+    "_type": "layers",
     "_data": [
       {
         "sliceIdsTable": "sliceIds",
@@ -50,9 +53,10 @@
         "_hash": "IFoCIa-kc4v5fBeyMCmgW6"
       }
     ],
-    "_hash": "RVMglQjQ3cS29VPaiqssRt"
+    "_hash": "59BVRICvJ9dwHqI9SbH_41"
   },
   "cakes": {
+    "_type": "cakes",
     "_data": [
       {
         "sliceIdsTable": "sliceIds",
@@ -66,9 +70,10 @@
         "_hash": "F-9aSvR5pOC2lhPLi_ToCP"
       }
     ],
-    "_hash": "sKQpf31B-jV9VBgzYKML59"
+    "_hash": "ZzkGcA4gk-L_SbCWTfVi_q"
   },
   "buffets": {
+    "_type": "buffets",
     "_data": [
       {
         "items": [
@@ -86,6 +91,6 @@
         "_hash": "eieKmwU0vTolmjaca8tAUm"
       }
     ],
-    "_hash": "a2MLsJ9yMlx7Qm42kBv0fW"
+    "_hash": "0_IkxOvwEK2pWLvdAcFWXT"
   }
 }

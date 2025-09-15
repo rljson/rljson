@@ -19,7 +19,10 @@ export type ComponentRef = Ref;
 /**
  * A table containing components
  */
-export type ComponentsTable<T extends JsonWithId> = RljsonTable<T>;
+export type ComponentsTable<T extends JsonWithId> = RljsonTable<
+  T,
+  'components'
+>;
 
 /**
  * Provides an example components table for test purposes

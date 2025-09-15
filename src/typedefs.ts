@@ -43,6 +43,8 @@ export const contentTypes = [
   'layers',
   'sliceIds',
   'components',
+  'revisions',
+  'tableCfgs',
 ] as const;
 
 export type ContentType = (typeof contentTypes)[number];

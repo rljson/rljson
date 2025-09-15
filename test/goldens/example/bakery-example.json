@@ -1,5 +1,6 @@
 {
   "buffets": {
+    "_type": "buffets",
     "_data": [
       {
         "id": "salesCounter",
@@ -13,9 +14,10 @@
         "_hash": "FsqB3-cTV6EosDUfv7c7XJ"
       }
     ],
-    "_hash": "bpxVDfMNxNfaqOjMeHeGqk"
+    "_hash": "_8NSIgG64XIicsdUYDkLpb"
   },
   "cakes": {
+    "_type": "cakes",
     "_data": [
       {
         "id": "cake1",
@@ -29,9 +31,10 @@
         "_hash": "HD6KthLHNLpkV9F2VOWLYr"
       }
     ],
-    "_hash": "I5iAOhBGaihuPP9-kaBYtF"
+    "_hash": "Y3S4opobSJ1X0l4de-WgUF"
   },
   "slices": {
+    "_type": "sliceIds",
     "_data": [
       {
         "add": [
@@ -42,9 +45,10 @@
         "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
       }
     ],
-    "_hash": "ALinWjiaJEFhjacrECHY8M"
+    "_hash": "cnGg1WO4AHE2QX2CO2_aQL"
   },
   "componentTypes": {
+    "_type": "sliceIds",
     "_data": [
       {
         "add": [
@@ -54,9 +58,10 @@
         "_hash": "UNxHIyPK7AACyUsbISW7bp"
       }
     ],
-    "_hash": "hIVfuZbrYzEznitJFfA9k1"
+    "_hash": "c1w4IVG4J4JANpcTu8p7Jd"
   },
   "layers": {
+    "_type": "layers",
     "_data": [
       {
         "componentsTable": "recipes",
@@ -70,9 +75,10 @@
         "_hash": "5A3cNzB8IwHty-VaFsupRb"
       }
     ],
-    "_hash": "PeP2ru0HJmRuuMfNClx2oL"
+    "_hash": "XVjdjrsg1NWc4PBrXjv3cV"
   },
   "recipes": {
+    "_type": "layers",
     "_data": [
       {
         "id": "tastyCake",
@@ -86,9 +92,10 @@
         "_hash": "8VX9S9Jktixbc3fHJSmGyC"
       }
     ],
-    "_hash": "TNo3sxW24Y4TKy9Oj5tUuf"
+    "_hash": "nEXIN1G4C-gHjpn8oxt-nP"
   },
   "recipeComponents": {
+    "_type": "components",
     "_data": [
       {
         "id": "flour",
@@ -97,9 +104,10 @@
         "_hash": "w-UhtkRZTrMpO1rYTLmrE5"
       }
     ],
-    "_hash": "37VUaTAic5uliqyW1HjN6u"
+    "_hash": "6RG7eXw3vd84pBZTJ9Plw0"
   },
   "components": {
+    "_type": "components",
     "_data": [
       {
         "id": "flour",
@@ -108,9 +116,10 @@
         "_hash": "A5d-4if1fQpQERfwFsjKqb"
       }
     ],
-    "_hash": "ztbu4SvLjKcyvsoqKemJ9A"
+    "_hash": "t5oZrLJOxAj-5nlE1ZV488"
   },
   "nutritionalValues": {
+    "_type": "components",
     "_data": [
       {
         "id": "flour",
@@ -129,7 +138,7 @@
         "_hash": "IqeoWJjZQNlr-NVk2QT15B"
       }
     ],
-    "_hash": "mWK3IcMjG0-okFnh5XJA7r"
+    "_hash": "4tYazUV23SSH0tW9sQznO1"
   },
-  "_hash": "w836hInDqE5Klr-vsORWcx"
+  "_hash": "PekT2VxpTuS_8pBxwgyLH_"
 }

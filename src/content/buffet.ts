@@ -47,7 +47,7 @@ export interface Buffet extends Json {
 /**
  * A table containing buffets
  */
-export type BuffetsTable = RljsonTable<Buffet>;
+export type BuffetsTable = RljsonTable<Buffet, 'buffets'>;
 
 // .............................................................................
 export const exampleBuffetsTable = (): BuffetsTable => bakeryExample().buffets;
