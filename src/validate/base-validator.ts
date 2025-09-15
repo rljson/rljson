@@ -781,7 +781,7 @@ class _BaseValidator {
           continue;
         }
 
-        const assignments = layer.assign;
+        const assignments = layer.add;
         for (const sliceId in assignments) {
           if (sliceId.startsWith('_')) {
             continue;
@@ -836,7 +836,7 @@ class _BaseValidator {
         ] as SliceIds;
         const sliceIds = sliceIdsRow.add;
 
-        const sliceIdsInLayer = Object.keys(layer.assign);
+        const sliceIdsInLayer = Object.keys(layer.add);
         const unassignedSliceIds: string[] = [];
 
         for (const expectedSliceId of sliceIds) {

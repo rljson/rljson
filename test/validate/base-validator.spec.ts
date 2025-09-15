@@ -1074,8 +1074,8 @@ describe('BaseValidator', async () => {
       it('returns an error when the assignments do not match', () => {
         const rljson = Example.ok.complete();
         const layer = rljson.layers._data[1] as Layer;
-        delete layer.assign.id0;
-        delete layer.assign.id1;
+        delete layer.add.id0;
+        delete layer.add.id1;
         hip(rljson, {
           throwOnWrongHashes: false,
           updateExistingHashes: true,

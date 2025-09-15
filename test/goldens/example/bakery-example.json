@@ -7,14 +7,14 @@
         "items": [
           {
             "table": "cakes",
-            "ref": "HD6KthLHNLpkV9F2VOWLYr",
-            "_hash": "rKtVwDieaudHqKOkn8jROm"
+            "ref": "IeJCxpGmL7KgBWVxXavFJL",
+            "_hash": "tY-3B3CibFEcTqRHsYv-dh"
           }
         ],
-        "_hash": "FsqB3-cTV6EosDUfv7c7XJ"
+        "_hash": "jqgUxCjtbn0PChy6bY-Jgp"
       }
     ],
-    "_hash": "_8NSIgG64XIicsdUYDkLpb"
+    "_hash": "s02ZTAZUtHYx2RW_j8bjwb"
   },
   "cakes": {
     "_type": "cakes",
@@ -25,13 +25,13 @@
         "sliceIdsRow": "wyYfK5E4ArrMKQ_zvi2-EE",
         "layersTable": "layers",
         "layers": {
-          "flour": "5A3cNzB8IwHty-VaFsupRb",
-          "_hash": "mxHgNOMvclRu98H6T55Iey"
+          "flour": "r5SLGaDmih8z-pkkdv3Ln5",
+          "_hash": "RYXta31bNpQd_U3lo-XBsT"
         },
-        "_hash": "HD6KthLHNLpkV9F2VOWLYr"
+        "_hash": "IeJCxpGmL7KgBWVxXavFJL"
       }
     ],
-    "_hash": "Y3S4opobSJ1X0l4de-WgUF"
+    "_hash": "v3HB98tIiR7oiXvlolmNlS"
   },
   "slices": {
     "_type": "sliceIds",
@@ -67,15 +67,15 @@
         "componentsTable": "recipes",
         "sliceIdsTable": "slices",
         "sliceIdsTableRow": "wyYfK5E4ArrMKQ_zvi2-EE",
-        "assign": {
-          "slice0": "8VX9S9Jktixbc3fHJSmGyC",
-          "slice1": "8VX9S9Jktixbc3fHJSmGyC",
-          "_hash": "R5nenNXa09zb5FJCqDlEP3"
+        "add": {
+          "slice0": "D8OtpcExdAd7Ct2LDKT9q_",
+          "slice1": "D8OtpcExdAd7Ct2LDKT9q_",
+          "_hash": "j0j63yPDUeO0BV686Y3_K6"
         },
-        "_hash": "5A3cNzB8IwHty-VaFsupRb"
+        "_hash": "r5SLGaDmih8z-pkkdv3Ln5"
       }
     ],
-    "_hash": "XVjdjrsg1NWc4PBrXjv3cV"
+    "_hash": "COCZamNPKdKEtBfOYkuwEM"
   },
   "recipes": {
     "_type": "layers",
@@ -85,14 +85,14 @@
         "componentsTable": "recipeComponents",
         "sliceIdsTable": "componentTypes",
         "sliceIdsTableRow": "UNxHIyPK7AACyUsbISW7bp",
-        "assign": {
+        "add": {
           "flour": "w-UhtkRZTrMpO1rYTLmrE5",
           "_hash": "IUcJ-pylBDRf56w3T1m_rd"
         },
-        "_hash": "8VX9S9Jktixbc3fHJSmGyC"
+        "_hash": "D8OtpcExdAd7Ct2LDKT9q_"
       }
     ],
-    "_hash": "nEXIN1G4C-gHjpn8oxt-nP"
+    "_hash": "G8nRXiQtMFxPfazKb3w-ET"
   },
   "recipeComponents": {
     "_type": "components",
@@ -140,5 +140,5 @@
     ],
     "_hash": "4tYazUV23SSH0tW9sQznO1"
   },
-  "_hash": "PekT2VxpTuS_8pBxwgyLH_"
+  "_hash": "p9qOijw6OArpShwt2g8biX"
 }

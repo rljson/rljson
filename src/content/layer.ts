@@ -46,9 +46,14 @@ export interface Layer extends Json {
   componentsTable: TableKey;
 
   /**
-   * Assign components to each item of the layer.
+   * Add or override assignments of components to slice ids
    */
-  assign: Record<SliceId, ComponentRef>;
+  add: Record<SliceId, ComponentRef>;
+
+  /**
+   * Remove assignments of components to slice ids
+   */
+  remove?: Record<SliceId, ComponentRef>;
 }
 
 // .............................................................................

@@ -178,7 +178,7 @@ export class Example {
         sliceIdsTable: 'sliceIds',
         sliceIdsTableRow: 'MgHRBYSrhpyl4rvsOmAWcQ',
         componentsTable: 'components',
-        assign: {
+        add: {
           id0: component0._hash,
           id1: component1._hash,
         },
@@ -189,7 +189,7 @@ export class Example {
         sliceIdsTable: 'sliceIds',
         sliceIdsTableRow: 'MgHRBYSrhpyl4rvsOmAWcQ',
         componentsTable: 'components',
-        assign: {
+        add: {
           id0: component0._hash,
           id1: component1._hash,
         },

@@ -127,7 +127,7 @@ export const bakeryExample = (): Bakery => {
         componentsTable: 'recipeComponents',
         sliceIdsTable: 'componentTypes',
         sliceIdsTableRow: componentTypes._data[0]._hash as string,
-        assign: {
+        add: {
           flour: recipeComponents._data[0]._hash as string,
         },
         _hash: '',
@@ -144,7 +144,7 @@ export const bakeryExample = (): Bakery => {
         sliceIdsTable: 'slices',
         sliceIdsTableRow: slices._data[0]._hash as string,
 
-        assign: {
+        add: {
           slice0: recipes._data[0]._hash as string,
           slice1: recipes._data[0]._hash as string,
         },
