@@ -895,13 +895,13 @@ describe('BaseValidator', async () => {
 
       it('returns an error when a base ref is not found', () => {
         const rljson = Example.broken.layers.missingBase();
-        const layer = rljson.layers._data[1];
+        const layer = rljson.abLayers._data[1];
         expect(validate(rljson)).toEqual({
           layerBasesNotFound: {
             brokenLayers: [
               {
                 brokenLayer: layer._hash,
-                layersTable: 'layers',
+                layersTable: 'abLayers',
                 missingBaseLayer: 'MISSING',
               },
             ],
@@ -915,8 +915,8 @@ describe('BaseValidator', async () => {
     describe('layerSliceIdsTableNotFound()', () => {
       it('returns an error when an reference sliceIds table is not found', () => {
         const rljson = Example.ok.complete();
-        const layer0 = rljson.layers._data[0];
-        const layer1 = rljson.layers._data[1];
+        const layer0 = rljson.abLayers._data[0];
+        const layer1 = rljson.abLayers._data[1];
         delete rljson.sliceIds;
         hip(rljson, {
           updateExistingHashes: true,
@@ -928,12 +928,12 @@ describe('BaseValidator', async () => {
             brokenLayers: [
               {
                 layerHash: layer0._hash,
-                layersTable: 'layers',
+                layersTable: 'abLayers',
                 missingSliceIdsTable: 'sliceIds',
               },
               {
                 layerHash: layer1._hash,
-                layersTable: 'layers',
+                layersTable: 'abLayers',
                 missingSliceIdsTable: 'sliceIds',
               },
             ],
@@ -947,7 +947,7 @@ describe('BaseValidator', async () => {
     describe('layerSliceIdsRowNotFound()', () => {
       it('returns an error when idSetRef is not found', () => {
         const rljson = Example.broken.layers.missingSliceIdSet();
-        const layer = (rljson.layers as LayersTable)._data[1];
+        const layer = (rljson.abLayers as LayersTable)._data[1];
         expect(layer.sliceIdsTableRow).toBe('MISSING1');
 
         expect(validate(rljson)).toEqual({
@@ -955,7 +955,7 @@ describe('BaseValidator', async () => {
             brokenLayers: [
               {
                 layerHash: layer._hash,
-                layersTable: 'layers',
+                layersTable: 'abLayers',
                 missingSliceIdsRow: 'MISSING1',
               },
             ],
@@ -964,52 +964,13 @@ describe('BaseValidator', async () => {
           hasErrors: true,
         });
       });
-
-      it('return no error, when no idSetRef is defined', () => {
-        // Set idSet to undefined
-        const result = Example.ok.complete();
-        expect(validate(result)).toEqual({
-          hasErrors: false,
-        });
-
-        // delete idSet reference
-        const layer1 = result.layers._data[1];
-        delete layer1.sliceIds;
-        hip(layer1, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        // Update cake layers
-        const cake = result.cakes._data[0];
-        cake.layers['layer1'] = layer1._hash;
-        hip(cake, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        // Update buffet slices
-        const buffet = result.buffets._data[0];
-        buffet.items[0].ref = cake._hash;
-        buffet.items[1].ref = layer1._hash;
-
-        hip(result, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        // Validate -> no error
-        expect(validate(result)).toEqual({
-          hasErrors: false,
-        });
-      });
     });
 
     describe('layerComponentAssignmentsNotFound', () => {
       it('returns an error when the components table is not foun', () => {
         const rljson = Example.broken.layers.missingAssignedComponentTable();
-        const layer0 = rljson.layers._data[0];
-        const layer1 = rljson.layers._data[1];
+        const layer0 = rljson.abLayers._data[0];
+        const layer1 = rljson.abLayers._data[1];
 
         expect(validate(rljson)).toEqual({
           layerComponentTablesNotFound: {
@@ -1017,11 +978,11 @@ describe('BaseValidator', async () => {
               {
                 brokenLayer: layer0._hash,
                 missingComponentTable: 'components',
-                layersTable: 'layers',
+                layersTable: 'abLayers',
               },
               {
                 brokenLayer: layer1._hash,
-                layersTable: 'layers',
+                layersTable: 'abLayers',
                 missingComponentTable: 'components',
               },
             ],
@@ -1036,8 +997,8 @@ describe('BaseValidator', async () => {
         const component = rljsonOk.components._data[1];
 
         const rljson = Example.broken.layers.missingAssignedComponent();
-        const layer0 = rljson.layers._data[0];
-        const layer1 = rljson.layers._data[1];
+        const layer0 = rljson.abLayers._data[0];
+        const layer1 = rljson.abLayers._data[1];
 
         expect(validate(rljson)).toEqual({
           layerComponentAssignmentsNotFound: {
@@ -1045,7 +1006,7 @@ describe('BaseValidator', async () => {
               {
                 brokenAssignment: 'id1',
                 brokenLayer: layer0._hash,
-                layersTable: 'layers',
+                layersTable: 'abLayers',
                 missingComponent: 'mv6w8rID8lQxLsje1EHQMY',
                 referencedComponentTable: 'components',
               },
@@ -1054,7 +1015,7 @@ describe('BaseValidator', async () => {
                 brokenAssignment: 'id1',
                 missingComponent: component._hash,
                 referencedComponentTable: 'components',
-                layersTable: 'layers',
+                layersTable: 'abLayers',
               },
             ],
             error: 'Layer component assignments are broken',
@@ -1073,7 +1034,7 @@ describe('BaseValidator', async () => {
 
       it('returns an error when the assignments do not match', () => {
         const rljson = Example.ok.complete();
-        const layer = rljson.layers._data[1] as Layer;
+        const layer = rljson.abLayers._data[1] as Layer;
         delete layer.add.id0;
         delete layer.add.id1;
         hip(rljson, {
@@ -1088,7 +1049,7 @@ describe('BaseValidator', async () => {
             layers: [
               {
                 brokenLayer: layer._hash,
-                layersTable: 'layers',
+                layersTable: 'abLayers',
                 unassignedSliceIds: ['id0', 'id1'],
               },
             ],
@@ -1117,7 +1078,7 @@ describe('BaseValidator', async () => {
         // Update buffet slices
         const buffet = rljson.buffets._data[0];
         buffet.items[0].ref = rljson.cakes._data[0]._hash;
-        buffet.items[1].ref = rljson.layers._data[1]._hash;
+        buffet.items[1].ref = rljson.abLayers._data[1]._hash;
         hip(rljson, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
@@ -1195,7 +1156,7 @@ describe('BaseValidator', async () => {
     });
 
     describe('cakeLayersNotFound', () => {
-      it('returns an error when the layer of a layer is not found', () => {
+      it('returns an error when the version of a layer is not found', () => {
         const rljson = Example.broken.cakes.missingCakeLayer();
         const cake = rljson.cakes._data[0];
         expect(validate(rljson)).toEqual({
@@ -1203,17 +1164,9 @@ describe('BaseValidator', async () => {
             brokenCakes: [
               {
                 brokenCake: cake._hash,
-                brokenLayerName: 'layer0',
                 cakeTable: 'cakes',
-                layersTable: 'layers',
+                layersTable: 'abLayers',
                 missingLayer: 'MISSING0',
-              },
-              {
-                brokenCake: cake._hash,
-                brokenLayerName: 'layer1',
-                cakeTable: 'cakes',
-                layersTable: 'layers',
-                missingLayer: 'MISSING1',
               },
             ],
             error: 'Layer layers of cakes are missing',
@@ -1267,7 +1220,7 @@ describe('BaseValidator', async () => {
               {
                 brokenBuffet: buffet._hash,
                 buffetTable: 'buffets',
-                itemTable: 'layers',
+                itemTable: 'abLayers',
                 missingItem: 'MISSING1',
               },
             ],

@@ -41,8 +41,8 @@ export interface Bakery extends Rljson {
   buffets: BuffetsTable;
   cakes: CakesTable;
   slices: SliceIdsTable;
-  layers: LayersTable;
   recipes: LayersTable;
+  recipeLayers: LayersTable;
   recipeComponents: ComponentsTable<RecipeComponent>;
   components: ComponentsTable<Component>;
   nutritionalValues: ComponentsTable<NutritionalValues>;
@@ -135,7 +135,7 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const layers = hip<LayersTable>({
+  const recipeLayers = hip<LayersTable>({
     _type: 'layers',
     _data: [
       {
@@ -159,9 +159,8 @@ export const bakeryExample = (): Bakery => {
         id: 'cake1',
         sliceIdsTable: 'slices',
         sliceIdsRow: slices._data[0]._hash as string,
-        layersTable: 'layers',
         layers: {
-          flour: layers._data[0]._hash as string,
+          recipeLayers: recipeLayers._data[0]._hash as string,
         },
       },
     ],
@@ -187,7 +186,7 @@ export const bakeryExample = (): Bakery => {
     cakes,
     slices,
     componentTypes,
-    layers,
+    recipeLayers,
     recipes,
     recipeComponents,
     components,

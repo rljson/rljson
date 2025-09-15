@@ -65,4 +65,5 @@ export type LayersTable = RljsonTable<Layer, 'layers'>;
 /**
  * Provides an example layersTable for test purposes
  */
-export const exampleLayersTable = (): LayersTable => bakeryExample().layers;
+export const exampleLayersTable = (): LayersTable =>
+  bakeryExample().recipeLayers;

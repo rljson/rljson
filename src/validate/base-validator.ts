@@ -937,31 +937,29 @@ class _BaseValidator {
 
       const cakesTable: CakesTable = table as CakesTable;
       for (const cake of cakesTable._data) {
-        const layersTableKey = cake.layersTable;
-        const layersTable = this.rljsonIndexed[layersTableKey];
-        if (!layersTable) {
-          missingLayerTables.push({
-            cakeTable: tableKey,
-            brokenCake: cake._hash,
-            missingLayersTable: layersTableKey,
-          });
-
-          continue;
-        }
-
-        for (const layerKey in cake.layers) {
-          if (layerKey.startsWith('_')) {
+        for (const layersTableKey in cake.layers) {
+          if (layersTableKey.startsWith('_')) {
             continue;
           }
 
-          const layerRef = cake.layers[layerKey];
+          const layersTable = this.rljsonIndexed[layersTableKey];
+          if (!layersTable) {
+            missingLayerTables.push({
+              cakeTable: tableKey,
+              brokenCake: cake._hash,
+              missingLayersTable: layersTableKey,
+            });
+
+            continue;
+          }
+
+          const layerRef = cake.layers[layersTableKey];
           const layer = layersTable._data[layerRef];
 
           if (!layer) {
             missingCakeLayers.push({
               cakeTable: tableKey,
               brokenCake: cake._hash,
-              brokenLayerName: layerKey,
               layersTable: layersTableKey,
               missingLayer: layerRef,
             });

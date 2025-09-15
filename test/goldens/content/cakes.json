@@ -5,13 +5,12 @@
       "id": "cake1",
       "sliceIdsTable": "slices",
       "sliceIdsRow": "wyYfK5E4ArrMKQ_zvi2-EE",
-      "layersTable": "layers",
       "layers": {
-        "flour": "r5SLGaDmih8z-pkkdv3Ln5",
-        "_hash": "RYXta31bNpQd_U3lo-XBsT"
+        "recipeLayers": "r5SLGaDmih8z-pkkdv3Ln5",
+        "_hash": "JDx0u34J0N-PWG9Pl5UpDf"
       },
-      "_hash": "IeJCxpGmL7KgBWVxXavFJL"
+      "_hash": "1Opfgd5zhtAovGoMJv2-sb"
     }
   ],
-  "_hash": "v3HB98tIiR7oiXvlolmNlS"
+  "_hash": "M0_FhWDjldiMYVzERXragg"
 }
