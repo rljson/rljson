@@ -38,9 +38,9 @@ export const fromJson = <Str extends string>(
   const indexName = decomposeSheet._name
     ? decomposeSheet._name.toLowerCase() + 'Index'
     : 'index';
-  const repositoryName = decomposeSheet._name
-    ? decomposeSheet._name.toLowerCase() + 'Repository'
-    : 'repository';
+  const cakeName = decomposeSheet._name
+    ? decomposeSheet._name.toLowerCase() + 'Cake'
+    : 'cake';
 
   const componentsName = (layerName: string, objName?: string) =>
     objName
@@ -105,16 +105,16 @@ export const fromJson = <Str extends string>(
     )
     .reduce((a, b) => ({ ...a, ...b }), {});
 
-  const stacks = Object.entries(layers)
-    .map(([layerKey, layer]) =>
-      Object.assign({
-        [layerKey.replace('Layer', 'Stack')]: hip({
-          _type: 'stack',
-          _data: [{ [layerKey]: (layer as JsonH)._hash }],
-        }),
-      }),
-    )
-    .reduce((a, b) => ({ ...a, ...b }), {});
+  // const stacks = Object.entries(layers)
+  //   .map(([layerKey, layer]) =>
+  //     Object.assign({
+  //       [layerKey.replace('Layer', 'Stack')]: hip({
+  //         _type: 'stack',
+  //         _data: [{ [layerKey]: (layer as JsonH)._hash }],
+  //       }),
+  //     }),
+  //   )
+  //   .reduce((a, b) => ({ ...a, ...b }), {});
 
   const repository: Stack<{
     [key: string]: LayerRef;
@@ -168,21 +168,21 @@ export const fromJson = <Str extends string>(
               ? relationName + 'Stack'
               : 'relationStack';
 
-            const relationStack: Stack<{
-              [key: string]: LayerRef;
-            }> = hip({
-              _type: 'stack',
-              _data: [
-                {
-                  [layerName]: relationLayer._hash as string,
-                  _hash: '',
-                },
-              ],
-            });
+            // const relationStack: Stack<{
+            //   [key: string]: LayerRef;
+            // }> = hip({
+            //   _type: 'stack',
+            //   _data: [
+            //     {
+            //       [layerName]: relationLayer._hash as string,
+            //       _hash: '',
+            //     },
+            //   ],
+            // });
 
             return {
               ...subCluster,
-              ...{ [layerName]: relationLayer, [stackName]: relationStack },
+              ...{ [layerName]: relationLayer /*[stackName]: relationStack*/ },
             };
           })
           .reduce((a, b) => ({ ...a, ...b }), {})
@@ -191,8 +191,8 @@ export const fromJson = <Str extends string>(
   return {
     ...components,
     ...layers,
-    ...stacks,
-    ...{ [repositoryName]: repository },
+    /*...stacks,*/
+    ...{ [cakeName]: repository },
     ...nested,
   } as Cluster<Str>;
 };
