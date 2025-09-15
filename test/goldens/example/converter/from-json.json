@@ -1,0 +1,333 @@
+{
+  "carGeneral": {
+    "_type": "components",
+    "_data": [
+      {
+        "brand": "Volkswagen",
+        "type": "Polo",
+        "doors": 5,
+        "_hash": "kGUWVQqc3s04pEFCrAhPBU"
+      },
+      {
+        "brand": "Volkswagen",
+        "type": "Golf",
+        "doors": 3,
+        "_hash": "32MNv-aROHGLPpb96BMIqq"
+      }
+    ],
+    "_hash": "VL8Lhiwke4ScEYa_BbkOI5"
+  },
+  "carTechnical": {
+    "_type": "components",
+    "_data": [
+      {
+        "engine": "Diesel",
+        "transmission": "Manual",
+        "gears": 6,
+        "_hash": "bS4c-w-oYiodBMxv4cRPXs"
+      },
+      {
+        "engine": "Petrol",
+        "transmission": "Automatic",
+        "gears": 7,
+        "_hash": "cE6GU1sf4CvCGuGozsgaa7"
+      }
+    ],
+    "_hash": "o5k6ih1q9xDLF8j1sXCnS6"
+  },
+  "carColor": {
+    "_type": "components",
+    "_data": [
+      {
+        "sides": "green",
+        "roof": "white",
+        "highlights": "chrome",
+        "_hash": "aCjcRQw-KWRYJe6ttLx-Un"
+      },
+      {
+        "sides": "blue",
+        "roof": "black",
+        "highlights": "chrome",
+        "_hash": "5vRZZ-vTbp1zhman-kDIV3"
+      }
+    ],
+    "_hash": "rBKZg4ZvV7WGfxDi2RkCLC"
+  },
+  "carIndex": {
+    "_type": "components",
+    "_data": [
+      {
+        "VIN": "47YcDGPtTxiNz-gsGBU121",
+        "_hash": "EgX-P9ZCO1CRZS28tHv27Z"
+      },
+      {
+        "VIN": "47YcDGPtTxiNz-gsGBU120",
+        "_hash": "4SGqNjv2XbLiGP-z5TFfDv"
+      }
+    ],
+    "_hash": "jiwyhln9V69C2q41uFk7Qd"
+  },
+  "carGeneralLayer": {
+    "_type": "layer",
+    "_data": [
+      {
+        "carIndexRef": "EgX-P9ZCO1CRZS28tHv27Z",
+        "carGeneralRef": "kGUWVQqc3s04pEFCrAhPBU",
+        "_hash": "XXq4TdTWmloLi6d1n3PPLo"
+      },
+      {
+        "carIndexRef": "4SGqNjv2XbLiGP-z5TFfDv",
+        "carGeneralRef": "32MNv-aROHGLPpb96BMIqq",
+        "_hash": "sKrtv60bk0IU-XSp2eCZrv"
+      }
+    ],
+    "_hash": "aPZ9-S5jWnrqcyJq9jTCIK"
+  },
+  "carTechnicalLayer": {
+    "_type": "layer",
+    "_data": [
+      {
+        "carIndexRef": "EgX-P9ZCO1CRZS28tHv27Z",
+        "carTechnicalRef": "bS4c-w-oYiodBMxv4cRPXs",
+        "_hash": "eTMg1uKU2Qnz43hMeeglFn"
+      },
+      {
+        "carIndexRef": "4SGqNjv2XbLiGP-z5TFfDv",
+        "carTechnicalRef": "cE6GU1sf4CvCGuGozsgaa7",
+        "_hash": "bvrFqcmjJauw3GK5h1eJZk"
+      }
+    ],
+    "_hash": "WAPF9wqDhM5NwC9DRsYvFp"
+  },
+  "carColorLayer": {
+    "_type": "layer",
+    "_data": [
+      {
+        "carIndexRef": "EgX-P9ZCO1CRZS28tHv27Z",
+        "carColorRef": "aCjcRQw-KWRYJe6ttLx-Un",
+        "_hash": "MVblOdF0MlsflJkvR5OYY1"
+      },
+      {
+        "carIndexRef": "4SGqNjv2XbLiGP-z5TFfDv",
+        "carColorRef": "5vRZZ-vTbp1zhman-kDIV3",
+        "_hash": "ZJNaQbpvyS2Fu7kWSfXPAk"
+      }
+    ],
+    "_hash": "2M_dy3AOmZOf3LeWhLAtH-"
+  },
+  "carIndexLayer": {
+    "_type": "layer",
+    "_data": [
+      {
+        "carIndexRef": "EgX-P9ZCO1CRZS28tHv27Z",
+        "_hash": "MiSF2BF9u4BBIzBxY0e72g"
+      },
+      {
+        "carIndexRef": "4SGqNjv2XbLiGP-z5TFfDv",
+        "_hash": "YKc6OHqvus__KlGbdB6whp"
+      }
+    ],
+    "_hash": "q6Vv-mAQrQGcwnuNdOtqfc"
+  },
+  "carGeneralStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "carGeneralLayer": "aPZ9-S5jWnrqcyJq9jTCIK",
+        "_hash": "3qsELJ6EJba7vidaZZOOM2"
+      }
+    ],
+    "_hash": "LBz3IORxYtAGDvhvfzaKt4"
+  },
+  "carTechnicalStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "carTechnicalLayer": "WAPF9wqDhM5NwC9DRsYvFp",
+        "_hash": "1hfiOG2jDW6xWrYL5CMlEo"
+      }
+    ],
+    "_hash": "MHstjHLO2camZBPYcbKtHW"
+  },
+  "carColorStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "carColorLayer": "2M_dy3AOmZOf3LeWhLAtH-",
+        "_hash": "coiLlC5OqPuRq6GpNnhlgx"
+      }
+    ],
+    "_hash": "EUrm2uf1EbheJhtKzUsVAO"
+  },
+  "carIndexStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "carIndexLayer": "q6Vv-mAQrQGcwnuNdOtqfc",
+        "_hash": "EBP-0NC2Uo8A_E4d8Z35XD"
+      }
+    ],
+    "_hash": "zl7fa_LZkxh52Dq6CZgsdj"
+  },
+  "carRepository": {
+    "_type": "stack",
+    "_data": {
+      "carGeneralLayer": "aPZ9-S5jWnrqcyJq9jTCIK",
+      "carTechnicalLayer": "WAPF9wqDhM5NwC9DRsYvFp",
+      "carColorLayer": "2M_dy3AOmZOf3LeWhLAtH-",
+      "carIndexLayer": "q6Vv-mAQrQGcwnuNdOtqfc"
+    }
+  },
+  "wheelBrand": {
+    "_type": "components",
+    "_data": [
+      {
+        "brand": "Borbet",
+        "_hash": "VQxyOOlL5pVCWUoteV_x8V"
+      },
+      {
+        "brand": "Borbet",
+        "_hash": "VQxyOOlL5pVCWUoteV_x8V"
+      }
+    ],
+    "_hash": "uF28DWcWqpK2qdnZaeh_Xp"
+  },
+  "wheelDimension": {
+    "_type": "components",
+    "_data": [
+      {
+        "dimension": "185/60 R16",
+        "_hash": "pQB1jQ9uRxoYAcVc25VA20"
+      },
+      {
+        "dimension": "195/55 R16",
+        "_hash": "7G8GafBJu0ohK_1lcTWgEn"
+      }
+    ],
+    "_hash": "lBILVwqKaED_jR4zA3iksA"
+  },
+  "wheelIndex": {
+    "_type": "components",
+    "_data": [
+      {
+        "SN": "BOB37382",
+        "_hash": "t-ANzUp4T0EIyHW5gm5iz8"
+      },
+      {
+        "SN": "BOB37383",
+        "_hash": "6FV8t-am9B5DEZAJ44NS3j"
+      }
+    ],
+    "_hash": "rsVpaaOuyPwfQ_K62YHSy5"
+  },
+  "wheelBrandLayer": {
+    "_type": "layer",
+    "_data": [
+      {
+        "wheelIndexRef": "t-ANzUp4T0EIyHW5gm5iz8",
+        "wheelBrandRef": "VQxyOOlL5pVCWUoteV_x8V",
+        "_hash": "wCXs-EZJknhNCFbQK0YMJL"
+      },
+      {
+        "wheelIndexRef": "6FV8t-am9B5DEZAJ44NS3j",
+        "wheelBrandRef": "VQxyOOlL5pVCWUoteV_x8V",
+        "_hash": "J9SHwZIgSu7yqiNRRBIHoT"
+      }
+    ],
+    "_hash": "WHp6RTcZE9YAwj1v0t3Ztm"
+  },
+  "wheelDimensionLayer": {
+    "_type": "layer",
+    "_data": [
+      {
+        "wheelIndexRef": "t-ANzUp4T0EIyHW5gm5iz8",
+        "wheelDimensionRef": "pQB1jQ9uRxoYAcVc25VA20",
+        "_hash": "zPIy93sGhT_ng5lz8k6f46"
+      },
+      {
+        "wheelIndexRef": "6FV8t-am9B5DEZAJ44NS3j",
+        "wheelDimensionRef": "7G8GafBJu0ohK_1lcTWgEn",
+        "_hash": "MPmCT-YjcHAri25Psb6G2E"
+      }
+    ],
+    "_hash": "j4kGxrLJ9d7cA-xF-vM1Uk"
+  },
+  "wheelIndexLayer": {
+    "_type": "layer",
+    "_data": [
+      {
+        "wheelIndexRef": "t-ANzUp4T0EIyHW5gm5iz8",
+        "_hash": "WxeBsmXDtXZyPtcAzSU_9O"
+      },
+      {
+        "wheelIndexRef": "6FV8t-am9B5DEZAJ44NS3j",
+        "_hash": "6ME-Cff_mysap_T0R4JpYP"
+      }
+    ],
+    "_hash": "vCHLT6d3RXBrmYjoUJAeMl"
+  },
+  "wheelBrandStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "wheelBrandLayer": "WHp6RTcZE9YAwj1v0t3Ztm",
+        "_hash": "Z8rlQ8rc_s7CSfqG4J_6w9"
+      }
+    ],
+    "_hash": "tdkViG_bLoQVVQkJlc4T6g"
+  },
+  "wheelDimensionStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "wheelDimensionLayer": "j4kGxrLJ9d7cA-xF-vM1Uk",
+        "_hash": "NZmLgi2Kwn73jHyewcqZ-u"
+      }
+    ],
+    "_hash": "Kl0bUJqVbxOgvdvKfVmJTo"
+  },
+  "wheelIndexStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "wheelIndexLayer": "vCHLT6d3RXBrmYjoUJAeMl",
+        "_hash": "1NzNw_7_-mxFD1In4FKBcC"
+      }
+    ],
+    "_hash": "8oGo_VDhcAhoFnf0hrntXG"
+  },
+  "wheelRepository": {
+    "_type": "stack",
+    "_data": {
+      "wheelBrandLayer": "WHp6RTcZE9YAwj1v0t3Ztm",
+      "wheelDimensionLayer": "j4kGxrLJ9d7cA-xF-vM1Uk",
+      "wheelIndexLayer": "vCHLT6d3RXBrmYjoUJAeMl"
+    }
+  },
+  "car2WheelLayer": {
+    "_type": "layer",
+    "_data": [
+      {
+        "carIndexRef": "EgX-P9ZCO1CRZS28tHv27Z",
+        "wheelIndexRef": "t-ANzUp4T0EIyHW5gm5iz8",
+        "_hash": "hmKuy3yjUAhZFtG53xTFqF"
+      },
+      {
+        "carIndexRef": "4SGqNjv2XbLiGP-z5TFfDv",
+        "wheelIndexRef": "6FV8t-am9B5DEZAJ44NS3j",
+        "_hash": "kBHWKVJ5GPy058si7exlsg"
+      }
+    ],
+    "_hash": "onUWdf3PAy8wu7XjKzZqPj"
+  },
+  "car2WheelStack": {
+    "_type": "stack",
+    "_data": [
+      {
+        "car2WheelLayer": "onUWdf3PAy8wu7XjKzZqPj",
+        "_hash": "i5hka5tpyqmOHGjHEGZu6H"
+      }
+    ],
+    "_hash": "ZpBlpuUXEkA58-7nxbOkmE"
+  }
+}
