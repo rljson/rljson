@@ -12,6 +12,7 @@ import { expectGolden } from '../setup/goldens.ts';
 
 describe('LayersTable', () => {
   it('provides a list of layers', async () => {
-    await expectGolden('content/layers.json').toBe(exampleLayersTable());
+    const json = exampleLayersTable();
+    await expectGolden('content/layers.json').toBe(json);
   });
 });

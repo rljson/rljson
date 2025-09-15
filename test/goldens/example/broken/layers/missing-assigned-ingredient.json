@@ -2,16 +2,13 @@
   "sliceIds": {
     "_data": [
       {
-        "add": [
-          "id0",
-          "id1"
-        ],
+        "add": ["id0", "id1"],
         "_hash": "MgHRBYSrhpyl4rvsOmAWcQ"
       }
     ],
     "_hash": "qRZufOu87nL9T7lgt-vx-W"
   },
-  "ingredients": {
+  "components": {
     "_data": [
       {
         "a": "0",
@@ -25,7 +22,7 @@
       {
         "sliceIdsTable": "sliceIds",
         "sliceIdsTableRow": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "ingredientsTable": "ingredients",
+        "componentsTable": "components",
         "assign": {
           "id0": "AFhW-fMzdCiz6bUZscp1Lf",
           "id1": "mv6w8rID8lQxLsje1EHQMY",
@@ -37,7 +34,7 @@
         "base": "iYq_Gx3q5-4fe9IkN6oJRu",
         "sliceIdsTable": "sliceIds",
         "sliceIdsTableRow": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "ingredientsTable": "ingredients",
+        "componentsTable": "components",
         "assign": {
           "id0": "AFhW-fMzdCiz6bUZscp1Lf",
           "id1": "mv6w8rID8lQxLsje1EHQMY",

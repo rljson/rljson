@@ -1,5 +1,6 @@
 {
   "tableB": {
+    "_type": "components",
     "_data": [
       {
         "tableARef": "MISSINGREF"

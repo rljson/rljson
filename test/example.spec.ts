@@ -20,7 +20,7 @@ describe('Example', () => {
       for (const key in Example.ok) {
         it(key, async () => {
           const snakeCaseKey = convertToKebabCase(key);
-          const example = Example.ok[key]();
+          const example = (Example.ok as any)[key]!();
           await expectGolden(`example/ok/${snakeCaseKey}.json`).toBe(example);
         });
       }
@@ -29,7 +29,7 @@ describe('Example', () => {
     describe('withstands validation', () => {
       for (const key in Example.ok) {
         it(key, async () => {
-          const example = Example.ok[key]();
+          const example = (Example.ok as any)[key]();
           const result = new BaseValidator().validateSync(example);
           const message = JSON.stringify(result, null, 2);
           if (result.hasErrors) {
@@ -45,7 +45,7 @@ describe('Example', () => {
     describe('matches golden files', () => {
       for (const category in Example.broken) {
         describe(category, () => {
-          const categoryExamples = Example.broken[category];
+          const categoryExamples = (Example.broken as any)[category];
           expect(typeof categoryExamples).toBe('object');
           for (const key in categoryExamples) {
             it(key, async () => {

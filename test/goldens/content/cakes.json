@@ -1,16 +1,16 @@
 {
+  "_type": "cakes",
   "_data": [
     {
       "id": "cake1",
       "sliceIdsTable": "slices",
       "sliceIdsRow": "wyYfK5E4ArrMKQ_zvi2-EE",
-      "layersTable": "layers",
       "layers": {
-        "flour": "I0zT7120s1gWEDrGhhSr6n",
-        "_hash": "xt5lXBmDHfp0XI8PaiLWT-"
+        "recipeLayers": "PZhgu3fmAtLceImvnW7fTj",
+        "_hash": "fudiDz_SXuMQbcqmAd-JOp"
       },
-      "_hash": "FShJOllEImdno0ZPZS0Ucr"
+      "_hash": "Mge0ULLEbsemMq1ndUNZ6b"
     }
   ],
-  "_hash": "WYUlAHMA-IZ2WeM8ZoPF2b"
+  "_hash": "NeM6k972PwtYT8uXM9w27T"
 }

@@ -15,7 +15,7 @@
       {
         "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "ingredientsTable": "ingredients",
+        "componentsTable": "components",
         "assign": {
           "_hash": "RBNvo1WzZ4oRRq0W9-hknp"
         },
@@ -25,7 +25,7 @@
         "base": "iPpit9trX8fBQ5XIBtk6RY",
         "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "ingredientsTable": "ingredients",
+        "componentsTable": "components",
         "assign": {
           "id0": "AFhW-fMzdCiz6bUZscp1Lf",
           "id1": "mv6w8rID8lQxLsje1EHQMY",

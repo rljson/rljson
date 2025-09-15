@@ -167,7 +167,7 @@ describe('TableCfg', () => {
         isRoot: true,
         isShared: false,
         key: 'table',
-        type: 'ingredients',
+        type: 'components',
       });
     });
 
@@ -195,7 +195,7 @@ describe('TableCfg', () => {
           type: 'boolean',
         },
       ],
-      type: 'ingredients',
+      type: 'components',
     };
 
     const result = exampleTableCfg(partialCfg);
@@ -207,7 +207,7 @@ describe('TableCfg', () => {
         type: 'boolean',
       },
     ]);
-    expect(result.type).toBe('ingredients');
+    expect(result.type).toBe('components');
   });
 
   it('exampleTableCfg with default values', () => {
@@ -229,6 +229,6 @@ describe('TableCfg', () => {
         type: 'number',
       },
     ]);
-    expect(result.type).toBe('ingredients');
+    expect(result.type).toBe('components');
   });
 });

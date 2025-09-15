@@ -40,15 +40,10 @@ export interface Cake extends Json {
   sliceIdsRow: SliceIdsRef;
 
   /**
-   * The table containing the slice layers defining the layers
-   */
-  layersTable: TableKey;
-
-  /**
    * Assigns a layer to each layer of the cake.
    */
   layers: {
-    [layerId: CakeLayerId]: LayerRef;
+    [layerTable: TableKey]: LayerRef;
   };
 
   /**
@@ -61,7 +56,7 @@ export interface Cake extends Json {
 /**
  * A table containing cakes
  */
-export type CakesTable = RljsonTable<Cake>;
+export type CakesTable = RljsonTable<Cake, 'cakes'>;
 
 // .............................................................................
 /**

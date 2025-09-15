@@ -35,14 +35,16 @@ export type ColumnKey = JsonKey;
  * - `cakes` Tables containing cakes
  * - `layers` Tables containing layers
  * - `ids` Tables containing slice ids
- * - `ingredients` Tables containing slice ingredients
+ * - `components` Tables containing slice components
  */
 export const contentTypes = [
   'buffets',
   'cakes',
   'layers',
   'sliceIds',
-  'ingredients',
+  'components',
+  'revisions',
+  'tableCfgs',
 ] as const;
 
 export type ContentType = (typeof contentTypes)[number];

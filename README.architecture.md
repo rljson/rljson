@@ -29,7 +29,7 @@ This document describes the architecture of the Rljson format.
   - [Hashes](#hashes)
   - [Linking Tables Using References](#linking-tables-using-references)
 - [Data Types](#data-types)
-  - [Ingredients](#ingredients)
+  - [Components](#components)
   - [SliceIds](#sliceids)
   - [Layer](#layer)
   - [Cake](#cake)
@@ -145,7 +145,7 @@ This results in:
 ```json
 {
   "_hash": "D1CtRUBswzGVc1o9yHQKEh",
-  "a": {
+  "tableA": {
     "_data": [
       {
         "_hash": "LeFJOCQVgToOfbUuKJQ-GO",
@@ -165,7 +165,7 @@ table `b` references table `a` using `aRef`:
 ```json
 {
   "b": {
-    "_data": [{ "aRef": "LeFJOCQVgToOfbUuKJQ-GO" }]
+    "_data": [{ "tableARef": "LeFJOCQVgToOfbUuKJQ-GO" }]
   }
 }
 ```
@@ -177,33 +177,58 @@ This reference structure enables automated denormalization of JSON data.
 Rljson provides several core data structures and table types to manage and
 synchronize large datasets.
 
-### Ingredients
+### Components
 
-`Ingredients` are the fundamental data concept. An `IngredientsTable` contains
-key-value pairs assigning values to ingredient names.
+`Components` are the fundamental data concept. An `ComponentsTable` contains
+key-value pairs assigning values to component names.
 
 ```json
 {
   "ingredients": {
+    "_type": "components",
     "_data": [
       {
-        "name": "flour",
+        "id": "flour",
         "amountUnit": "g",
-        "nutritionalValuesRef": "gZXFSlrl5QAs5hOVsq5sWB"
+        "nutritionalValuesRef": "R165gWZn_Pcj_je3AwSsXI",
+        "_hash": "A5d-4if1fQpQERfwFsjKqb"
       }
-    ]
+    ],
+    "_hash": "t5oZrLJOxAj-5nlE1ZV488"
   },
-
   "nutritionalValues": {
+    "_type": "components",
     "_data": [
       {
+        "id": "flour",
         "energy": 364,
         "fat": 0.98,
         "protein": 10.33,
         "carbohydrates": 76.31,
-        "_hash": "gZXFSlrl5QAs5hOVsq5sWB"
+        "_hash": "R165gWZn_Pcj_je3AwSsXI"
+      },
+      {
+        "id": "flour",
+        "energy": 364.1,
+        "fat": 0.981,
+        "protein": 10.331,
+        "carbohydrates": 76.311,
+        "_hash": "IqeoWJjZQNlr-NVk2QT15B"
       }
-    ]
+    ],
+    "_hash": "4tYazUV23SSH0tW9sQznO1"
+  },
+  "recipeIngredients": {
+    "_type": "components",
+    "_data": [
+      {
+        "id": "flour",
+        "ingredientsRef": "A5d-4if1fQpQERfwFsjKqb",
+        "quantity": 500,
+        "_hash": "4coxp7hPCsH7hSnAVeUVZj"
+      }
+    ],
+    "_hash": "nJ4SAM641VlxYxekNiXkKI"
   }
 }
 ```
@@ -211,19 +236,21 @@ key-value pairs assigning values to ingredient names.
 ### SliceIds
 
 For efficient management of large layers, slice IDs are separated from their
-ingredients. This allows fetching IDs first and retrieving details later. The
+components. This allows fetching IDs first and retrieving details later. The
 following `SliceIds` define a set of three slice IDs:
 
 ```json
 {
   "slices": {
+    "_type": "sliceIds",
     "_data": [
       {
         "add": ["slice0", "slice1"],
         "remove": [],
         "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
       }
-    ]
+    ],
+    "_hash": "cnGg1WO4AHE2QX2CO2_aQL"
   }
 }
 ```
@@ -233,6 +260,7 @@ Derived `SliceIds` can be created by modifying an existing set:
 ```json
 {
   "slices": {
+    "_type": "sliceIds",
     "_data": [
       {
         "add": ["slice0", "slice1"],
@@ -240,32 +268,49 @@ Derived `SliceIds` can be created by modifying an existing set:
         "_hash": "wyYfK5E4ArrMKQ_zvi2-EE"
       },
       {
-        "base": "wyYfK5E4ArrMKQ_zvi2-EE",
+        "base": "wyYfK5E4ArrMKQ_zvi2-EE", // Hash of first id set
         "add": ["slice2"],
-        "remove": []
+        "remove": ["slice0"]
       }
     ]
+  },
+
+  "ingredientTypes": {
+    "_type": "sliceIds",
+    "_data": [
+      {
+        "add": ["flour"],
+        "remove": [],
+        "_hash": "UNxHIyPK7AACyUsbISW7bp"
+      }
+    ],
+    "_hash": "c1w4IVG4J4JANpcTu8p7Jd"
   }
 }
 ```
 
 ### Layer
 
-Cake layers assign ingredients to slices.
+Layers assign components to slices.
 
 ```json
 {
-  "layers": {
+  "recipes": {
+    "_type": "layers",
     "_data": [
       {
-        "ingredientsTable": "recipes",
-        "assign": {
-          "slice0": "H8KK9vMjOxxQr_G_9XeDM-",
-          "slice1": "H8KK9vMjOxxQr_G_9XeDM-"
+        "id": "tastyCake",
+        "componentsTable": "recipeIngredients",
+        "sliceIdsTable": "ingredientTypes",
+        "sliceIdsTableRow": "UNxHIyPK7AACyUsbISW7bp",
+        "add": {
+          "flour": "4coxp7hPCsH7hSnAVeUVZj",
+          "_hash": "5LxOnZOPBtIqV3PlOC_ulB"
         },
-        "_hash": "rrFBguLFLhXjrDqAxJx1p-"
+        "_hash": "NOVdgwVKlShXT1FTLaLrqK"
       }
-    ]
+    ],
+    "_hash": "FFblMN2aS4hPtJKPTMspXl"
   }
 }
 ```
@@ -274,24 +319,25 @@ Cake layers assign ingredients to slices.
 
 A `Cake` consists of layers of slices.
 All layers share the same slice structure, i.e. the same slice ids.
-Each layer assigns different ingredients to slices.
+Each layer assigns different components to slices.
 
 ```json
 {
   "cakes": {
+    "_type": "cakes",
     "_data": [
       {
+        "id": "cake1",
         "sliceIdsTable": "slices",
-        "idSet": "wyYfK5E4ArrMKQ_zvi2-EE",
-        "layersTable": "layers",
+        "sliceIdsRow": "wyYfK5E4ArrMKQ_zvi2-EE",
         "layers": {
-          "flour": "rrFBguLFLhXjrDqAxJx1p-",
-          "_hash": "JSoUx1N6lso-18vkzG63Pm"
+          "recipeLayers": "PZhgu3fmAtLceImvnW7fTj",
+          "_hash": "fudiDz_SXuMQbcqmAd-JOp"
         },
-        "_hash": "bOlQ1lPpZEYB00F14nGvOP"
+        "_hash": "Mge0ULLEbsemMq1ndUNZ6b"
       }
     ],
-    "_hash": "hsL7dD0mFDqmT2i-1fx_1a"
+    "_hash": "NeM6k972PwtYT8uXM9w27T"
   }
 }
 ```
@@ -299,24 +345,26 @@ Each layer assigns different ingredients to slices.
 ### Buffet
 
 A `Buffet` is a heterogeneous collection of different but related items,
-such as cakes, layers, or ingredients:
+such as cakes, layers, or components:
 
 ```json
 {
   "buffets": {
+    "_type": "buffets",
     "_data": [
       {
+        "id": "salesCounter",
         "items": [
           {
             "table": "cakes",
-            "ref": "bOlQ1lPpZEYB00F14nGvOP",
-            "_hash": "ma47UGAZbu5Ql5yXWFHLAT"
+            "ref": "Mge0ULLEbsemMq1ndUNZ6b",
+            "_hash": "VC_7itbevmNKG3Rc4XWyJz"
           }
         ],
-        "_hash": "jPv5bXjs3XVOLRbQvoWcjw"
+        "_hash": "G7ZX04bp0TdBG9fHDR7Sgu"
       }
     ],
-    "_hash": "FYK9ItHMDCe2CnD_TGRs8_"
+    "_hash": "0RyzLpZX1Nkfxej2WgXbEF"
   }
 }
 ```

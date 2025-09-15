@@ -1,5 +1,6 @@
 {
   "tableA": {
+    "_type": "components",
     "_data": [
       {
         "keyA0": "a0"
@@ -10,6 +11,7 @@
     ]
   },
   "tableB": {
+    "_type": "components",
     "_data": [
       {
         "tableARef": "KFQrf4mEz0UPmUaFHwH4T6"

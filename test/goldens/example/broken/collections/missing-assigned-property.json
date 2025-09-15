@@ -9,8 +9,8 @@
     ],
     "_hash": "ha3u_Et6DXSHLr2ncTV6MB"
   },
-  "ingredients": {
-    "_type": "ingredients",
+  "components": {
+    "_type": "components",
     "_data": [
       {
         "a": "0",
@@ -25,7 +25,7 @@
       {
         "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "ingredientsTable": "ingredients",
+        "componentsTable": "components",
         "assign": {
           "_hash": "RBNvo1WzZ4oRRq0W9-hknp"
         },
@@ -35,7 +35,7 @@
         "base": "Bqv4AEhsA71SnW2VScKrzA",
         "sliceIdsTable": "sliceIds",
         "idSet": "MgHRBYSrhpyl4rvsOmAWcQ",
-        "ingredientsTable": "ingredients",
+        "componentsTable": "components",
         "assign": {
           "id0": "AFhW-fMzdCiz6bUZscp1Lf",
           "id1": "mv6w8rID8lQxLsje1EHQMY",

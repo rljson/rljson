@@ -35,7 +35,7 @@ export interface Revision extends Json {
 
   /**
    * The optional ID of the revisioned element.
-   * Can be used get all revisions of a specific ingredient.
+   * Can be used get all revisions of a specific component.
    */
   id?: string;
 }
@@ -43,7 +43,7 @@ export interface Revision extends Json {
 /**
  * A table containing revisions
  */
-export type RevisionsTable = RljsonTable<Revision>;
+export type RevisionsTable = RljsonTable<Revision, 'revisions'>;
 
 /**
  * Example revision object for test purposes
