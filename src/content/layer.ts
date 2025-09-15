@@ -25,7 +25,7 @@ export type LayerRef = Ref;
  */
 export interface Layer extends Json {
   /**
-   * `base` an optional base layer that is extended by this layer
+   * `base` an optional base layer that is extended or shrinked by this layer
    */
   base?: LayerRef;
 
@@ -46,12 +46,15 @@ export interface Layer extends Json {
   componentsTable: TableKey;
 
   /**
-   * Add or override assignments of components to slice ids
+   * Assigns component properties to slice ids.
+   *
+   * If base is defined this will add
+   * or override assignments of the base layer.
    */
   add: Record<SliceId, ComponentRef>;
 
   /**
-   * Remove assignments of components to slice ids
+   * Use this property to remove assignments from the base layer.
    */
   remove?: Record<SliceId, ComponentRef>;
 }
