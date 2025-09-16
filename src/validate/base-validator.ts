@@ -17,6 +17,7 @@ import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
 
 import { Errors, Validator } from './validate.ts';
 
+
 // .............................................................................
 export interface BaseErrors extends Errors {
   // Base errors
@@ -114,6 +115,8 @@ class _BaseValidator {
       () => this._rootOrHeadTableHasNoIdColumn(),
 
       // Check references
+
+      //TODO: check if references to sliceIds ("somethingSliceId") are matched
       () => this._refsNotFound(),
 
       // Check layers
