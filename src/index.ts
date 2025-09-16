@@ -14,6 +14,7 @@ export * from './content/table-cfg.ts';
 export * from './example.ts';
 export * from './example/bakery-example.ts';
 export * from './rljson.ts';
+export * from './tools/remove-duplicates.ts';
 export * from './typedefs.ts';
 export * from './validate/base-validator.ts';
 export * from './validate/validate.ts';
