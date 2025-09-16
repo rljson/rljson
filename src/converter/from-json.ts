@@ -16,7 +16,7 @@ import { JsonWithId } from '../typedefs.ts';
 
 
 type DecomposeSheet = {
-  _id: string;
+  _sliceId: string;
   _name?: string;
   _path?: string;
   _types?: DecomposeSheet[];
@@ -27,7 +27,7 @@ const resolvePropertyReference = (
   idx: number,
   nestedTypes: Rljson,
 ) => {
-  if (ref.slice(-10).toLowerCase() === 'sliceidref') {
+  if (ref.slice(-10).toLowerCase() === 'sliceid') {
     //SliceIdRef
     const refSliceId = ref.slice(0, -3) as string;
     const slideIds = nestedTypes[refSliceId] as SliceIdsTable;
@@ -102,7 +102,7 @@ export const fromJson = (
         }`
       : layerName.toLowerCase();
 
-  const ids = json.map((item) => item[decomposeSheet._id]);
+  const ids = json.map((item) => item[decomposeSheet._sliceId]);
   const sliceIds: SliceIdsTable = hip({
     _type: 'sliceIds',
     _data: [
@@ -162,6 +162,7 @@ export const fromJson = (
     )
     .reduce((a, b) => ({ ...a, ...b }), {});
 
+  //Reference to explicit layer, not LayerTable Hash
   const cake: CakesTable = {
     _type: 'cakes',
     _data: [
@@ -192,7 +193,7 @@ export const fromJson = (
 
 export const exampleFromJsonJson: Array<Json> = [
   {
-    VIN: '47YcDGPtTxiNz-gsGBU121',
+    VIN: 'VIN1',
     brand: 'Volkswagen',
     type: 'Polo',
     doors: 5,
@@ -213,7 +214,7 @@ export const exampleFromJsonJson: Array<Json> = [
     ],
   },
   {
-    VIN: '47YcDGPtTxiNz-gsGBU120',
+    VIN: 'VIN2',
     brand: 'Volkswagen',
     type: 'Golf',
     doors: 3,
@@ -236,16 +237,16 @@ export const exampleFromJsonJson: Array<Json> = [
 ];
 
 export const exampleFromJsonDecomposeSheet: DecomposeSheet = {
-  _id: 'VIN',
+  _sliceId: 'VIN',
   _name: 'Car',
   general: ['brand', 'type', 'doors'],
   technical: ['engine', 'transmission', 'gears'],
   color: ['colors/sides', 'colors/roof', 'colors/highlights'],
-  wheel: ['wheelSliceIdRef', 'wheelBrandRef', 'wheelDimensionRef'],
+  wheel: ['wheelSliceId', 'wheelBrandRef', 'wheelDimensionRef'],
   _types: [
     {
       _path: 'wheels',
-      _id: 'SN',
+      _sliceId: 'SN',
       _name: 'Wheel',
       brand: ['brand'],
       dimension: ['dimension'],
