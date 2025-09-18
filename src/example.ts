@@ -5,7 +5,7 @@
 // found in the LICENSE file in the root of this package.
 
 import { hip } from '@rljson/hash';
-import { exampleJsonObject } from '@rljson/json';
+import { exampleJsonObject, Json } from '@rljson/json';
 
 import { BuffetsTable } from './content/buffet.ts';
 import { Cake, CakesTable } from './content/cake.ts';
@@ -155,6 +155,26 @@ export class Example {
             },
           ],
         },
+      };
+    },
+    singleSliceIdRef: (): Rljson => {
+      return {
+        exampleSliceId: {
+          _type: 'sliceIds',
+          _data: [
+            {
+              add: ['id0', 'id1'],
+            },
+          ],
+        } as SliceIdsTable,
+        exampleComponent: {
+          _type: 'components',
+          _data: [
+            {
+              exampleSliceId: 'id0',
+            },
+          ],
+        } as ComponentsTable<Json>,
       };
     },
     singleNamedRef: (): Rljson => {
@@ -431,6 +451,40 @@ export class Example {
               },
             ],
           },
+        };
+      },
+
+      missingSliceId: (): Rljson => {
+        return {
+          exampleSliceId: {
+            _type: 'sliceIds',
+            _data: [
+              {
+                add: ['id0', 'id1'],
+              },
+            ],
+          } as SliceIdsTable,
+          exampleComponent: {
+            _type: 'components',
+            _data: [
+              {
+                exampleSliceId: 'id2',
+              },
+            ],
+          } as ComponentsTable<Json>,
+        };
+      },
+
+      missingSliceIdTable: (): Rljson => {
+        return {
+          exampleComponent: {
+            _type: 'components',
+            _data: [
+              {
+                exampleSliceId: 'id0',
+              },
+            ],
+          } as ComponentsTable<Json>,
         };
       },
     },
