@@ -261,6 +261,26 @@ export class Example {
       };
     },
 
+    singleSliceIdRef: (): Rljson => {
+      return {
+        exampleSliceId: {
+          _type: 'sliceIds',
+          _data: [
+            {
+              add: ['id0', 'id1'],
+            },
+          ],
+        } as SliceIdsTable,
+        exampleComponent: {
+          _type: 'components',
+          _data: [
+            {
+              exampleSliceId: 'id0',
+            },
+          ],
+        } as ComponentsTable<Json>,
+      };
+    },
     complete: (): Rljson => {
       const sliceIds = hip<SliceIdsTable>({
         _type: 'sliceIds',
