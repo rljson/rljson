@@ -1,0 +1,24 @@
+{
+  "tableA": {
+    "_type": "components",
+    "_data": [
+      {
+        "keyA0": "a0"
+      },
+      {
+        "keyA1": "a1"
+      }
+    ]
+  },
+  "tableB": {
+    "_type": "components",
+    "_data": [
+      {
+        "namedRef": {
+          "component": "tableA",
+          "ref": "KFQrf4mEz0UPmUaFHwH4T6"
+        }
+      }
+    ]
+  }
+}
