@@ -1025,6 +1025,47 @@ describe('BaseValidator', async () => {
         });
       });
     });
+    describe('sliceIdRefsNotFound', () => {
+      it('returns no errors when all sliceIdRefs are found', () => {
+        expect(validate(Example.ok.singleSliceIdRef())).toEqual({
+          hasErrors: false,
+        });
+      });
+
+      it('returns an error when a sliceId reference table is not found', () => {
+        expect(validate(Example.broken.base.missingSliceIdTable())).toEqual({
+          refsNotFound: {
+            error: 'Broken references',
+            missingRefs: [
+              {
+                error: 'Target table "id0" not found.',
+                sourceTable: 'exampleComponent',
+                targetSliceId: 'id0',
+                targetTable: 'exampleSliceId',
+              },
+            ],
+          },
+          hasErrors: true,
+        });
+      });
+
+      it('returns an error when a ref is not found', () => {
+        expect(validate(Example.broken.base.missingSliceId())).toEqual({
+          refsNotFound: {
+            error: 'Broken references',
+            missingRefs: [
+              {
+                error: 'Table "exampleSliceId" has no sliceId "id2"',
+                sourceTable: 'exampleComponent',
+                targetSliceId: 'id2',
+                targetTable: 'exampleSliceId',
+              },
+            ],
+          },
+          hasErrors: true,
+        });
+      });
+    });
   });
 
   describe('layer errors', () => {
