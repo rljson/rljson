@@ -117,6 +117,7 @@ class _BaseValidator {
 
       // Check references
       () => this._refsNotFound(),
+      () => this._sliceIdRefsNotFound(),
 
       // Check layers
       () => this._layerBasesNotFound(),
@@ -680,6 +681,66 @@ class _BaseValidator {
     }
   }
 
+  // ...........................................................................
+  private _sliceIdRefsNotFound(): void {
+    // Define a result object
+    const missingSliceIdRefs: {
+      error: string;
+      sourceTable: string;
+      targetTable: string;
+      targetSliceId: string;
+    }[] = [];
+
+    // Iterate all tables
+    iterateTablesSync(this.rljson, (tableKey, table) => {
+      // Iterate all items in the table
+      const tableData = table._data as Json[];
+      for (const item of tableData) {
+        for (const key of Object.keys(item)) {
+          // If item is a reference
+          if (key.endsWith('SliceId')) {
+            const targetSliceId = item[key] as string;
+
+            // If table is not found, write an error and continue
+            if (this.tableKeys.indexOf(key) === -1) {
+              missingSliceIdRefs.push({
+                sourceTable: tableKey,
+                targetSliceId: targetSliceId,
+                targetTable: key,
+                error: `Target table "${targetSliceId}" not found.`,
+              });
+              continue;
+            }
+
+            // If table is found, find the item in the target table
+            const targetSliceIdsTable = this.rljson[key];
+            const targetSliceIds = targetSliceIdsTable._data.flatMap((d) => [
+              ...d.add,
+              ...(d.remove ?? []),
+            ]);
+            // If referenced item is not found, write an error
+            if (targetSliceIds.indexOf(targetSliceId) === -1) {
+              missingSliceIdRefs.push({
+                sourceTable: tableKey,
+                targetSliceId: targetSliceId,
+                targetTable: key,
+                error: `Table "${key}" has no sliceId "${targetSliceId}"`,
+              });
+            }
+          }
+        }
+      }
+    });
+
+    if (missingSliceIdRefs.length > 0) {
+      this.errors.refsNotFound = {
+        error: 'Broken references',
+        missingRefs: missingSliceIdRefs,
+      };
+    }
+  }
+
+  // ...........................................................................
   private _layerBasesNotFound(): void {
     const brokenLayers: any[] = [];
 

@@ -1,0 +1,21 @@
+{
+  "exampleSliceId": {
+    "_type": "sliceIds",
+    "_data": [
+      {
+        "add": [
+          "id0",
+          "id1"
+        ]
+      }
+    ]
+  },
+  "exampleComponent": {
+    "_type": "components",
+    "_data": [
+      {
+        "exampleSliceId": "id2"
+      }
+    ]
+  }
+}
