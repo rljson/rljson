@@ -9,11 +9,13 @@ import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
+import { ComponentRef } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIds } from '../content/slice-ids.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
+import { TableKey } from '../typedefs.ts';
 
 import { Errors, Validator } from './validate.ts';
 
@@ -619,38 +621,51 @@ class _BaseValidator {
         for (const key of Object.keys(item)) {
           // If item is a reference
           if (key.endsWith('Ref')) {
-            const targetItemHash = item[key] as string;
+            const targetItemRefs = (
+              Array.isArray(item[key]) ? item[key] : [item[key]]
+            ) as ComponentRef[] | { component: TableKey; ref: ComponentRef }[];
 
-            // Get the referenced table
-            const targetTableKey = key.substring(0, key.length - 3);
-            const itemHash = item._hash as string;
+            for (const targetItemRef of targetItemRefs) {
+              // Get the referenced table
+              const targetTableKey =
+                typeof targetItemRef !== 'string'
+                  ? targetItemRef.component
+                  : key.substring(0, key.length - 3);
+              const targetItemHash =
+                typeof targetItemRef !== 'string'
+                  ? targetItemRef.ref
+                  : targetItemRef;
 
-            // If table is not found, write an error and continue
-            if (this.tableKeys.indexOf(targetTableKey) === -1) {
-              missingRefs.push({
-                error: `Target table "${targetTableKey}" not found.`,
-                sourceTable: tableKey,
-                sourceKey: key,
-                sourceItemHash: itemHash,
-                targetItemHash: targetItemHash,
-                targetTable: targetTableKey,
-              });
-              continue;
-            }
+              const itemHash = item._hash as string;
 
-            // If table is found, find the item in the target table
-            const targetTableIndexed = this.rljsonIndexed[targetTableKey];
-            const referencedItem = targetTableIndexed._data[targetItemHash];
-            // If referenced item is not found, write an error
-            if (referencedItem === undefined) {
-              missingRefs.push({
-                sourceTable: tableKey,
-                sourceItemHash: itemHash,
-                sourceKey: key,
-                targetItemHash: targetItemHash,
-                targetTable: targetTableKey,
-                error: `Table "${targetTableKey}" has no item with hash "${targetItemHash}"`,
-              });
+              // If table is not found, write an error and continue
+              if (this.tableKeys.indexOf(targetTableKey) === -1) {
+                missingRefs.push({
+                  error: `Target table "${targetTableKey}" not found.`,
+                  sourceTable: tableKey,
+                  sourceKey: key,
+                  sourceItemHash: itemHash,
+                  targetItemHash: targetItemHash,
+                  targetTable: targetTableKey,
+                });
+                continue;
+              }
+
+              // If table is found, find the item in the target table
+              const targetTableIndexed = this.rljsonIndexed[targetTableKey];
+
+              const referencedItem = targetTableIndexed._data[targetItemHash];
+              // If referenced item is not found, write an error
+              if (referencedItem === undefined) {
+                missingRefs.push({
+                  sourceTable: tableKey,
+                  sourceItemHash: itemHash,
+                  sourceKey: key,
+                  targetItemHash: targetItemHash,
+                  targetTable: targetTableKey,
+                  error: `Table "${targetTableKey}" has no item with hash "${targetItemHash}"`,
+                });
+              }
             }
           }
         }
