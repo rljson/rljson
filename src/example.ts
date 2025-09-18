@@ -157,6 +157,90 @@ export class Example {
         },
       };
     },
+    singleNamedRef: (): Rljson => {
+      return {
+        tableA: {
+          _type: 'components',
+          _data: [
+            {
+              keyA0: 'a0',
+            },
+            {
+              keyA1: 'a1',
+            },
+          ],
+        },
+        tableB: {
+          _type: 'components',
+          _data: [
+            {
+              namedRef: { component: 'tableA', ref: 'KFQrf4mEz0UPmUaFHwH4T6' },
+            },
+          ],
+        },
+      };
+    },
+    multiRef: (): Rljson => {
+      return {
+        tableA: {
+          _type: 'components',
+          _data: [
+            {
+              keyA0: 'a0',
+            },
+            {
+              keyA1: 'a1',
+            },
+          ],
+        },
+        tableB: {
+          _type: 'components',
+          _data: [
+            {
+              tableARef: ['KFQrf4mEz0UPmUaFHwH4T6', 'YPw-pxhqaUOWRFGramr4B1'],
+            },
+          ],
+        },
+      };
+    },
+    multiMixedRef: (): Rljson => {
+      return {
+        tableA: {
+          _type: 'components',
+          _data: [
+            {
+              keyA0: 'a0',
+            },
+            {
+              keyA1: 'a1',
+            },
+          ],
+        },
+        tableB: {
+          _type: 'components',
+          _data: [
+            {
+              keyB0: 'b0',
+            },
+            {
+              keyB1: 'b1',
+            },
+          ],
+        },
+        tableC: {
+          _type: 'components',
+          _data: [
+            {
+              tableRef: [
+                { component: 'tableA', ref: 'KFQrf4mEz0UPmUaFHwH4T6' },
+                { component: 'tableB', ref: 'dXhIygNwNMVPEqFbsFJkn6' },
+              ],
+            },
+          ],
+        },
+      };
+    },
+
     complete: (): Rljson => {
       const sliceIds = hip<SliceIdsTable>({
         _type: 'sliceIds',
@@ -283,6 +367,54 @@ export class Example {
             _data: [
               {
                 tableARef: 'MISSINGREF', // MISSINGREF does not exist in tableA
+              },
+            ],
+          },
+        };
+      },
+
+      missingNamedRef: (): Rljson => {
+        return {
+          tableA: {
+            _type: 'components',
+            _data: [
+              {
+                keyA0: 'a0',
+              },
+              {
+                keyA1: 'a1',
+              },
+            ],
+          },
+          tableB: {
+            _type: 'components',
+            _data: [
+              {
+                namedRef: { component: 'tableA', ref: 'MISSINGREF' }, // MISSINGREF does not exist in tableA
+              },
+            ],
+          },
+        };
+      },
+
+      missingMultiRef: (): Rljson => {
+        return {
+          tableA: {
+            _type: 'components',
+            _data: [
+              {
+                keyA0: 'a0',
+              },
+              {
+                keyA1: 'a1',
+              },
+            ],
+          },
+          tableB: {
+            _type: 'components',
+            _data: [
+              {
+                tableARef: ['KFQrf4mEz0UPmUaFHwH4T6', 'MISSING'],
               },
             ],
           },
