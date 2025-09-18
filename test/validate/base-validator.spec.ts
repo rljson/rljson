@@ -839,8 +839,13 @@ describe('BaseValidator', async () => {
 
   describe('reference errors', () => {
     describe('refsNotFound', () => {
-      it('returns no errors when all refs are found', () => {
+      it('returns no errors when single ref is found', () => {
         expect(validate(Example.ok.singleRef())).toEqual({
+          hasErrors: false,
+        });
+      });
+      it('returns no errors when multiple refs are found', () => {
+        expect(validate(Example.ok.multiRef())).toEqual({
           hasErrors: false,
         });
       });
@@ -875,6 +880,24 @@ describe('BaseValidator', async () => {
                 sourceItemHash: 'nFaC4ql3MDVMhdWTBG-rdZ',
                 targetItemHash: 'MISSINGREF',
                 sourceTable: 'tableB',
+                targetTable: 'tableA',
+              },
+            ],
+          },
+          hasErrors: true,
+        });
+      });
+      it('returns an error when multiple refs are not found', () => {
+        expect(validate(Example.broken.base.missingMultiRef())).toEqual({
+          refsNotFound: {
+            error: 'Broken references',
+            missingRefs: [
+              {
+                error: 'Table "tableA" has no item with hash "MISSING"',
+                sourceItemHash: 'v2eUdDAFOp7IG412UCvXq9',
+                sourceKey: 'tableARef',
+                sourceTable: 'tableB',
+                targetItemHash: 'MISSING',
                 targetTable: 'tableA',
               },
             ],
