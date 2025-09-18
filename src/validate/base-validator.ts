@@ -15,6 +15,7 @@ import { SliceIds } from '../content/slice-ids.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
+import { TableKey } from '../typedefs.ts';
 
 import { Errors, Validator } from './validate.ts';
 
@@ -620,31 +621,39 @@ class _BaseValidator {
         for (const key of Object.keys(item)) {
           // If item is a reference
           if (key.endsWith('Ref')) {
-            const targetItemHashs = (
+            const targetItemRefs = (
               Array.isArray(item[key]) ? item[key] : [item[key]]
-            ) as ComponentRef[];
+            ) as ComponentRef[] | { component: TableKey; ref: ComponentRef }[];
 
-            // Get the referenced table
-            const targetTableKey = key.substring(0, key.length - 3);
-            const itemHash = item._hash as string;
+            for (const targetItemRef of targetItemRefs) {
+              // Get the referenced table
+              const targetTableKey =
+                typeof targetItemRef !== 'string'
+                  ? targetItemRef.component
+                  : key.substring(0, key.length - 3);
+              const targetItemHash =
+                typeof targetItemRef !== 'string'
+                  ? targetItemRef.ref
+                  : targetItemRef;
 
-            // If table is not found, write an error and continue
-            if (this.tableKeys.indexOf(targetTableKey) === -1) {
-              missingRefs.push({
-                error: `Target table "${targetTableKey}" not found.`,
-                sourceTable: tableKey,
-                sourceKey: key,
-                sourceItemHash: itemHash,
-                targetItemHash: targetItemHashs.join(', '),
-                targetTable: targetTableKey,
-              });
-              continue;
-            }
+              const itemHash = item._hash as string;
 
-            // If table is found, find the item in the target table
-            const targetTableIndexed = this.rljsonIndexed[targetTableKey];
+              // If table is not found, write an error and continue
+              if (this.tableKeys.indexOf(targetTableKey) === -1) {
+                missingRefs.push({
+                  error: `Target table "${targetTableKey}" not found.`,
+                  sourceTable: tableKey,
+                  sourceKey: key,
+                  sourceItemHash: itemHash,
+                  targetItemHash: targetItemHash,
+                  targetTable: targetTableKey,
+                });
+                continue;
+              }
 
-            for (const targetItemHash of targetItemHashs) {
+              // If table is found, find the item in the target table
+              const targetTableIndexed = this.rljsonIndexed[targetTableKey];
+
               const referencedItem = targetTableIndexed._data[targetItemHash];
               // If referenced item is not found, write an error
               if (referencedItem === undefined) {

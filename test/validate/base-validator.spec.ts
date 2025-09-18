@@ -844,8 +844,18 @@ describe('BaseValidator', async () => {
           hasErrors: false,
         });
       });
+      it('returns no errors when single named ref is found', () => {
+        expect(validate(Example.ok.singleNamedRef())).toEqual({
+          hasErrors: false,
+        });
+      });
       it('returns no errors when multiple refs are found', () => {
         expect(validate(Example.ok.multiRef())).toEqual({
+          hasErrors: false,
+        });
+      });
+      it('returns no errors when multiple mixed refs are found', () => {
+        expect(validate(Example.ok.multiMixedRef())).toEqual({
           hasErrors: false,
         });
       });
@@ -878,6 +888,24 @@ describe('BaseValidator', async () => {
                 error: 'Table "tableA" has no item with hash "MISSINGREF"',
                 sourceKey: 'tableARef',
                 sourceItemHash: 'nFaC4ql3MDVMhdWTBG-rdZ',
+                targetItemHash: 'MISSINGREF',
+                sourceTable: 'tableB',
+                targetTable: 'tableA',
+              },
+            ],
+          },
+          hasErrors: true,
+        });
+      });
+      it('returns an error when a named ref is not found', () => {
+        expect(validate(Example.broken.base.missingNamedRef())).toEqual({
+          refsNotFound: {
+            error: 'Broken references',
+            missingRefs: [
+              {
+                error: 'Table "tableA" has no item with hash "MISSINGREF"',
+                sourceKey: 'namedRef',
+                sourceItemHash: 'GT7Jb9K2DwaQksuxcy7rp-',
                 targetItemHash: 'MISSINGREF',
                 sourceTable: 'tableB',
                 targetTable: 'tableA',
