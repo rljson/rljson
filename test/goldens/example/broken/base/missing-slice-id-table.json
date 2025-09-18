@@ -1,0 +1,10 @@
+{
+  "exampleComponent": {
+    "_type": "components",
+    "_data": [
+      {
+        "exampleSliceId": "id0"
+      }
+    ]
+  }
+}
