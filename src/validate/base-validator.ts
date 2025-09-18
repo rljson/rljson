@@ -9,6 +9,7 @@ import { Json, jsonValueMatchesType, jsonValueTypes } from '@rljson/json';
 
 import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
+import { ComponentRef } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIds } from '../content/slice-ids.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
@@ -619,7 +620,9 @@ class _BaseValidator {
         for (const key of Object.keys(item)) {
           // If item is a reference
           if (key.endsWith('Ref')) {
-            const targetItemHash = item[key] as string;
+            const targetItemHashs = (
+              Array.isArray(item[key]) ? item[key] : [item[key]]
+            ) as ComponentRef[];
 
             // Get the referenced table
             const targetTableKey = key.substring(0, key.length - 3);
@@ -632,7 +635,7 @@ class _BaseValidator {
                 sourceTable: tableKey,
                 sourceKey: key,
                 sourceItemHash: itemHash,
-                targetItemHash: targetItemHash,
+                targetItemHash: targetItemHashs.join(', '),
                 targetTable: targetTableKey,
               });
               continue;
@@ -640,17 +643,20 @@ class _BaseValidator {
 
             // If table is found, find the item in the target table
             const targetTableIndexed = this.rljsonIndexed[targetTableKey];
-            const referencedItem = targetTableIndexed._data[targetItemHash];
-            // If referenced item is not found, write an error
-            if (referencedItem === undefined) {
-              missingRefs.push({
-                sourceTable: tableKey,
-                sourceItemHash: itemHash,
-                sourceKey: key,
-                targetItemHash: targetItemHash,
-                targetTable: targetTableKey,
-                error: `Table "${targetTableKey}" has no item with hash "${targetItemHash}"`,
-              });
+
+            for (const targetItemHash of targetItemHashs) {
+              const referencedItem = targetTableIndexed._data[targetItemHash];
+              // If referenced item is not found, write an error
+              if (referencedItem === undefined) {
+                missingRefs.push({
+                  sourceTable: tableKey,
+                  sourceItemHash: itemHash,
+                  sourceKey: key,
+                  targetItemHash: targetItemHash,
+                  targetTable: targetTableKey,
+                  error: `Table "${targetTableKey}" has no item with hash "${targetItemHash}"`,
+                });
+              }
             }
           }
         }
