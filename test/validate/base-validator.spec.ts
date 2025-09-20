@@ -940,6 +940,11 @@ describe('BaseValidator', async () => {
           hasErrors: false,
         });
       });
+      it('returns no errors when all multilateral sliceIdRefs are found', () => {
+        expect(validate(Example.ok.multiSliceIdRef())).toEqual({
+          hasErrors: false,
+        });
+      });
 
       it('returns an error when a sliceId reference table is not found', () => {
         expect(validate(Example.broken.base.missingSliceIdTable())).toEqual({

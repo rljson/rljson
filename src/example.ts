@@ -177,6 +177,26 @@ export class Example {
         } as ComponentsTable<Json>,
       };
     },
+    multiSliceIdRef: (): Rljson => {
+      return {
+        exampleSliceId: {
+          _type: 'sliceIds',
+          _data: [
+            {
+              add: ['id0', 'id1'],
+            },
+          ],
+        } as SliceIdsTable,
+        exampleComponent: {
+          _type: 'components',
+          _data: [
+            {
+              exampleSliceId: ['id0', 'id1'],
+            },
+          ],
+        } as ComponentsTable<Json>,
+      };
+    },
     singleNamedRef: (): Rljson => {
       return {
         tableA: {

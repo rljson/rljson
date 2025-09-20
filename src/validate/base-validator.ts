@@ -11,7 +11,7 @@ import { BuffetsTable } from '../content/buffet.ts';
 import { CakesTable } from '../content/cake.ts';
 import { ComponentRef } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
-import { SliceIds } from '../content/slice-ids.ts';
+import { SliceIds, SliceIdsRef } from '../content/slice-ids.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
@@ -699,33 +699,37 @@ class _BaseValidator {
         for (const key of Object.keys(item)) {
           // If item is a reference
           if (key.endsWith('SliceId')) {
-            const targetSliceId = item[key] as string;
+            const targetSliceIds = (
+              Array.isArray(item[key]) ? item[key] : [item[key]]
+            ) as SliceIdsRef[];
 
-            // If table is not found, write an error and continue
-            if (this.tableKeys.indexOf(key) === -1) {
-              missingSliceIdRefs.push({
-                sourceTable: tableKey,
-                targetSliceId: targetSliceId,
-                targetTable: key,
-                error: `Target table "${targetSliceId}" not found.`,
-              });
-              continue;
-            }
+            for (const targetSliceId of targetSliceIds) {
+              // If table is not found, write an error and continue
+              if (this.tableKeys.indexOf(key) === -1) {
+                missingSliceIdRefs.push({
+                  sourceTable: tableKey,
+                  targetSliceId: targetSliceId,
+                  targetTable: key,
+                  error: `Target table "${targetSliceId}" not found.`,
+                });
+                continue;
+              }
 
-            // If table is found, find the item in the target table
-            const targetSliceIdsTable = this.rljson[key];
-            const targetSliceIds = targetSliceIdsTable._data.flatMap((d) => [
-              ...d.add,
-              ...(d.remove ?? []),
-            ]);
-            // If referenced item is not found, write an error
-            if (targetSliceIds.indexOf(targetSliceId) === -1) {
-              missingSliceIdRefs.push({
-                sourceTable: tableKey,
-                targetSliceId: targetSliceId,
-                targetTable: key,
-                error: `Table "${key}" has no sliceId "${targetSliceId}"`,
-              });
+              // If table is found, find the item in the target table
+              const targetSliceIdsTable = this.rljson[key];
+              const targetSliceIds = targetSliceIdsTable._data.flatMap((d) => [
+                ...d.add,
+                ...(d.remove ?? []),
+              ]);
+              // If referenced item is not found, write an error
+              if (targetSliceIds.indexOf(targetSliceId) === -1) {
+                missingSliceIdRefs.push({
+                  sourceTable: tableKey,
+                  targetSliceId: targetSliceId,
+                  targetTable: key,
+                  error: `Table "${key}" has no sliceId "${targetSliceId}"`,
+                });
+              }
             }
           }
         }
