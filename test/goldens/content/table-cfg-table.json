@@ -1,16 +1,21 @@
 {
-  "_hash": "EL8uR9s-WKZ6gFIr1lrRtW",
+  "_hash": "l1KeY9zmcja2S2ByhD0yoH",
   "_type": "tableCfgs",
   "_data": [
     {
       "version": 0,
-      "_hash": "xWI80T2DgZBTm7GEY7siT1",
+      "_hash": "9Ng57wo--dfSh3j4uwTvF5",
       "key": "table",
       "type": "components",
       "isHead": false,
       "isRoot": false,
       "isShared": true,
       "columns": [
+        {
+          "key": "_hash",
+          "type": "string",
+          "_hash": "df4oYftB-71Njv9FprRCeg"
+        },
         {
           "key": "int",
           "type": "number",

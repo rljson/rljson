@@ -7,6 +7,7 @@
 import { hsh } from '@rljson/hash';
 import {
   Json,
+  jsonValueMatchesType,
   jsonValueType,
   JsonValueType,
   jsonValueTypes,
@@ -170,11 +171,13 @@ export const validateRljsonAgainstTableCfg = (
         continue;
       }
 
-      const actualType = jsonValueType(row[columnKey]!);
-      if (expectedType !== actualType) {
+      const typesMatched = jsonValueMatchesType(row[columnKey]!, expectedType);
+      if (!typesMatched) {
         errors.push(
           `Column "${columnKey}" in row ${i} of "${tableKey}" ` +
-            `has type "${actualType}", but expected "${expectedType}"`,
+            `has type "${jsonValueType(
+              row[columnKey]!,
+            )}", but expected "${expectedType}"`,
         );
       }
     }

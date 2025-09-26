@@ -55,6 +55,7 @@ describe('Rljson', () => {
         'recipeIngredients',
         'ingredients',
         'nutritionalValues',
+        'ingredientsEdits',
       ]);
     });
   });
@@ -80,6 +81,7 @@ describe('Rljson', () => {
         'recipeIngredients',
         'ingredients',
         'nutritionalValues',
+        'ingredientsEdits',
       ]);
     });
 
@@ -138,6 +140,10 @@ describe('Rljson', () => {
         {
           error: new Error('Test error: nutritionalValues'),
           tableKey: 'nutritionalValues',
+        },
+        {
+          error: new Error('Test error: ingredientsEdits'),
+          tableKey: 'ingredientsEdits',
         },
       ]);
     });

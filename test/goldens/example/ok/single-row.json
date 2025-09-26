@@ -1,17 +1,22 @@
 {
   "tableCfgs": {
-    "_hash": "EL8uR9s-WKZ6gFIr1lrRtW",
+    "_hash": "l1KeY9zmcja2S2ByhD0yoH",
     "_type": "tableCfgs",
     "_data": [
       {
         "version": 0,
-        "_hash": "xWI80T2DgZBTm7GEY7siT1",
+        "_hash": "9Ng57wo--dfSh3j4uwTvF5",
         "key": "table",
         "type": "components",
         "isHead": false,
         "isRoot": false,
         "isShared": true,
         "columns": [
+          {
+            "key": "_hash",
+            "type": "string",
+            "_hash": "df4oYftB-71Njv9FprRCeg"
+          },
           {
             "key": "int",
             "type": "number",
@@ -57,7 +62,7 @@
     ]
   },
   "table": {
-    "_tableCfg": "xWI80T2DgZBTm7GEY7siT1",
+    "_tableCfg": "9Ng57wo--dfSh3j4uwTvF5",
     "_type": "components",
     "_data": [
       {
@@ -78,16 +83,20 @@
             null
           ],
           {
-            "a": 1
+            "a": 1,
+            "_hash": "AVq9f1zFei3ZS3WQ8ErYCE"
           }
         ],
         "json": {
           "a": 1,
           "b": {
-            "c": 2
-          }
+            "c": 2,
+            "_hash": "C6G5zv8ldNiEviNtTxyoj3"
+          },
+          "_hash": "hGgAD2SBqPnVvwk8nYUICW"
         },
-        "jsonValue": 3
+        "jsonValue": 3,
+        "_hash": "Cxg2P0ZWlEbBX6pYOlOw8l"
       }
     ],
     "_hash": ""

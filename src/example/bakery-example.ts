@@ -12,6 +12,8 @@ import { CakesTable } from '../content/cake.ts';
 import { ComponentsTable } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIdsTable } from '../content/slice-ids.ts';
+import { EditsTable } from '../edit/edit.ts';
+import { Route } from '../edit/route.ts';
 import { Rljson } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
 
@@ -46,6 +48,7 @@ export interface Bakery extends Rljson {
   recipeIngredients: ComponentsTable<RecipIngredient>;
   ingredients: ComponentsTable<Ingredient>;
   nutritionalValues: ComponentsTable<NutritionalValues>;
+  ingredientsEdits: EditsTable<Ingredient>;
 }
 
 // .............................................................................
@@ -181,6 +184,34 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
+  const ingredientsEdits: EditsTable<Ingredient> = hip<EditsTable<Ingredient>>({
+    _type: 'edits',
+    _data: [
+      {
+        value: {
+          name: 'Flour A',
+          amountUnit: 'g',
+          nutritionalValuesRef: nutritionalValues._data[0]._hash as string,
+          _hash: '',
+        },
+        route: Route.fromFlat('/ingredients/').flat,
+        _hash: '',
+      },
+      {
+        value: {
+          name: 'Flour B',
+          amountUnit: 'g',
+          nutritionalValuesRef: nutritionalValues._data[0]._hash as string,
+          _hash: '',
+        },
+        previous: 'D2Rp36U1DBa69zAya-16EJ',
+        route: Route.fromFlat('/ingredients/').flat,
+        _hash: '',
+      },
+    ],
+    _hash: '',
+  });
+
   const result: Bakery = {
     buffets,
     cakes,
@@ -191,6 +222,7 @@ export const bakeryExample = (): Bakery => {
     recipeIngredients,
     ingredients: ingredients,
     nutritionalValues,
+    ingredientsEdits,
   };
 
   return result;
