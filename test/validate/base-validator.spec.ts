@@ -807,6 +807,7 @@ describe('BaseValidator', async () => {
         const row = rljson.table._data[0];
         row.int = 'string';
         row.double = true;
+        delete row._hash;
         hip(tableCfg, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
