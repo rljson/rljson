@@ -139,5 +139,32 @@
     },
     "_hash": "4tYazUV23SSH0tW9sQznO1"
   },
-  "_hash": "crVIHZccHiIKy5cU3abaEk"
+  "ingredientsEdits": {
+    "_type": "edits",
+    "_data": {
+      "OwP6201JHqETUVskmsJ3I-": {
+        "value": {
+          "name": "Flour A",
+          "amountUnit": "g",
+          "nutritionalValuesRef": "R165gWZn_Pcj_je3AwSsXI",
+          "_hash": "D2Rp36U1DBa69zAya-16EJ"
+        },
+        "route": "/ingredients",
+        "_hash": "OwP6201JHqETUVskmsJ3I-"
+      },
+      "cwpbY6ZsK2E-KY5taqaPgH": {
+        "value": {
+          "name": "Flour B",
+          "amountUnit": "g",
+          "nutritionalValuesRef": "R165gWZn_Pcj_je3AwSsXI",
+          "_hash": "13QvUBkArAAIq_cUnLr7BR"
+        },
+        "previous": "D2Rp36U1DBa69zAya-16EJ",
+        "route": "/ingredients",
+        "_hash": "cwpbY6ZsK2E-KY5taqaPgH"
+      }
+    },
+    "_hash": "5XcmsnMuxBMKL15HkBoFQ5"
+  },
+  "_hash": "5bHQcubor5jKTx2aVW3Gsp"
 }

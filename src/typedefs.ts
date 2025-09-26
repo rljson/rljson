@@ -45,6 +45,7 @@ export const contentTypes = [
   'components',
   'revisions',
   'tableCfgs',
+  'edits',
 ] as const;
 
 export type ContentType = (typeof contentTypes)[number];

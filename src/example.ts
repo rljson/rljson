@@ -53,6 +53,10 @@ export class Example {
             isShared: true,
             columns: [
               {
+                key: '_hash',
+                type: 'string',
+              },
+              {
                 key: 'int',
                 type: 'number',
               },
@@ -94,7 +98,7 @@ export class Example {
         table: {
           _tableCfg: tableCfgs._data[0]._hash as string,
           _type: 'components',
-          _data: [exampleJsonObject()],
+          _data: [hip(exampleJsonObject())],
           _hash: '',
         },
       };
