@@ -11,6 +11,7 @@ export * from './content/layer.ts';
 export * from './content/revision.ts';
 export * from './content/slice-ids.ts';
 export * from './content/table-cfg.ts';
+export * from './edit/edit.ts';
 export * from './example.ts';
 export * from './example/bakery-example.ts';
 export * from './rljson.ts';
