@@ -13,7 +13,7 @@ import { LayersTable } from './content/layer.ts';
 import { RevisionsTable } from './content/revision.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
-import { EditsTable } from './edit/edit.ts';
+import { EditProtocol } from './edit/edit.ts';
 import { Example } from './example.ts';
 import { ContentType, Ref, TableKey } from './typedefs.ts';
 
@@ -40,7 +40,7 @@ export type TableType =
   | CakesTable
   | RevisionsTable
   | TablesCfgTable
-  | EditsTable<any>;
+  | EditProtocol<any>;
 
 // .............................................................................
 /** The rljson data format */

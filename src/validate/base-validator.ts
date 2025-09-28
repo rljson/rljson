@@ -717,10 +717,9 @@ class _BaseValidator {
 
               // If table is found, find the item in the target table
               const targetSliceIdsTable = this.rljson[key];
-              const targetSliceIds = targetSliceIdsTable._data.flatMap((d) => [
-                ...d.add,
-                ...(d.remove ?? []),
-              ]);
+              const targetSliceIds = targetSliceIdsTable._data.flatMap(
+                (d: any) => [...d.add, ...(d.remove ?? [])],
+              );
               // If referenced item is not found, write an error
               if (targetSliceIds.indexOf(targetSliceId) === -1) {
                 missingSliceIdRefs.push({
