@@ -196,18 +196,18 @@ export const bakeryExample = (): Bakery => {
     _type: 'edits',
     _data: [
       {
-        id: 0,
+        timeId: 'de72:1759123957292',
         ingredientsRef: ingredients._data[0]._hash as string,
         route: Route.fromFlat('/ingredients/').flat,
         origin: 'H45H',
         previous: [],
       },
       {
-        id: 1,
+        timeId: 'a8e0:1759123987505',
         ingredientsRef: ingredients._data[1]._hash as string,
         route: Route.fromFlat('/ingredients/').flat,
         origin: 'H45H',
-        previous: [0],
+        previous: ['de72:1759123957292'],
       },
     ],
     _hash: '',
