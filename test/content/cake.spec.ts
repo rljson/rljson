@@ -6,12 +6,21 @@
 
 import { describe, it } from 'vitest';
 
-import { exampleCakesTable } from '../../src/content/cake.ts';
+import {
+  createCakeTableCfg,
+  exampleCakesTable,
+} from '../../src/content/cake.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
 describe('CakesTable', () => {
   it('provides a list of cakes', async () => {
     await expectGolden('content/cakes.json').toBe(exampleCakesTable());
+  });
+});
+describe('createCakesTableCfg', () => {
+  it('provides a sample Layers TableCfg', async () => {
+    const tableCfg = createCakeTableCfg('example');
+    await expectGolden('content/cake-table-cfg.json').toBe(tableCfg);
   });
 });

@@ -16,7 +16,7 @@ export default defineConfig({
       formats: ['es'],
     },
     rollupOptions: {
-      external: ['@rljson/json', '@rljson/hash'],
+      external: ['@rljson/json', '@rljson/hash', 'nanoid'],
       output: {
         globals: {},
       },
