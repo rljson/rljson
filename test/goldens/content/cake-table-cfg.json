@@ -1,0 +1,25 @@
+{
+  "key": "example",
+  "type": "cakes",
+  "columns": [
+    {
+      "key": "sliceIdsTable",
+      "type": "string"
+    },
+    {
+      "key": "sliceIdsRow",
+      "type": "string"
+    },
+    {
+      "key": "layers",
+      "type": "jsonArray"
+    },
+    {
+      "key": "id",
+      "type": "string"
+    }
+  ],
+  "isHead": false,
+  "isRoot": false,
+  "isShared": true
+}

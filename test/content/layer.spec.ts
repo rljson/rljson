@@ -6,7 +6,10 @@
 
 import { describe, it } from 'vitest';
 
-import { exampleLayersTable } from '../../src/content/layer.ts';
+import {
+  createLayerTableCfg,
+  exampleLayersTable,
+} from '../../src/content/layer.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
@@ -14,5 +17,11 @@ describe('LayersTable', () => {
   it('provides a list of layers', async () => {
     const json = exampleLayersTable();
     await expectGolden('content/layers.json').toBe(json);
+  });
+});
+describe('createLayersTableCfg', () => {
+  it('provides a sample Layers TableCfg', async () => {
+    const tableCfg = createLayerTableCfg('example');
+    await expectGolden('content/layers-table-cfg.json').toBe(tableCfg);
   });
 });

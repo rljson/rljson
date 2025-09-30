@@ -12,7 +12,7 @@ import { CakesTable } from '../content/cake.ts';
 import { ComponentsTable } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIdsTable } from '../content/slice-ids.ts';
-import { EditsTable } from '../edit/edit.ts';
+import { EditProtocol } from '../edit/edit.ts';
 import { Route } from '../edit/route.ts';
 import { Rljson } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
@@ -48,7 +48,7 @@ export interface Bakery extends Rljson {
   recipeIngredients: ComponentsTable<RecipIngredient>;
   ingredients: ComponentsTable<Ingredient>;
   nutritionalValues: ComponentsTable<NutritionalValues>;
-  ingredientsEdits: EditsTable<Ingredient>;
+  ingredientsEdits: EditProtocol<'Ingredients'>;
 }
 
 // .............................................................................
@@ -83,6 +83,12 @@ export const bakeryExample = (): Bakery => {
         id: 'flour',
         amountUnit: 'g',
         nutritionalValuesRef: nutritionalValues._data[0]._hash as string,
+        _hash: '',
+      },
+      {
+        id: 'flourB',
+        amountUnit: 'g',
+        nutritionalValuesRef: nutritionalValues._data[1]._hash as string,
         _hash: '',
       },
     ],
@@ -184,29 +190,24 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const ingredientsEdits: EditsTable<Ingredient> = hip<EditsTable<Ingredient>>({
+  const ingredientsEdits: EditProtocol<'Ingredients'> = hip<
+    EditProtocol<'Ingredients'>
+  >({
     _type: 'edits',
     _data: [
       {
-        value: {
-          name: 'Flour A',
-          amountUnit: 'g',
-          nutritionalValuesRef: nutritionalValues._data[0]._hash as string,
-          _hash: '',
-        },
+        timeId: 'de72:1759123957292',
+        ingredientsRef: ingredients._data[0]._hash as string,
         route: Route.fromFlat('/ingredients/').flat,
-        _hash: '',
+        origin: 'H45H',
+        previous: [],
       },
       {
-        value: {
-          name: 'Flour B',
-          amountUnit: 'g',
-          nutritionalValuesRef: nutritionalValues._data[0]._hash as string,
-          _hash: '',
-        },
-        previous: 'D2Rp36U1DBa69zAya-16EJ',
+        timeId: 'a8e0:1759123987505',
+        ingredientsRef: ingredients._data[1]._hash as string,
         route: Route.fromFlat('/ingredients/').flat,
-        _hash: '',
+        origin: 'H45H',
+        previous: ['de72:1759123957292'],
       },
     ],
     _hash: '',

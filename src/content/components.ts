@@ -4,9 +4,11 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import { Json } from '@rljson/json';
+
 import { bakeryExample, NutritionalValues } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { JsonWithId, Ref } from '../typedefs.ts';
+import { Ref } from '../typedefs.ts';
 
 // .............................................................................
 
@@ -19,10 +21,7 @@ export type ComponentRef = Ref;
 /**
  * A table containing components
  */
-export type ComponentsTable<T extends JsonWithId> = RljsonTable<
-  T,
-  'components'
->;
+export type ComponentsTable<T extends Json> = RljsonTable<T, 'components'>;
 
 /**
  * Provides an example components table for test purposes

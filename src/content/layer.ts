@@ -12,6 +12,7 @@ import { Ref, SliceId, TableKey } from '../typedefs.ts';
 
 import { ComponentRef } from './components.ts';
 import { SliceIdsRef } from './slice-ids.ts';
+import { TableCfg } from './table-cfg.ts';
 
 // .............................................................................
 /**
@@ -64,6 +65,27 @@ export interface Layer extends Json {
  * A table containing layers
  */
 export type LayersTable = RljsonTable<Layer, 'layers'>;
+
+// .............................................................................
+/**
+ * Sample Table as BoilerPlate for Tests and Examples
+ * @param layerKey - the key of the layer table
+ */
+export const createLayerTableCfg = (layerKey: string): TableCfg => ({
+  key: layerKey,
+  type: 'layers',
+  columns: [
+    { key: 'base', type: 'string' },
+    { key: 'sliceIdsTable', type: 'string' },
+    { key: 'sliceIdsTableRow', type: 'string' },
+    { key: 'componentsTable', type: 'string' },
+    { key: 'add', type: 'jsonArray' },
+    { key: 'remove', type: 'jsonArray' },
+  ],
+  isHead: false,
+  isRoot: false,
+  isShared: true,
+});
 
 /**
  * Provides an example layersTable for test purposes

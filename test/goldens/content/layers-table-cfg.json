@@ -1,0 +1,33 @@
+{
+  "key": "example",
+  "type": "layers",
+  "columns": [
+    {
+      "key": "base",
+      "type": "string"
+    },
+    {
+      "key": "sliceIdsTable",
+      "type": "string"
+    },
+    {
+      "key": "sliceIdsTableRow",
+      "type": "string"
+    },
+    {
+      "key": "componentsTable",
+      "type": "string"
+    },
+    {
+      "key": "add",
+      "type": "jsonArray"
+    },
+    {
+      "key": "remove",
+      "type": "jsonArray"
+    }
+  ],
+  "isHead": false,
+  "isRoot": false,
+  "isShared": true
+}

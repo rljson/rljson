@@ -113,9 +113,15 @@
         "amountUnit": "g",
         "nutritionalValuesRef": "R165gWZn_Pcj_je3AwSsXI",
         "_hash": "A5d-4if1fQpQERfwFsjKqb"
+      },
+      {
+        "id": "flourB",
+        "amountUnit": "g",
+        "nutritionalValuesRef": "IqeoWJjZQNlr-NVk2QT15B",
+        "_hash": "F2fB-kZCCCFBvcyD_TwWV3"
       }
     ],
-    "_hash": "t5oZrLJOxAj-5nlE1ZV488"
+    "_hash": "gczqLyzkaWAvJ_52bWOjWG"
   },
   "nutritionalValues": {
     "_type": "components",
@@ -143,27 +149,24 @@
     "_type": "edits",
     "_data": [
       {
-        "value": {
-          "name": "Flour A",
-          "amountUnit": "g",
-          "nutritionalValuesRef": "R165gWZn_Pcj_je3AwSsXI",
-          "_hash": "D2Rp36U1DBa69zAya-16EJ"
-        },
+        "timeId": "de72:1759123957292",
+        "ingredientsRef": "A5d-4if1fQpQERfwFsjKqb",
         "route": "/ingredients",
-        "_hash": "OwP6201JHqETUVskmsJ3I-"
+        "origin": "H45H",
+        "previous": [],
+        "_hash": "wyRsHKCkHSCUeD4Hu8skjE"
       },
       {
-        "value": {
-          "name": "Flour B",
-          "amountUnit": "g",
-          "nutritionalValuesRef": "R165gWZn_Pcj_je3AwSsXI",
-          "_hash": "13QvUBkArAAIq_cUnLr7BR"
-        },
-        "previous": "D2Rp36U1DBa69zAya-16EJ",
+        "timeId": "a8e0:1759123987505",
+        "ingredientsRef": "F2fB-kZCCCFBvcyD_TwWV3",
         "route": "/ingredients",
-        "_hash": "cwpbY6ZsK2E-KY5taqaPgH"
+        "origin": "H45H",
+        "previous": [
+          "de72:1759123957292"
+        ],
+        "_hash": "IJjZqQu6iz1w6CtoVMbBgR"
       }
     ],
-    "_hash": "5XcmsnMuxBMKL15HkBoFQ5"
+    "_hash": "MSjrRC1dUCN9PK9DQEIVhu"
   }
 }
