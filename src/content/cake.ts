@@ -12,6 +12,7 @@ import { TableKey } from '../typedefs.ts';
 
 import { LayerRef } from './layer.ts';
 import { SliceIdsRef } from './slice-ids.ts';
+import { TableCfg } from './table-cfg.ts';
 
 // .............................................................................
 /**
@@ -57,6 +58,29 @@ export interface Cake extends Json {
  * A table containing cakes
  */
 export type CakesTable = RljsonTable<Cake, 'cakes'>;
+
+// .............................................................................
+/**
+ * Sample Table as BoilerPlate for Tests and Examples
+ */
+// .............................................................................
+/**
+ * Sample Table as BoilerPlate for Tests and Examples
+ * @param cakeKey - the key of the cake table cfg
+ */
+export const createCakeTableCfg = (cakeKey: string): TableCfg => ({
+  key: cakeKey,
+  type: 'cakes',
+  columns: [
+    { key: 'sliceIdsTable', type: 'string' },
+    { key: 'sliceIdsRow', type: 'string' },
+    { key: 'layers', type: 'jsonArray' },
+    { key: 'id', type: 'string' },
+  ],
+  isHead: false,
+  isRoot: false,
+  isShared: true,
+});
 
 // .............................................................................
 /**
