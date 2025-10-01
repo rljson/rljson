@@ -20,5 +20,5 @@ export const removeDuplicates = (rljson: Rljson) => {
     );
     result[key] = { ...table, _data: newData };
   }
-  return hip(result, { throwOnWrongHashes: false });
+  return hip(result, { throwOnWrongHashes: false, updateExistingHashes: true });
 };
