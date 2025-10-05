@@ -4,11 +4,12 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { Json, JsonH, JsonValueH } from '@rljson/json';
+import { Json } from '@rljson/json';
 
 import { Ref } from '../typedefs.ts';
 
 import { RouteRef } from './route.ts';
+import { TableCfg } from '../content/table-cfg.ts';
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 
@@ -21,12 +22,12 @@ import { RljsonTable } from '../rljson.ts';
 export type EditRef = Ref;
 
 export type Edit<T extends Json> = {
-  value: T & JsonValueH;
+  value: T;
   route: RouteRef;
   origin?: Ref;
   previous?: EditProtocolTimeId[];
   acknowledged?: boolean;
-} & JsonH;
+};
 
 // Edit Protocol
 // .............................................................................
@@ -45,6 +46,28 @@ export type EditProtocol<Str extends string> = RljsonTable<
   EditProtocolRow<Str>,
   'edits'
 >;
+
+// .................................................................................
+/**
+ * Creates a TableCfg for an Edit Protocol table for the given table configuration
+ * @param tableCfg - The table configuration to create the Edit Protocol table for
+ * @returns The TableCfg for the Edit Protocol table
+ */
+export const createEditProtocolTableCfg = (tableCfg: TableCfg): TableCfg => ({
+  key: `${tableCfg.key}Edits`,
+  type: 'edits',
+  columns: [
+    { key: '_hash', type: 'string' },
+    { key: 'timeId', type: 'string' },
+    { key: `${tableCfg.key}Ref`, type: 'string' },
+    { key: 'route', type: 'string' },
+    { key: 'origin', type: 'string' },
+    { key: 'previous', type: 'jsonArray' },
+  ],
+  isHead: false,
+  isRoot: false,
+  isShared: false,
+});
 
 /**
  * Provides an example Edits table for test purposes
