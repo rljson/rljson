@@ -9,6 +9,16 @@ import { describe, expect, it } from 'vitest';
 import { Route } from '../../src/edit/route.ts';
 
 describe('Route', () => {
+  it('Returns segments of a route', async () => {
+    const route = Route.fromFlat('/a/b/c');
+    await expect(route.segments).toEqual(['a', 'b', 'c']);
+  });
+  it('Returns isValid of a route', async () => {
+    const route = Route.fromFlat('/a/b/c');
+    await expect(route.isValid).toBe(true);
+    const invalidRoute = Route.fromFlat('///');
+    await expect(invalidRoute.isValid).toBe(false);
+  });
   it('Returns any segment of a route', async () => {
     const route = Route.fromFlat('/a/b/c');
 
