@@ -28,7 +28,7 @@ export class Route {
    * @param index - The index of the segment to return (optional)
    * @returns The segment at the given index or the last segment
    */
-  public segment(index?: number) {
+  public segment(index?: number): string {
     if (index === undefined) {
       return this._segments[this._segments.length - 1];
     }
@@ -82,6 +82,15 @@ export class Route {
    */
   get segments() {
     return this._segments;
+  }
+
+  // .............................................................................
+  /**
+   * Returns the root segment of the route.
+   * @returns The root segment of the route
+   */
+  get root() {
+    return this.segment();
   }
 
   // .............................................................................

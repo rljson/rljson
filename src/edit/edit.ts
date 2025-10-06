@@ -21,7 +21,13 @@ import { RljsonTable } from '../rljson.ts';
  */
 export type EditRef = Ref;
 
+// .............................................................................
+/**
+ * An Edit describes a change to be applied to an Rljson object.
+ * @param T - The type of the value being edited, extending Json
+ */
 export type Edit<T extends Json> = {
+  command: 'add' | 'remove';
   value: T;
   route: RouteRef;
   origin?: Ref;
