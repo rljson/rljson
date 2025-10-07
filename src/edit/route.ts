@@ -95,6 +95,15 @@ export class Route {
 
   // .............................................................................
   /**
+   * Returns the top level segment of the route.
+   * @returns The top level segment of the route
+   */
+  get top() {
+    return this.segment(0);
+  }
+
+  // .............................................................................
+  /**
    * Checks if the route is valid (i.e. has at least one segment and no empty segments).
    * @returns True if the route is valid, false otherwise
    */

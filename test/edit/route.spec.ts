@@ -30,6 +30,11 @@ describe('Route', () => {
 
     await expect(route.root).toBe('root');
   });
+  it('Returns top segment of a route', async () => {
+    const route = Route.fromFlat('/parent/root');
+
+    await expect(route.top).toBe('parent');
+  });
   it('Returns deeper segments of a route', async () => {
     const routeTopLevel = Route.fromFlat('/a/b/c');
     const routeMiddleLevel = routeTopLevel.deeper();
