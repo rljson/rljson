@@ -6,36 +6,106 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { Route } from '../../src/edit/route.ts';
+import { Route } from '../../src/route/route.ts';
+
 
 describe('Route', () => {
-  it('Returns segments of a route', async () => {
+  it('returns segments of a route', async () => {
     const route = Route.fromFlat('/a/b/c');
-    await expect(route.segments).toEqual(['a', 'b', 'c']);
+    await expect(route.segments).toEqual([
+      {
+        tableKey: 'a',
+      },
+      {
+        tableKey: 'b',
+      },
+      {
+        tableKey: 'c',
+      },
+    ]);
+    await expect(route.flat).toBe('/a/b/c');
   });
-  it('Returns isValid of a route', async () => {
+
+  it('returns segment Ref types', async () => {
+    const route = Route.fromFlat('/a@hashA/b@timeId:123/c');
+
+    expect(Route.segmentRef(route.segments[0]!)).toBe('hashA');
+    expect(Route.segmentHasRef(route.segments[0]!)).toBe(true);
+    expect(Route.segmentHasDefaultRef(route.segments[0]!)).toBe(true);
+    expect(Route.segmentHasProtocolRef(route.segments[0]!)).toBe(false);
+
+    expect(Route.segmentRef(route.segments[1]!)).toBe('timeId:123');
+    expect(Route.segmentHasRef(route.segments[1]!)).toBe(true);
+    expect(Route.segmentHasDefaultRef(route.segments[1]!)).toBe(false);
+    expect(Route.segmentHasProtocolRef(route.segments[1]!)).toBe(true);
+
+    expect(Route.segmentRef(route.segments[2]!)).toBeUndefined();
+    expect(Route.segmentHasRef(route.segments[2]!)).toBe(false);
+    expect(Route.segmentHasDefaultRef(route.segments[2]!)).toBe(false);
+    expect(Route.segmentHasProtocolRef(route.segments[2]!)).toBe(false);
+  });
+
+  it('returns segments of a route w/ hash ref', async () => {
+    const route = Route.fromFlat('/a@hashA/b@hashB/c@hashC');
+    await expect(route.segments).toEqual([
+      {
+        tableKey: 'a',
+        aRef: 'hashA',
+      },
+      {
+        tableKey: 'b',
+        bRef: 'hashB',
+      },
+      {
+        tableKey: 'c',
+        cRef: 'hashC',
+      },
+    ]);
+    await expect(route.flat).toBe('/a@hashA/b@hashB/c@hashC');
+  });
+
+  it('returns segments of a route w/ timeId ref', async () => {
+    const route = Route.fromFlat('/a@timeId:123/b@timeId:456/c@timeId:789');
+    await expect(route.segments).toEqual([
+      {
+        tableKey: 'a',
+        aEditsRef: 'timeId:123',
+      },
+      {
+        tableKey: 'b',
+        bEditsRef: 'timeId:456',
+      },
+      {
+        tableKey: 'c',
+        cEditsRef: 'timeId:789',
+      },
+    ]);
+    await expect(route.flat).toBe('/a@timeId:123/b@timeId:456/c@timeId:789');
+  });
+
+  it('returns isValid of a route', async () => {
     const route = Route.fromFlat('/a/b/c');
     await expect(route.isValid).toBe(true);
     const invalidRoute = Route.fromFlat('///');
     await expect(invalidRoute.isValid).toBe(false);
   });
-  it('Returns any segment of a route', async () => {
+  it('returns any segment of a route', async () => {
     const route = Route.fromFlat('/a/b/c');
 
-    await expect(route.segment(0)).toBe('a');
-    await expect(route.segment()).toBe('c');
+    await expect(route.segment(0)).toEqual({ tableKey: 'a' });
+    await expect(route.segment()).toEqual({ tableKey: 'c' });
   });
-  it('Returns root segment of a route', async () => {
+  it('returns root segment of a route', async () => {
     const route = Route.fromFlat('/parent/root');
 
-    await expect(route.root).toBe('root');
+    await expect(route.root).toEqual({ tableKey: 'root' });
   });
-  it('Returns top segment of a route', async () => {
+  it('returns top segment of a route', async () => {
     const route = Route.fromFlat('/parent/root');
 
-    await expect(route.top).toBe('parent');
+    await expect(route.top).toEqual({ tableKey: 'parent' });
   });
-  it('Returns deeper segments of a route', async () => {
+  it('returns deeper segments of a route', async () => {
     const routeTopLevel = Route.fromFlat('/a/b/c');
     const routeMiddleLevel = routeTopLevel.deeper();
     const routeRootLevel = routeTopLevel.deeper(2);
@@ -53,7 +123,7 @@ describe('Route', () => {
     await expect(routeRootLevel.isRoot).toBe(true);
   });
 
-  it('Returns last segment of a route', async () => {
+  it('returns last segment of a route', async () => {
     const route = Route.fromFlat('/a/b/c');
 
     await expect(route.isRoot).toBe(false);

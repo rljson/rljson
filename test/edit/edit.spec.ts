@@ -11,6 +11,7 @@ import { Edit, exampleEditsTable } from '../../src/edit/edit.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
+
 describe('Edit', () => {
   describe('EditsTable', () => {
     it('provides a list of edits', async () => {
@@ -18,7 +19,7 @@ describe('Edit', () => {
     });
   });
   describe('EditsValidator', () => {
-    it('Can be instantiated', async () => {
+    it('can be instantiated', async () => {
       const edit: Edit<any> = {
         route: 'a/b/c',
         command: 'add',
@@ -31,7 +32,7 @@ describe('Edit', () => {
       await expect(errors).toEqual({ hasErrors: false });
     });
 
-    it('Valid Edit', async () => {
+    it('validates edit', async () => {
       const edit: Edit<any> = {
         route: 'a/b/c',
         command: 'add',
@@ -42,7 +43,7 @@ describe('Edit', () => {
 
       await expect(errors).toEqual({ hasErrors: false });
     });
-    it('Invalid required Parameters', async () => {
+    it('throws on invalid required parameters', async () => {
       const edit: Edit<any> = {
         route: '',
         command: 'invalid' as any,
@@ -72,13 +73,12 @@ describe('Edit', () => {
       });
     });
 
-    it('Invalid optional Parameters', async () => {
+    it('throws on invalid optional parameters', async () => {
       const edit: Edit<any> = {
         route: 'a/b/c',
         command: 'add',
         value: { x: { y: { z: true } } },
         origin: 123 as any,
-        previous: [123 as any, 'valid'] as any,
       };
       const ev = new EditValidator(edit);
       const errors = ev.validate();
@@ -89,13 +89,9 @@ describe('Edit', () => {
           error: 'Edit origin must be a string if defined.',
           parameter: 123,
         },
-        parameterPreviousInvalid: {
-          error: 'Edit previous must be an array of strings if defined.',
-          parameter: [123, 'valid'],
-        },
       });
     });
-    it('Route / Object mismatch', async () => {
+    it('throws on route - value mismatch', async () => {
       const edit: Edit<any> = {
         route: 'a/b/c',
         command: 'add',
@@ -113,6 +109,88 @@ describe('Edit', () => {
           routeDepth: 3,
           valueDepth: 1,
         },
+      });
+    });
+
+    it('throws on nested Component mismatch', async () => {
+      // a route /a with value { bRef: 'ref:123' } is valid
+      const edit: Edit<any> = {
+        route: 'a',
+        command: 'add',
+        value: { bRef: 'ref:123' },
+      };
+      const ev = new EditValidator(edit);
+      const errors = ev.validate();
+
+      await expect(errors).toEqual({
+        hasErrors: false,
+      });
+
+      // a route /a/b with bRef as object is valid
+      const edit2: Edit<any> = {
+        route: 'a/b',
+        command: 'add',
+        value: {
+          someAKey: 'someAValue',
+          bRef: {
+            someBKey: 'someBValue',
+          },
+        },
+      };
+      const ev2 = new EditValidator(edit2);
+      const errors2 = ev2.validate();
+
+      await expect(errors2).toEqual({
+        hasErrors: false,
+      });
+
+      // a route /a/b with cRef as object is invalid
+      const edit3: Edit<any> = {
+        route: 'a/b',
+        command: 'add',
+        value: {
+          someAKey: 'someAValue',
+          cRef: {
+            someCKey: 'someCValue',
+          },
+        },
+      };
+      const ev3 = new EditValidator(edit3);
+      const errors3 = ev3.validate();
+
+      await expect(errors3).toEqual({
+        hasErrors: true,
+        parameterInvalid: {
+          error:
+            'Edit value has a reference key "cRef" that does not match the next route segment.',
+          parameter: {
+            cRef: {
+              someCKey: 'someCValue',
+            },
+            someAKey: 'someAValue',
+          },
+        },
+      });
+
+      // a route /a/b/c with bRef and cRef as objects is valid
+      const edit4: Edit<any> = {
+        route: 'a/b/c',
+        command: 'add',
+        value: {
+          someAKey: 'someAValue',
+          bRef: {
+            someBKey: 'someBValue',
+            cRef: {
+              someCKey: 'someCValue',
+            },
+          },
+        },
+      };
+      const ev4 = new EditValidator(edit4);
+      const errors4 = ev4.validate();
+
+      await expect(errors4).toEqual({
+        hasErrors: false,
       });
     });
   });

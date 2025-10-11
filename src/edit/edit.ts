@@ -7,11 +7,11 @@
 import { Json } from '@rljson/json';
 
 import { Ref } from '../typedefs.ts';
-
-import { RouteRef } from './route.ts';
 import { TableCfg } from '../content/table-cfg.ts';
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
+import { RouteRef } from '../route/route.ts';
+
 
 //Edit
 // .............................................................................
@@ -21,11 +21,7 @@ import { RljsonTable } from '../rljson.ts';
  */
 export type EditRef = Ref;
 
-export type EditCommand =
-  | 'add'
-  | 'remove'
-  | `add@${string}`
-  | `remove@${string}`;
+export type EditCommand = 'add' | 'remove';
 
 // .............................................................................
 /**
@@ -37,7 +33,6 @@ export type Edit<T extends Json> = {
   value: T;
   route: RouteRef;
   origin?: Ref;
-  previous?: EditProtocolTimeId[];
   acknowledged?: boolean;
 };
 

@@ -1,10 +1,11 @@
 import { Json } from '@rljson/json';
 
+import { Route } from '../route/route.ts';
 import { objectDepth } from '../tools/object-depth.ts';
 import { Errors } from '../validate/validate.ts';
 
 import { Edit } from './edit.ts';
-import { Route } from './route.ts';
+
 
 // @license
 // Copyright (c) 2025 Rljson
@@ -69,17 +70,6 @@ export class EditValidator<T extends Json> {
         parameter: this._edit.origin,
       };
     }
-    if (
-      (typeof this._edit.previous !== 'undefined' &&
-        !Array.isArray(this._edit.previous)) ||
-      (Array.isArray(this._edit.previous) &&
-        !this._edit.previous.every((p) => typeof p === 'string'))
-    ) {
-      this.errors.parameterPreviousInvalid = {
-        error: 'Edit previous must be an array of strings if defined.',
-        parameter: this._edit.previous,
-      };
-    }
 
     //Check Route
     const route = Route.fromFlat(this._edit.route);
@@ -90,7 +80,7 @@ export class EditValidator<T extends Json> {
       };
     }
 
-    //Check if route matches value
+    //Check if route depth matches value
     if (route.isValid) {
       const routeDepth = route.segments.length;
       const valueDepth = objectDepth(this._edit.value);
@@ -105,8 +95,40 @@ export class EditValidator<T extends Json> {
       }
     }
 
+    //Check if value componentRefs a matching route segment
+    if (typeof this._edit.value === 'object' && this._edit.value !== null) {
+      this._checkMatchingRefs(route, this._edit.value);
+    }
+
     this.errors.hasErrors = this.hasErrors;
     return this.errors;
+  }
+
+  private _checkMatchingRefs(route: Route, value: Json): void {
+    const next = route.next;
+    const keys = Object.keys(value);
+    for (const key of keys) {
+      if (
+        key.endsWith('Ref') &&
+        value[key] !== null &&
+        value[key] !== undefined &&
+        typeof value[key] !== 'string'
+      ) {
+        //Key is a reference key but value is not a string
+        //Resolve reference object
+        const refObj = value[key] as Json;
+        if (!next || next.tableKey !== key.slice(0, -3)) {
+          this.errors.parameterInvalid = {
+            error: `Edit value has a reference key "${key}" that does not match the next route segment.`,
+            parameter: this._edit.value,
+          };
+          break;
+        }
+
+        if (route.deeper().next)
+          this._checkMatchingRefs(route.deeper(), refObj);
+      }
+    }
   }
 
   static create(edit: Edit<any>): EditValidator<any> {
