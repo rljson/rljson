@@ -17,6 +17,7 @@ import {
   throwOnInvalidTableCfg,
   validateRljsonAgainstTableCfg,
 } from '../../src/content/table-cfg';
+import { createEditProtocolTableCfg } from '../../src/edit/edit';
 
 import { expectGolden } from '../setup/goldens';
 
@@ -230,5 +231,11 @@ describe('TableCfg', () => {
       },
     ]);
     expect(result.type).toBe('components');
+  });
+});
+describe('createEditProtocolTableCfg', () => {
+  it('provides a sample Edit Protocol TableCfg', async () => {
+    const tableCfg = createEditProtocolTableCfg(exampleTableCfg());
+    await expectGolden('content/edit-protocol-table-cfg.json').toBe(tableCfg);
   });
 });

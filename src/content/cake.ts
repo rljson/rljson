@@ -64,7 +64,7 @@ export type CakesTable = RljsonTable<Cake, 'cakes'>;
  * Sample Table as BoilerPlate for Tests and Examples
  */
 // .............................................................................
-/**
+/**pnpm build
  * Sample Table as BoilerPlate for Tests and Examples
  * @param cakeKey - the key of the cake table cfg
  */
@@ -72,9 +72,10 @@ export const createCakeTableCfg = (cakeKey: string): TableCfg => ({
   key: cakeKey,
   type: 'cakes',
   columns: [
+    { key: '_hash', type: 'string' },
     { key: 'sliceIdsTable', type: 'string' },
     { key: 'sliceIdsRow', type: 'string' },
-    { key: 'layers', type: 'jsonArray' },
+    { key: 'layers', type: 'json' },
     { key: 'id', type: 'string' },
   ],
   isHead: false,

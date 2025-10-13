@@ -13,9 +13,10 @@ import { ComponentsTable } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIdsTable } from '../content/slice-ids.ts';
 import { EditProtocol } from '../edit/edit.ts';
-import { Route } from '../edit/route.ts';
 import { Rljson } from '../rljson.ts';
+import { Route } from '../route/route.ts';
 import { Ref } from '../typedefs.ts';
+
 
 // .............................................................................
 export interface Ingredient extends Json {

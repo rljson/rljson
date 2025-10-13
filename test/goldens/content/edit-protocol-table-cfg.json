@@ -1,37 +1,33 @@
 {
-  "key": "example",
-  "type": "layers",
+  "key": "tableEdits",
+  "type": "edits",
   "columns": [
     {
       "key": "_hash",
       "type": "string"
     },
     {
-      "key": "base",
+      "key": "timeId",
       "type": "string"
     },
     {
-      "key": "sliceIdsTable",
+      "key": "tableRef",
       "type": "string"
     },
     {
-      "key": "sliceIdsTableRow",
+      "key": "route",
       "type": "string"
     },
     {
-      "key": "componentsTable",
+      "key": "origin",
       "type": "string"
     },
     {
-      "key": "add",
-      "type": "json"
-    },
-    {
-      "key": "remove",
-      "type": "json"
+      "key": "previous",
+      "type": "jsonArray"
     }
   ],
   "isHead": false,
   "isRoot": false,
-  "isShared": true
+  "isShared": false
 }
