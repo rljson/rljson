@@ -3,6 +3,10 @@
   "type": "layers",
   "columns": [
     {
+      "key": "_hash",
+      "type": "string"
+    },
+    {
       "key": "base",
       "type": "string"
     },
@@ -20,11 +24,11 @@
     },
     {
       "key": "add",
-      "type": "jsonArray"
+      "type": "json"
     },
     {
       "key": "remove",
-      "type": "jsonArray"
+      "type": "json"
     }
   ],
   "isHead": false,

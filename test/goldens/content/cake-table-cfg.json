@@ -3,6 +3,10 @@
   "type": "cakes",
   "columns": [
     {
+      "key": "_hash",
+      "type": "string"
+    },
+    {
       "key": "sliceIdsTable",
       "type": "string"
     },
@@ -12,7 +16,7 @@
     },
     {
       "key": "layers",
-      "type": "jsonArray"
+      "type": "json"
     },
     {
       "key": "id",
