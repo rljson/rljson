@@ -4,23 +4,33 @@
   "columns": [
     {
       "key": "_hash",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Hash",
+      "titleShort": "Hash"
     },
     {
       "key": "sliceIdsTable",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Slice Ids Table",
+      "titleShort": "Slice Ids Table"
     },
     {
       "key": "sliceIdsRow",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Slice Ids Row",
+      "titleShort": "Slice Ids Row"
     },
     {
       "key": "layers",
-      "type": "json"
+      "type": "json",
+      "titleLong": "Layers",
+      "titleShort": "Layers"
     },
     {
       "key": "id",
-      "type": "string"
+      "type": "string",
+      "titleLong": "ID",
+      "titleShort": "ID"
     }
   ],
   "isHead": false,

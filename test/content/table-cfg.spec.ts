@@ -9,17 +9,13 @@ import { hip, rmhsh } from '@rljson/hash';
 import { describe, expect, it } from 'vitest';
 
 import {
-  addColumnsToTableCfg,
-  ColumnCfg,
-  exampleTableCfg,
-  exampleTableCfgTable,
-  TableCfg,
-  throwOnInvalidTableCfg,
-  validateRljsonAgainstTableCfg,
+  addColumnsToTableCfg, ColumnCfg, exampleTableCfg, exampleTableCfgTable, TableCfg,
+  throwOnInvalidTableCfg, validateRljsonAgainstTableCfg
 } from '../../src/content/table-cfg';
-import { createEditProtocolTableCfg } from '../../src/edit/edit';
+import { createHistoryTableCfg } from '../../src/edit/history';
 
 import { expectGolden } from '../setup/goldens';
+
 
 describe('TableCfg', () => {
   it('exampleTableCfgTable', () => {
@@ -30,7 +26,14 @@ describe('TableCfg', () => {
     describe('throws an error if', () => {
       it('the table has less than 2 columns', () => {
         const tableCfg = exampleTableCfg({
-          columns: [{ key: '_hash', type: 'string' }],
+          columns: [
+            {
+              key: '_hash',
+              type: 'string',
+              titleLong: 'Hash',
+              titleShort: 'Hash',
+            },
+          ],
         });
         expect(() => throwOnInvalidTableCfg(tableCfg)).toThrow(
           'Invalid table configuration: ' +
@@ -41,8 +44,8 @@ describe('TableCfg', () => {
       it('the first column is not a _hash column', () => {
         const tableCfg = exampleTableCfg({
           columns: [
-            { key: 'a', type: 'string' },
-            { key: 'b', type: 'string' },
+            { key: 'a', type: 'string', titleLong: 'A', titleShort: 'A' },
+            { key: 'b', type: 'string', titleLong: 'B', titleShort: 'B' },
           ],
         });
         expect(() => throwOnInvalidTableCfg(tableCfg)).toThrow(
@@ -53,8 +56,13 @@ describe('TableCfg', () => {
       it('the first column is not of type string', () => {
         const tableCfg = exampleTableCfg({
           columns: [
-            { key: '_hash', type: 'number' },
-            { key: 'b', type: 'string' },
+            {
+              key: '_hash',
+              type: 'number',
+              titleLong: 'Hash',
+              titleShort: 'Hash',
+            },
+            { key: 'b', type: 'string', titleLong: 'B', titleShort: 'B' },
           ],
         });
         expect(() => throwOnInvalidTableCfg(tableCfg)).toThrow(
@@ -65,8 +73,18 @@ describe('TableCfg', () => {
       it('a column has an unsupported type', () => {
         const tableCfg = exampleTableCfg({
           columns: [
-            { key: '_hash', type: 'string' },
-            { key: 'b', type: 'unknown' as any },
+            {
+              key: '_hash',
+              type: 'string',
+              titleLong: 'Hash',
+              titleShort: 'Hash',
+            },
+            {
+              key: 'b',
+              type: 'unknown' as any,
+              titleLong: 'B',
+              titleShort: 'B',
+            },
           ],
         });
         expect(() => throwOnInvalidTableCfg(tableCfg)).toThrow(
@@ -132,15 +150,20 @@ describe('TableCfg', () => {
       const tableCfg = hip(
         exampleTableCfg({
           columns: [
-            { key: '_hash', type: 'string' },
-            { key: 'a', type: 'string' },
+            {
+              key: '_hash',
+              type: 'string',
+              titleLong: 'Hash',
+              titleShort: 'Hash',
+            },
+            { key: 'a', type: 'string', titleLong: 'A', titleShort: 'A' },
           ],
         }),
       );
 
       const newColumns: ColumnCfg[] = [
-        { key: 'b', type: 'number' },
-        { key: 'c', type: 'boolean' },
+        { key: 'b', type: 'number', titleLong: 'B', titleShort: 'B' },
+        { key: 'c', type: 'boolean', titleLong: 'C', titleShort: 'C' },
       ];
 
       const updatedTableCfg = rmhsh(addColumnsToTableCfg(tableCfg, newColumns));
@@ -150,18 +173,26 @@ describe('TableCfg', () => {
           {
             key: '_hash',
             type: 'string',
+            titleLong: 'Hash',
+            titleShort: 'Hash',
           },
           {
             key: 'a',
             type: 'string',
+            titleLong: 'A',
+            titleShort: 'A',
           },
           {
             key: 'b',
             type: 'number',
+            titleLong: 'B',
+            titleShort: 'B',
           },
           {
             key: 'c',
             type: 'boolean',
+            titleLong: 'C',
+            titleShort: 'C',
           },
         ],
         isHead: true,
@@ -176,9 +207,9 @@ describe('TableCfg', () => {
       const tableCfg = exampleTableCfg();
 
       const newColumns: ColumnCfg[] = [
-        { key: '_hash', type: 'string' },
-        { key: 'a', type: 'string' },
-        { key: 'b', type: 'string' },
+        { key: '_hash', type: 'string', titleLong: 'Hash', titleShort: 'Hash' },
+        { key: 'a', type: 'string', titleLong: 'A', titleShort: 'A' },
+        { key: 'b', type: 'string', titleLong: 'B', titleShort: 'B' },
       ];
 
       expect(() => addColumnsToTableCfg(tableCfg, newColumns)).toThrow(
@@ -194,6 +225,8 @@ describe('TableCfg', () => {
         {
           key: 'c',
           type: 'boolean',
+          titleLong: 'C',
+          titleShort: 'C',
         },
       ],
       type: 'components',
@@ -206,6 +239,8 @@ describe('TableCfg', () => {
       {
         key: 'c',
         type: 'boolean',
+        titleLong: 'C',
+        titleShort: 'C',
       },
     ]);
     expect(result.type).toBe('components');
@@ -219,23 +254,29 @@ describe('TableCfg', () => {
     expect(result.columns).toEqual([
       {
         key: '_hash',
+        titleLong: 'Hash',
+        titleShort: 'Hash',
         type: 'string',
       },
       {
         key: 'a',
+        titleLong: 'Column A',
+        titleShort: 'A',
         type: 'string',
       },
       {
         key: 'b',
+        titleLong: 'Column B',
+        titleShort: 'B',
         type: 'number',
       },
     ]);
     expect(result.type).toBe('components');
   });
 });
-describe('createEditProtocolTableCfg', () => {
-  it('provides a sample Edit Protocol TableCfg', async () => {
-    const tableCfg = createEditProtocolTableCfg(exampleTableCfg());
-    await expectGolden('content/edit-protocol-table-cfg.json').toBe(tableCfg);
+describe('createHistoryTableCfg', () => {
+  it('provides a sample History TableCfg', async () => {
+    const tableCfg = createHistoryTableCfg(exampleTableCfg());
+    await expectGolden('content/history-table-cfg.json').toBe(tableCfg);
   });
 });

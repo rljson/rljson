@@ -13,9 +13,10 @@ import { LayersTable } from './content/layer.ts';
 import { RevisionsTable } from './content/revision.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
-import { EditProtocol } from './edit/edit.ts';
+import { History } from './edit/history.ts';
 import { Example } from './example.ts';
 import { ContentType, Ref, TableKey } from './typedefs.ts';
+
 
 // .............................................................................
 export const reservedFieldNames = ['_data'];
@@ -40,7 +41,7 @@ export type TableType =
   | CakesTable
   | RevisionsTable
   | TablesCfgTable
-  | EditProtocol<any>;
+  | History<any>;
 
 // .............................................................................
 /** The rljson data format */
