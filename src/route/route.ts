@@ -3,10 +3,7 @@
 //
 // Use of this source code is governed by terms that can be
 
-import { TableKey } from "../typedefs.ts";
-
-
-
+import { TableKey } from '../typedefs.ts';
 
 // found in the LICENSE file in the root of this package.
 export type RouteRef = string;
@@ -48,7 +45,7 @@ export class Route {
 
       const ref = !!refFlat
         ? refFlat.split(':').length == 2
-          ? { [tableKey + 'EditsRef']: refFlat }
+          ? { [tableKey + 'HistoryRef']: refFlat }
           : { [tableKey + 'Ref']: refFlat }
         : {};
 
@@ -190,7 +187,7 @@ export class Route {
 
   // .............................................................................
   /**
-   * Checks if a segment has any reference (either default or protocol).
+   * Checks if a segment has any reference (either default or history).
    * @param segment - The segment to check
    * @returns True if the segment has any reference, false otherwise
    */
@@ -200,24 +197,24 @@ export class Route {
 
   // .............................................................................
   /**
-   * Checks if a segment has a default reference (i.e. not a protocol reference).
+   * Checks if a segment has a default reference (i.e. not a history reference).
    * @param segment - The segment to check
    * @returns True if the segment has a default reference, false otherwise
    */
   static segmentHasDefaultRef(segment: RouteSegment<any>): boolean {
-    return this.segmentHasRef(segment) && !this.segmentHasProtocolRef(segment);
+    return this.segmentHasRef(segment) && !this.segmentHasHistoryRef(segment);
   }
 
   // .............................................................................
   /**
-   * Checks if a segment has a protocol reference (i.e. an EditsRef).
+   * Checks if a segment has a history reference (i.e. an HistoryRef).
    * @param segment - The segment to check
-   * @returns True if the segment has a protocol reference, false otherwise
+   * @returns True if the segment has a history reference, false otherwise
    */
-  static segmentHasProtocolRef(segment: RouteSegment<any>): boolean {
+  static segmentHasHistoryRef(segment: RouteSegment<any>): boolean {
     return (
       this.segmentHasRef(segment) &&
-      Object.keys(segment).some((k) => k.endsWith('EditsRef'))
+      Object.keys(segment).some((k) => k.endsWith('HistoryRef'))
     );
   }
 }

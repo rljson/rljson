@@ -1,11 +1,11 @@
 {
   "tableCfgs": {
-    "_hash": "HI-3JZ7CqU6SDH48RgGIH5",
+    "_hash": "u0uIHIB9Az_cGGXGla6ZC7",
     "_type": "tableCfgs",
     "_data": [
       {
         "version": 0,
-        "_hash": "9-WuNy4WIyqCLF15QZxFXJ",
+        "_hash": "OzGkM-LCIHbM_1ElkZPo8f",
         "key": "table",
         "type": "components",
         "isHead": false,
@@ -15,54 +15,72 @@
           {
             "key": "_hash",
             "type": "string",
-            "_hash": "df4oYftB-71Njv9FprRCeg"
+            "titleLong": "Hash",
+            "titleShort": "Hash",
+            "_hash": "Np5O9L6tfUaUFTAYyx6g5E"
           },
           {
             "key": "int",
             "type": "numberBroken",
-            "_hash": "sfSVk2YGseFgIoGqGXY3oT"
+            "titleLong": "Integer",
+            "titleShort": "Int",
+            "_hash": "tnBQlVztHw9CpSZ_ChaNHH"
           },
           {
             "key": "double",
             "type": "number",
-            "_hash": "XD0G8ZLa0-tKYnVUuEwkdS"
+            "titleLong": "Double",
+            "titleShort": "Double",
+            "_hash": "OdzvDLlCNFZKNcrXvdUh8s"
           },
           {
             "key": "string",
             "type": "string",
-            "_hash": "eg0iPUTzUY2j_xTKwRIrUp"
+            "titleLong": "String",
+            "titleShort": "String",
+            "_hash": "SyDoENYowVUfhsniwG-jkq"
           },
           {
             "key": "boolean",
             "type": "boolean",
-            "_hash": "16MfBHbWYzez1R4r8NoPYp"
+            "titleLong": "Boolean",
+            "titleShort": "Boolean",
+            "_hash": "2Up7sknR_LuCKlxzEvUhB_"
           },
           {
             "key": "null",
             "type": "string",
-            "_hash": "hitpP-3Kxy0kcfrNU6YIo1"
+            "titleLong": "Null",
+            "titleShort": "Null",
+            "_hash": "Uzjc1JUXIR4NbMK_NJw3ac"
           },
           {
             "key": "jsonArray",
             "type": "jsonArray",
-            "_hash": "PMwRJkviMj35S60qjN3UpG"
+            "titleLong": "JSON Array",
+            "titleShort": "JSONArray",
+            "_hash": "stsYCAV2DRenpeQheWyRlE"
           },
           {
             "key": "json",
             "type": "json",
-            "_hash": "NuhgezXe-Mkdf-hg96MNLG"
+            "titleLong": "JSON Object",
+            "titleShort": "JSONObject",
+            "_hash": "4-p0zngjey_fU547vfmsqr"
           },
           {
             "key": "jsonValue",
             "type": "jsonValue",
-            "_hash": "1LtHkc_tVAXXqH2OFXQ8rG"
+            "titleLong": "JSON Value",
+            "titleShort": "JSONValue",
+            "_hash": "MKNQ5yFpRrOwh8rxKvDCw_"
           }
         ]
       }
     ]
   },
   "table": {
-    "_tableCfg": "9Ng57wo--dfSh3j4uwTvF5",
+    "_tableCfg": "y2U07VJrDYuvRSBDP4CF_u",
     "_type": "components",
     "_data": [
       {
@@ -99,7 +117,7 @@
         "_hash": "Cxg2P0ZWlEbBX6pYOlOw8l"
       }
     ],
-    "_hash": "ACB-8VVkgimOEHdrX6rHFF"
+    "_hash": "2jg1BU5OG1F9jJl0rQH1op"
   },
-  "_hash": "LbxrWwWrkWLZ36Z9xwqXIa"
+  "_hash": "q4ZpJsBGfc3ndRN1SywH2i"
 }

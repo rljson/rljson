@@ -14,6 +14,7 @@ import { LayerRef } from './layer.ts';
 import { SliceIdsRef } from './slice-ids.ts';
 import { TableCfg } from './table-cfg.ts';
 
+
 // .............................................................................
 /**
  * A `CakeLayerId` assigns an id or name to a cake layer
@@ -72,11 +73,21 @@ export const createCakeTableCfg = (cakeKey: string): TableCfg => ({
   key: cakeKey,
   type: 'cakes',
   columns: [
-    { key: '_hash', type: 'string' },
-    { key: 'sliceIdsTable', type: 'string' },
-    { key: 'sliceIdsRow', type: 'string' },
-    { key: 'layers', type: 'json' },
-    { key: 'id', type: 'string' },
+    { key: '_hash', type: 'string', titleLong: 'Hash', titleShort: 'Hash' },
+    {
+      key: 'sliceIdsTable',
+      type: 'string',
+      titleLong: 'Slice Ids Table',
+      titleShort: 'Slice Ids Table',
+    },
+    {
+      key: 'sliceIdsRow',
+      type: 'string',
+      titleLong: 'Slice Ids Row',
+      titleShort: 'Slice Ids Row',
+    },
+    { key: 'layers', type: 'json', titleLong: 'Layers', titleShort: 'Layers' },
+    { key: 'id', type: 'string', titleLong: 'ID', titleShort: 'ID' },
   ],
   isHead: false,
   isRoot: false,

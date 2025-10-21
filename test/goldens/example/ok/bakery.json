@@ -145,8 +145,8 @@
     ],
     "_hash": "4tYazUV23SSH0tW9sQznO1"
   },
-  "ingredientsEdits": {
-    "_type": "edits",
+  "ingredientsHistory": {
+    "_type": "history",
     "_data": [
       {
         "timeId": "de72:1759123957292",
@@ -167,6 +167,6 @@
         "_hash": "IJjZqQu6iz1w6CtoVMbBgR"
       }
     ],
-    "_hash": "MSjrRC1dUCN9PK9DQEIVhu"
+    "_hash": "SHq8zpy3_xe1fIx-_G0bBG"
   }
 }

@@ -32,17 +32,17 @@ describe('Route', () => {
     expect(Route.segmentRef(route.segments[0]!)).toBe('hashA');
     expect(Route.segmentHasRef(route.segments[0]!)).toBe(true);
     expect(Route.segmentHasDefaultRef(route.segments[0]!)).toBe(true);
-    expect(Route.segmentHasProtocolRef(route.segments[0]!)).toBe(false);
+    expect(Route.segmentHasHistoryRef(route.segments[0]!)).toBe(false);
 
     expect(Route.segmentRef(route.segments[1]!)).toBe('timeId:123');
     expect(Route.segmentHasRef(route.segments[1]!)).toBe(true);
     expect(Route.segmentHasDefaultRef(route.segments[1]!)).toBe(false);
-    expect(Route.segmentHasProtocolRef(route.segments[1]!)).toBe(true);
+    expect(Route.segmentHasHistoryRef(route.segments[1]!)).toBe(true);
 
     expect(Route.segmentRef(route.segments[2]!)).toBeUndefined();
     expect(Route.segmentHasRef(route.segments[2]!)).toBe(false);
     expect(Route.segmentHasDefaultRef(route.segments[2]!)).toBe(false);
-    expect(Route.segmentHasProtocolRef(route.segments[2]!)).toBe(false);
+    expect(Route.segmentHasHistoryRef(route.segments[2]!)).toBe(false);
   });
 
   it('returns segments of a route w/ hash ref', async () => {
@@ -69,15 +69,15 @@ describe('Route', () => {
     await expect(route.segments).toEqual([
       {
         tableKey: 'a',
-        aEditsRef: 'timeId:123',
+        aHistoryRef: 'timeId:123',
       },
       {
         tableKey: 'b',
-        bEditsRef: 'timeId:456',
+        bHistoryRef: 'timeId:456',
       },
       {
         tableKey: 'c',
-        cEditsRef: 'timeId:789',
+        cHistoryRef: 'timeId:789',
       },
     ]);
     await expect(route.flat).toBe('/a@timeId:123/b@timeId:456/c@timeId:789');
