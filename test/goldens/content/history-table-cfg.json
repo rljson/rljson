@@ -4,27 +4,39 @@
   "columns": [
     {
       "key": "_hash",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Hash",
+      "titleShort": "Hash"
     },
     {
       "key": "timeId",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Time ID",
+      "titleShort": "Time ID"
     },
     {
       "key": "tableRef",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Reference",
+      "titleShort": "Ref"
     },
     {
       "key": "route",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Route",
+      "titleShort": "Route"
     },
     {
       "key": "origin",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Origin",
+      "titleShort": "Origin"
     },
     {
       "key": "previous",
-      "type": "jsonArray"
+      "type": "jsonArray",
+      "titleLong": "Previous",
+      "titleShort": "Previous"
     }
   ],
   "isHead": false,

@@ -16,6 +16,7 @@ import { ColumnCfg, TablesCfgTable } from './content/table-cfg.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
+
 export class Example {
   static readonly ok = {
     bakery: (): Rljson => bakeryExample(),
@@ -55,38 +56,56 @@ export class Example {
               {
                 key: '_hash',
                 type: 'string',
+                titleLong: 'Hash',
+                titleShort: 'Hash',
               },
               {
                 key: 'int',
                 type: 'number',
+                titleLong: 'Integer',
+                titleShort: 'Int',
               },
               {
                 key: 'double',
                 type: 'number',
+                titleLong: 'Double',
+                titleShort: 'Double',
               },
               {
                 key: 'string',
                 type: 'string',
+                titleLong: 'String',
+                titleShort: 'String',
               },
               {
                 key: 'boolean',
                 type: 'boolean',
+                titleLong: 'Boolean',
+                titleShort: 'Boolean',
               },
               {
                 key: 'null',
                 type: 'string',
+                titleLong: 'Null',
+                titleShort: 'Null',
               },
               {
                 key: 'jsonArray',
                 type: 'jsonArray',
+                titleLong: 'JSON Array',
+                titleShort: 'JSONArray',
               },
               {
                 key: 'json',
                 type: 'json',
+                titleLong: 'JSON Object',
+                titleShort: 'JSONObject',
               },
               {
                 key: 'jsonValue',
                 type: 'jsonValue',
+                titleLong: 'JSON Value',
+                titleShort: 'JSONValue',
               },
             ],
           },

@@ -4,31 +4,45 @@
   "columns": [
     {
       "key": "_hash",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Hash",
+      "titleShort": "Hash"
     },
     {
       "key": "base",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Base",
+      "titleShort": "Base"
     },
     {
       "key": "sliceIdsTable",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Slice Ids Table",
+      "titleShort": "Slice Ids Table"
     },
     {
       "key": "sliceIdsTableRow",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Slice Ids Table Row",
+      "titleShort": "Slice Ids Table Row"
     },
     {
       "key": "componentsTable",
-      "type": "string"
+      "type": "string",
+      "titleLong": "Components Table",
+      "titleShort": "Components Table"
     },
     {
       "key": "add",
-      "type": "json"
+      "type": "json",
+      "titleLong": "Add",
+      "titleShort": "Add"
     },
     {
       "key": "remove",
-      "type": "json"
+      "type": "json",
+      "titleLong": "Remove",
+      "titleShort": "Remove"
     }
   ],
   "isHead": false,

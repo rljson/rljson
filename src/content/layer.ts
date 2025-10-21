@@ -14,6 +14,7 @@ import { ComponentRef } from './components.ts';
 import { SliceIdsRef } from './slice-ids.ts';
 import { TableCfg } from './table-cfg.ts';
 
+
 // .............................................................................
 /**
  * A LayerRef is a hash pointing to a layer
@@ -75,13 +76,28 @@ export const createLayerTableCfg = (layerKey: string): TableCfg => ({
   key: layerKey,
   type: 'layers',
   columns: [
-    { key: '_hash', type: 'string' },
-    { key: 'base', type: 'string' },
-    { key: 'sliceIdsTable', type: 'string' },
-    { key: 'sliceIdsTableRow', type: 'string' },
-    { key: 'componentsTable', type: 'string' },
-    { key: 'add', type: 'json' },
-    { key: 'remove', type: 'json' },
+    { key: '_hash', type: 'string', titleLong: 'Hash', titleShort: 'Hash' },
+    { key: 'base', type: 'string', titleLong: 'Base', titleShort: 'Base' },
+    {
+      key: 'sliceIdsTable',
+      type: 'string',
+      titleLong: 'Slice Ids Table',
+      titleShort: 'Slice Ids Table',
+    },
+    {
+      key: 'sliceIdsTableRow',
+      type: 'string',
+      titleLong: 'Slice Ids Table Row',
+      titleShort: 'Slice Ids Table Row',
+    },
+    {
+      key: 'componentsTable',
+      type: 'string',
+      titleLong: 'Components Table',
+      titleShort: 'Components Table',
+    },
+    { key: 'add', type: 'json', titleLong: 'Add', titleShort: 'Add' },
+    { key: 'remove', type: 'json', titleLong: 'Remove', titleShort: 'Remove' },
   ],
   isHead: false,
   isRoot: false,
