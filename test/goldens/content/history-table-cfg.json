@@ -1,0 +1,33 @@
+{
+  "key": "tableHistory",
+  "type": "history",
+  "columns": [
+    {
+      "key": "_hash",
+      "type": "string"
+    },
+    {
+      "key": "timeId",
+      "type": "string"
+    },
+    {
+      "key": "tableRef",
+      "type": "string"
+    },
+    {
+      "key": "route",
+      "type": "string"
+    },
+    {
+      "key": "origin",
+      "type": "string"
+    },
+    {
+      "key": "previous",
+      "type": "jsonArray"
+    }
+  ],
+  "isHead": false,
+  "isRoot": false,
+  "isShared": false
+}

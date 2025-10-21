@@ -9,17 +9,13 @@ import { hip, rmhsh } from '@rljson/hash';
 import { describe, expect, it } from 'vitest';
 
 import {
-  addColumnsToTableCfg,
-  ColumnCfg,
-  exampleTableCfg,
-  exampleTableCfgTable,
-  TableCfg,
-  throwOnInvalidTableCfg,
-  validateRljsonAgainstTableCfg,
+  addColumnsToTableCfg, ColumnCfg, exampleTableCfg, exampleTableCfgTable, TableCfg,
+  throwOnInvalidTableCfg, validateRljsonAgainstTableCfg
 } from '../../src/content/table-cfg';
-import { createEditProtocolTableCfg } from '../../src/edit/edit';
+import { createHistoryTableCfg } from '../../src/edit/history';
 
 import { expectGolden } from '../setup/goldens';
+
 
 describe('TableCfg', () => {
   it('exampleTableCfgTable', () => {
@@ -233,9 +229,9 @@ describe('TableCfg', () => {
     expect(result.type).toBe('components');
   });
 });
-describe('createEditProtocolTableCfg', () => {
-  it('provides a sample Edit Protocol TableCfg', async () => {
-    const tableCfg = createEditProtocolTableCfg(exampleTableCfg());
-    await expectGolden('content/edit-protocol-table-cfg.json').toBe(tableCfg);
+describe('createHistoryTableCfg', () => {
+  it('provides a sample History TableCfg', async () => {
+    const tableCfg = createHistoryTableCfg(exampleTableCfg());
+    await expectGolden('content/history-table-cfg.json').toBe(tableCfg);
   });
 });

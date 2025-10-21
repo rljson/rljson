@@ -6,105 +6,107 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { EditValidator, validateEdit } from '../../src/edit/edit-validator';
-import { Edit, exampleEditsTable } from '../../src/edit/edit.ts';
+import { exampleHistoryTable } from '../../src/edit/history.ts';
+import { InsertValidator, validateInsert } from '../../src/edit/insert-validator.ts';
+import { Insert } from '../../src/edit/insert.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
 
-describe('Edit', () => {
-  describe('EditsTable', () => {
-    it('provides a list of edits', async () => {
-      await expectGolden('edit/edits.json').toBe(exampleEditsTable());
+describe('Insert', () => {
+  describe('InsertsTable', () => {
+    it('provides a list of inserts', async () => {
+      await expectGolden('insert/inserts.json').toBe(exampleHistoryTable());
     });
   });
-  describe('EditsValidator', () => {
+  describe('InsertsValidator', () => {
     it('can be instantiated', async () => {
-      const edit: Edit<any> = {
+      const insert: Insert<any> = {
         route: 'a/b/c',
         command: 'add',
         value: { x: { y: { z: true } } },
       };
-      const ev = EditValidator.create(edit);
-      await expect(ev).toBeInstanceOf(EditValidator);
+      const ev = InsertValidator.create(insert);
+      await expect(ev).toBeInstanceOf(InsertValidator);
 
-      const errors = validateEdit(edit);
+      const errors = validateInsert(insert);
       await expect(errors).toEqual({ hasErrors: false });
     });
 
-    it('validates edit', async () => {
-      const edit: Edit<any> = {
+    it('validates insert', async () => {
+      const insert: Insert<any> = {
         route: 'a/b/c',
         command: 'add',
         value: { x: { y: { z: true } } },
       };
-      const ev = new EditValidator(edit);
+      const ev = new InsertValidator(insert);
       const errors = ev.validate();
 
       await expect(errors).toEqual({ hasErrors: false });
     });
     it('throws on invalid required parameters', async () => {
-      const edit: Edit<any> = {
+      const insert: Insert<any> = {
         route: '',
         command: 'invalid' as any,
         value: null,
       };
-      const ev = new EditValidator(edit);
+      const ev = new InsertValidator(insert);
       const errors = ev.validate();
 
       await expect(errors).toEqual({
         hasErrors: true,
         parameterRouteInvalid: {
-          error: 'Edit route must be a non-empty string.',
+          error: 'Insert route must be a non-empty string.',
           parameter: '',
         },
         parameterCommandInvalid: {
-          error: "Edit command must be starting with either 'add' or 'remove'.",
+          error:
+            "Insert command must be starting with either 'add' or 'remove'.",
           parameter: 'invalid',
         },
         parameterValueInvalid: {
-          error: 'Edit value must be a non-null object.',
+          error: 'Insert value must be a non-null object.',
           parameter: null,
         },
         routeInvalid: {
-          error: 'Edit route is not valid.',
+          error: 'Insert route is not valid.',
           route: '',
         },
       });
     });
 
     it('throws on invalid optional parameters', async () => {
-      const edit: Edit<any> = {
+      const insert: Insert<any> = {
         route: 'a/b/c',
         command: 'add',
         value: { x: { y: { z: true } } },
         origin: 123 as any,
       };
-      const ev = new EditValidator(edit);
+      const ev = new InsertValidator(insert);
       const errors = ev.validate();
 
       await expect(errors).toEqual({
         hasErrors: true,
         parameterOriginInvalid: {
-          error: 'Edit origin must be a string if defined.',
+          error: 'Insert origin must be a string if defined.',
           parameter: 123,
         },
       });
     });
     it('throws on route - value mismatch', async () => {
-      const edit: Edit<any> = {
+      const insert: Insert<any> = {
         route: 'a/b/c',
         command: 'add',
         value: { x: 1, y: 2 },
       };
-      const ev = new EditValidator(edit);
+      const ev = new InsertValidator(insert);
       const errors = ev.validate();
 
       await expect(errors).toEqual({
         hasErrors: true,
         dataRouteMismatch: {
           error:
-            'Edit route depth does not match value depth. Route depth must match the depth of the value object.',
+            'Insert route depth does not match value depth. Route depth must match the depth of the value object.',
           route: 'a/b/c',
           routeDepth: 3,
           valueDepth: 1,
@@ -114,12 +116,12 @@ describe('Edit', () => {
 
     it('throws on nested Component mismatch', async () => {
       // a route /a with value { bRef: 'ref:123' } is valid
-      const edit: Edit<any> = {
+      const insert: Insert<any> = {
         route: 'a',
         command: 'add',
         value: { bRef: 'ref:123' },
       };
-      const ev = new EditValidator(edit);
+      const ev = new InsertValidator(insert);
       const errors = ev.validate();
 
       await expect(errors).toEqual({
@@ -127,7 +129,7 @@ describe('Edit', () => {
       });
 
       // a route /a/b with bRef as object is valid
-      const edit2: Edit<any> = {
+      const insert2: Insert<any> = {
         route: 'a/b',
         command: 'add',
         value: {
@@ -137,7 +139,7 @@ describe('Edit', () => {
           },
         },
       };
-      const ev2 = new EditValidator(edit2);
+      const ev2 = new InsertValidator(insert2);
       const errors2 = ev2.validate();
 
       await expect(errors2).toEqual({
@@ -145,7 +147,7 @@ describe('Edit', () => {
       });
 
       // a route /a/b with cRef as object is invalid
-      const edit3: Edit<any> = {
+      const insert3: Insert<any> = {
         route: 'a/b',
         command: 'add',
         value: {
@@ -155,14 +157,14 @@ describe('Edit', () => {
           },
         },
       };
-      const ev3 = new EditValidator(edit3);
+      const ev3 = new InsertValidator(insert3);
       const errors3 = ev3.validate();
 
       await expect(errors3).toEqual({
         hasErrors: true,
         parameterInvalid: {
           error:
-            'Edit value has a reference key "cRef" that does not match the next route segment.',
+            'Insert value has a reference key "cRef" that does not match the next route segment.',
           parameter: {
             cRef: {
               someCKey: 'someCValue',
@@ -173,7 +175,7 @@ describe('Edit', () => {
       });
 
       // a route /a/b/c with bRef and cRef as objects is valid
-      const edit4: Edit<any> = {
+      const insert4: Insert<any> = {
         route: 'a/b/c',
         command: 'add',
         value: {
@@ -186,7 +188,7 @@ describe('Edit', () => {
           },
         },
       };
-      const ev4 = new EditValidator(edit4);
+      const ev4 = new InsertValidator(insert4);
       const errors4 = ev4.validate();
 
       await expect(errors4).toEqual({
