@@ -3,8 +3,7 @@
 //
 // Use of this source code is governed by terms that can be
 
-
-
+import { TableKey } from '../typedefs.ts';
 
 // found in the LICENSE file in the root of this package.
 export type RouteRef = string;

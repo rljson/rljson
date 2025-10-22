@@ -182,7 +182,8 @@
 
   "importSorter.generalConfiguration.sortOnBeforeSave": true,
   "importSorter.generalConfiguration.exclude": [
-    "src/sample-data/sample-data.ts"
+    "src/sample-data/sample-data.ts",
+    "src/route/route.ts"
   ],
   "importSorter.importStringConfiguration.maximumNumberOfImportExpressionsPerLine.count": 100,
   "importSorter.importStringConfiguration.numberOfEmptyLinesAfterAllImports": 2,
