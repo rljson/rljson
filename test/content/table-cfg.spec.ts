@@ -9,13 +9,17 @@ import { hip, rmhsh } from '@rljson/hash';
 import { describe, expect, it } from 'vitest';
 
 import {
-  addColumnsToTableCfg, ColumnCfg, exampleTableCfg, exampleTableCfgTable, TableCfg,
-  throwOnInvalidTableCfg, validateRljsonAgainstTableCfg
+  addColumnsToTableCfg,
+  ColumnCfg,
+  exampleTableCfg,
+  exampleTableCfgTable,
+  TableCfg,
+  throwOnInvalidTableCfg,
+  validateRljsonAgainstTableCfg,
 } from '../../src/content/table-cfg';
-import { createHistoryTableCfg } from '../../src/edit/history';
+import { createHistoryTableCfg } from '../../src/history/history';
 
 import { expectGolden } from '../setup/goldens';
-
 
 describe('TableCfg', () => {
   it('exampleTableCfgTable', () => {
