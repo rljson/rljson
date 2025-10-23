@@ -16,7 +16,6 @@ import { ColumnCfg, TablesCfgTable } from './content/table-cfg.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
-
 export class Example {
   static readonly ok = {
     bakery: (): Rljson => bakeryExample(),
@@ -158,26 +157,178 @@ export class Example {
     },
 
     singleRef: (): Rljson => {
+      const tableCfgs = hip<TablesCfgTable>({
+        _type: 'tableCfgs',
+        _data: [
+          {
+            key: 'tableA',
+            type: 'components',
+            isHead: false,
+            isRoot: false,
+            isShared: true,
+            columns: [
+              {
+                key: '_hash',
+                type: 'string',
+                titleLong: 'Hash',
+                titleShort: 'Hash',
+              },
+              {
+                key: 'propertyA',
+                type: 'string',
+                titleLong: 'Key',
+                titleShort: 'Key',
+              },
+            ],
+            _hash: '',
+          },
+          {
+            key: 'tableB',
+            type: 'components',
+            isHead: false,
+            isRoot: false,
+            isShared: true,
+            columns: [
+              {
+                key: '_hash',
+                type: 'string',
+                titleLong: 'Hash',
+                titleShort: 'Hash',
+              },
+              {
+                key: 'propertyAFromTableA',
+                type: 'string',
+                titleLong: 'Table A Reference',
+                titleShort: 'TableARef',
+                ref: {
+                  tableKey: 'tableA',
+                  columnKey: 'propertyA',
+                },
+              },
+            ],
+            _hash: '',
+          },
+        ],
+      } as TablesCfgTable);
+
+      const tableA = hip<ComponentsTable<Json>>({
+        _type: 'components',
+        _tableCfg: tableCfgs._data[0]._hash as string,
+        _data: [
+          {
+            propertyA: 'a0',
+          },
+          {
+            propertyA: 'a1',
+          },
+        ],
+        _hash: '',
+      });
+
+      const tableB = hip<ComponentsTable<Json>>({
+        _type: 'components',
+        _tableCfg: tableCfgs._data[1]._hash as string,
+        _data: [
+          {
+            propertyAFromTableA: tableA._data[0]._hash as string,
+          },
+        ],
+        _hash: '',
+      });
+
       return {
-        tableA: {
-          _type: 'components',
-          _data: [
-            {
-              keyA0: 'a0',
-            },
-            {
-              keyA1: 'a1',
-            },
-          ],
-        },
-        tableB: {
-          _type: 'components',
-          _data: [
-            {
-              tableARef: 'KFQrf4mEz0UPmUaFHwH4T6',
-            },
-          ],
-        },
+        tableCfgs,
+        tableA,
+        tableB,
+      };
+    },
+    multiRef: (): Rljson => {
+      const tableCfgs = hip<TablesCfgTable>({
+        _type: 'tableCfgs',
+        _data: [
+          {
+            key: 'tableA',
+            type: 'components',
+            isHead: false,
+            isRoot: false,
+            isShared: true,
+            columns: [
+              {
+                key: '_hash',
+                type: 'string',
+                titleLong: 'Hash',
+                titleShort: 'Hash',
+              },
+              {
+                key: 'propertyA',
+                type: 'string',
+                titleLong: 'Key',
+                titleShort: 'Key',
+              },
+            ],
+            _hash: '',
+          },
+          {
+            key: 'tableB',
+            type: 'components',
+            isHead: false,
+            isRoot: false,
+            isShared: true,
+            columns: [
+              {
+                key: '_hash',
+                type: 'string',
+                titleLong: 'Hash',
+                titleShort: 'Hash',
+              },
+              {
+                key: 'propertyAFromTableA',
+                type: 'jsonValue',
+                titleLong: 'Table A Reference',
+                titleShort: 'TableARef',
+                ref: {
+                  tableKey: 'tableA',
+                  columnKey: 'propertyA',
+                },
+              },
+            ],
+            _hash: '',
+          },
+        ],
+      } as TablesCfgTable);
+
+      const tableA = hip<ComponentsTable<Json>>({
+        _type: 'components',
+        _tableCfg: tableCfgs._data[0]._hash as string,
+        _data: [
+          {
+            propertyA: 'a0',
+          },
+          {
+            propertyA: 'a1',
+          },
+        ],
+        _hash: '',
+      });
+
+      const tableB = hip<ComponentsTable<Json>>({
+        _type: 'components',
+        _tableCfg: tableCfgs._data[1]._hash as string,
+        _data: [
+          {
+            propertyAFromTableA: [
+              tableA._data[0]._hash,
+              tableA._data[1]._hash,
+            ] as string[],
+          },
+        ],
+        _hash: '',
+      });
+
+      return {
+        tableCfgs,
+        tableA,
+        tableB,
       };
     },
     singleSliceIdRef: (): Rljson => {
@@ -220,90 +371,6 @@ export class Example {
         } as ComponentsTable<Json>,
       };
     },
-    singleNamedRef: (): Rljson => {
-      return {
-        tableA: {
-          _type: 'components',
-          _data: [
-            {
-              keyA0: 'a0',
-            },
-            {
-              keyA1: 'a1',
-            },
-          ],
-        },
-        tableB: {
-          _type: 'components',
-          _data: [
-            {
-              namedRef: { component: 'tableA', ref: 'KFQrf4mEz0UPmUaFHwH4T6' },
-            },
-          ],
-        },
-      };
-    },
-    multiRef: (): Rljson => {
-      return {
-        tableA: {
-          _type: 'components',
-          _data: [
-            {
-              keyA0: 'a0',
-            },
-            {
-              keyA1: 'a1',
-            },
-          ],
-        },
-        tableB: {
-          _type: 'components',
-          _data: [
-            {
-              tableARef: ['KFQrf4mEz0UPmUaFHwH4T6', 'YPw-pxhqaUOWRFGramr4B1'],
-            },
-          ],
-        },
-      };
-    },
-    multiMixedRef: (): Rljson => {
-      return {
-        tableA: {
-          _type: 'components',
-          _data: [
-            {
-              keyA0: 'a0',
-            },
-            {
-              keyA1: 'a1',
-            },
-          ],
-        },
-        tableB: {
-          _type: 'components',
-          _data: [
-            {
-              keyB0: 'b0',
-            },
-            {
-              keyB1: 'b1',
-            },
-          ],
-        },
-        tableC: {
-          _type: 'components',
-          _data: [
-            {
-              tableRef: [
-                { component: 'tableA', ref: 'KFQrf4mEz0UPmUaFHwH4T6' },
-                { component: 'tableB', ref: 'dXhIygNwNMVPEqFbsFJkn6' },
-              ],
-            },
-          ],
-        },
-      };
-    },
-
     complete: (): Rljson => {
       const sliceIds = hip<SliceIdsTable>({
         _type: 'sliceIds',
@@ -413,87 +480,226 @@ export class Example {
       },
 
       missingRef: (): Rljson => {
-        return {
-          tableA: {
-            _type: 'components',
-            _data: [
-              {
-                keyA0: 'a0',
-              },
-              {
-                keyA1: 'a1',
-              },
-            ],
-          },
-          tableB: {
-            _type: 'components',
-            _data: [
-              {
-                tableARef: 'MISSINGREF', // MISSINGREF does not exist in tableA
-              },
-            ],
-          },
-        };
-      },
+        const tableCfgs = hip<TablesCfgTable>({
+          _type: 'tableCfgs',
+          _data: [
+            {
+              key: 'tableA',
+              type: 'components',
+              isHead: false,
+              isRoot: false,
+              isShared: true,
+              columns: [
+                {
+                  key: '_hash',
+                  type: 'string',
+                  titleLong: 'Hash',
+                  titleShort: 'Hash',
+                },
+                {
+                  key: 'propertyA',
+                  type: 'string',
+                  titleLong: 'Key',
+                  titleShort: 'Key',
+                },
+              ],
+              _hash: '',
+            },
+            {
+              key: 'tableB',
+              type: 'components',
+              isHead: false,
+              isRoot: false,
+              isShared: true,
+              columns: [
+                {
+                  key: '_hash',
+                  type: 'string',
+                  titleLong: 'Hash',
+                  titleShort: 'Hash',
+                },
+                {
+                  key: 'propertyAFromTableA',
+                  type: 'jsonValue',
+                  titleLong: 'Table A Reference',
+                  titleShort: 'TableARef',
+                  ref: {
+                    tableKey: 'tableA',
+                    columnKey: 'propertyA',
+                  },
+                },
+              ],
+              _hash: '',
+            },
+          ],
+        } as TablesCfgTable);
 
-      missingNamedRef: (): Rljson => {
+        const tableA = hip<ComponentsTable<Json>>({
+          _type: 'components',
+          _tableCfg: tableCfgs._data[0]._hash as string,
+          _data: [
+            {
+              propertyA: 'a0',
+            },
+            {
+              propertyA: 'a1',
+            },
+          ],
+          _hash: '',
+        });
+
+        const tableB = hip<ComponentsTable<Json>>({
+          _type: 'components',
+          _tableCfg: tableCfgs._data[1]._hash as string,
+          _data: [
+            {
+              propertyAFromTableA: 'MISSINGREF', // Missing reference
+            },
+          ],
+          _hash: '',
+        });
+
         return {
-          tableA: {
-            _type: 'components',
-            _data: [
-              {
-                keyA0: 'a0',
-              },
-              {
-                keyA1: 'a1',
-              },
-            ],
-          },
-          tableB: {
-            _type: 'components',
-            _data: [
-              {
-                namedRef: { component: 'tableA', ref: 'MISSINGREF' }, // MISSINGREF does not exist in tableA
-              },
-            ],
-          },
+          tableCfgs,
+          tableA,
+          tableB,
         };
       },
 
       missingMultiRef: (): Rljson => {
+        const tableCfgs = hip<TablesCfgTable>({
+          _type: 'tableCfgs',
+          _data: [
+            {
+              key: 'tableA',
+              type: 'components',
+              isHead: false,
+              isRoot: false,
+              isShared: true,
+              columns: [
+                {
+                  key: '_hash',
+                  type: 'string',
+                  titleLong: 'Hash',
+                  titleShort: 'Hash',
+                },
+                {
+                  key: 'propertyA',
+                  type: 'string',
+                  titleLong: 'Key',
+                  titleShort: 'Key',
+                },
+              ],
+              _hash: '',
+            },
+            {
+              key: 'tableB',
+              type: 'components',
+              isHead: false,
+              isRoot: false,
+              isShared: true,
+              columns: [
+                {
+                  key: '_hash',
+                  type: 'string',
+                  titleLong: 'Hash',
+                  titleShort: 'Hash',
+                },
+                {
+                  key: 'propertyAFromTableA',
+                  type: 'jsonValue',
+                  titleLong: 'Table A Reference',
+                  titleShort: 'TableARef',
+                  ref: {
+                    tableKey: 'tableA',
+                    columnKey: 'propertyA',
+                  },
+                },
+              ],
+              _hash: '',
+            },
+          ],
+        } as TablesCfgTable);
+
+        const tableA = hip<ComponentsTable<Json>>({
+          _type: 'components',
+          _tableCfg: tableCfgs._data[0]._hash as string,
+          _data: [
+            {
+              propertyA: 'a0',
+            },
+            {
+              propertyA: 'a1',
+            },
+          ],
+          _hash: '',
+        });
+
+        const tableB = hip<ComponentsTable<Json>>({
+          _type: 'components',
+          _tableCfg: tableCfgs._data[1]._hash as string,
+          _data: [
+            {
+              propertyAFromTableA: [tableA._data[0]._hash, 'MISSINGREF'], // Missing reference
+            },
+          ],
+          _hash: '',
+        });
+
         return {
-          tableA: {
-            _type: 'components',
-            _data: [
-              {
-                keyA0: 'a0',
-              },
-              {
-                keyA1: 'a1',
-              },
-            ],
-          },
-          tableB: {
-            _type: 'components',
-            _data: [
-              {
-                tableARef: ['KFQrf4mEz0UPmUaFHwH4T6', 'MISSING'],
-              },
-            ],
-          },
+          tableCfgs,
+          tableA,
+          tableB,
         };
       },
 
       missingReferencedTable: (): Rljson => {
+        const tableCfgs = hip<TablesCfgTable>({
+          _type: 'tableCfgs',
+          _data: [
+            {
+              key: 'tableB',
+              type: 'components',
+              isHead: false,
+              isRoot: false,
+              isShared: true,
+              columns: [
+                {
+                  key: '_hash',
+                  type: 'string',
+                  titleLong: 'Hash',
+                  titleShort: 'Hash',
+                },
+                {
+                  key: 'propertyAFromTableA',
+                  type: 'jsonValue',
+                  titleLong: 'Table A Reference',
+                  titleShort: 'TableARef',
+                  ref: {
+                    tableKey: 'tableA', // Referenced table missing
+                    columnKey: 'propertyA',
+                  },
+                },
+              ],
+              _hash: '',
+            },
+          ],
+        } as TablesCfgTable);
+
+        const tableB = hip<ComponentsTable<Json>>({
+          _type: 'components',
+          _tableCfg: tableCfgs._data[0]._hash as string,
+          _data: [
+            {
+              propertyAFromTableA: 'MISSINGREF', // Missing reference
+            },
+          ],
+          _hash: '',
+        });
+
         return {
-          tableB: {
-            _type: 'components',
-            _data: [
-              {
-                tableARef: 'MISSINGREF', // tableA is missing
-              },
-            ],
-          },
+          tableCfgs,
+          tableB,
         };
       },
 
