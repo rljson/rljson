@@ -1,24 +1,90 @@
 {
-  "tableA": {
-    "_type": "components",
+  "tableCfgs": {
+    "_type": "tableCfgs",
     "_data": [
       {
-        "keyA0": "a0"
+        "key": "tableA",
+        "type": "components",
+        "isHead": false,
+        "isRoot": false,
+        "isShared": true,
+        "columns": [
+          {
+            "key": "_hash",
+            "type": "string",
+            "titleLong": "Hash",
+            "titleShort": "Hash",
+            "_hash": "Np5O9L6tfUaUFTAYyx6g5E"
+          },
+          {
+            "key": "propertyA",
+            "type": "string",
+            "titleLong": "Key",
+            "titleShort": "Key",
+            "_hash": "ZnrwQsuoZ9TApv3Vqf0UCD"
+          }
+        ],
+        "_hash": "p1pty2povva8zAnxDoDm0n"
       },
       {
-        "keyA1": "a1"
+        "key": "tableB",
+        "type": "components",
+        "isHead": false,
+        "isRoot": false,
+        "isShared": true,
+        "columns": [
+          {
+            "key": "_hash",
+            "type": "string",
+            "titleLong": "Hash",
+            "titleShort": "Hash",
+            "_hash": "Np5O9L6tfUaUFTAYyx6g5E"
+          },
+          {
+            "key": "propertyAFromTableA",
+            "type": "jsonValue",
+            "titleLong": "Table A Reference",
+            "titleShort": "TableARef",
+            "ref": {
+              "tableKey": "tableA",
+              "columnKey": "propertyA",
+              "_hash": "W63NOFikVIBHButAzW_ObZ"
+            },
+            "_hash": "TzrSmMjdVbZdmkJdZnldMy"
+          }
+        ],
+        "_hash": "f456U4apcFw1PLSO4Qsbkx"
       }
-    ]
+    ],
+    "_hash": "LjSPFTJilZu9ISJSD2UxDo"
+  },
+  "tableA": {
+    "_type": "components",
+    "_tableCfg": "p1pty2povva8zAnxDoDm0n",
+    "_data": [
+      {
+        "propertyA": "a0",
+        "_hash": "uy3DrToZuZc4uKe1wMXhKe"
+      },
+      {
+        "propertyA": "a1",
+        "_hash": "2Nfu6PVi_3RJaKh7j22_l6"
+      }
+    ],
+    "_hash": "90MlXv5wSkEm4_v1ah849A"
   },
   "tableB": {
     "_type": "components",
+    "_tableCfg": "f456U4apcFw1PLSO4Qsbkx",
     "_data": [
       {
-        "tableARef": [
-          "KFQrf4mEz0UPmUaFHwH4T6",
-          "YPw-pxhqaUOWRFGramr4B1"
-        ]
+        "propertyAFromTableA": [
+          "uy3DrToZuZc4uKe1wMXhKe",
+          "2Nfu6PVi_3RJaKh7j22_l6"
+        ],
+        "_hash": "-ZmVVhlSm4FuZEaoKrt7Dx"
       }
-    ]
+    ],
+    "_hash": "9tFCQBEXneNb-ZUcLRr-ou"
   }
 }

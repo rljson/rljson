@@ -862,18 +862,8 @@ describe('BaseValidator', async () => {
           hasErrors: false,
         });
       });
-      it('returns no errors when single named ref is found', () => {
-        expect(validate(Example.ok.singleNamedRef())).toEqual({
-          hasErrors: false,
-        });
-      });
       it('returns no errors when multiple refs are found', () => {
         expect(validate(Example.ok.multiRef())).toEqual({
-          hasErrors: false,
-        });
-      });
-      it('returns no errors when multiple mixed refs are found', () => {
-        expect(validate(Example.ok.multiMixedRef())).toEqual({
           hasErrors: false,
         });
       });
@@ -885,8 +875,8 @@ describe('BaseValidator', async () => {
             missingRefs: [
               {
                 error: 'Target table "tableA" not found.',
-                sourceItemHash: 'nFaC4ql3MDVMhdWTBG-rdZ',
-                sourceKey: 'tableARef',
+                sourceItemHash: 'P4pe2yhHla7KrnhRF9MMcD',
+                sourceKey: 'propertyAFromTableA',
                 sourceTable: 'tableB',
                 targetItemHash: 'MISSINGREF',
                 targetTable: 'tableA',
@@ -904,8 +894,8 @@ describe('BaseValidator', async () => {
             missingRefs: [
               {
                 error: 'Table "tableA" has no item with hash "MISSINGREF"',
-                sourceKey: 'tableARef',
-                sourceItemHash: 'nFaC4ql3MDVMhdWTBG-rdZ',
+                sourceItemHash: 'P4pe2yhHla7KrnhRF9MMcD',
+                sourceKey: 'propertyAFromTableA',
                 targetItemHash: 'MISSINGREF',
                 sourceTable: 'tableB',
                 targetTable: 'tableA',
@@ -915,82 +905,19 @@ describe('BaseValidator', async () => {
           hasErrors: true,
         });
       });
-      it('returns an error when a named ref is not found', () => {
-        expect(validate(Example.broken.base.missingNamedRef())).toEqual({
-          refsNotFound: {
-            error: 'Broken references',
-            missingRefs: [
-              {
-                error: 'Table "tableA" has no item with hash "MISSINGREF"',
-                sourceKey: 'namedRef',
-                sourceItemHash: 'GT7Jb9K2DwaQksuxcy7rp-',
-                targetItemHash: 'MISSINGREF',
-                sourceTable: 'tableB',
-                targetTable: 'tableA',
-              },
-            ],
-          },
-          hasErrors: true,
-        });
-      });
-      it('returns an error when multiple refs are not found', () => {
+
+      it('returns an error when a multiref is not found', () => {
         expect(validate(Example.broken.base.missingMultiRef())).toEqual({
           refsNotFound: {
             error: 'Broken references',
             missingRefs: [
               {
-                error: 'Table "tableA" has no item with hash "MISSING"',
-                sourceItemHash: 'v2eUdDAFOp7IG412UCvXq9',
-                sourceKey: 'tableARef',
+                error: 'Table "tableA" has no item with hash "MISSINGREF"',
+                sourceItemHash: '3LYcCeTgV3Ij2mNczRy_hI',
+                sourceKey: 'propertyAFromTableA',
+                targetItemHash: 'MISSINGREF',
                 sourceTable: 'tableB',
-                targetItemHash: 'MISSING',
                 targetTable: 'tableA',
-              },
-            ],
-          },
-          hasErrors: true,
-        });
-      });
-    });
-    describe('sliceIdRefsNotFound', () => {
-      it('returns no errors when all sliceIdRefs are found', () => {
-        expect(validate(Example.ok.singleSliceIdRef())).toEqual({
-          hasErrors: false,
-        });
-      });
-      it('returns no errors when all multilateral sliceIdRefs are found', () => {
-        expect(validate(Example.ok.multiSliceIdRef())).toEqual({
-          hasErrors: false,
-        });
-      });
-
-      it('returns an error when a sliceId reference table is not found', () => {
-        expect(validate(Example.broken.base.missingSliceIdTable())).toEqual({
-          refsNotFound: {
-            error: 'Broken references',
-            missingRefs: [
-              {
-                error: 'Target table "id0" not found.',
-                sourceTable: 'exampleComponent',
-                targetSliceId: 'id0',
-                targetTable: 'exampleSliceId',
-              },
-            ],
-          },
-          hasErrors: true,
-        });
-      });
-
-      it('returns an error when a sliceId ref is not found', () => {
-        expect(validate(Example.broken.base.missingSliceId())).toEqual({
-          refsNotFound: {
-            error: 'Broken references',
-            missingRefs: [
-              {
-                error: 'Table "exampleSliceId" has no sliceId "id2"',
-                sourceTable: 'exampleComponent',
-                targetSliceId: 'id2',
-                targetTable: 'exampleSliceId',
               },
             ],
           },

@@ -1,21 +1,87 @@
 {
-  "tableA": {
-    "_type": "components",
+  "tableCfgs": {
+    "_type": "tableCfgs",
     "_data": [
       {
-        "keyA0": "a0"
+        "key": "tableA",
+        "type": "components",
+        "isHead": false,
+        "isRoot": false,
+        "isShared": true,
+        "columns": [
+          {
+            "key": "_hash",
+            "type": "string",
+            "titleLong": "Hash",
+            "titleShort": "Hash",
+            "_hash": "Np5O9L6tfUaUFTAYyx6g5E"
+          },
+          {
+            "key": "propertyA",
+            "type": "string",
+            "titleLong": "Key",
+            "titleShort": "Key",
+            "_hash": "ZnrwQsuoZ9TApv3Vqf0UCD"
+          }
+        ],
+        "_hash": "p1pty2povva8zAnxDoDm0n"
       },
       {
-        "keyA1": "a1"
+        "key": "tableB",
+        "type": "components",
+        "isHead": false,
+        "isRoot": false,
+        "isShared": true,
+        "columns": [
+          {
+            "key": "_hash",
+            "type": "string",
+            "titleLong": "Hash",
+            "titleShort": "Hash",
+            "_hash": "Np5O9L6tfUaUFTAYyx6g5E"
+          },
+          {
+            "key": "propertyAFromTableA",
+            "type": "string",
+            "titleLong": "Table A Reference",
+            "titleShort": "TableARef",
+            "ref": {
+              "tableKey": "tableA",
+              "columnKey": "propertyA",
+              "_hash": "W63NOFikVIBHButAzW_ObZ"
+            },
+            "_hash": "u4g3qIY6DJOH6iy3OU0URQ"
+          }
+        ],
+        "_hash": "jdPTSsddArktxue_iAaQgz"
       }
-    ]
+    ],
+    "_hash": "FrfVJtwQgBH4M80Co3czg1"
+  },
+  "tableA": {
+    "_type": "components",
+    "_tableCfg": "p1pty2povva8zAnxDoDm0n",
+    "_data": [
+      {
+        "propertyA": "a0",
+        "_hash": "uy3DrToZuZc4uKe1wMXhKe"
+      },
+      {
+        "propertyA": "a1",
+        "_hash": "2Nfu6PVi_3RJaKh7j22_l6"
+      }
+    ],
+    "_hash": "90MlXv5wSkEm4_v1ah849A"
   },
   "tableB": {
     "_type": "components",
+    "_tableCfg": "jdPTSsddArktxue_iAaQgz",
     "_data": [
       {
-        "tableARef": "KFQrf4mEz0UPmUaFHwH4T6"
+        "propertyAFromTableA": "uy3DrToZuZc4uKe1wMXhKe",
+        "_hash": "IFsxShx2Q4jgeC4uwFaDkZ"
       }
-    ]
+    ],
+    "_hash": "xnAUxCiCraFDUhj4lbS68R"
   }
 }

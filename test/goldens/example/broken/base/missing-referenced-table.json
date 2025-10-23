@@ -1,10 +1,48 @@
 {
-  "tableB": {
-    "_type": "components",
+  "tableCfgs": {
+    "_type": "tableCfgs",
     "_data": [
       {
-        "tableARef": "MISSINGREF"
+        "key": "tableB",
+        "type": "components",
+        "isHead": false,
+        "isRoot": false,
+        "isShared": true,
+        "columns": [
+          {
+            "key": "_hash",
+            "type": "string",
+            "titleLong": "Hash",
+            "titleShort": "Hash",
+            "_hash": "Np5O9L6tfUaUFTAYyx6g5E"
+          },
+          {
+            "key": "propertyAFromTableA",
+            "type": "jsonValue",
+            "titleLong": "Table A Reference",
+            "titleShort": "TableARef",
+            "ref": {
+              "tableKey": "tableA",
+              "columnKey": "propertyA",
+              "_hash": "W63NOFikVIBHButAzW_ObZ"
+            },
+            "_hash": "TzrSmMjdVbZdmkJdZnldMy"
+          }
+        ],
+        "_hash": "f456U4apcFw1PLSO4Qsbkx"
       }
-    ]
+    ],
+    "_hash": "ITq86rCSwMqXyAsxS1txat"
+  },
+  "tableB": {
+    "_type": "components",
+    "_tableCfg": "f456U4apcFw1PLSO4Qsbkx",
+    "_data": [
+      {
+        "propertyAFromTableA": "MISSINGREF",
+        "_hash": "P4pe2yhHla7KrnhRF9MMcD"
+      }
+    ],
+    "_hash": "ZUipX4ZmMz-x0Uesk467G2"
   }
 }
