@@ -6,13 +6,16 @@
 
 import { hsh } from '@rljson/hash';
 import {
-  Json, jsonValueMatchesType, jsonValueType, JsonValueType, jsonValueTypes
+  Json,
+  jsonValueMatchesType,
+  jsonValueType,
+  JsonValueType,
+  jsonValueTypes,
 } from '@rljson/json';
 
 import { Example } from '../example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { ColumnKey, ContentType, Ref, TableKey } from '../typedefs.ts';
-
 
 /**
  * A ColumnsRef is a hash pointing to columns metadata
@@ -42,6 +45,14 @@ export interface ColumnCfg extends Json {
    * An optional short title of the column
    */
   titleShort: string;
+
+  /**
+   * Defines if the column is reference column to another table (foreign key)
+   */
+  ref?: {
+    tableKey: TableKey;
+    columnKey?: ColumnKey;
+  };
 }
 
 /**
