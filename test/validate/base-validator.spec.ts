@@ -427,8 +427,13 @@ describe('BaseValidator', async () => {
         isShared: boolean;
       }) => {
         const columns: ColumnCfg[] = [
-          { key: 'name', type: 'string' },
-          { key: 'id', type: 'string' },
+          {
+            key: 'name',
+            type: 'string',
+            titleLong: 'Name',
+            titleShort: 'Name',
+          },
+          { key: 'id', type: 'string', titleLong: 'ID', titleShort: 'ID' },
         ];
 
         const tableCfg = hip<TableCfg>({
@@ -567,10 +572,22 @@ describe('BaseValidator', async () => {
         isRoot: boolean;
         addIdColumn: boolean;
       }) => {
-        const columns: ColumnCfg[] = [{ key: 'name', type: 'string' }];
+        const columns: ColumnCfg[] = [
+          {
+            key: 'name',
+            type: 'string',
+            titleLong: 'Name',
+            titleShort: 'Name',
+          },
+        ];
 
         if (config.addIdColumn) {
-          columns.push({ key: 'id', type: 'string' });
+          columns.push({
+            key: 'id',
+            type: 'string',
+            titleLong: 'ID',
+            titleShort: 'ID',
+          });
         }
 
         const tableCfg = hip<TableCfg>({
@@ -785,7 +802,7 @@ describe('BaseValidator', async () => {
             missingColumnConfigs: [
               {
                 column: 'int',
-                row: 'Cxg2P0ZWlEbBX6pYOlOw8l',
+                row: 'P_QrIhtZow4q86_mj2k5uY',
                 tableCfg: rljson.table._tableCfg,
                 table: 'table',
               },
