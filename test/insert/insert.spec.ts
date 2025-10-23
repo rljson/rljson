@@ -6,14 +6,22 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { exampleHistoryTable } from '../../src/edit/history.ts';
-import { InsertValidator, validateInsert } from '../../src/edit/insert-validator.ts';
-import { Insert } from '../../src/edit/insert.ts';
+import { exampleHistoryTable } from '../../src/history/history.ts';
+import {
+  InsertValidator,
+  validateInsert,
+} from '../../src/insert/insert-validator.ts';
+import { exampleInsert, Insert } from '../../src/insert/insert.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
 
-
 describe('Insert', () => {
+  describe('Insert', () => {
+    it('can be instantiated', async () => {
+      const insert = exampleInsert();
+      expect(insert).toBeDefined();
+    });
+  });
   describe('InsertsTable', () => {
     it('provides a list of inserts', async () => {
       await expectGolden('insert/inserts.json').toBe(exampleHistoryTable());
