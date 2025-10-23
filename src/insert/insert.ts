@@ -3,7 +3,6 @@
 //
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
-
 import { Json } from '@rljson/json';
 
 import { RouteRef } from '../route/route.ts';
@@ -32,3 +31,9 @@ export type Insert<T extends Json> = {
   origin?: Ref;
   acknowledged?: boolean;
 };
+
+export const exampleInsert = (): Insert<Json> => ({
+  route: 'a/b/c',
+  command: 'add',
+  value: { x: { y: { z: true } } },
+});
