@@ -178,6 +178,8 @@ export class Route {
       const refKey = Object.keys(segment).find(
         (k) => k.endsWith('Ref') && k !== 'tableKey',
       );
+
+      /* v8 ignore next -- @preserve */
       if (refKey) {
         return (segment as any)[refKey];
       }

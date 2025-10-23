@@ -8,6 +8,7 @@ import { Json } from '@rljson/json';
 
 import { Rljson } from '../rljson.ts';
 
+
 // .............................................................................
 export type Errors = Json & { hasErrors: boolean };
 
@@ -53,11 +54,9 @@ export class Validate {
 
       if (hasErrors) {
         return { ...acc, ...errors };
-        /* v8 ignore start*/
       }
 
       return acc;
-      /* v8 ignore stop*/
     }, {});
   }
 

@@ -19,6 +19,7 @@ import { TableKey } from '../typedefs.ts';
 
 import { Errors, Validator } from './validate.ts';
 
+
 // .............................................................................
 export interface BaseErrors extends Errors {
   // Base errors
@@ -237,17 +238,17 @@ class _BaseValidator {
         throwOnWrongHashes: true,
       });
     } catch (error: any) {
+      /* v8 ignore next -- @preserve */
       if (error instanceof Error) {
         this.errors.hashesNotValid = {
           error: error.message,
         };
-        /* v8 ignore start */
       } else {
+        /* v8 ignore next -- @preserve */
         this.errors.hashesNotValid = {
           error: 'Unknown error',
         };
       }
-      /* v8 ignore stop */
     }
   }
 

@@ -1,4 +1,3 @@
-/* v8 ignore start */
 // @license
 // Copyright (c) 2025 Rljson
 //
@@ -33,4 +32,3 @@ export type Insert<T extends Json> = {
   origin?: Ref;
   acknowledged?: boolean;
 };
-/* v8 ignore end */
