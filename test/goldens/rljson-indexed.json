@@ -145,8 +145,8 @@
     },
     "_hash": "PJ-xrGMKVteg0MJvcjhz5F"
   },
-  "ingredientsHistory": {
-    "_type": "history",
+  "ingredientsInsertHistory": {
+    "_type": "insertHistory",
     "_data": {
       "a1lrq8PaniS6hV0zNnDPvB": {
         "timeId": "de72:1759123957292",
@@ -167,7 +167,7 @@
         "_hash": "HKsX0TB_5Mj94xtlwd-FeO"
       }
     },
-    "_hash": "dYqPaREFG9nM3sV0fMVECr"
+    "_hash": "6gIf4kQL5CEs-EqYaObUjk"
   },
-  "_hash": "ph99uW_wg7VKoWblHK_DLq"
+  "_hash": "3hL6R7WNHR7FLRZOtvnBM7"
 }

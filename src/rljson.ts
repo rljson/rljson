@@ -14,8 +14,9 @@ import { RevisionsTable } from './content/revision.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
 import { Example } from './example.ts';
-import { History } from './history/history.ts';
+import { InsertHistory } from './insertHistory/insertHistory.ts';
 import { ContentType, Ref, TableKey } from './typedefs.ts';
+
 
 // .............................................................................
 export const reservedFieldNames = ['_data'];
@@ -40,7 +41,7 @@ export type TableType =
   | CakesTable
   | RevisionsTable
   | TablesCfgTable
-  | History<any>;
+  | InsertHistory<any>;
 
 // .............................................................................
 /** The rljson data format */

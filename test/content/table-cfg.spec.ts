@@ -9,17 +9,13 @@ import { hip, rmhsh } from '@rljson/hash';
 import { describe, expect, it } from 'vitest';
 
 import {
-  addColumnsToTableCfg,
-  ColumnCfg,
-  exampleTableCfg,
-  exampleTableCfgTable,
-  TableCfg,
-  throwOnInvalidTableCfg,
-  validateRljsonAgainstTableCfg,
+  addColumnsToTableCfg, ColumnCfg, exampleTableCfg, exampleTableCfgTable, TableCfg,
+  throwOnInvalidTableCfg, validateRljsonAgainstTableCfg
 } from '../../src/content/table-cfg';
-import { createHistoryTableCfg } from '../../src/history/history';
+import { createInsertHistoryTableCfg } from '../../src/insertHistory/insertHistory';
 
 import { expectGolden } from '../setup/goldens';
+
 
 describe('TableCfg', () => {
   it('exampleTableCfgTable', () => {
@@ -278,9 +274,9 @@ describe('TableCfg', () => {
     expect(result.type).toBe('components');
   });
 });
-describe('createHistoryTableCfg', () => {
-  it('provides a sample History TableCfg', async () => {
-    const tableCfg = createHistoryTableCfg(exampleTableCfg());
-    await expectGolden('content/history-table-cfg.json').toBe(tableCfg);
+describe('createInsertHistoryTableCfg', () => {
+  it('provides a sample InsertHistory TableCfg', async () => {
+    const tableCfg = createInsertHistoryTableCfg(exampleTableCfg());
+    await expectGolden('content/insertHistory-table-cfg.json').toBe(tableCfg);
   });
 });
