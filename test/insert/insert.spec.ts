@@ -6,14 +6,12 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { exampleHistoryTable } from '../../src/history/history.ts';
-import {
-  InsertValidator,
-  validateInsert,
-} from '../../src/insert/insert-validator.ts';
+import { InsertValidator, validateInsert } from '../../src/insert/insert-validator.ts';
 import { exampleInsert, Insert } from '../../src/insert/insert.ts';
+import { exampleInsertHistoryTable } from '../../src/insertHistory/insertHistory.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
+
 
 describe('Insert', () => {
   describe('Insert', () => {
@@ -24,7 +22,9 @@ describe('Insert', () => {
   });
   describe('InsertsTable', () => {
     it('provides a list of inserts', async () => {
-      await expectGolden('insert/inserts.json').toBe(exampleHistoryTable());
+      await expectGolden('insert/inserts.json').toBe(
+        exampleInsertHistoryTable(),
+      );
     });
   });
   describe('InsertsValidator', () => {
@@ -114,7 +114,7 @@ describe('Insert', () => {
         hasErrors: true,
         dataRouteMismatch: {
           error:
-            'Insert route depth does not match value depth. Route depth must match the depth of the value object.',
+            'Insert route depth does not match value depth. Route depth must be lower than the depth of the value object.',
           route: 'a/b/c',
           routeDepth: 3,
           valueDepth: 1,

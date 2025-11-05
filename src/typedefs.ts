@@ -6,6 +6,7 @@
 
 import { Json, JsonKey } from '@rljson/json';
 
+
 /**
  * A ref is a hash that references to another element
  */
@@ -45,7 +46,7 @@ export const contentTypes = [
   'components',
   'revisions',
   'tableCfgs',
-  'history',
+  'insertHistory',
 ] as const;
 
 export type ContentType = (typeof contentTypes)[number];

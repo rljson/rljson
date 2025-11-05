@@ -11,33 +11,33 @@ import { RouteRef } from '../route/route.ts';
 import { Ref } from '../typedefs.ts';
 
 
-// History
+// InsertHistory
 // .............................................................................
-export type HistoryTimeId = string;
+export type InsertHistoryTimeId = string;
 
-export type HistoryRow<Str extends string> = {
-  [key in Str as `${Uncapitalize<string & key>}Ref`]: string; //Keys that reference other objects in the history
+export type InsertHistoryRow<Str extends string> = {
+  [key in Str as `${Uncapitalize<string & key>}Ref`]: string; //Keys that reference other objects in the insertHistory
 } & {
-  timeId: HistoryTimeId; //Unique row id in the history table
+  timeId: InsertHistoryTimeId; //Unique row id in the insertHistory table
   route: RouteRef; //Route to the edited object
   origin?: Ref; //Custom origin of the insert or edit
-  previous?: HistoryTimeId[]; //Merge --> multiple previous edits or inserts
+  previous?: InsertHistoryTimeId[]; //Merge --> multiple previous edits or inserts
 };
 
-export type History<Str extends string> = RljsonTable<
-  HistoryRow<Str>,
-  'history'
+export type InsertHistory<Str extends string> = RljsonTable<
+  InsertHistoryRow<Str>,
+  'insertHistory'
 >;
 
 // .................................................................................
 /**
- * Creates a TableCfg for a History table for the given table configuration
- * @param tableCfg - The table configuration to create the History table for
- * @returns The TableCfg for the History table
+ * Creates a TableCfg for a InsertHistory table for the given table configuration
+ * @param tableCfg - The table configuration to create the InsertHistory table for
+ * @returns The TableCfg for the InsertHistory table
  */
-export const createHistoryTableCfg = (tableCfg: TableCfg): TableCfg => ({
-  key: `${tableCfg.key}History`,
-  type: 'history',
+export const createInsertHistoryTableCfg = (tableCfg: TableCfg): TableCfg => ({
+  key: `${tableCfg.key}InsertHistory`,
+  type: 'insertHistory',
   columns: [
     { key: '_hash', type: 'string', titleLong: 'Hash', titleShort: 'Hash' },
     {
@@ -72,7 +72,7 @@ export const createHistoryTableCfg = (tableCfg: TableCfg): TableCfg => ({
 });
 
 /**
- * Provides an example history table for test purposes
+ * Provides an example insertHistory table for test purposes
  */
-export const exampleHistoryTable = (): History<any> =>
-  bakeryExample().ingredientsHistory;
+export const exampleInsertHistoryTable = (): InsertHistory<any> =>
+  bakeryExample().ingredientsInsertHistory;

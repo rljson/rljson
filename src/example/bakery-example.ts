@@ -12,10 +12,11 @@ import { CakesTable } from '../content/cake.ts';
 import { ComponentsTable } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIdsTable } from '../content/slice-ids.ts';
-import { History } from '../history/history.ts';
+import { InsertHistory } from '../insertHistory/insertHistory.ts';
 import { Rljson } from '../rljson.ts';
 import { Route } from '../route/route.ts';
 import { Ref } from '../typedefs.ts';
+
 
 // .............................................................................
 export interface Ingredient extends Json {
@@ -48,7 +49,7 @@ export interface Bakery extends Rljson {
   recipeIngredients: ComponentsTable<RecipIngredient>;
   ingredients: ComponentsTable<Ingredient>;
   nutritionalValues: ComponentsTable<NutritionalValues>;
-  ingredientsHistory: History<'Ingredients'>;
+  ingredientsInsertHistory: InsertHistory<'Ingredients'>;
 }
 
 // .............................................................................
@@ -190,10 +191,10 @@ export const bakeryExample = (): Bakery => {
     ],
   });
 
-  const ingredientsHistory: History<'Ingredients'> = hip<
-    History<'Ingredients'>
+  const ingredientsInsertHistory: InsertHistory<'Ingredients'> = hip<
+    InsertHistory<'Ingredients'>
   >({
-    _type: 'history',
+    _type: 'insertHistory',
     _data: [
       {
         timeId: 'de72:1759123957292',
@@ -223,7 +224,7 @@ export const bakeryExample = (): Bakery => {
     recipeIngredients,
     ingredients: ingredients,
     nutritionalValues,
-    ingredientsHistory: ingredientsHistory,
+    ingredientsInsertHistory: ingredientsInsertHistory,
   };
 
   return result;

@@ -8,123 +8,285 @@ import { describe, expect, it } from 'vitest';
 
 import { Route } from '../../src/route/route.ts';
 
+
 describe('Route', () => {
-  it('returns segments of a route', () => {
-    const route = Route.fromFlat('/a/b/c');
-    expect(route.segments).toEqual([
-      {
-        tableKey: 'a',
-      },
-      {
-        tableKey: 'b',
-      },
-      {
-        tableKey: 'c',
-      },
-    ]);
-    expect(route.flat).toBe('/a/b/c');
+  describe('segment Ref types', () => {
+    it('returns segment Ref types', async () => {
+      const route = Route.fromFlat('/a@hashA/b@timeId:123/c');
+
+      expect(Route.segmentRef(route.segments[0]!)).toBe('hashA');
+      expect(Route.segmentHasRef(route.segments[0]!)).toBe(true);
+      expect(Route.segmentHasDefaultRef(route.segments[0]!)).toBe(true);
+      expect(Route.segmentHasInsertHistoryRef(route.segments[0]!)).toBe(false);
+
+      expect(Route.segmentRef(route.segments[1]!)).toBe('timeId:123');
+      expect(Route.segmentHasRef(route.segments[1]!)).toBe(true);
+      expect(Route.segmentHasDefaultRef(route.segments[1]!)).toBe(false);
+      expect(Route.segmentHasInsertHistoryRef(route.segments[1]!)).toBe(true);
+
+      expect(Route.segmentRef(route.segments[2]!)).toBeUndefined();
+      expect(Route.segmentHasRef(route.segments[2]!)).toBe(false);
+      expect(Route.segmentHasDefaultRef(route.segments[2]!)).toBe(false);
+      expect(Route.segmentHasInsertHistoryRef(route.segments[2]!)).toBe(false);
+    });
   });
 
-  it('returns segment Ref types', async () => {
-    const route = Route.fromFlat('/a@hashA/b@timeId:123/c');
+  describe('fromFlat', () => {
+    it('takes a flat route w/ hash refs', async () => {
+      const route = Route.fromFlat('/a@hashA/b@hashB/c@hashC');
+      expect(route.segments).toEqual([
+        {
+          tableKey: 'a',
+          aRef: 'hashA',
+        },
+        {
+          tableKey: 'b',
+          bRef: 'hashB',
+        },
+        {
+          tableKey: 'c',
+          cRef: 'hashC',
+        },
+      ]);
+      expect(route.flat).toBe('/a@hashA/b@hashB/c@hashC');
+    });
 
-    expect(Route.segmentRef(route.segments[0]!)).toBe('hashA');
-    expect(Route.segmentHasRef(route.segments[0]!)).toBe(true);
-    expect(Route.segmentHasDefaultRef(route.segments[0]!)).toBe(true);
-    expect(Route.segmentHasHistoryRef(route.segments[0]!)).toBe(false);
-
-    expect(Route.segmentRef(route.segments[1]!)).toBe('timeId:123');
-    expect(Route.segmentHasRef(route.segments[1]!)).toBe(true);
-    expect(Route.segmentHasDefaultRef(route.segments[1]!)).toBe(false);
-    expect(Route.segmentHasHistoryRef(route.segments[1]!)).toBe(true);
-
-    expect(Route.segmentRef(route.segments[2]!)).toBeUndefined();
-    expect(Route.segmentHasRef(route.segments[2]!)).toBe(false);
-    expect(Route.segmentHasDefaultRef(route.segments[2]!)).toBe(false);
-    expect(Route.segmentHasHistoryRef(route.segments[2]!)).toBe(false);
+    it('takes a flat route w/ timeId refs', async () => {
+      const route = Route.fromFlat('/a@timeId:123/b@timeId:456/c@timeId:789');
+      expect(route.segments).toEqual([
+        {
+          tableKey: 'a',
+          aInsertHistoryRef: 'timeId:123',
+        },
+        {
+          tableKey: 'b',
+          bInsertHistoryRef: 'timeId:456',
+        },
+        {
+          tableKey: 'c',
+          cInsertHistoryRef: 'timeId:789',
+        },
+      ]);
+      expect(route.flat).toBe('/a@timeId:123/b@timeId:456/c@timeId:789');
+    });
   });
 
-  it('returns segments of a route w/ hash ref', async () => {
-    const route = Route.fromFlat('/a@hashA/b@hashB/c@hashC');
-    expect(route.segments).toEqual([
-      {
-        tableKey: 'a',
-        aRef: 'hashA',
-      },
-      {
-        tableKey: 'b',
-        bRef: 'hashB',
-      },
-      {
-        tableKey: 'c',
-        cRef: 'hashC',
-      },
-    ]);
-    expect(route.flat).toBe('/a@hashA/b@hashB/c@hashC');
+  describe('isValid', () => {
+    it('returns isValid of a route', () => {
+      const route = Route.fromFlat('/a/b/c');
+      expect(route.isValid).toBe(true);
+      const invalidRoute = Route.fromFlat('///');
+      expect(invalidRoute.isValid).toBe(false);
+    });
   });
 
-  it('returns segments of a route w/ timeId ref', async () => {
-    const route = Route.fromFlat('/a@timeId:123/b@timeId:456/c@timeId:789');
-    expect(route.segments).toEqual([
-      {
-        tableKey: 'a',
-        aHistoryRef: 'timeId:123',
-      },
-      {
-        tableKey: 'b',
-        bHistoryRef: 'timeId:456',
-      },
-      {
-        tableKey: 'c',
-        cHistoryRef: 'timeId:789',
-      },
-    ]);
-    expect(route.flat).toBe('/a@timeId:123/b@timeId:456/c@timeId:789');
+  describe('set/get/has propertyKey', () => {
+    it('operates on property keys', () => {
+      // Create a route with a property key
+      const route = Route.fromFlat('/a/b/c');
+      route.propertyKey = 'propertyKey';
+
+      expect(route.hasPropertyKey).toBe(true);
+      expect(route.propertyKey).toBe('propertyKey');
+      expect(route.flat).toBe('/a/b/c/propertyKey');
+
+      // Create a route without a property key
+      const routeWithoutPropertyKey = Route.fromFlat('/a/b/c');
+      expect(routeWithoutPropertyKey.hasPropertyKey).toBe(false);
+      expect(routeWithoutPropertyKey.propertyKey).toBeUndefined();
+      expect(routeWithoutPropertyKey.flat).toBe('/a/b/c');
+    });
   });
 
-  it('returns isValid of a route', () => {
-    const route = Route.fromFlat('/a/b/c');
-    expect(route.isValid).toBe(true);
-    const invalidRoute = Route.fromFlat('///');
-    expect(invalidRoute.isValid).toBe(false);
-  });
-  it('returns any segment of a route', () => {
-    const route = Route.fromFlat('/a/b/c');
+  describe('toRouteWithProperty', () => {
+    it('returns a route w/ property key set', () => {
+      const route = Route.fromFlat('/a/b/c');
+      expect(route.hasPropertyKey).toBe(false);
 
-    expect(route.segment(0)).toEqual({ tableKey: 'a' });
-    expect(route.segment()).toEqual({ tableKey: 'c' });
-  });
-  it('returns root segment of a route', () => {
-    const route = Route.fromFlat('/parent/root');
+      const routeWithProperty = route.toRouteWithProperty();
 
-    expect(route.root).toEqual({ tableKey: 'root' });
-  });
-  it('returns top segment of a route', () => {
-    const route = Route.fromFlat('/parent/root');
+      expect(routeWithProperty.hasPropertyKey).toBe(true);
+      expect(routeWithProperty.propertyKey).toBe('c');
+      expect(routeWithProperty.flat).toBe('/a/b/c');
 
-    expect(route.top).toEqual({ tableKey: 'parent' });
-  });
-  it('returns deeper segments of a route', () => {
-    const routeTopLevel = Route.fromFlat('/a/b/c');
-    const routeMiddleLevel = routeTopLevel.deeper();
-    const routeRootLevel = routeTopLevel.deeper(2);
-
-    expect(() => routeTopLevel.deeper(0)).toThrowError(
-      'Steps must be greater than 0',
-    );
-    expect(() => routeTopLevel.deeper(3)).toThrowError(
-      'Cannot go deeper than the root',
-    );
-
-    expect(routeTopLevel.flat).toBe('/a/b/c');
-    expect(routeMiddleLevel.flat).toBe('/b/c');
-    expect(routeRootLevel.flat).toBe('/c');
-    expect(routeRootLevel.isRoot).toBe(true);
+      const routeWithPropertyAgain = routeWithProperty.toRouteWithProperty();
+      expect(routeWithPropertyAgain).toBe(routeWithProperty);
+    });
   });
 
-  it('returns last segment of a route', () => {
-    const route = Route.fromFlat('/a/b/c');
+  describe('toRouteWithoutProperty', () => {
+    it('returns a route w/o property key set', () => {
+      const route = Route.fromFlat('/a/b/c');
+      route.propertyKey = 'propertyKey';
+      expect(route.hasPropertyKey).toBe(true);
 
-    expect(route.isRoot).toBe(false);
+      const routeWithoutProperty = route.toRouteWithoutProperty();
+
+      expect(routeWithoutProperty.hasPropertyKey).toBe(false);
+      expect(routeWithoutProperty.propertyKey).toBeUndefined();
+      expect(routeWithoutProperty.flat).toBe('/a/b/c');
+
+      const routeWithoutPropertyAgain =
+        routeWithoutProperty.toRouteWithoutProperty();
+      expect(routeWithoutPropertyAgain).toBe(routeWithoutProperty);
+    });
+  });
+
+  describe('flat', () => {
+    it('returns a flat representation w/ propertyKey', () => {
+      const route = Route.fromFlat('/a/b/c');
+      route.propertyKey = 'propertyKey';
+      expect(route.flat).toBe('/a/b/c/propertyKey');
+    });
+
+    it('returns a flat representation w/o propertyKey', () => {
+      const route = Route.fromFlat('/a/b/c');
+      expect(route.flatWithoutPropertyKey).toBe('/a/b/c');
+
+      route.propertyKey = 'propertyKey';
+      expect(route.flatWithoutPropertyKey).toBe('/a/b/c');
+      expect(route.flat).toBe('/a/b/c/propertyKey');
+    });
+
+    it('returns a flat representation w/o refs', () => {
+      const route = Route.fromFlat('/a@hashA/b@hashB/c@hashC');
+      expect(route.flatWithoutRefs).toBe('/a/b/c');
+
+      route.propertyKey = 'propertyKey';
+      expect(route.flatWithoutRefs).toBe('/a/b/c/propertyKey');
+      expect(route.flat).toBe('/a@hashA/b@hashB/c@hashC/propertyKey');
+    });
+  });
+
+  describe('segment & segments', () => {
+    it('returns segments of a route', () => {
+      const route = Route.fromFlat('/a/b/c');
+      expect(route.segments).toEqual([
+        {
+          tableKey: 'a',
+        },
+        {
+          tableKey: 'b',
+        },
+        {
+          tableKey: 'c',
+        },
+      ]);
+      expect(route.flat).toBe('/a/b/c');
+    });
+
+    it('returns any segment of a route', () => {
+      const route = Route.fromFlat('/a/b/c');
+
+      expect(route.segment(0)).toEqual({ tableKey: 'a' });
+      expect(route.segment()).toEqual({ tableKey: 'c' });
+    });
+  });
+
+  describe('root, top, deeper, upper, isRoot', () => {
+    it('returns root segment of a route', () => {
+      const route = Route.fromFlat('/parent/root');
+
+      expect(route.root).toEqual({ tableKey: 'root' });
+    });
+    it('returns top segment of a route', () => {
+      const route = Route.fromFlat('/parent/root');
+
+      expect(route.top).toEqual({ tableKey: 'parent' });
+    });
+    it('returns deeper segments of a route', () => {
+      const routeTopLevel = Route.fromFlat('/a/b/c');
+      const routeMiddleLevel = routeTopLevel.deeper();
+      const routeRootLevel = routeTopLevel.deeper(2);
+
+      expect(() => routeTopLevel.deeper(0)).toThrowError(
+        'Steps must be greater than 0',
+      );
+      expect(() => routeTopLevel.deeper(3)).toThrowError(
+        'Cannot go deeper than the root',
+      );
+
+      expect(routeTopLevel.flat).toBe('/a/b/c');
+      expect(routeMiddleLevel.flat).toBe('/b/c');
+      expect(routeRootLevel.flat).toBe('/c');
+      expect(routeRootLevel.isRoot).toBe(true);
+    });
+
+    it('returns upper segments of a route', () => {
+      const routeRootLevel = Route.fromFlat('/a/b/c');
+      const routeMiddleLevel = routeRootLevel.upper();
+      const routeTopLevel = routeRootLevel.upper(2);
+
+      expect(() => routeRootLevel.upper(0)).toThrowError(
+        'Steps must be greater than 0',
+      );
+      expect(() => routeRootLevel.upper(3)).toThrowError(
+        'Cannot go upper than the top level',
+      );
+
+      expect(routeRootLevel.flat).toBe('/a/b/c');
+      expect(routeMiddleLevel.flat).toBe('/a/b');
+      expect(routeTopLevel.flat).toBe('/a');
+      expect(routeTopLevel.isRoot).toBe(true);
+    });
+
+    it('returns last segment of a route', () => {
+      const route = Route.fromFlat('/a/b/c');
+
+      expect(route.isRoot).toBe(false);
+    });
+  });
+  describe('equals', () => {
+    it('compares two routes for equality', () => {
+      const routeA = Route.fromFlat('/a@hashA/b@hashB/c@hashC');
+      const routeB = Route.fromFlat('/a@hashA/b@hashB/c@hashC');
+      const routeC = Route.fromFlat('/a@hashA/b@hashB/c@hashD');
+
+      expect(routeA.equals(routeB)).toBe(true);
+      expect(routeA.equals(routeC)).toBe(false);
+    });
+  });
+
+  describe('includes', () => {
+    it('checks if a route includes another route', () => {
+      const routeA = Route.fromFlat('/a@hashA/b@hashB/c@hashC');
+      const routeB = Route.fromFlat('/a@hashA/b@hashB');
+      const routeC = Route.fromFlat('/a@hashA/b@hashX');
+      const routeD = Route.fromFlat('/a@hashA/b@hashB/c@hashC/d@hashD');
+      const routeE = Route.fromFlat('/a@hashA/c@hashX');
+
+      expect(routeA.includes(routeB)).toBe(false);
+      expect(routeB.includes(routeA)).toBe(true);
+      expect(routeC.includes(routeA)).toBe(false);
+      expect(routeB.includes(routeD)).toBe(true);
+      expect(routeE.includes(routeA)).toBe(false);
+    });
+  });
+
+  describe('equalsWithoutPropertyKey', () => {
+    it('compares two routes for equality without property key', () => {
+      const routeA = Route.fromFlat('/a@hashA/b@hashB/c@hashC');
+      routeA.propertyKey = 'someProperty';
+      const routeB = Route.fromFlat('/a@hashA/b@hashB/c@hashC');
+      routeB.propertyKey = 'anotherProperty';
+      const routeC = Route.fromFlat('/a@hashA/b@hashB/c@hashD');
+      routeC.propertyKey = 'someProperty';
+
+      expect(routeA.equalsWithoutPropertyKey(routeB)).toBe(true);
+      expect(routeA.equalsWithoutPropertyKey(routeC)).toBe(false);
+    });
+  });
+
+  describe('equalsWithoutRefs', () => {
+    it('compares two routes for equality without refs', () => {
+      const routeA = Route.fromFlat('/a@hashA/b@hashB/c@hashC');
+      const routeB = Route.fromFlat('/a@hashX/b@hashY/c@hashZ');
+      const routeC = Route.fromFlat('/a@hashA/b@hashB/d@hashC');
+      const routeD = Route.fromFlat('/a/b');
+
+      expect(routeA.equalsWithoutRefs(routeB)).toBe(true);
+      expect(routeA.equalsWithoutRefs(routeC)).toBe(false);
+      expect(routeA.equalsWithoutRefs(routeD)).toBe(false);
+    });
   });
 });
