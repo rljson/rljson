@@ -10,14 +10,11 @@ import { describe, expect, it } from 'vitest';
 
 import { Example } from '../src/example.ts';
 import {
-  exampleRljson,
-  iterateTables,
-  iterateTablesSync,
-  reservedFieldNames,
-  reservedTableKeys,
+  exampleRljson, iterateTables, iterateTablesSync, reservedFieldNames, reservedTableKeys
 } from '../src/rljson.ts';
 
 import { expectGolden } from './setup/goldens.ts';
+
 
 describe('Rljson', () => {
   it('exampleRljson()', async () => {
@@ -55,7 +52,7 @@ describe('Rljson', () => {
         'recipeIngredients',
         'ingredients',
         'nutritionalValues',
-        'ingredientsHistory',
+        'ingredientsInsertHistory',
       ]);
     });
   });
@@ -81,7 +78,7 @@ describe('Rljson', () => {
         'recipeIngredients',
         'ingredients',
         'nutritionalValues',
-        'ingredientsHistory',
+        'ingredientsInsertHistory',
       ]);
     });
 
@@ -142,8 +139,8 @@ describe('Rljson', () => {
           tableKey: 'nutritionalValues',
         },
         {
-          error: new Error('Test error: ingredientsHistory'),
-          tableKey: 'ingredientsHistory',
+          error: new Error('Test error: ingredientsInsertHistory'),
+          tableKey: 'ingredientsInsertHistory',
         },
       ]);
     });

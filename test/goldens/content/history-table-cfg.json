@@ -1,6 +1,6 @@
 {
-  "key": "tableHistory",
-  "type": "history",
+  "key": "tableInsertHistory",
+  "type": "insertHistory",
   "columns": [
     {
       "key": "_hash",

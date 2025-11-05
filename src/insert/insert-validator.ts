@@ -96,10 +96,10 @@ export class InsertValidator<T extends Json> {
     if (route.isValid) {
       const routeDepth = route.segments.length;
       const valueDepth = objectDepth(this._insert.value);
-      if (routeDepth !== valueDepth) {
+      if (routeDepth > valueDepth) {
         this.errors.dataRouteMismatch = {
           error:
-            'Insert route depth does not match value depth. Route depth must match the depth of the value object.',
+            'Insert route depth does not match value depth. Route depth must be lower than the depth of the value object.',
           route: this._insert.route,
           routeDepth,
           valueDepth,
