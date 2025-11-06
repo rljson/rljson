@@ -6,7 +6,6 @@
 
 import { nanoid } from 'nanoid';
 
-
 // .............................................................................
 /**
  * Generates a new TimeId.
@@ -16,7 +15,7 @@ import { nanoid } from 'nanoid';
  * @returns A new TimeId string
  */
 export const timeId = (): string => {
-  return nanoid(4) + ':' + Date.now();
+  return Date.now() + ':' + nanoid(4);
 };
 
 // .............................................................................
@@ -31,6 +30,30 @@ export const timeId = (): string => {
 export const isTimeId = (id: string): boolean => {
   const parts = id.split(':');
   if (parts.length !== 2) return false;
-  if (isNaN(Number(parts[1]))) return false;
-  return parts[0].length === 4;
+  if (isNaN(Number(parts[0]))) return false;
+  return parts[1].length === 4;
+};
+
+// .............................................................................
+/**
+ * Extracts the timestamp from a TimeId.
+ * @param id - The TimeId string
+ * @returns The timestamp in milliseconds since epoch, or null if the id is not a valid TimeId
+ */
+export const getTimeIdTimestamp = (id: string): number | null => {
+  if (!isTimeId(id)) return null;
+  const parts = id.split(':');
+  return Number(parts[0]);
+};
+
+// .............................................................................
+/**
+ * Extracts the unique part from a TimeId.
+ * @param id - The TimeId string
+ * @returns The unique identifier part, or null if the id is not a valid TimeId
+ */
+export const getTimeIdUniquePart = (id: string): string | null => {
+  if (!isTimeId(id)) return null;
+  const parts = id.split(':');
+  return parts[1];
 };
