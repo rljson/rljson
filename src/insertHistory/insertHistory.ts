@@ -10,7 +10,6 @@ import { RljsonTable } from '../rljson.ts';
 import { RouteRef } from '../route/route.ts';
 import { Ref } from '../typedefs.ts';
 
-
 // InsertHistory
 // .............................................................................
 export type InsertHistoryTimeId = string;
@@ -24,7 +23,7 @@ export type InsertHistoryRow<Str extends string> = {
   previous?: InsertHistoryTimeId[]; //Merge --> multiple previous edits or inserts
 };
 
-export type InsertHistory<Str extends string> = RljsonTable<
+export type InsertHistoryTable<Str extends string> = RljsonTable<
   InsertHistoryRow<Str>,
   'insertHistory'
 >;
@@ -74,5 +73,5 @@ export const createInsertHistoryTableCfg = (tableCfg: TableCfg): TableCfg => ({
 /**
  * Provides an example insertHistory table for test purposes
  */
-export const exampleInsertHistoryTable = (): InsertHistory<any> =>
+export const exampleInsertHistoryTable = (): InsertHistoryTable<any> =>
   bakeryExample().ingredientsInsertHistory;
