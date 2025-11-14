@@ -46,10 +46,9 @@ export const contentTypes = [
   'revisions',
   'tableCfgs',
   'insertHistory',
-  // Additional types for edits, implemented in DB
   'edits',
   'multiEdits',
-  'editsHistory',
+  'editHistory',
 ] as const;
 
 export type ContentType = (typeof contentTypes)[number];
