@@ -1,0 +1,27 @@
+{
+  "key": "exampleMultiEditsMultiEdits",
+  "type": "multiEdits",
+  "columns": [
+    {
+      "key": "_hash",
+      "type": "string",
+      "titleLong": "Hash",
+      "titleShort": "Hash"
+    },
+    {
+      "key": "previous",
+      "type": "string",
+      "titleLong": "Previous Value",
+      "titleShort": "Previous"
+    },
+    {
+      "key": "edit",
+      "type": "string",
+      "titleLong": "Edit Reference",
+      "titleShort": "Edit Ref",
+      "ref": {
+        "tableKey": "exampleMultiEditsEdits"
+      }
+    }
+  ]
+}

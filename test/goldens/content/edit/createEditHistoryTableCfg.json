@@ -1,0 +1,42 @@
+{
+  "key": "exampleEditHistoryEditHistory",
+  "type": "editHistory",
+  "columns": [
+    {
+      "key": "_hash",
+      "type": "string",
+      "titleLong": "Hash",
+      "titleShort": "Hash"
+    },
+    {
+      "key": "timeId",
+      "type": "string",
+      "titleLong": "Time Identifier",
+      "titleShort": "Time ID"
+    },
+    {
+      "key": "multiEditRef",
+      "type": "string",
+      "titleLong": "Multi Edit Reference",
+      "titleShort": "Multi Edit Ref",
+      "ref": {
+        "tableKey": "exampleEditHistoryMultiEdit"
+      }
+    },
+    {
+      "key": "dataRef",
+      "type": "string",
+      "titleLong": "Data Reference",
+      "titleShort": "Data Ref",
+      "ref": {
+        "tableKey": "exampleEditHistory"
+      }
+    },
+    {
+      "key": "previous",
+      "type": "jsonArray",
+      "titleLong": "Previous Values",
+      "titleShort": "Previous"
+    }
+  ]
+}

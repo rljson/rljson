@@ -6,12 +6,14 @@
 
 import { describe, expect, it } from 'vitest';
 
-import { InsertValidator, validateInsert } from '../../src/insert/insert-validator.ts';
+import {
+  InsertValidator,
+  validateInsert,
+} from '../../src/insert/insert-validator.ts';
 import { exampleInsert, Insert } from '../../src/insert/insert.ts';
 import { exampleInsertHistoryTable } from '../../src/insertHistory/insertHistory.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
-
 
 describe('Insert', () => {
   describe('Insert', () => {
