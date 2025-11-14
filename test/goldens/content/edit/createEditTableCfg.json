@@ -1,0 +1,24 @@
+{
+  "key": "exampleEditsEdits",
+  "type": "edits",
+  "columns": [
+    {
+      "key": "_hash",
+      "type": "string",
+      "titleLong": "Hash",
+      "titleShort": "Hash"
+    },
+    {
+      "key": "name",
+      "type": "string",
+      "titleLong": "Name of the Edit",
+      "titleShort": "Name"
+    },
+    {
+      "key": "action",
+      "type": "json",
+      "titleLong": "Edit Action Data",
+      "titleShort": "Action"
+    }
+  ]
+}
