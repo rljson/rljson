@@ -60,6 +60,7 @@ export const exampleSliceIdsTable = (): SliceIdsTable => bakeryExample().slices;
 export const createSliceIdsTableCfg = (tableKey: string): TableCfg =>
   ({
     key: tableKey,
+    type: 'sliceIds',
     columns: [
       { key: '_hash', type: 'string', titleLong: 'Hash', titleShort: 'Hash' },
       {

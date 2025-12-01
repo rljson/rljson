@@ -1,5 +1,6 @@
 {
   "key": "exampleSliceIdsTable",
+  "type": "sliceIds",
   "columns": [
     {
       "key": "_hash",
