@@ -8,7 +8,6 @@ import { describe, expect, it } from 'vitest';
 
 import { Route } from '../../src/route/route.ts';
 
-
 describe('Route', () => {
   describe('segment Ref types', () => {
     it('returns segment Ref types', async () => {
@@ -28,6 +27,14 @@ describe('Route', () => {
       expect(Route.segmentHasRef(route.segments[2]!)).toBe(false);
       expect(Route.segmentHasDefaultRef(route.segments[2]!)).toBe(false);
       expect(Route.segmentHasInsertHistoryRef(route.segments[2]!)).toBe(false);
+    });
+    it('returns correct segment Refs although sliceIds given', async () => {
+      const route = Route.fromFlat(
+        '/a(slice0,slice1)@hashA/b(slice0,slice1)@timeId:123/c',
+      );
+      expect(Route.segmentRef(route.segments[0]!)).toBe('hashA');
+      expect(Route.segmentRef(route.segments[1]!)).toBe('timeId:123');
+      expect(Route.segmentRef(route.segments[2]!)).toBeUndefined();
     });
   });
 
@@ -49,6 +56,49 @@ describe('Route', () => {
         },
       ]);
       expect(route.flat).toBe('/a@hashA/b@hashB/c@hashC');
+    });
+
+    it('takes a flat route w/ sliceIds', async () => {
+      const route = Route.fromFlat('/a(slice0,slice1)');
+      const segment = route.segment(0);
+      expect(segment).toEqual({
+        tableKey: 'a',
+        sliceIds: ['slice0', 'slice1'],
+      });
+      expect(route.flat).toBe('/a(slice0,slice1)');
+    });
+
+    it('takes a flat route w/ segments and w/ sliceIds', async () => {
+      const route = Route.fromFlat('/a(slice0,slice1)/b/c(slice2,slice3)');
+      const segmentA = route.segment(0);
+      expect(segmentA).toEqual({
+        tableKey: 'a',
+        sliceIds: ['slice0', 'slice1'],
+      });
+
+      const segmentB = route.segment(1);
+      expect(segmentB).toEqual({
+        tableKey: 'b',
+      });
+
+      const segmentC = route.segment(2);
+      expect(segmentC).toEqual({
+        tableKey: 'c',
+        sliceIds: ['slice2', 'slice3'],
+      });
+
+      expect(route.flat).toBe('/a(slice0,slice1)/b/c(slice2,slice3)');
+    });
+
+    it('takes a flat route w/ sliceIds and reference', async () => {
+      const route = Route.fromFlat('/a(slice0,slice1)@hashA');
+      const segment = route.segment(0);
+      expect(segment).toEqual({
+        tableKey: 'a',
+        sliceIds: ['slice0', 'slice1'],
+        aRef: 'hashA',
+      });
+      expect(route.flat).toBe('/a(slice0,slice1)@hashA');
     });
 
     it('takes a flat route w/ timeId refs', async () => {
@@ -194,7 +244,7 @@ describe('Route', () => {
 
       expect(route.top).toEqual({ tableKey: 'parent' });
     });
-    it('returns deeper segments of a route', () => {
+    it('returns deeper instance of a route', () => {
       const routeTopLevel = Route.fromFlat('/a/b/c');
       const routeMiddleLevel = routeTopLevel.deeper();
       const routeRootLevel = routeTopLevel.deeper(2);
@@ -211,8 +261,29 @@ describe('Route', () => {
       expect(routeRootLevel.flat).toBe('/c');
       expect(routeRootLevel.isRoot).toBe(true);
     });
+    it('returns deeper instance of a route w/ property', () => {
+      const routeTopLevel = Route.fromFlat('/a/b/c');
+      routeTopLevel.propertyKey = 'propertyKey';
 
-    it('returns upper segments of a route', () => {
+      const routeMiddleLevel = routeTopLevel.deeper();
+      const routeRootLevel = routeTopLevel.deeper(2);
+
+      expect(() => routeTopLevel.deeper(0)).toThrowError(
+        'Steps must be greater than 0',
+      );
+      expect(() => routeTopLevel.deeper(3)).toThrowError(
+        'Cannot go deeper than the root',
+      );
+
+      expect(routeTopLevel.flat).toBe('/a/b/c/propertyKey');
+      expect(routeMiddleLevel.flat).toBe('/b/c/propertyKey');
+      expect(routeMiddleLevel.propertyKey).toBe('propertyKey');
+      expect(routeRootLevel.flat).toBe('/c/propertyKey');
+      expect(routeRootLevel.propertyKey).toBe('propertyKey');
+      expect(routeRootLevel.isRoot).toBe(true);
+    });
+
+    it('returns upper instance of a route', () => {
       const routeRootLevel = Route.fromFlat('/a/b/c');
       const routeMiddleLevel = routeRootLevel.upper();
       const routeTopLevel = routeRootLevel.upper(2);

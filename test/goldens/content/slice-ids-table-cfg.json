@@ -1,0 +1,33 @@
+{
+  "key": "exampleSliceIdsTable",
+  "type": "sliceIds",
+  "columns": [
+    {
+      "key": "_hash",
+      "type": "string",
+      "titleLong": "Hash",
+      "titleShort": "Hash"
+    },
+    {
+      "key": "base",
+      "type": "string",
+      "titleLong": "Base SliceId",
+      "titleShort": "Base SliceId"
+    },
+    {
+      "key": "add",
+      "type": "jsonArray",
+      "titleLong": "Added SliceIds",
+      "titleShort": "Add"
+    },
+    {
+      "key": "remove",
+      "type": "jsonArray",
+      "titleLong": "Removed SliceIds",
+      "titleShort": "Remove"
+    }
+  ],
+  "isHead": false,
+  "isRoot": false,
+  "isShared": true
+}
