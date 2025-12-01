@@ -8,18 +8,28 @@ import { Json } from '@rljson/json';
 
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { TableKey } from '../typedefs.ts';
+import { Ref, SliceId, TableKey } from '../typedefs.ts';
 
 import { LayerRef } from './layer.ts';
 import { SliceIdsRef } from './slice-ids.ts';
 import { TableCfg } from './table-cfg.ts';
-
 
 // .............................................................................
 /**
  * A `CakeLayerId` assigns an id or name to a cake layer
  */
 export type CakeLayerId = string;
+
+// .............................................................................
+/**
+ * A reference to a cake
+ *
+ * A cake reference can optionally restrict the slice ids that are used in the cake.
+ */
+export interface CakeReference extends Json {
+  ref: Ref;
+  sliceIds?: SliceId[];
+}
 
 // .............................................................................
 /**

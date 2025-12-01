@@ -50,6 +50,7 @@ export interface ColumnCfg extends Json {
    * Defines if the column is reference column to another table (foreign key)
    */
   ref?: {
+    type: ContentType;
     tableKey: TableKey;
     columnKey?: ColumnKey;
   };

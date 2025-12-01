@@ -3,7 +3,7 @@
 //
 // Use of this source code is governed by terms that can be
 
-import { TableKey } from '../typedefs.ts';
+import { SliceId, TableKey } from '../typedefs.ts';
 
 // found in the LICENSE file in the root of this package.
 export type RouteRef = string;
@@ -12,7 +12,12 @@ export type RouteSegment<Str extends string> = {
   [key in Str as `${Uncapitalize<string & key>}Ref`]: string;
 } & {
   tableKey: TableKey;
+  sliceIds?: SliceId[];
 };
+
+export const routeRefSeperator = '@';
+export const routeSliceIdIndicators = ['(', ')'] as const;
+export const routeSliceIdSeperator = ',' as const;
 
 export type RouteSegmentFlat<N extends string> =
   | `${N}`
@@ -41,9 +46,20 @@ export class Route {
 
     const segments: RouteSegment<any>[] = [];
 
-    // Parse each segment and extract any references
+    // Parse each segment and extract references and sliceIds
     for (const segmentFlat of segmentsFlat) {
-      const [tableKey, refFlat] = segmentFlat.split('@');
+      const [tableKeyAndSliceId, refFlat] =
+        segmentFlat.split(routeRefSeperator);
+
+      const sliceIds = tableKeyAndSliceId
+        .substring(
+          tableKeyAndSliceId.indexOf(routeSliceIdIndicators[0]) + 1,
+          tableKeyAndSliceId.indexOf(routeSliceIdIndicators[1]),
+        )
+        .split(routeSliceIdSeperator)
+        .filter((s) => s.length > 0) as SliceId[];
+
+      const tableKey = tableKeyAndSliceId.split(routeSliceIdIndicators[0])[0];
 
       const ref = !!refFlat
         ? refFlat.split(':').length == 2
@@ -55,6 +71,10 @@ export class Route {
         tableKey,
         ...ref,
       };
+
+      if (sliceIds.length > 0) {
+        segment.sliceIds = sliceIds;
+      }
 
       segments.push(segment);
     }
@@ -83,8 +103,9 @@ export class Route {
    * @returns A new Route that is one level deeper or 'steps' levels deeper
    */
   public deeper(steps?: number): Route {
+    let deeperRoute: Route;
     if (steps === undefined) {
-      return new Route(this._segments.slice(1, this._segments.length));
+      deeperRoute = new Route(this._segments.slice(1, this._segments.length));
     } else {
       if (steps < 1) {
         throw new Error('Steps must be greater than 0');
@@ -93,8 +114,16 @@ export class Route {
         throw new Error('Cannot go deeper than the root');
       }
 
-      return new Route(this._segments.slice(steps, this._segments.length));
+      deeperRoute = new Route(
+        this._segments.slice(steps, this._segments.length),
+      );
     }
+
+    if (!!this.propertyKey) {
+      deeperRoute.propertyKey = this.propertyKey;
+    }
+
+    return deeperRoute;
   }
 
   // .............................................................................
@@ -220,8 +249,17 @@ export class Route {
     let flat = '';
     for (const segment of this._segments) {
       const tableKey = segment.tableKey;
-      const ref = Object.keys(segment).filter((k) => k !== 'tableKey')[0];
-      flat += `/${tableKey}${ref ? `@${(segment as any)[ref]}` : ''}`;
+      const tableKeyAndSliceId = segment.sliceIds
+        ? `${tableKey}${routeSliceIdIndicators[0]}${segment.sliceIds.join(
+            routeSliceIdSeperator,
+          )}${routeSliceIdIndicators[1]}`
+        : tableKey;
+      const ref = Object.keys(segment).filter(
+        (k) => ['tableKey', 'sliceIds'].indexOf(k) === -1,
+      )[0];
+      flat += `/${tableKeyAndSliceId}${
+        ref ? `${routeRefSeperator}${(segment as any)[ref]}` : ''
+      }`;
     }
 
     return flat;
