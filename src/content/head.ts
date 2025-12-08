@@ -6,21 +6,22 @@
 
 import { Json } from '@rljson/json';
 
-import { TableCfg } from '../content/table-cfg.ts';
 import { RljsonTable } from '../rljson.ts';
 
-export interface MultiEdit extends Json {
-  previous: string | null;
-  edit: string;
+import { ColumnCfg, TableCfg } from './table-cfg.ts';
+
+export interface Head extends Json {
+  timeId: string;
+  cakeRef: string;
   _hash: string;
 }
 
-export type MultiEditsTable = RljsonTable<MultiEdit, 'multiEdits'>;
+export type HeadsTable = RljsonTable<Head, 'head'>;
 
-export const createMultiEditTableCfg = (cakeKey: string): TableCfg =>
+export const createHeadsTableCfg = (cakeKey: string): TableCfg =>
   ({
-    key: `${cakeKey}MultiEdits`,
-    type: 'multiEdits',
+    key: `${cakeKey}Heads`,
+    type: 'head',
     columns: [
       {
         key: '_hash',
@@ -29,21 +30,21 @@ export const createMultiEditTableCfg = (cakeKey: string): TableCfg =>
         titleShort: 'Hash',
       },
       {
-        key: 'previous',
+        key: 'timeId',
         type: 'string',
-        titleLong: 'Previous Value',
-        titleShort: 'Previous',
+        titleLong: 'Time Identifier',
+        titleShort: 'Time ID',
       },
       {
-        key: 'edit',
+        key: 'cakeRef',
         type: 'string',
-        titleLong: 'Edit Reference',
-        titleShort: 'Edit Ref',
+        titleLong: 'Cake Reference',
+        titleShort: 'Cake Ref',
         ref: {
-          tableKey: `${cakeKey}Edits`,
+          tableKey: `${cakeKey}`,
         },
       },
-    ] as TableCfg['columns'],
+    ] as ColumnCfg[],
     isHead: false,
     isRoot: false,
     isShared: true,

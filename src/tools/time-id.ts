@@ -9,9 +9,9 @@ import { nanoid } from 'nanoid';
 // .............................................................................
 /**
  * Generates a new TimeId.
- * A TimeId is a string in the format "xxxx:timestamp" where:
- * - "xxxx" is a 4-character unique identifier
+ * A TimeId has the format "timestamp:xxxx" where:
  * - "timestamp" is the current time in milliseconds since epoch
+ * - "xxxx" is a 4-character unique identifier
  * @returns A new TimeId string
  */
 export const timeId = (): string => {
@@ -21,9 +21,9 @@ export const timeId = (): string => {
 // .............................................................................
 /**
  * Checks if a given id is a valid TimeId.
- * A valid TimeId has the format "xxxx:timestamp" where:
- * - "xxxx" is a 4-character string
- * - "timestamp" is a valid number representing milliseconds since epoch
+ * A TimeId has the format "timestamp:xxxx" where:
+ * - "timestamp" is the current time in milliseconds since epoch
+ * - "xxxx" is a 4-character unique identifier
  * @param id - The id to check
  * @returns True if the id is a valid TimeId, false otherwise
  */
