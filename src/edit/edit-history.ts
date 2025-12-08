@@ -42,7 +42,7 @@ export const createEditHistoryTableCfg = (cakeKey: string): TableCfg =>
         titleLong: 'Multi Edit Reference',
         titleShort: 'Multi Edit Ref',
         ref: {
-          tableKey: `${cakeKey}MultiEdit`,
+          tableKey: `${cakeKey}MultiEdits`,
         },
       },
       {
@@ -61,4 +61,7 @@ export const createEditHistoryTableCfg = (cakeKey: string): TableCfg =>
         titleShort: 'Previous',
       },
     ] as ColumnCfg[],
+    isHead: false,
+    isRoot: false,
+    isShared: true,
   } as TableCfg);

@@ -20,7 +20,7 @@
       "titleLong": "Multi Edit Reference",
       "titleShort": "Multi Edit Ref",
       "ref": {
-        "tableKey": "exampleEditHistoryMultiEdit"
+        "tableKey": "exampleEditHistoryMultiEdits"
       }
     },
     {
@@ -38,5 +38,8 @@
       "titleLong": "Previous Values",
       "titleShort": "Previous"
     }
-  ]
+  ],
+  "isHead": false,
+  "isRoot": false,
+  "isShared": true
 }

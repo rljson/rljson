@@ -44,4 +44,7 @@ export const createMultiEditTableCfg = (cakeKey: string): TableCfg =>
         },
       },
     ] as TableCfg['columns'],
+    isHead: false,
+    isRoot: false,
+    isShared: true,
   } as TableCfg);

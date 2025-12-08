@@ -9,6 +9,7 @@ import { Json } from '@rljson/json';
 import { BuffetsTable } from './content/buffet.ts';
 import { CakesTable } from './content/cake.ts';
 import { ComponentsTable } from './content/components.ts';
+import { HeadsTable } from './content/head.ts';
 import { LayersTable } from './content/layer.ts';
 import { RevisionsTable } from './content/revision.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
@@ -19,7 +20,6 @@ import { MultiEditsTable } from './edit/multi-edit.ts';
 import { Example } from './example.ts';
 import { InsertHistoryTable } from './insertHistory/insertHistory.ts';
 import { ContentType, Ref, TableKey } from './typedefs.ts';
-
 
 // .............................................................................
 export const reservedFieldNames = ['_data'];
@@ -47,7 +47,8 @@ export type TableType =
   | InsertHistoryTable<any>
   | EditsTable
   | MultiEditsTable
-  | EditHistoryTable;
+  | EditHistoryTable
+  | HeadsTable;
 
 // .............................................................................
 /** The rljson data format */

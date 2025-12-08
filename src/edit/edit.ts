@@ -48,4 +48,7 @@ export const createEditTableCfg = (cakeKey: string): TableCfg =>
         titleShort: 'Action',
       },
     ] as TableCfg['columns'],
+    isHead: false,
+    isRoot: false,
+    isShared: true,
   } as TableCfg);

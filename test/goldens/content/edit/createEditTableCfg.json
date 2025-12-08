@@ -20,5 +20,8 @@
       "titleLong": "Edit Action Data",
       "titleShort": "Action"
     }
-  ]
+  ],
+  "isHead": false,
+  "isRoot": false,
+  "isShared": true
 }
