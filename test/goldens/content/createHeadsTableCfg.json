@@ -1,0 +1,30 @@
+{
+  "key": "exampleCakeHeads",
+  "type": "head",
+  "columns": [
+    {
+      "key": "_hash",
+      "type": "string",
+      "titleLong": "Hash",
+      "titleShort": "Hash"
+    },
+    {
+      "key": "timeId",
+      "type": "string",
+      "titleLong": "Time Identifier",
+      "titleShort": "Time ID"
+    },
+    {
+      "key": "cakeRef",
+      "type": "string",
+      "titleLong": "Cake Reference",
+      "titleShort": "Cake Ref",
+      "ref": {
+        "tableKey": "exampleCake"
+      }
+    }
+  ],
+  "isHead": false,
+  "isRoot": false,
+  "isShared": true
+}
