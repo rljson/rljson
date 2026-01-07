@@ -12,7 +12,7 @@ import { CakesTable } from '../content/cake.ts';
 import { ComponentsTable } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIdsTable } from '../content/slice-ids.ts';
-import { Tree, TreesTable } from '../content/tree.ts';
+import { Tree, TreeRootsTable, TreesTable } from '../content/tree.ts';
 import { InsertHistoryTable } from '../insertHistory/insertHistory.ts';
 import { Rljson } from '../rljson.ts';
 import { Route } from '../route/route.ts';
@@ -52,6 +52,7 @@ export interface Bakery extends Rljson {
   nutritionalValues: ComponentsTable<NutritionalValues>;
   ingredientsInsertHistory: InsertHistoryTable<'Ingredients'>;
   recipesTreeTable: TreesTable;
+  recipesTreeRootsTable: TreeRootsTable;
 }
 
 // .............................................................................
@@ -239,6 +240,17 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
+  const recipesTreeRootsTable: TreeRootsTable = hip<TreeRootsTable>({
+    _type: 'treeRoots',
+    _data: [
+      {
+        timeId: '1759124000000:ashd',
+        root: recipesTreeRoot._hash as string,
+      },
+    ],
+    _hash: '',
+  });
+
   const result: Bakery = {
     buffets,
     cakes,
@@ -251,6 +263,7 @@ export const bakeryExample = (): Bakery => {
     nutritionalValues,
     ingredientsInsertHistory,
     recipesTreeTable,
+    recipesTreeRootsTable,
   };
 
   return result;

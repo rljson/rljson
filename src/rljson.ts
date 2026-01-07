@@ -14,7 +14,7 @@ import { LayersTable } from './content/layer.ts';
 import { RevisionsTable } from './content/revision.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
-import { TreesTable } from './content/tree.ts';
+import { TreeRootsTable, TreesTable } from './content/tree.ts';
 import { EditHistoryTable } from './edit/edit-history.ts';
 import { EditsTable } from './edit/edit.ts';
 import { MultiEditsTable } from './edit/multi-edit.ts';
@@ -51,7 +51,8 @@ export type TableType =
   | MultiEditsTable
   | EditHistoryTable
   | HeadsTable
-  | TreesTable;
+  | TreesTable
+  | TreeRootsTable;
 
 // .............................................................................
 /** The rljson data format */

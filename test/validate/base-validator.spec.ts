@@ -854,83 +854,127 @@ describe('BaseValidator', async () => {
   });
 
   describe('tree errors', () => {
-    describe('treeChildrenRefsNotFound', () => {
-      it('returns no errors when all children refs are found', () => {
-        expect(validate(Example.ok.tree())).toEqual({
-          hasErrors: false,
-        });
+    it('returns no errors when all children refs are found', () => {
+      expect(validate(Example.ok.tree())).toEqual({
+        hasErrors: false,
+      });
+    });
+
+    it('returns an error when a child ref is not found', () => {
+      const brokenTree = Example.broken.trees.missingChildNodes();
+
+      expect(validate(brokenTree)).toEqual({
+        treeChildNodesNotFound: {
+          error: 'Child nodes are missing',
+          brokenTrees: [
+            {
+              brokenTree: brokenTree.recipesTreeTable._data[0]._hash,
+              missingChildNode:
+                brokenTree.recipesTreeTable._data[0].children[0],
+              treesTable: 'recipesTreeTable',
+            },
+          ],
+        },
+        hasErrors: true,
+      });
+    });
+
+    it('returns an error when a cycle is detected', () => {
+      const brokenTree = Example.broken.trees.cyclicTree();
+      const brokenTreeReHashed = hsh(brokenTree, {
+        updateExistingHashes: true,
+        throwOnWrongHashes: false,
       });
 
-      it('returns an error when a child ref is not found', () => {
-        const brokenTree = Example.broken.trees.missingChildNodes();
+      //Hashing will be affected by the cycle change, because the children's hashes are part of the parent's hash
 
-        expect(validate(brokenTree)).toEqual({
-          treeChildNodesNotFound: {
-            error: 'Child nodes are missing',
-            brokenTrees: [
-              {
-                brokenTree: brokenTree.recipesTreeTable._data[0]._hash,
-                missingChildNode:
-                  brokenTree.recipesTreeTable._data[0].children[0],
-                treesTable: 'recipesTreeTable',
-              },
-            ],
-          },
-          hasErrors: true,
-        });
+      expect(validate(brokenTree)).toEqual({
+        hashesNotValid: {
+          error: `Hash "${brokenTree.recipesTreeTable._data[0]._hash}" does not match the newly calculated one "${brokenTreeReHashed.recipesTreeTable._data[0]._hash}". Please make sure that all systems are producing the same hashes.`,
+        },
+        hasErrors: true,
       });
+    });
 
-      it('returns an error when a cycle is detected', () => {
-        const brokenTree = Example.broken.trees.cyclicTree();
-        const brokenTreeReHashed = hsh(brokenTree, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-
-        //Hashing will be affected by the cycle change, because the children's hashes are part of the parent's hash
-
-        expect(validate(brokenTree)).toEqual({
-          hashesNotValid: {
-            error: `Hash "${brokenTree.recipesTreeTable._data[0]._hash}" does not match the newly calculated one "${brokenTreeReHashed.recipesTreeTable._data[0]._hash}". Please make sure that all systems are producing the same hashes.`,
-          },
-          hasErrors: true,
-        });
+    it('returns an error when a tree has duplicate child node ids', () => {
+      const brokenTree = Example.broken.trees.duplicateChildNodeIds();
+      expect(validate(brokenTree)).toEqual({
+        treeDuplicateNodeIdsAsSibling: {
+          error: 'Trees have duplicate sibling node IDs',
+          trees: [
+            {
+              duplicateChildIds: [brokenTree.recipesTreeTable._data[1]._hash],
+              tree: brokenTree.recipesTreeTable._data[0]._hash,
+              treesTable: 'recipesTreeTable',
+            },
+          ],
+        },
+        hasErrors: true,
       });
+    });
 
-      it('returns an error when a tree has duplicate child node ids', () => {
-        const brokenTree = Example.broken.trees.duplicateChildNodeIds();
-        expect(validate(brokenTree)).toEqual({
-          treeDuplicateNodeIdsAsSibling: {
-            error: 'Trees have duplicate sibling node IDs',
-            trees: [
-              {
-                duplicateChildIds: [brokenTree.recipesTreeTable._data[1]._hash],
-                tree: brokenTree.recipesTreeTable._data[0]._hash,
-                treesTable: 'recipesTreeTable',
-              },
-            ],
-          },
-          hasErrors: true,
-        });
+    it('returns an error when a tree is not a parent, but has children', () => {
+      const brokenTree = Example.broken.trees.nonParentWithChildren();
+
+      expect(validate(brokenTree)).toEqual({
+        treeIsNotParentButHasChildren: {
+          error: 'Trees marked as non-parents have children',
+          trees: [
+            {
+              children: [brokenTree.recipesTreeTable._data[1]._hash],
+              isParent: false,
+              tree: brokenTree.recipesTreeTable._data[0]._hash,
+              treesTable: 'recipesTreeTable',
+            },
+          ],
+        },
+        hasErrors: true,
       });
+    });
+  });
 
-      it('returns an error when a tree is not a parent, but has children', () => {
-        const brokenTree = Example.broken.trees.nonParentWithChildren();
+  describe('tree root errors', () => {
+    it('returns no errors when all tree roots are found', () => {
+      expect(validate(Example.ok.treeRoots())).toEqual({
+        hasErrors: false,
+      });
+    });
 
-        expect(validate(brokenTree)).toEqual({
-          treeIsNotParentButHasChildren: {
-            error: 'Trees marked as non-parents have children',
-            trees: [
-              {
-                children: [brokenTree.recipesTreeTable._data[1]._hash],
-                isParent: false,
-                tree: brokenTree.recipesTreeTable._data[0]._hash,
-                treesTable: 'recipesTreeTable',
-              },
-            ],
-          },
-          hasErrors: true,
-        });
+    it('returns an error when a tree table is not found for tree roots', () => {
+      const brokenTreeRoots =
+        Example.broken.treeRoots.missingTreeTableReference();
+
+      expect(validate(brokenTreeRoots)).toEqual({
+        treeRootsTreeTableNotFound: {
+          error: 'Tree roots reference missing tree tables',
+          invalidTreeRoots: [
+            {
+              missingTreeTable: 'recipesTree',
+              treeRootsTable: 'recipesTreeRoots',
+            },
+          ],
+        },
+        hasErrors: true,
+      });
+    });
+
+    it('returns an error when a tree root is not found in tree table', () => {
+      const brokenTreeRoots =
+        Example.broken.treeRoots.missingTreeRootReference();
+
+      expect(validate(brokenTreeRoots)).toEqual({
+        treeRootNotFoundInTreeTable: {
+          error: 'Tree roots reference missing tree nodes',
+          invalidTreeRoots: [
+            {
+              brokenTreeRoot: brokenTreeRoots.recipesTreeRoots._data[0]._hash,
+              missingTreeNode: 'MISSINGROOT',
+              missingTreeTable: 'recipesTree',
+              treeRootsTable: 'recipesTreeRoots',
+            },
+          ],
+        },
+        hasErrors: true,
       });
     });
   });
