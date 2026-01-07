@@ -4,6 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import { hip } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
 import { bakeryExample } from '../example/bakery-example.ts';
@@ -44,6 +45,8 @@ export interface Tree extends Json {
    */
   children: Array<TreeRef> | null;
 }
+
+export type TreeWithHash = Tree & { _hash: string };
 
 // .............................................................................
 /**
@@ -92,3 +95,91 @@ export const createTreesTableCfg = (treesTableKey: string): TableCfg => ({
  */
 export const exampleTreesTable = (): TreesTable =>
   bakeryExample().recipesTreeTable;
+
+export const treeFromObject = (obj: any): TreeWithHash[] => {
+  const result: TreeWithHash[] = [];
+  const processedIds = new Set<string>();
+  const idToHashMap = new Map<string, string>();
+
+  const processNode = (value: any, nodeId: string): void => {
+    if (processedIds.has(nodeId)) {
+      return;
+    }
+    processedIds.add(nodeId);
+
+    const childIds: string[] = [];
+
+    // Check if value is an array
+    if (Array.isArray(value)) {
+      for (const item of value) {
+        if (item !== null && typeof item === 'object' && !Array.isArray(item)) {
+          // Extract the ID from the single-key object
+          const keys = Object.keys(item);
+          if (keys.length === 1) {
+            const childId = keys[0];
+            childIds.push(childId);
+            processNode(item[childId], childId);
+          }
+        }
+      }
+
+      const treeNode: Tree = {
+        id: nodeId,
+        isParent: true,
+        meta: null,
+        children:
+          childIds.length > 0
+            ? (childIds.map((id) => idToHashMap.get(id)!) as TreeRef[])
+            : null,
+      };
+      const hashedNode = hip<Tree>(treeNode) as TreeWithHash;
+      idToHashMap.set(nodeId, hashedNode._hash as string);
+      result.push(hashedNode);
+    }
+    // Check if value is a plain object (not array, not null)
+    else if (value !== null && typeof value === 'object') {
+      for (const key in value) {
+        if (Object.prototype.hasOwnProperty.call(value, key)) {
+          childIds.push(key);
+          processNode(value[key], key);
+        }
+      }
+
+      const treeNode: Tree = {
+        id: nodeId,
+        isParent: true,
+        meta: null,
+        children:
+          childIds.length > 0
+            ? (childIds.map((id) => idToHashMap.get(id)!) as TreeRef[])
+            : null,
+      };
+      const hashedNode = hip<Tree>(treeNode) as TreeWithHash;
+      idToHashMap.set(nodeId, hashedNode._hash as string);
+      result.push(hashedNode);
+    }
+    // Leaf node (primitive value)
+    else {
+      const treeNode: Tree = {
+        id: nodeId,
+        isParent: false,
+        meta: value,
+        children: null,
+      };
+      const hashedNode = hip<Tree>(treeNode) as TreeWithHash;
+      idToHashMap.set(nodeId, hashedNode._hash as string);
+      result.push(hashedNode);
+    }
+  };
+
+  // Start processing from root
+  if (obj !== null && typeof obj === 'object' && !Array.isArray(obj)) {
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        processNode(obj[key], key);
+      }
+    }
+  }
+
+  return result;
+};
