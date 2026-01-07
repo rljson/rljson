@@ -1,0 +1,56 @@
+{
+  "tableCfgs": {
+    "_type": "tableCfgs",
+    "_data": [
+      {
+        "key": "recipesTreeRoots",
+        "type": "treeRoots",
+        "columns": [
+          {
+            "key": "_hash",
+            "type": "string",
+            "titleLong": "Hash",
+            "titleShort": "Hash",
+            "_hash": "Np5O9L6tfUaUFTAYyx6g5E"
+          },
+          {
+            "key": "timeId",
+            "type": "string",
+            "titleLong": "Time Identifier",
+            "titleShort": "Time ID",
+            "_hash": "2ej3dpJSAPgLtZjcQ1zj8C"
+          },
+          {
+            "key": "root",
+            "type": "string",
+            "titleLong": "Root Tree Reference",
+            "titleShort": "Root Ref",
+            "ref": {
+              "type": "trees",
+              "tableKey": "recipesTree",
+              "_hash": "SH3kvEX8rE4eGYWYLKVDS1"
+            },
+            "_hash": "7lAgUsuA2Bs5CJqc8WtTf3"
+          }
+        ],
+        "isHead": false,
+        "isRoot": false,
+        "isShared": true,
+        "_hash": "2kHoUEh_vxSQpPeXfKDqOd"
+      }
+    ],
+    "_hash": "aMNso3iKFmhs7aYWBpOEob"
+  },
+  "recipesTreeRoots": {
+    "_type": "treeRoots",
+    "_data": [
+      {
+        "timeId": "1759124000000:ashd",
+        "root": "dDxhSgXRSL7YZSeO2pbJN_",
+        "_hash": "QkN78QSnsrw7Oxyim9KGzo"
+      }
+    ],
+    "_hash": "KZWhCu0Kq5xPitgs4bhKf9"
+  },
+  "_hash": "bQs5ZcYVurnMJm-0S5b3_Y"
+}

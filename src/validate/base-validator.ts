@@ -829,13 +829,17 @@ class _BaseValidator {
   // ...........................................................................
   private _treeRootsTreeTableNotFound(): void {
     const invalidTreeRoots: any[] = [];
+    const tableCfgs = this.rljson.tableCfgs as unknown as TablesCfgTable;
+
+    if (!tableCfgs) {
+      return;
+    }
 
     iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'treeRoots') {
         return;
       }
 
-      const tableCfgs = this.rljson.tableCfgs as unknown as TablesCfgTable;
       const tableCfg = tableCfgs._data.find(
         (cfg) => cfg.key === tableKey,
       ) as TableCfg;
@@ -864,6 +868,11 @@ class _BaseValidator {
   private _treeRootNotFoundInTreeTable(): void {
     const invalidTreeRoots: any[] = [];
 
+    const tableCfgs = this.rljson.tableCfgs as unknown as TablesCfgTable;
+    if (!tableCfgs) {
+      return;
+    }
+
     iterateTablesSync(this.rljson, (tableKey, table) => {
       if (table._type !== 'treeRoots') {
         return;
@@ -871,7 +880,6 @@ class _BaseValidator {
 
       const treeRootsTable: TreeRootsTable = table as TreeRootsTable;
 
-      const tableCfgs = this.rljson.tableCfgs as unknown as TablesCfgTable;
       const tableCfg = tableCfgs._data.find(
         (cfg) => cfg.key === tableKey,
       ) as TableCfg;
