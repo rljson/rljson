@@ -896,6 +896,23 @@ describe('BaseValidator', async () => {
           hasErrors: true,
         });
       });
+
+      it('returns an error when a tree has duplicate child node ids', () => {
+        const brokenTree = Example.broken.trees.duplicateChildNodeIds();
+        expect(validate(brokenTree)).toEqual({
+          treeDuplicateNodeIdsAsSibling: {
+            error: 'Trees have duplicate sibling node IDs',
+            trees: [
+              {
+                duplicateChildIds: [brokenTree.recipesTreeTable._data[1]._hash],
+                tree: brokenTree.recipesTreeTable._data[0]._hash,
+                treesTable: 'recipesTreeTable',
+              },
+            ],
+          },
+          hasErrors: true,
+        });
+      });
     });
   });
 

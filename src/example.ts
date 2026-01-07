@@ -780,6 +780,20 @@ export class Example {
 
         return { recipesTreeTable: treeTable } as Rljson;
       },
+
+      duplicateChildNodeIds: (): Rljson => {
+        const result = Example.ok.tree();
+        const treeTable = result.recipesTreeTable as TreesTable;
+
+        // Introduce duplicate child node ids
+        const firstChildHash = treeTable._data[1]._hash as string;
+        treeTable._data[0].children = [firstChildHash, firstChildHash];
+
+        return hip(result, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
+      },
     },
     layers: {
       missingBase: (): Rljson => {
