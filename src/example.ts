@@ -13,8 +13,10 @@ import { ComponentsTable } from './content/components.ts';
 import { Layer, LayersTable } from './content/layer.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { ColumnCfg, TablesCfgTable } from './content/table-cfg.ts';
+import { exampleTreesTable, TreesTable } from './content/tree.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
+
 
 export class Example {
   static readonly ok = {
@@ -369,6 +371,11 @@ export class Example {
             },
           ],
         } as ComponentsTable<Json>,
+      };
+    },
+    tree: (): Rljson => {
+      return {
+        recipesTreeTable: exampleTreesTable(),
       };
     },
     complete: (): Rljson => {
@@ -751,6 +758,29 @@ export class Example {
       },
     },
 
+    trees: {
+      missingChildNodes: (): Rljson => {
+        const result = Example.ok.tree();
+        const treeTable = result.recipesTreeTable as TreesTable;
+
+        treeTable._data.pop(); // Remove child node from _data array
+
+        return hip(result, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
+      },
+
+      cyclicTree: (): Rljson => {
+        const result = Example.ok.tree();
+        const treeTable = result.recipesTreeTable as TreesTable;
+
+        // Introduce a cycle
+        treeTable._data[0].children = [treeTable._data[0]._hash as string];
+
+        return { recipesTreeTable: treeTable } as Rljson;
+      },
+    },
     layers: {
       missingBase: (): Rljson => {
         const result = Example.ok.complete();

@@ -4,7 +4,7 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
-import { hip } from '@rljson/hash';
+import { hip, hsh } from '@rljson/hash';
 import { Json } from '@rljson/json';
 
 import { describe, expect, it } from 'vitest';
@@ -14,11 +14,9 @@ import { Layer, LayersTable } from '../../src/content/layer.ts';
 import { ColumnCfg, TableCfg } from '../../src/content/table-cfg.ts';
 import { Example } from '../../src/example.ts';
 import { Rljson, RljsonPrivate } from '../../src/rljson.ts';
-import {
-  BaseValidator,
-  isValidFieldName,
-} from '../../src/validate/base-validator.ts';
+import { BaseValidator, isValidFieldName } from '../../src/validate/base-validator.ts';
 import { Errors } from '../../src/validate/validate.ts';
+
 
 describe('BaseValidator', async () => {
   const validate = (rljson: any): Errors => {
@@ -848,6 +846,52 @@ describe('BaseValidator', async () => {
               },
             ],
             error: 'Table values have wrong types',
+          },
+          hasErrors: true,
+        });
+      });
+    });
+  });
+
+  describe('tree errors', () => {
+    describe('treeChildrenRefsNotFound', () => {
+      it('returns no errors when all children refs are found', () => {
+        expect(validate(Example.ok.tree())).toEqual({
+          hasErrors: false,
+        });
+      });
+
+      it('returns an error when a child ref is not found', () => {
+        const brokenTree = Example.broken.trees.missingChildNodes();
+
+        expect(validate(brokenTree)).toEqual({
+          treeChildNodesNotFound: {
+            error: 'Child nodes are missing',
+            brokenTrees: [
+              {
+                brokenTree: brokenTree.recipesTreeTable._data[0]._hash,
+                missingChildNode:
+                  brokenTree.recipesTreeTable._data[0].children[0],
+                treesTable: 'recipesTreeTable',
+              },
+            ],
+          },
+          hasErrors: true,
+        });
+      });
+
+      it('returns an error when a cycle is detected', () => {
+        const brokenTree = Example.broken.trees.cyclicTree();
+        const brokenTreeReHashed = hsh(brokenTree, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
+
+        //Hashing will be affected by the cycle change, because the children's hashes are part of the parent's hash
+
+        expect(validate(brokenTree)).toEqual({
+          hashesNotValid: {
+            error: `Hash "${brokenTree.recipesTreeTable._data[0]._hash}" does not match the newly calculated one "${brokenTreeReHashed.recipesTreeTable._data[0]._hash}". Please make sure that all systems are producing the same hashes.`,
           },
           hasErrors: true,
         });

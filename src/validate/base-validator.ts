@@ -13,6 +13,7 @@ import { ComponentRef } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIds } from '../content/slice-ids.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
+import { TreesTable, TreeWithHash } from '../content/tree.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
 
@@ -44,7 +45,6 @@ export interface BaseErrors extends Errors {
   refsNotFound?: Json;
 
   // Tree errors
-  treeRootNodesNotFound?: Json;
   treeChildNodesNotFound?: Json;
   treeCyclesDetected?: Json;
   treeMultipleParentsDetected?: Json;
@@ -126,6 +126,10 @@ class _BaseValidator {
 
       // Check references
       () => this._refsNotFound(),
+
+      // Check trees
+      () => this._treeChildNodesNotFound(),
+      () => this._treeCyclesDetected(),
 
       // Check layers
       () => this._layerBasesNotFound(),
@@ -694,6 +698,98 @@ class _BaseValidator {
       this.errors.refsNotFound = {
         error: 'Broken references',
         missingRefs: missingRefs,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _treeChildNodesNotFound(): void {
+    const brokenTrees: any[] = [];
+
+    iterateTablesSync(this.rljson, (tableKey, table) => {
+      if (table._type !== 'trees') {
+        return;
+      }
+
+      const treesTable: TreesTable = table as TreesTable;
+
+      for (const tree of treesTable._data) {
+        const childIds = tree.children;
+        if (!childIds) {
+          continue;
+        }
+
+        for (const childId of childIds) {
+          const childNode = table._data.find((n) => n._hash === childId);
+          if (!childNode) {
+            brokenTrees.push({
+              treesTable: tableKey,
+              brokenTree: tree._hash,
+              missingChildNode: childId,
+            });
+          }
+        }
+      }
+    });
+
+    if (brokenTrees.length > 0) {
+      this.errors.treeChildNodesNotFound = {
+        error: 'Child nodes are missing',
+        brokenTrees,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _treeCyclesDetected(): void {
+    const brokenTrees: any[] = [];
+
+    iterateTablesSync(this.rljson, (tableKey, table) => {
+      if (table._type !== 'trees') {
+        return;
+      }
+
+      const treesTable: TreesTable = table as TreesTable;
+
+      const visitedNodes: Set<string> = new Set();
+
+      const detectCycle = (nodeId: string, path: Set<string>): boolean => {
+        if (path.has(nodeId)) {
+          return true; // Cycle detected
+        }
+
+        path.add(nodeId);
+        const node = treesTable._data.find((n) => n._hash === nodeId);
+        if (node && node.children) {
+          for (const childId of node.children) {
+            if (detectCycle(childId, path)) {
+              return true;
+            }
+          }
+        }
+        path.delete(nodeId);
+        return false;
+      };
+
+      for (const tree of treesTable._data) {
+        if (!visitedNodes.has((tree as TreeWithHash)._hash)) {
+          const path: Set<string> = new Set();
+          if (detectCycle((tree as TreeWithHash)._hash, path)) {
+            brokenTrees.push({
+              treesTable: tableKey,
+              brokenTree: tree._hash,
+              cyclePath: Array.from(path),
+            });
+          }
+          visitedNodes.add((tree as TreeWithHash)._hash);
+        }
+      }
+    });
+
+    if (brokenTrees.length > 0) {
+      this.errors.treeCyclesDetected = {
+        error: 'Cycles detected in trees',
+        brokenTrees,
       };
     }
   }
