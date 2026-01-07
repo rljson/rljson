@@ -1,0 +1,21 @@
+{
+  "recipesTreeTable": {
+    "_type": "trees",
+    "_data": [
+      {
+        "id": "root",
+        "isParent": true,
+        "meta": {
+          "description": "Root of the recipes tree",
+          "_hash": "NwSIyxV5758OCVjbXW7Tv_"
+        },
+        "children": [
+          "-IzcMkK7_AlBnzaIzrqWk2"
+        ],
+        "_hash": "dDxhSgXRSL7YZSeO2pbJN_"
+      }
+    ],
+    "_hash": "E90M1titnBJ91gYpZEwxSd"
+  },
+  "_hash": "kVumUeZ7bZHMHWWBkvYXnu"
+}

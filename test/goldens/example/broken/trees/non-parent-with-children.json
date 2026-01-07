@@ -1,0 +1,31 @@
+{
+  "recipesTreeTable": {
+    "_type": "trees",
+    "_data": [
+      {
+        "id": "root",
+        "isParent": false,
+        "meta": {
+          "description": "Root of the recipes tree",
+          "_hash": "NwSIyxV5758OCVjbXW7Tv_"
+        },
+        "children": [
+          "-IzcMkK7_AlBnzaIzrqWk2"
+        ],
+        "_hash": "JpqkbsfwOunNA9TQfZXdtt"
+      },
+      {
+        "id": "tastyCake",
+        "isParent": false,
+        "meta": {
+          "description": "A tasty cake recipe",
+          "_hash": "5RlpYsX861EBBvKlp6ZBtM"
+        },
+        "children": null,
+        "_hash": "-IzcMkK7_AlBnzaIzrqWk2"
+      }
+    ],
+    "_hash": "PBYLps4fL3D9o8is88Rn8o"
+  },
+  "_hash": "Bxm9x3cpZGLgYDK4YRy7ET"
+}
