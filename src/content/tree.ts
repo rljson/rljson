@@ -6,6 +6,7 @@
 
 import { Json } from '@rljson/json';
 
+import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { Ref } from '../typedefs.ts';
 
@@ -89,4 +90,5 @@ export const createTreesTableCfg = (treesTableKey: string): TableCfg => ({
 /**
  * Provides an example treesTable for test purposes
  */
-//export const exampleTreesTable = (): TreesTable => bakeryExample().recipeLayers;
+export const exampleTreesTable = (): TreesTable =>
+  bakeryExample().recipesTreeTable;
