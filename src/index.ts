@@ -12,6 +12,7 @@ export * from './content/layer.ts';
 export * from './content/revision.ts';
 export * from './content/slice-ids.ts';
 export * from './content/table-cfg.ts';
+export * from './content/tree.ts';
 export * from './edit/edit-history.ts';
 export * from './edit/edit.ts';
 export * from './edit/multi-edit.ts';

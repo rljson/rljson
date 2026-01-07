@@ -96,6 +96,11 @@ export const createTreesTableCfg = (treesTableKey: string): TableCfg => ({
 export const exampleTreesTable = (): TreesTable =>
   bakeryExample().recipesTreeTable;
 
+/**
+ * Converts a plain object into a tree structure
+ * @param obj - The plain object to convert
+ * @returns An array of Tree nodes representing the tree structure
+ */
 export const treeFromObject = (obj: any): TreeWithHash[] => {
   const result: TreeWithHash[] = [];
   const processedIds = new Set<string>();
