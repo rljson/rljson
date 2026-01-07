@@ -794,6 +794,19 @@ export class Example {
           throwOnWrongHashes: false,
         });
       },
+
+      nonParentWithChildren: (): Rljson => {
+        const result = Example.ok.tree();
+        const treeTable = result.recipesTreeTable as TreesTable;
+
+        // Make a non-parent have children
+        treeTable._data[0].isParent = false;
+
+        return hip(result, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
+      },
     },
     layers: {
       missingBase: (): Rljson => {

@@ -47,6 +47,7 @@ export interface BaseErrors extends Errors {
   // Tree errors
   treeChildNodesNotFound?: Json;
   treeDuplicateNodeIdsAsSibling?: Json;
+  treeIsNotParentButHasChildren?: Json;
 
   // Layer errors
   layerBasesNotFound?: Json;
@@ -126,6 +127,7 @@ class _BaseValidator {
       // Check trees
       () => this._treeChildNodesNotFound(),
       () => this._treeDuplicateNodeIdsAsSibling(),
+      () => this._treeIsNotParentButHasChildren(),
 
       // Check layers
       () => this._layerBasesNotFound(),
@@ -736,6 +738,7 @@ class _BaseValidator {
     }
   }
 
+  // ...........................................................................
   private _treeDuplicateNodeIdsAsSibling(): void {
     const treesWithDuplicateSiblingIds: any[] = [];
 
@@ -777,6 +780,40 @@ class _BaseValidator {
       this.errors.treeDuplicateNodeIdsAsSibling = {
         error: 'Trees have duplicate sibling node IDs',
         trees: treesWithDuplicateSiblingIds,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _treeIsNotParentButHasChildren(): void {
+    const invalidTrees: any[] = [];
+
+    iterateTablesSync(this.rljson, (tableKey, table) => {
+      if (table._type !== 'trees') {
+        return;
+      }
+
+      const treesTable: TreesTable = table as TreesTable;
+
+      for (const tree of treesTable._data) {
+        const isParent = tree.isParent;
+        const childIds = tree.children;
+
+        if (!isParent && childIds && childIds.length > 0) {
+          invalidTrees.push({
+            treesTable: tableKey,
+            tree: tree._hash,
+            isParent,
+            children: childIds,
+          });
+        }
+      }
+    });
+
+    if (invalidTrees.length > 0) {
+      this.errors.treeIsNotParentButHasChildren = {
+        error: 'Trees marked as non-parents have children',
+        trees: invalidTrees,
       };
     }
   }

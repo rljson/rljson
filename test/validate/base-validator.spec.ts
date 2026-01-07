@@ -913,6 +913,25 @@ describe('BaseValidator', async () => {
           hasErrors: true,
         });
       });
+
+      it('returns an error when a tree is not a parent, but has children', () => {
+        const brokenTree = Example.broken.trees.nonParentWithChildren();
+
+        expect(validate(brokenTree)).toEqual({
+          treeIsNotParentButHasChildren: {
+            error: 'Trees marked as non-parents have children',
+            trees: [
+              {
+                children: [brokenTree.recipesTreeTable._data[1]._hash],
+                isParent: false,
+                tree: brokenTree.recipesTreeTable._data[0]._hash,
+                treesTable: 'recipesTreeTable',
+              },
+            ],
+          },
+          hasErrors: true,
+        });
+      });
     });
   });
 
