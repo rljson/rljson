@@ -18,6 +18,7 @@ import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
 
 import { Errors, Validator } from './validate.ts';
 
+
 // .............................................................................
 export interface BaseErrors extends Errors {
   // Base errors
@@ -41,6 +42,15 @@ export interface BaseErrors extends Errors {
 
   // Reference errors
   refsNotFound?: Json;
+
+  // Tree errors
+  treeRootNodesNotFound?: Json;
+  treeChildNodesNotFound?: Json;
+  treeCyclesDetected?: Json;
+  treeMultipleParentsDetected?: Json;
+  treeOrphanNodesDetected?: Json;
+  treeMissingNodeIds?: Json;
+  treeDuplicateNodeIdsAsSibling?: Json;
 
   // Layer errors
   layerBasesNotFound?: Json;
@@ -693,6 +703,9 @@ class _BaseValidator {
     const brokenLayers: any[] = [];
 
     iterateTablesSync(this.rljson, (tableKey, table) => {
+      if (table._type !== 'layers') {
+        return;
+      }
       const layersIndexed = this.rljsonIndexed[tableKey];
 
       const layersTable: LayersTable = table as LayersTable;
