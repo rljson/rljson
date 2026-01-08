@@ -229,7 +229,7 @@ export const treeFromObject = (obj: any): TreeWithHash[] => {
       const treeNode: Tree = {
         id: nodeId,
         isParent: false,
-        meta: value,
+        meta: { value },
         children: null,
       };
       const hashedNode = hip<Tree>(treeNode) as TreeWithHash;

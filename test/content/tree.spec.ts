@@ -4,6 +4,8 @@
 // Use of this source code is governed by terms that can be
 // found in the LICENSE file in the root of this package.
 
+import { rmhsh } from '@rljson/hash';
+
 import { describe, expect, it } from 'vitest';
 
 import { createTreesTableCfg, exampleTreesTable, treeFromObject } from '../../src/content/tree.ts';
@@ -35,7 +37,7 @@ describe('treeFromObject', () => {
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe('id1');
     expect(result[0].isParent).toBe(false);
-    expect(result[0].meta).toBe('value');
+    expect(rmhsh(result[0].meta!)).toEqual({ value: 'value' });
     expect(result[0].children).toBeNull();
     expect(result[0]._hash).toBeDefined();
     expect(typeof result[0]._hash).toBe('string');
@@ -61,11 +63,11 @@ describe('treeFromObject', () => {
     expect(parent.children).toContain(child2._hash);
 
     expect(child1.isParent).toBe(false);
-    expect(child1.meta).toBe('value1');
+    expect(rmhsh(child1.meta!)).toEqual({ value: 'value1' });
     expect(child1.children).toBeNull();
 
     expect(child2.isParent).toBe(false);
-    expect(child2.meta).toBe('value2');
+    expect(rmhsh(child2.meta!)).toEqual({ value: 'value2' });
     expect(child2.children).toBeNull();
   });
 
@@ -84,10 +86,10 @@ describe('treeFromObject', () => {
     expect(id1.children).toEqual([subId0._hash, subId1._hash]);
 
     expect(subId0.isParent).toBe(false);
-    expect(subId0.meta).toBe('value0');
+    expect(rmhsh(subId0.meta!)).toEqual({ value: 'value0' });
 
     expect(subId1.isParent).toBe(false);
-    expect(subId1.meta).toBe('value1');
+    expect(rmhsh(subId1.meta!)).toEqual({ value: 'value1' });
   });
 
   it('handles nested arrays with single-key objects', () => {
@@ -103,7 +105,7 @@ describe('treeFromObject', () => {
 
     expect(id1.children).toEqual([subId0._hash, subId1._hash]);
     expect(subId1.children).toEqual([subId1SubId0._hash]);
-    expect(subId1SubId0.meta).toBe('nestedValue');
+    expect(rmhsh(subId1SubId0.meta!)).toEqual({ value: 'nestedValue' });
   });
 
   it('handles null values', () => {
@@ -111,7 +113,7 @@ describe('treeFromObject', () => {
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe('id1');
     expect(result[0].isParent).toBe(false);
-    expect(result[0].meta).toBeNull();
+    expect(rmhsh(result[0].meta!)).toEqual({ value: null });
     expect(result[0].children).toBeNull();
     expect(result[0]._hash).toBeDefined();
   });
@@ -120,7 +122,7 @@ describe('treeFromObject', () => {
     const result = treeFromObject({ id1: 42 });
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe('id1');
-    expect(result[0].meta).toBe(42);
+    expect(rmhsh(result[0].meta!)).toEqual({ value: 42 });
     expect(result[0]._hash).toBeDefined();
   });
 
@@ -128,7 +130,7 @@ describe('treeFromObject', () => {
     const result = treeFromObject({ id1: true });
     expect(result).toHaveLength(1);
     expect(result[0].id).toBe('id1');
-    expect(result[0].meta).toBe(true);
+    expect(rmhsh(result[0].meta!)).toEqual({ value: true });
     expect(result[0]._hash).toBeDefined();
   });
 
@@ -158,7 +160,7 @@ describe('treeFromObject', () => {
 
     expect(level1.children).toEqual([level2._hash]);
     expect(level2.children).toEqual([level3._hash]);
-    expect(level3.meta).toBe('deepValue');
+    expect(rmhsh(level3.meta!)).toEqual({ value: 'deepValue' });
   });
 
   it('handles complex mixed structure', () => {
@@ -178,10 +180,10 @@ describe('treeFromObject', () => {
     const deep = result.find((n) => n.id === 'deep')!;
 
     expect(root.children).toEqual([branch1._hash, branch2._hash]);
-    expect(branch1.meta).toBe('leaf1');
+    expect(rmhsh(branch1.meta!)).toEqual({ value: 'leaf1' });
     expect(branch2.children).toEqual([nested1._hash, nested2._hash]);
-    expect(nested1.meta).toBe('leaf2');
+    expect(rmhsh(nested1.meta!)).toEqual({ value: 'leaf2' });
     expect(nested2.children).toEqual([deep._hash]);
-    expect(deep.meta).toBe('leaf3');
+    expect(rmhsh(deep.meta!)).toEqual({ value: 'leaf3' });
   });
 });
