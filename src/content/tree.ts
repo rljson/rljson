@@ -14,7 +14,6 @@ import { Ref } from '../typedefs.ts';
 
 import { TableCfg } from './table-cfg.ts';
 
-
 // .............................................................................
 /**
  * A TreeRef is a hash pointing to another hash in the tree
@@ -171,58 +170,94 @@ export const treeFromObject = (obj: any): TreeWithHash[] => {
 
     // Check if value is an array
     if (Array.isArray(value)) {
-      for (const item of value) {
-        /* v8 ignore else -- @preserve */
-        if (item !== null && typeof item === 'object' && !Array.isArray(item)) {
-          // Extract the ID from the single-key object
+      // Check if empty array or all items are objects with single keys (children pattern)
+      const isChildrenArray =
+        value.length === 0 ||
+        value.every(
+          (item) =>
+            item !== null &&
+            typeof item === 'object' &&
+            !Array.isArray(item) &&
+            Object.keys(item).length === 1,
+        );
+
+      if (isChildrenArray) {
+        // Process as children (or empty parent)
+        for (const item of value) {
           const keys = Object.keys(item);
-
-          /* v8 ignore else -- @preserve */
-          if (keys.length === 1) {
-            const childId = keys[0];
-            childIds.push(childId);
-            processNode(item[childId], childId);
-          }
+          const childId = keys[0];
+          childIds.push(childId);
+          processNode(item[childId], childId);
         }
-      }
 
-      /* v8 ignore next -- @preserve */
-      const treeNode: Tree = {
-        id: nodeId,
-        isParent: true,
-        meta: null,
-        children:
-          childIds.length > 0
-            ? (childIds.map((id) => idToHashMap.get(id)!) as TreeRef[])
-            : null,
-      };
-      const hashedNode = hip<Tree>(treeNode) as TreeWithHash;
-      idToHashMap.set(nodeId, hashedNode._hash as string);
-      result.push(hashedNode);
+        /* v8 ignore next -- @preserve */
+        const treeNode: Tree = {
+          id: nodeId,
+          isParent: true,
+          meta: null,
+          children:
+            childIds.length > 0
+              ? (childIds.map((id) => idToHashMap.get(id)!) as TreeRef[])
+              : null,
+        };
+        const hashedNode = hip<Tree>(treeNode) as TreeWithHash;
+        idToHashMap.set(nodeId, hashedNode._hash as string);
+        result.push(hashedNode);
+      } else {
+        // Treat as primitive array value (leaf node)
+        const treeNode: Tree = {
+          id: nodeId,
+          isParent: false,
+          meta: { value },
+          children: null,
+        };
+        const hashedNode = hip<Tree>(treeNode) as TreeWithHash;
+        idToHashMap.set(nodeId, hashedNode._hash as string);
+        result.push(hashedNode);
+      }
     }
     // Check if value is a plain object (not array, not null)
     else if (value !== null && typeof value === 'object') {
-      for (const key in value) {
-        /* v8 ignore else -- @preserve */
-        if (Object.prototype.hasOwnProperty.call(value, key)) {
-          childIds.push(key);
-          processNode(value[key], key);
+      // Check if object has single key "meta" - treat as leaf node with meta value
+      const keys = Object.keys(value);
+      if (
+        keys.includes('meta') ||
+        keys.includes('isParent') ||
+        keys.includes('children')
+      ) {
+        const treeNode: Tree = {
+          id: nodeId,
+          isParent: false,
+          meta: value.meta,
+          children: null,
+        };
+        const hashedNode = hip<Tree>(treeNode) as TreeWithHash;
+        idToHashMap.set(nodeId, hashedNode._hash as string);
+        result.push(hashedNode);
+      } else {
+        // Process as parent node with children
+        for (const key in value) {
+          /* v8 ignore else -- @preserve */
+          if (Object.prototype.hasOwnProperty.call(value, key)) {
+            childIds.push(key);
+            processNode(value[key], key);
+          }
         }
-      }
 
-      /* v8 ignore next -- @preserve */
-      const treeNode: Tree = {
-        id: nodeId,
-        isParent: true,
-        meta: null,
-        children:
-          childIds.length > 0
-            ? (childIds.map((id) => idToHashMap.get(id)!) as TreeRef[])
-            : null,
-      };
-      const hashedNode = hip<Tree>(treeNode) as TreeWithHash;
-      idToHashMap.set(nodeId, hashedNode._hash as string);
-      result.push(hashedNode);
+        /* v8 ignore next -- @preserve */
+        const treeNode: Tree = {
+          id: nodeId,
+          isParent: true,
+          meta: null,
+          children:
+            childIds.length > 0
+              ? (childIds.map((id) => idToHashMap.get(id)!) as TreeRef[])
+              : null,
+        };
+        const hashedNode = hip<Tree>(treeNode) as TreeWithHash;
+        idToHashMap.set(nodeId, hashedNode._hash as string);
+        result.push(hashedNode);
+      }
     }
     // Leaf node (primitive value)
     else {

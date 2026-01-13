@@ -5,13 +5,17 @@
 // found in the LICENSE file in the root of this package.
 
 import { rmhsh } from '@rljson/hash';
+import { Json } from '@rljson/json';
 
 import { describe, expect, it } from 'vitest';
 
-import { createTreesTableCfg, exampleTreesTable, treeFromObject } from '../../src/content/tree.ts';
+import {
+  createTreesTableCfg,
+  exampleTreesTable,
+  treeFromObject,
+} from '../../src/content/tree.ts';
 
 import { expectGolden } from '../setup/goldens.ts';
-
 
 describe('TreesTable', () => {
   it('provides a simple tree w/ one root and one child', async () => {
@@ -140,6 +144,43 @@ describe('treeFromObject', () => {
     expect(result[0].id).toBe('id1');
     expect(result[0].isParent).toBe(true);
     expect(result[0].meta).toBeNull();
+    expect(result[0].children).toBeNull();
+    expect(result[0]._hash).toBeDefined();
+  });
+
+  it('handles number array', () => {
+    const result = treeFromObject({ id1: [1, 2, 3] });
+    expect(result).toHaveLength(1);
+
+    expect(result[0].id).toBe('id1');
+    expect(result[0].isParent).toBe(false);
+    expect(rmhsh(result[0].meta as Json)).toEqual({ value: [1, 2, 3] });
+    expect(result[0].children).toBeNull();
+    expect(result[0]._hash).toBeDefined();
+  });
+
+  it('handles object with meta key as leaf node', () => {
+    const result = treeFromObject({
+      node1: { meta: { foo: 'bar', baz: 42 } },
+    });
+    expect(result).toHaveLength(1);
+
+    expect(result[0].id).toBe('node1');
+    expect(result[0].isParent).toBe(false);
+    expect(rmhsh(result[0].meta as Json)).toEqual({ foo: 'bar', baz: 42 });
+    expect(result[0].children).toBeNull();
+    expect(result[0]._hash).toBeDefined();
+  });
+
+  it('handles object with meta key containing primitive value', () => {
+    const result = treeFromObject({
+      node1: { meta: 'someValue' },
+    });
+    expect(result).toHaveLength(1);
+
+    expect(result[0].id).toBe('node1');
+    expect(result[0].isParent).toBe(false);
+    expect(result[0].meta).toBe('someValue');
     expect(result[0].children).toBeNull();
     expect(result[0]._hash).toBeDefined();
   });
