@@ -9,12 +9,11 @@ import { Json } from '@rljson/json';
 import { BuffetsTable } from './content/buffet.ts';
 import { CakesTable } from './content/cake.ts';
 import { ComponentsTable } from './content/components.ts';
-import { HeadsTable } from './content/head.ts';
 import { LayersTable } from './content/layer.ts';
 import { RevisionsTable } from './content/revision.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { TableCfgRef, TablesCfgTable } from './content/table-cfg.ts';
-import { TreeRootsTable, TreesTable } from './content/tree.ts';
+import { TreesTable } from './content/tree.ts';
 import { EditHistoryTable } from './edit/edit-history.ts';
 import { EditsTable } from './edit/edit.ts';
 import { MultiEditsTable } from './edit/multi-edit.ts';
@@ -50,9 +49,7 @@ export type TableType =
   | EditsTable
   | MultiEditsTable
   | EditHistoryTable
-  | HeadsTable
-  | TreesTable
-  | TreeRootsTable;
+  | TreesTable;
 
 // .............................................................................
 /** The rljson data format */

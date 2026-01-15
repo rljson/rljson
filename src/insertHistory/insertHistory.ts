@@ -10,6 +10,7 @@ import { RljsonTable } from '../rljson.ts';
 import { RouteRef } from '../route/route.ts';
 import { Ref } from '../typedefs.ts';
 
+
 // InsertHistory
 // .............................................................................
 export type InsertHistoryTimeId = string;
@@ -50,6 +51,10 @@ export const createInsertHistoryTableCfg = (tableCfg: TableCfg): TableCfg => ({
       type: 'string',
       titleLong: 'Reference',
       titleShort: 'Ref',
+      ref: {
+        tableKey: `${tableCfg.key}MultiEdits`,
+        type: tableCfg.type,
+      },
     },
     { key: 'route', type: 'string', titleLong: 'Route', titleShort: 'Route' },
     {

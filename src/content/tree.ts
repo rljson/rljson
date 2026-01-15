@@ -9,10 +9,10 @@ import { Json } from '@rljson/json';
 
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
-import { TimeId } from '../tools/time-id.ts';
 import { Ref } from '../typedefs.ts';
 
 import { TableCfg } from './table-cfg.ts';
+
 
 // .............................................................................
 /**
@@ -49,26 +49,9 @@ export type TreeWithHash = Tree & { _hash: string };
 
 // .............................................................................
 /**
- * A TreeRoot represents the time related root of a tree structure
- */
-export interface TreeRoot extends Json {
-  timeId: TimeId;
-  root: TreeRef;
-}
-
-export type TreeRootWithHash = TreeRoot & { _hash: string };
-
-// .............................................................................
-/**
  * A table containing trees
  */
 export type TreesTable = RljsonTable<Tree, 'trees'>;
-
-// .............................................................................
-/**
- * A table containing tree roots
- */
-export type TreeRootsTable = RljsonTable<TreeRoot, 'treeRoots'>;
 
 // .............................................................................
 /**
@@ -106,48 +89,11 @@ export const createTreesTableCfg = (treesTableKey: string): TableCfg => ({
   isShared: true,
 });
 
-// .............................................................................
-export const createTreeRootsTableCfg = (
-  treeRootsTableKey: string,
-  treeTableKey: string,
-): TableCfg => ({
-  key: treeRootsTableKey,
-  type: 'treeRoots',
-  columns: [
-    { key: '_hash', type: 'string', titleLong: 'Hash', titleShort: 'Hash' },
-    {
-      key: 'timeId',
-      type: 'string',
-      titleLong: 'Time Identifier',
-      titleShort: 'Time ID',
-    },
-    {
-      key: 'root',
-      type: 'string',
-      titleLong: 'Root Tree Reference',
-      titleShort: 'Root Ref',
-      ref: {
-        type: 'trees',
-        tableKey: treeTableKey,
-      },
-    },
-  ],
-  isHead: false,
-  isRoot: false,
-  isShared: true,
-});
-
 /**
  * Provides an example treesTable for test purposes
  */
 export const exampleTreesTable = (): TreesTable =>
   bakeryExample().recipesTreeTable;
-
-/**
- * Provides an example treeRootsTable for test purposes
- */
-export const exampleTreeRootsTable = (): TreeRootsTable =>
-  bakeryExample().recipesTreeRootsTable;
 
 /**
  * Converts a plain object into a tree structure

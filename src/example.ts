@@ -13,10 +13,7 @@ import { ComponentsTable } from './content/components.ts';
 import { Layer, LayersTable } from './content/layer.ts';
 import { SliceIdsTable } from './content/slice-ids.ts';
 import { ColumnCfg, TablesCfgTable } from './content/table-cfg.ts';
-import {
-  createTreeRootsTableCfg, createTreesTableCfg, exampleTreeRootsTable, exampleTreesTable,
-  TreeRootsTable, TreesTable
-} from './content/tree.ts';
+import { exampleTreesTable, TreesTable } from './content/tree.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
@@ -379,19 +376,6 @@ export class Example {
     tree: (): Rljson => {
       return {
         recipesTreeTable: exampleTreesTable(),
-      };
-    },
-    treeRoots: (): Rljson => {
-      return {
-        tableCfgs: hip<TablesCfgTable>({
-          _type: 'tableCfgs',
-          _data: [
-            createTreesTableCfg('recipesTree'),
-            createTreeRootsTableCfg('recipesTreeRoots', 'recipesTree'),
-          ],
-        }),
-        recipesTree: exampleTreesTable(),
-        recipesTreeRoots: exampleTreeRootsTable(),
       };
     },
     complete: (): Rljson => {
@@ -817,33 +801,6 @@ export class Example {
 
         // Make a non-parent have children
         treeTable._data[0].isParent = false;
-
-        return hip(result, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-      },
-    },
-    treeRoots: {
-      missingTreeRootReference: (): Rljson => {
-        const result = Example.ok.treeRoots();
-        const treeRootsTable = result.recipesTreeRoots as TreeRootsTable;
-
-        // Introduce a missing root reference
-        treeRootsTable._data[0].root = 'MISSINGROOT';
-
-        return hip(result, {
-          updateExistingHashes: true,
-          throwOnWrongHashes: false,
-        });
-      },
-
-      missingTreeTableReference: (): Rljson => {
-        const result = Example.ok.treeRoots();
-
-        delete result.recipesTree; // Remove the tree table
-
-        result.tableCfgs._data = [result.tableCfgs._data[1]]; // Remove the tree table cfg
 
         return hip(result, {
           updateExistingHashes: true,

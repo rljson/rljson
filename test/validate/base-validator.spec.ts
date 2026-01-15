@@ -933,52 +933,6 @@ describe('BaseValidator', async () => {
     });
   });
 
-  describe('tree root errors', () => {
-    it('returns no errors when all tree roots are found', () => {
-      expect(validate(Example.ok.treeRoots())).toEqual({
-        hasErrors: false,
-      });
-    });
-
-    it('returns an error when a tree table is not found for tree roots', () => {
-      const brokenTreeRoots =
-        Example.broken.treeRoots.missingTreeTableReference();
-
-      expect(validate(brokenTreeRoots)).toEqual({
-        treeRootsTreeTableNotFound: {
-          error: 'Tree roots reference missing tree tables',
-          invalidTreeRoots: [
-            {
-              missingTreeTable: 'recipesTree',
-              treeRootsTable: 'recipesTreeRoots',
-            },
-          ],
-        },
-        hasErrors: true,
-      });
-    });
-
-    it('returns an error when a tree root is not found in tree table', () => {
-      const brokenTreeRoots =
-        Example.broken.treeRoots.missingTreeRootReference();
-
-      expect(validate(brokenTreeRoots)).toEqual({
-        treeRootNotFoundInTreeTable: {
-          error: 'Tree roots reference missing tree nodes',
-          invalidTreeRoots: [
-            {
-              brokenTreeRoot: brokenTreeRoots.recipesTreeRoots._data[0]._hash,
-              missingTreeNode: 'MISSINGROOT',
-              missingTreeTable: 'recipesTree',
-              treeRootsTable: 'recipesTreeRoots',
-            },
-          ],
-        },
-        hasErrors: true,
-      });
-    });
-  });
-
   describe('reference errors', () => {
     describe('refsNotFound', () => {
       it('returns no errors when single ref is found', () => {

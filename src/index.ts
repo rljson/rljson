@@ -7,7 +7,6 @@
 export * from './content/buffet.ts';
 export * from './content/cake.ts';
 export * from './content/components.ts';
-export * from './content/head.ts';
 export * from './content/layer.ts';
 export * from './content/revision.ts';
 export * from './content/slice-ids.ts';

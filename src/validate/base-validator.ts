@@ -13,7 +13,7 @@ import { ComponentRef } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIds } from '../content/slice-ids.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
-import { TreeRootsTable, TreesTable } from '../content/tree.ts';
+import { TreesTable } from '../content/tree.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
 
@@ -48,10 +48,6 @@ export interface BaseErrors extends Errors {
   treeChildNodesNotFound?: Json;
   treeDuplicateNodeIdsAsSibling?: Json;
   treeIsNotParentButHasChildren?: Json;
-
-  // Tree root errors
-  treeRootsTreeTableNotFound?: Json;
-  treeRootNotFoundInTreeTable?: Json;
 
   // Layer errors
   layerBasesNotFound?: Json;
@@ -132,10 +128,6 @@ class _BaseValidator {
       () => this._treeChildNodesNotFound(),
       () => this._treeDuplicateNodeIdsAsSibling(),
       () => this._treeIsNotParentButHasChildren(),
-
-      // Check tree roots
-      () => this._treeRootsTreeTableNotFound(),
-      () => this._treeRootNotFoundInTreeTable(),
 
       // Check layers
       () => this._layerBasesNotFound(),
@@ -726,7 +718,9 @@ class _BaseValidator {
         }
 
         for (const childId of childIds) {
-          const childNode = table._data.find((n) => n._hash === childId);
+          const childNode = treesTable._data.find(
+            (n) => (n as any)._hash === childId,
+          );
           if (!childNode) {
             brokenTrees.push({
               treesTable: tableKey,
@@ -822,87 +816,6 @@ class _BaseValidator {
       this.errors.treeIsNotParentButHasChildren = {
         error: 'Trees marked as non-parents have children',
         trees: invalidTrees,
-      };
-    }
-  }
-
-  // ...........................................................................
-  private _treeRootsTreeTableNotFound(): void {
-    const invalidTreeRoots: any[] = [];
-    const tableCfgs = this.rljson.tableCfgs as unknown as TablesCfgTable;
-
-    if (!tableCfgs) {
-      return;
-    }
-
-    iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'treeRoots') {
-        return;
-      }
-
-      const tableCfg = tableCfgs._data.find(
-        (cfg) => cfg.key === tableKey,
-      ) as TableCfg;
-      const treeTableKey = tableCfg!.columns.find((col) => col.key === 'root')!
-        .ref!.tableKey;
-
-      const treeTable = this.rljson[treeTableKey] as TreesTable;
-
-      if (!treeTable) {
-        invalidTreeRoots.push({
-          treeRootsTable: tableKey,
-          missingTreeTable: treeTableKey,
-        });
-      }
-    });
-
-    if (invalidTreeRoots.length > 0) {
-      this.errors.treeRootsTreeTableNotFound = {
-        error: 'Tree roots reference missing tree tables',
-        invalidTreeRoots,
-      };
-    }
-  }
-
-  // ...........................................................................
-  private _treeRootNotFoundInTreeTable(): void {
-    const invalidTreeRoots: any[] = [];
-
-    const tableCfgs = this.rljson.tableCfgs as unknown as TablesCfgTable;
-    if (!tableCfgs) {
-      return;
-    }
-
-    iterateTablesSync(this.rljson, (tableKey, table) => {
-      if (table._type !== 'treeRoots') {
-        return;
-      }
-
-      const treeRootsTable: TreeRootsTable = table as TreeRootsTable;
-
-      const tableCfg = tableCfgs._data.find(
-        (cfg) => cfg.key === tableKey,
-      ) as TableCfg;
-      const treeTableKey = tableCfg!.columns.find((col) => col.key === 'root')!
-        .ref!.tableKey;
-
-      const treeTable = this.rljson[treeTableKey] as TreesTable;
-
-      for (const treeRoot of treeRootsTable._data) {
-        if (!treeTable._data.find((n) => n._hash === treeRoot.root)) {
-          invalidTreeRoots.push({
-            treeRootsTable: tableKey,
-            brokenTreeRoot: treeRoot._hash,
-            missingTreeTable: treeTableKey,
-            missingTreeNode: treeRoot.root,
-          });
-        }
-      }
-    });
-    if (invalidTreeRoots.length > 0) {
-      this.errors.treeRootNotFoundInTreeTable = {
-        error: 'Tree roots reference missing tree nodes',
-        invalidTreeRoots,
       };
     }
   }

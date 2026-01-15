@@ -50,9 +50,6 @@ export const contentTypes = [
   'edits',
   'multiEdits',
   'editHistory',
-  'head',
-  'trees',
-  'treeRoots',
 ] as const;
 
 export type ContentType = (typeof contentTypes)[number];
