@@ -12,10 +12,12 @@ import { CakesTable } from '../content/cake.ts';
 import { ComponentsTable } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIdsTable } from '../content/slice-ids.ts';
+import { Tree, TreesTable } from '../content/tree.ts';
 import { InsertHistoryTable } from '../insertHistory/insertHistory.ts';
 import { Rljson } from '../rljson.ts';
 import { Route } from '../route/route.ts';
 import { Ref } from '../typedefs.ts';
+
 
 // .............................................................................
 export interface Ingredient extends Json {
@@ -49,6 +51,7 @@ export interface Bakery extends Rljson {
   ingredients: ComponentsTable<Ingredient>;
   nutritionalValues: ComponentsTable<NutritionalValues>;
   ingredientsInsertHistory: InsertHistoryTable<'Ingredients'>;
+  recipesTreeTable: TreesTable;
 }
 
 // .............................................................................
@@ -213,6 +216,29 @@ export const bakeryExample = (): Bakery => {
     _hash: '',
   });
 
+  //.............................................................
+  // Example Trees
+  //.............................................................
+  const recipesTreeChildren = hip<Tree>({
+    id: 'tastyCake',
+    isParent: false,
+    meta: { description: 'A tasty cake recipe' },
+    children: null,
+  });
+
+  const recipesTreeRoot = hip<Tree>({
+    id: 'root',
+    isParent: true,
+    meta: { description: 'Root of the recipes tree' },
+    children: [recipesTreeChildren._hash as string],
+  });
+
+  const recipesTreeTable: TreesTable = hip<TreesTable>({
+    _type: 'trees',
+    _data: [recipesTreeRoot, recipesTreeChildren],
+    _hash: '',
+  });
+
   const result: Bakery = {
     buffets,
     cakes,
@@ -221,9 +247,10 @@ export const bakeryExample = (): Bakery => {
     recipeLayers,
     recipes,
     recipeIngredients,
-    ingredients: ingredients,
+    ingredients,
     nutritionalValues,
-    ingredientsInsertHistory: ingredientsInsertHistory,
+    ingredientsInsertHistory,
+    recipesTreeTable,
   };
 
   return result;

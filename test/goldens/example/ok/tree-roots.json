@@ -1,0 +1,81 @@
+{
+  "tableCfgs": {
+    "_type": "tableCfgs",
+    "_data": [
+      {
+        "key": "recipesTree",
+        "type": "trees",
+        "columns": [
+          {
+            "key": "_hash",
+            "type": "string",
+            "titleLong": "Hash",
+            "titleShort": "Hash",
+            "_hash": "Np5O9L6tfUaUFTAYyx6g5E"
+          },
+          {
+            "key": "id",
+            "type": "string",
+            "titleLong": "Identifier",
+            "titleShort": "Id",
+            "_hash": "LKhh6wEuRPjaqRqBnd2fbe"
+          },
+          {
+            "key": "isParent",
+            "type": "boolean",
+            "titleLong": "Is Parent",
+            "titleShort": "Is Parent",
+            "_hash": "XqiUhTh7Ro3vZpfOiIxGx9"
+          },
+          {
+            "key": "meta",
+            "type": "json",
+            "titleLong": "Meta Information",
+            "titleShort": "Meta",
+            "_hash": "1p_icNTckdhkZDDjMFx_jZ"
+          },
+          {
+            "key": "children",
+            "type": "jsonArray",
+            "titleLong": "Children",
+            "titleShort": "Children",
+            "_hash": "qC0dRPdXbe8AwLdjZH_9C_"
+          }
+        ],
+        "isHead": false,
+        "isRoot": false,
+        "isShared": true,
+        "_hash": "WkP2oxju2WW1bbHim0tyD_"
+      }
+    ],
+    "_hash": "qXbXaMlPjvHWfSyLGsNqt4"
+  },
+  "recipesTree": {
+    "_type": "trees",
+    "_data": [
+      {
+        "id": "root",
+        "isParent": true,
+        "meta": {
+          "description": "Root of the recipes tree",
+          "_hash": "NwSIyxV5758OCVjbXW7Tv_"
+        },
+        "children": [
+          "-IzcMkK7_AlBnzaIzrqWk2"
+        ],
+        "_hash": "dDxhSgXRSL7YZSeO2pbJN_"
+      },
+      {
+        "id": "tastyCake",
+        "isParent": false,
+        "meta": {
+          "description": "A tasty cake recipe",
+          "_hash": "5RlpYsX861EBBvKlp6ZBtM"
+        },
+        "children": null,
+        "_hash": "-IzcMkK7_AlBnzaIzrqWk2"
+      }
+    ],
+    "_hash": "Azk2Zo4NT22kqt-OJd8LlC"
+  }
+}

@@ -168,5 +168,33 @@
       }
     ],
     "_hash": "6gIf4kQL5CEs-EqYaObUjk"
+  },
+  "recipesTreeTable": {
+    "_type": "trees",
+    "_data": [
+      {
+        "id": "root",
+        "isParent": true,
+        "meta": {
+          "description": "Root of the recipes tree",
+          "_hash": "NwSIyxV5758OCVjbXW7Tv_"
+        },
+        "children": [
+          "-IzcMkK7_AlBnzaIzrqWk2"
+        ],
+        "_hash": "dDxhSgXRSL7YZSeO2pbJN_"
+      },
+      {
+        "id": "tastyCake",
+        "isParent": false,
+        "meta": {
+          "description": "A tasty cake recipe",
+          "_hash": "5RlpYsX861EBBvKlp6ZBtM"
+        },
+        "children": null,
+        "_hash": "-IzcMkK7_AlBnzaIzrqWk2"
+      }
+    ],
+    "_hash": "Azk2Zo4NT22kqt-OJd8LlC"
   }
 }

@@ -222,7 +222,7 @@ export class Route {
    * @returns True if the current route is the root route, false otherwise
    */
   get isRoot() {
-    return this._segments.length === 1;
+    return this._segments.length <= 1;
   }
 
   // .............................................................................
