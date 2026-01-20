@@ -13,10 +13,12 @@ import { ComponentRef } from '../content/components.ts';
 import { LayersTable } from '../content/layer.ts';
 import { SliceIds } from '../content/slice-ids.ts';
 import { ColumnCfg, TableCfg, TablesCfgTable } from '../content/table-cfg.ts';
+import { TreesTable } from '../content/tree.ts';
 import { RljsonIndexed, rljsonIndexed } from '../rljson-indexed.ts';
 import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
 
 import { Errors, Validator } from './validate.ts';
+
 
 // .............................................................................
 export interface BaseErrors extends Errors {
@@ -41,6 +43,11 @@ export interface BaseErrors extends Errors {
 
   // Reference errors
   refsNotFound?: Json;
+
+  // Tree errors
+  treeChildNodesNotFound?: Json;
+  treeDuplicateNodeIdsAsSibling?: Json;
+  treeIsNotParentButHasChildren?: Json;
 
   // Layer errors
   layerBasesNotFound?: Json;
@@ -116,6 +123,11 @@ class _BaseValidator {
 
       // Check references
       () => this._refsNotFound(),
+
+      // Check trees
+      () => this._treeChildNodesNotFound(),
+      () => this._treeDuplicateNodeIdsAsSibling(),
+      () => this._treeIsNotParentButHasChildren(),
 
       // Check layers
       () => this._layerBasesNotFound(),
@@ -689,10 +701,133 @@ class _BaseValidator {
   }
 
   // ...........................................................................
+  private _treeChildNodesNotFound(): void {
+    const brokenTrees: any[] = [];
+
+    iterateTablesSync(this.rljson, (tableKey, table) => {
+      if (table._type !== 'trees') {
+        return;
+      }
+
+      const treesTable: TreesTable = table as TreesTable;
+
+      for (const tree of treesTable._data) {
+        const childIds = tree.children;
+        if (!childIds) {
+          continue;
+        }
+
+        for (const childId of childIds) {
+          const childNode = treesTable._data.find(
+            (n) => (n as any)._hash === childId,
+          );
+          if (!childNode) {
+            brokenTrees.push({
+              treesTable: tableKey,
+              brokenTree: tree._hash,
+              missingChildNode: childId,
+            });
+          }
+        }
+      }
+    });
+
+    if (brokenTrees.length > 0) {
+      this.errors.treeChildNodesNotFound = {
+        error: 'Child nodes are missing',
+        brokenTrees,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _treeDuplicateNodeIdsAsSibling(): void {
+    const treesWithDuplicateSiblingIds: any[] = [];
+
+    iterateTablesSync(this.rljson, (tableKey, table) => {
+      if (table._type !== 'trees') {
+        return;
+      }
+
+      const treesTable: TreesTable = table as TreesTable;
+
+      for (const tree of treesTable._data) {
+        const childIds = tree.children;
+        if (!childIds) {
+          continue;
+        }
+
+        const seenIds: Set<string> = new Set();
+        const duplicateIds: Set<string> = new Set();
+
+        for (const childId of childIds) {
+          if (seenIds.has(childId)) {
+            duplicateIds.add(childId);
+          } else {
+            seenIds.add(childId);
+          }
+        }
+
+        if (duplicateIds.size > 0) {
+          treesWithDuplicateSiblingIds.push({
+            treesTable: tableKey,
+            tree: tree._hash,
+            duplicateChildIds: Array.from(duplicateIds),
+          });
+        }
+      }
+    });
+
+    if (treesWithDuplicateSiblingIds.length > 0) {
+      this.errors.treeDuplicateNodeIdsAsSibling = {
+        error: 'Trees have duplicate sibling node IDs',
+        trees: treesWithDuplicateSiblingIds,
+      };
+    }
+  }
+
+  // ...........................................................................
+  private _treeIsNotParentButHasChildren(): void {
+    const invalidTrees: any[] = [];
+
+    iterateTablesSync(this.rljson, (tableKey, table) => {
+      if (table._type !== 'trees') {
+        return;
+      }
+
+      const treesTable: TreesTable = table as TreesTable;
+
+      for (const tree of treesTable._data) {
+        const isParent = tree.isParent;
+        const childIds = tree.children;
+
+        if (!isParent && childIds && childIds.length > 0) {
+          invalidTrees.push({
+            treesTable: tableKey,
+            tree: tree._hash,
+            isParent,
+            children: childIds,
+          });
+        }
+      }
+    });
+
+    if (invalidTrees.length > 0) {
+      this.errors.treeIsNotParentButHasChildren = {
+        error: 'Trees marked as non-parents have children',
+        trees: invalidTrees,
+      };
+    }
+  }
+
+  // ...........................................................................
   private _layerBasesNotFound(): void {
     const brokenLayers: any[] = [];
 
     iterateTablesSync(this.rljson, (tableKey, table) => {
+      if (table._type !== 'layers') {
+        return;
+      }
       const layersIndexed = this.rljsonIndexed[tableKey];
 
       const layersTable: LayersTable = table as LayersTable;

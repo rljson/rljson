@@ -1,0 +1,39 @@
+{
+  "key": "example",
+  "type": "trees",
+  "columns": [
+    {
+      "key": "_hash",
+      "type": "string",
+      "titleLong": "Hash",
+      "titleShort": "Hash"
+    },
+    {
+      "key": "id",
+      "type": "string",
+      "titleLong": "Identifier",
+      "titleShort": "Id"
+    },
+    {
+      "key": "isParent",
+      "type": "boolean",
+      "titleLong": "Is Parent",
+      "titleShort": "Is Parent"
+    },
+    {
+      "key": "meta",
+      "type": "json",
+      "titleLong": "Meta Information",
+      "titleShort": "Meta"
+    },
+    {
+      "key": "children",
+      "type": "jsonArray",
+      "titleLong": "Children",
+      "titleShort": "Children"
+    }
+  ],
+  "isHead": false,
+  "isRoot": false,
+  "isShared": true
+}

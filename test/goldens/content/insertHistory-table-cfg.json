@@ -18,7 +18,11 @@
       "key": "tableRef",
       "type": "string",
       "titleLong": "Reference",
-      "titleShort": "Ref"
+      "titleShort": "Ref",
+      "ref": {
+        "tableKey": "tableMultiEdits",
+        "type": "components"
+      }
     },
     {
       "key": "route",

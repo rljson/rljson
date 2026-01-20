@@ -53,6 +53,7 @@ describe('Rljson', () => {
         'ingredients',
         'nutritionalValues',
         'ingredientsInsertHistory',
+        'recipesTreeTable',
       ]);
     });
   });
@@ -79,6 +80,7 @@ describe('Rljson', () => {
         'ingredients',
         'nutritionalValues',
         'ingredientsInsertHistory',
+        'recipesTreeTable',
       ]);
     });
 
@@ -141,6 +143,10 @@ describe('Rljson', () => {
         {
           error: new Error('Test error: ingredientsInsertHistory'),
           tableKey: 'ingredientsInsertHistory',
+        },
+        {
+          error: new Error('Test error: recipesTreeTable'),
+          tableKey: 'recipesTreeTable',
         },
       ]);
     });
