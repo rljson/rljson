@@ -13,7 +13,6 @@ import { Ref } from '../typedefs.ts';
 
 import { TableCfg } from './table-cfg.ts';
 
-
 // .............................................................................
 /**
  * A TreeRef is a hash pointing to another hash in the tree
@@ -98,9 +97,13 @@ export const exampleTreesTable = (): TreesTable =>
 /**
  * Converts a plain object into a tree structure
  * @param obj - The plain object to convert
+ * @param skipRootCreation - If true, skips creating an automatic root node (default: false)
  * @returns An array of Tree nodes representing the tree structure
  */
-export const treeFromObject = (obj: any): TreeWithHash[] => {
+export const treeFromObject = (
+  obj: any,
+  skipRootCreation = false,
+): TreeWithHash[] => {
   const result: TreeWithHash[] = [];
   const processedIds = new Set<string>();
   const idToHashMap = new Map<string, string>();
@@ -220,14 +223,29 @@ export const treeFromObject = (obj: any): TreeWithHash[] => {
   };
 
   // Start processing from root
+  const topLevelIds: string[] = [];
   /* v8 ignore else -- @preserve */
   if (obj !== null && typeof obj === 'object' && !Array.isArray(obj)) {
     for (const key in obj) {
       /* v8 ignore else -- @preserve */
       if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        topLevelIds.push(key);
         processNode(obj[key], key);
       }
     }
+  }
+
+  // Create an explicit root node containing all top-level nodes
+  if (!skipRootCreation && topLevelIds.length > 0) {
+    const rootNode: Tree = {
+      id: 'root',
+      isParent: true,
+      meta: null,
+      children: topLevelIds.map((id) => idToHashMap.get(id)!) as TreeRef[],
+    };
+    const hashedRootNode = hip<Tree>(rootNode) as TreeWithHash;
+    idToHashMap.set('root', hashedRootNode._hash as string);
+    result.push(hashedRootNode);
   }
 
   return result;
