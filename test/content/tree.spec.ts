@@ -38,7 +38,7 @@ describe('treeFromObject', () => {
 
   it('handles single primitive value', () => {
     const result = treeFromObject({ id1: 'value' });
-    expect(result).toHaveLength(1);
+    expect(result).toHaveLength(2);
     expect(result[0].id).toBe('id1');
     expect(result[0].isParent).toBe(false);
     expect(rmhsh(result[0].meta!)).toEqual({ value: 'value' });
@@ -54,7 +54,7 @@ describe('treeFromObject', () => {
         child2: 'value2',
       },
     });
-    expect(result).toHaveLength(3);
+    expect(result).toHaveLength(4);
 
     const parent = result.find((n) => n.id === 'parent')!;
     const child1 = result.find((n) => n.id === 'child1')!;
@@ -79,7 +79,7 @@ describe('treeFromObject', () => {
     const result = treeFromObject({
       id1: [{ subId0: 'value0' }, { subId1: 'value1' }],
     });
-    expect(result).toHaveLength(3);
+    expect(result).toHaveLength(4);
 
     const id1 = result.find((n) => n.id === 'id1')!;
     const subId0 = result.find((n) => n.id === 'subId0')!;
@@ -100,7 +100,7 @@ describe('treeFromObject', () => {
     const result = treeFromObject({
       id1: [{ subId0: 'value' }, { subId1: [{ subId1SubId0: 'nestedValue' }] }],
     });
-    expect(result).toHaveLength(4);
+    expect(result).toHaveLength(5);
 
     const id1 = result.find((n) => n.id === 'id1')!;
     const subId0 = result.find((n) => n.id === 'subId0')!;
@@ -114,7 +114,7 @@ describe('treeFromObject', () => {
 
   it('handles null values', () => {
     const result = treeFromObject({ id1: null });
-    expect(result).toHaveLength(1);
+    expect(result).toHaveLength(2);
     expect(result[0].id).toBe('id1');
     expect(result[0].isParent).toBe(false);
     expect(rmhsh(result[0].meta!)).toEqual({ value: null });
@@ -124,7 +124,7 @@ describe('treeFromObject', () => {
 
   it('handles number values', () => {
     const result = treeFromObject({ id1: 42 });
-    expect(result).toHaveLength(1);
+    expect(result).toHaveLength(2);
     expect(result[0].id).toBe('id1');
     expect(rmhsh(result[0].meta!)).toEqual({ value: 42 });
     expect(result[0]._hash).toBeDefined();
@@ -132,7 +132,7 @@ describe('treeFromObject', () => {
 
   it('handles boolean values', () => {
     const result = treeFromObject({ id1: true });
-    expect(result).toHaveLength(1);
+    expect(result).toHaveLength(2);
     expect(result[0].id).toBe('id1');
     expect(rmhsh(result[0].meta!)).toEqual({ value: true });
     expect(result[0]._hash).toBeDefined();
@@ -140,7 +140,7 @@ describe('treeFromObject', () => {
 
   it('handles empty array', () => {
     const result = treeFromObject({ id1: [] });
-    expect(result).toHaveLength(1);
+    expect(result).toHaveLength(2);
     expect(result[0].id).toBe('id1');
     expect(result[0].isParent).toBe(true);
     expect(result[0].meta).toBeNull();
@@ -150,7 +150,7 @@ describe('treeFromObject', () => {
 
   it('handles number array', () => {
     const result = treeFromObject({ id1: [1, 2, 3] });
-    expect(result).toHaveLength(1);
+    expect(result).toHaveLength(2);
 
     expect(result[0].id).toBe('id1');
     expect(result[0].isParent).toBe(false);
@@ -163,7 +163,7 @@ describe('treeFromObject', () => {
     const result = treeFromObject({
       node1: { meta: { foo: 'bar', baz: 42 } },
     });
-    expect(result).toHaveLength(1);
+    expect(result).toHaveLength(2);
 
     expect(result[0].id).toBe('node1');
     expect(result[0].isParent).toBe(false);
@@ -176,7 +176,7 @@ describe('treeFromObject', () => {
     const result = treeFromObject({
       node1: { meta: 'someValue' },
     });
-    expect(result).toHaveLength(1);
+    expect(result).toHaveLength(2);
 
     expect(result[0].id).toBe('node1');
     expect(result[0].isParent).toBe(false);
@@ -193,7 +193,7 @@ describe('treeFromObject', () => {
         },
       },
     });
-    expect(result).toHaveLength(3);
+    expect(result).toHaveLength(4);
 
     const level1 = result.find((n) => n.id === 'level1')!;
     const level2 = result.find((n) => n.id === 'level2')!;
@@ -211,7 +211,7 @@ describe('treeFromObject', () => {
         branch2: [{ nested1: 'leaf2' }, { nested2: { deep: 'leaf3' } }],
       },
     });
-    expect(result).toHaveLength(6);
+    expect(result).toHaveLength(7);
 
     const root = result.find((n) => n.id === 'root')!;
     const branch1 = result.find((n) => n.id === 'branch1')!;
