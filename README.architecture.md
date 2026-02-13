@@ -34,6 +34,24 @@ This document describes the architecture of the Rljson format.
   - [Layer](#layer)
   - [Cake](#cake)
   - [Buffet](#buffet)
+  - [Trees](#trees)
+- [Schema System](#schema-system)
+  - [TableCfg](#tablecfg)
+  - [Validation](#validation)
+- [Edit Protocol](#edit-protocol)
+  - [Insert](#insert)
+  - [InsertHistory](#inserthistory)
+  - [Edits \& MultiEdits](#edits--multiedits)
+  - [EditHistory](#edithistory)
+- [Routing](#routing)
+- [Sync Protocol](#sync-protocol)
+  - [ConnectorPayload](#connectorpayload)
+  - [AckPayload](#ackpayload)
+  - [GapFill](#gapfill)
+  - [SyncConfig](#syncconfig)
+  - [SyncEventNames](#synceventnames)
+  - [ClientId](#clientid)
+- [Package Structure](#package-structure)
 
 ## What is Rljson?
 
@@ -367,4 +385,344 @@ such as cakes, layers, or components:
     "_hash": "0RyzLpZX1Nkfxej2WgXbEF"
   }
 }
+```
+
+### Trees
+
+Trees represent hierarchical, content-addressed data structures. Each
+`Tree` node has an optional `id` (unique among siblings), a boolean `isParent`
+flag, a `meta` field (`Json | null`) for arbitrary metadata, and a `children`
+array (`Array<TreeRef> | null`) containing hashes of child nodes.
+
+Trees are stored as **separate rows with parent-child relationships**, not as
+a single denormalized structure. Parent nodes reference children via hash:
+
+```json
+{
+  "projectTree": {
+    "_type": "trees",
+    "_data": [
+      {
+        "id": "src",
+        "isParent": true,
+        "meta": null,
+        "children": ["def456", "ghi789"],
+        "_hash": "abc123"
+      },
+      {
+        "id": "index.ts",
+        "isParent": false,
+        "meta": { "type": "file" },
+        "children": null,
+        "_hash": "def456"
+      },
+      {
+        "id": "utils.ts",
+        "isParent": false,
+        "meta": { "type": "file" },
+        "children": null,
+        "_hash": "ghi789"
+      }
+    ]
+  }
+}
+```
+
+The helper function `treeFromObject()` converts a plain JavaScript object into
+an array of hashed `Tree` entries.
+
+## Schema System
+
+### TableCfg
+
+Every table in RLJSON can have an associated `TableCfg` that describes its
+schema — the table key, content type, column definitions, and metadata flags:
+
+```json
+{
+  "tableCfgs": {
+    "_type": "tableCfgs",
+    "_data": [
+      {
+        "key": "ingredients",
+        "type": "components",
+        "columns": [
+          { "key": "_hash", "type": "string", "titleLong": "Hash", "titleShort": "Hash" },
+          { "key": "name", "type": "string", "titleLong": "Name", "titleShort": "Name" },
+          { "key": "amount", "type": "number", "titleLong": "Amount", "titleShort": "Amt" }
+        ],
+        "isHead": false,
+        "isRoot": false,
+        "isShared": false
+      }
+    ]
+  }
+}
+```
+
+Supported column types: `string`, `number`, `boolean`, `json`, `jsonArray`.
+
+Columns can reference other tables via a `ref` property, enabling foreign-key
+relationships:
+
+```json
+{
+  "key": "ingredientsRef",
+  "type": "string",
+  "titleLong": "Ingredient",
+  "titleShort": "Ing",
+  "ref": { "tableKey": "ingredients", "type": "components" }
+}
+```
+
+`createInsertHistoryTableCfg()` auto-generates the schema for InsertHistory
+tables from any base `TableCfg`.
+
+### Validation
+
+The `Validate` class performs comprehensive structural validation of RLJSON
+objects:
+
+- **Naming**: Table keys, column keys must be valid identifiers
+- **Hashes**: All `_hash` values must match the actual content
+- **References**: All `*Ref` columns must point to existing rows
+- **Trees**: No cycles, all child hashes must resolve, correct node types
+- **Layers**: Component and SliceId tables must exist
+- **Cakes**: Layer tables must exist and share the same slice structure
+- **Buffets**: Referenced items must exist in their declared tables
+
+The `BaseValidator` provides an extensible validator framework — multiple
+validators can run in parallel and merge their results.
+
+## Edit Protocol
+
+### Insert
+
+An `Insert` describes a data modification operation:
+
+```json
+{
+  "route": "/ingredients",
+  "command": "add",
+  "value": { "name": "butter", "amountUnit": "g" }
+}
+```
+
+The `InsertValidator` class validates insert operations — checking that the
+route is valid, the command is supported, and the value is present.
+
+### InsertHistory
+
+`InsertHistory` tracks every insert operation as an append-only log.
+Each `InsertHistoryRow` contains:
+
+| Field             | Type                    | Description                                     |
+| ----------------- | ----------------------- | ----------------------------------------------- |
+| `timeId`          | `InsertHistoryTimeId`   | Unique row identifier (timestamp + random)      |
+| `<table>Ref`      | `string`                | Hash of the data that was inserted              |
+| `route`           | `RouteRef`              | Route that was modified                         |
+| `origin`          | `ClientId \| Ref`       | Who performed the insert (optional)             |
+| `previous`        | `InsertHistoryTimeId[]` | Causal predecessors — supports merge (optional) |
+| `clientTimestamp` | `number`                | Client-side wall-clock timestamp (optional)     |
+
+The `previous` field enables **causal ordering**: each insert can declare
+which prior inserts it depends on. When multiple clients insert concurrently,
+the result is a DAG (directed acyclic graph) rather than a linear chain,
+supporting merge semantics.
+
+### Edits & MultiEdits
+
+- **Edit**: A named action with a type and data payload
+- **MultiEdit**: Chains edits into a linked list via `previousRef`, enabling
+  undo/redo and conflict resolution
+- **EditHistory**: An append-only log of multi-edits with timestamps
+
+### EditHistory
+
+`EditHistory` links multi-edits together with `timeId` and `dataRef`:
+
+```json
+{
+  "editHistory": {
+    "_type": "editHistory",
+    "_data": [
+      {
+        "timeId": "1700000000000:AbCd",
+        "multiEditRef": "xyz...",
+        "dataRef": "abc...",
+        "previous": ["1699999999999:ZzZz"]
+      }
+    ]
+  }
+}
+```
+
+## Routing
+
+The `Route` class is the addressing system for all data paths in RLJSON.
+A route identifies a specific location in the data hierarchy.
+
+**Flat string format**: `/tableKey@ref/childTableKey`
+
+Components of a route segment:
+
+| Part          | Syntax          | Example            |
+| ------------- | --------------- | ------------------ |
+| Table key     | plain name      | `ingredients`      |
+| Ref           | `@hash`         | `@A5d...`          |
+| InsertHistory | `@timestamp:id` | `@1700000000:AbCd` |
+| Slice IDs     | `(id1,id2)`     | `(flour,sugar)`    |
+
+```javascript
+// Parsing
+const route = Route.fromFlat('/ingredients@A5d.../nutritionalValues');
+
+// Navigation
+route.top;         // { tableKey: 'ingredients', ingredientsRef: 'A5d...' }
+route.root;        // last segment: { tableKey: 'nutritionalValues' }
+route.segment(0);  // { tableKey: 'ingredients', ingredientsRef: 'A5d...' }
+route.segment(1);  // { tableKey: 'nutritionalValues' }
+route.flat;        // '/ingredients@A5d.../nutritionalValues'
+route.isRoot;      // false (more than one segment)
+
+// Navigating up/down
+route.upper();     // Route with only '/ingredients@A5d...'
+route.deeper();    // Route with only '/nutritionalValues'
+```
+
+Routes are used by the Connector, Db, and Server to identify which data
+a message refers to.
+
+## Sync Protocol
+
+The `sync/` module defines wire-protocol types for the messaging hardening
+system. These types are consumed by `@rljson/db` (Connector) and
+`@rljson/server` (Server relay).
+
+All fields beyond `o` (origin) and `r` (ref) are optional — existing code
+that sends `{ o, r }` continues to work unchanged. New features activate
+only when the corresponding `SyncConfig` flags are set.
+
+### ConnectorPayload
+
+The payload transmitted on the wire between Connector and Server:
+
+| Field   | Type                    | Concept           | Purpose                               |
+| ------- | ----------------------- | ----------------- | ------------------------------------- |
+| `r`     | `string`                | existing          | The ref being announced               |
+| `o`     | `string`                | existing          | Ephemeral origin for self-echo filter |
+| `c`     | `ClientId`              | Client identity   | Stable client id across reconnections |
+| `t`     | `number`                | Client identity   | Client-side wall-clock timestamp (ms) |
+| `seq`   | `number`                | Predecessor chain | Monotonic counter per (client, route) |
+| `p`     | `InsertHistoryTimeId[]` | Predecessor chain | Causal predecessor timeIds            |
+| `cksum` | `string`                | Acknowledgment    | Content checksum for ACK verification |
+
+### AckPayload
+
+Server → Client acknowledgment that all (or some) receivers successfully
+received and processed a ref:
+
+| Field          | Type      | Description                         |
+| -------------- | --------- | ----------------------------------- |
+| `r`            | `string`  | The ref being acknowledged          |
+| `ok`           | `boolean` | All clients confirmed?              |
+| `receivedBy`   | `number`  | Count of confirming clients         |
+| `totalClients` | `number`  | Total receiver clients at broadcast |
+
+### GapFill
+
+When a Connector detects a gap in sequence numbers from a peer, it requests
+the missing refs from the server:
+
+- **`GapFillRequest`**: Client → Server — route + `afterSeq` (+ optional
+  `afterTimeId`)
+- **`GapFillResponse`**: Server → Client — ordered list of missing
+  `ConnectorPayload` entries
+
+### SyncConfig
+
+Feature flags for hardened sync behavior:
+
+| Flag                    | Concept           | Effect when enabled                   |
+| ----------------------- | ----------------- | ------------------------------------- |
+| `causalOrdering`        | Predecessor chain | Attach `seq` + `p` to payloads;       |
+|                         |                   | detect gaps; request gap-fill         |
+| `requireAck`            | Acknowledgment    | Wait for server ACK after send        |
+| `ackTimeoutMs`          | Acknowledgment    | Timeout before treating ACK as failed |
+| `includeClientIdentity` | Client identity   | Attach `c` + `t` to payloads          |
+
+### SyncEventNames
+
+Helper to generate typed socket event names from a route:
+
+| Event Name             | Direction       | Purpose                  |
+| ---------------------- | --------------- | ------------------------ |
+| `${route}`             | bidirectional   | Ref broadcast (existing) |
+| `${route}:ack`         | server → client | Delivery acknowledgment  |
+| `${route}:ack:client`  | client → server | Individual client ACK    |
+| `${route}:gapfill:req` | client → server | Request missing refs     |
+| `${route}:gapfill:res` | server → client | Supply missing refs      |
+
+### ClientId
+
+A stable client identity that persists across reconnections. Unlike the
+ephemeral Connector `origin` (which changes on every instantiation), a
+`ClientId` should be generated once and stored for reuse.
+
+Format: `"client_"` + 12-character nanoid (e.g. `"client_V1StGXR8_Z5j"`).
+
+## Package Structure
+
+```
+src/
+├── index.ts                    # Re-exports everything
+├── rljson.ts                   # Core Rljson type, RljsonTable, iterators
+├── rljson-indexed.ts           # Hash-indexed Rljson for O(1) lookups
+├── typedefs.ts                 # Base types: Ref, SliceId, TableKey, ContentType
+├── example.ts                  # Example class with valid/invalid data
+│
+├── content/                    # Data model types
+│   ├── buffet.ts               # Buffet, BuffetsTable
+│   ├── cake.ts                 # Cake, CakesTable
+│   ├── components.ts           # ComponentsTable
+│   ├── layer.ts                # Layer, LayersTable
+│   ├── revision.ts             # Revision, RevisionsTable
+│   ├── slice-ids.ts            # SliceIds, SliceIdsTable
+│   ├── table-cfg.ts            # TableCfg, ColumnCfg, validation
+│   └── tree.ts                 # TreeNode, TreesTable, treeFromObject
+│
+├── edit/                       # Edit protocol
+│   ├── edit.ts                 # Edit, EditsTable
+│   ├── edit-history.ts         # EditHistory, EditHistoryTable
+│   └── multi-edit.ts           # MultiEdit, MultiEditsTable
+│
+├── insert/                     # Insert operations
+│   ├── insert.ts               # Insert type, InsertCommand
+│   └── insert-validator.ts     # InsertValidator, validateInsert
+│
+├── insertHistory/              # Insert tracking
+│   └── insertHistory.ts        # InsertHistoryRow, InsertHistoryTable
+│
+├── route/                      # Data path addressing
+│   └── route.ts                # Route class, RouteSegment, RouteRef
+│
+├── sync/                       # Sync protocol types
+│   ├── ack-payload.ts          # AckPayload
+│   ├── client-id.ts            # ClientId, clientId(), isClientId()
+│   ├── connector-payload.ts    # ConnectorPayload
+│   ├── gap-fill.ts             # GapFillRequest, GapFillResponse
+│   ├── sync-config.ts          # SyncConfig
+│   └── sync-events.ts          # SyncEventNames, syncEvents()
+│
+├── tools/                      # Utilities
+│   ├── object-depth.ts         # objectDepth() (internal)
+│   ├── remove-duplicates.ts    # removeDuplicates()
+│   └── time-id.ts              # TimeId, timeId(), isTimeId()
+│
+├── validate/                   # Validation framework
+│   ├── base-validator.ts       # BaseValidator, ValidatorInterface
+│   └── validate.ts             # Validate class (full structural validator)
+│
+└── example/                    # Example data
+    └── bakery-example.ts       # bakeryExample() — canonical test dataset
 ```
