@@ -326,6 +326,7 @@ const config: SyncConfig = {
   requireAck: true,            // wait for server ACK after send
   ackTimeoutMs: 5_000,         // ACK timeout
   includeClientIdentity: true, // attach clientId + timestamp
+  maxDedupSetSize: 10_000,     // max refs per dedup generation (default: 10 000)
 };
 ```
 

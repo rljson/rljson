@@ -650,6 +650,9 @@ Feature flags for hardened sync behavior:
 | `requireAck`            | Acknowledgment    | Wait for server ACK after send        |
 | `ackTimeoutMs`          | Acknowledgment    | Timeout before treating ACK as failed |
 | `includeClientIdentity` | Client identity   | Attach `c` + `t` to payloads          |
+| `maxDedupSetSize`       | Memory bounds     | Max refs per dedup generation         |
+|                         |                   | (default 10 000; two-generation       |
+|                         |                   | eviction caps memory usage)           |
 
 ### SyncEventNames
 
