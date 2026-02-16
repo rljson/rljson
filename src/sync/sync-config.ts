@@ -18,6 +18,7 @@
  * | `requireAck`            | Acknowledgment       | Wait for server ACK after send         |
  * | `ackTimeoutMs`          | Acknowledgment       | Timeout before treating ACK as failed  |
  * | `includeClientIdentity` | Client identity      | Attach `c` + `t` to payloads           |
+ * | `maxDedupSetSize`       | Memory management    | Cap dedup sets; default 10 000         |
  */
 export type SyncConfig = {
   /**
@@ -45,6 +46,15 @@ export type SyncConfig = {
    * a wall-clock timestamp (`t`) to every outgoing payload.
    */
   includeClientIdentity?: boolean;
+
+  /**
+   * Maximum number of entries per dedup set generation before rotation.
+   * The Connector uses two-generation eviction: when the current generation
+   * exceeds this limit, it becomes the previous generation and a new empty
+   * set is created. Lookups check both generations.
+   * Defaults to `10_000` when not specified.
+   */
+  maxDedupSetSize?: number;
 };
 
 // .............................................................................
@@ -62,6 +72,7 @@ export const syncConfigFullExample = (): SyncConfig => ({
   requireAck: true,
   ackTimeoutMs: 5_000,
   includeClientIdentity: true,
+  maxDedupSetSize: 10_000,
 });
 
 // .............................................................................

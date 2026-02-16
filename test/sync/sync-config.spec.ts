@@ -26,6 +26,7 @@ describe('SyncConfig', () => {
       expect(config.requireAck).toBeUndefined();
       expect(config.ackTimeoutMs).toBeUndefined();
       expect(config.includeClientIdentity).toBeUndefined();
+      expect(config.maxDedupSetSize).toBeUndefined();
     });
   });
 
@@ -36,6 +37,7 @@ describe('SyncConfig', () => {
       expect(config.requireAck).toBe(true);
       expect(config.ackTimeoutMs).toBe(5_000);
       expect(config.includeClientIdentity).toBe(true);
+      expect(config.maxDedupSetSize).toBe(10_000);
     });
   });
 
