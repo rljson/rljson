@@ -41,6 +41,12 @@
       "type": "jsonArray",
       "titleLong": "Previous",
       "titleShort": "Previous"
+    },
+    {
+      "key": "clientTimestamp",
+      "type": "number",
+      "titleLong": "Client Timestamp",
+      "titleShort": "Timestamp"
     }
   ],
   "isHead": false,
