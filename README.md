@@ -1,6 +1,16 @@
 # @rljson/rljson
 
-The RLJSON data format specification
+The RLJSON data format specification — core types, validation, and sync protocol
+for the RLJSON ecosystem.
+
+This package provides:
+
+- **Data model types**: Components, SliceIds, Layers, Cakes, Buffets, Trees
+- **Schema system**: TableCfg, column definitions, structural validation
+- **Edit protocol**: Edits, MultiEdits, EditHistory, InsertHistory
+- **Routing**: Route class for addressing data paths
+- **Sync protocol**: ConnectorPayload, AckPayload, GapFill, SyncConfig
+- **Utilities**: TimeId generation, hashing integration, deduplication
 
 ## Users
 

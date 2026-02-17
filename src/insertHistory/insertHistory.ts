@@ -8,8 +8,8 @@ import { TableCfg } from '../content/table-cfg.ts';
 import { bakeryExample } from '../example/bakery-example.ts';
 import { RljsonTable } from '../rljson.ts';
 import { RouteRef } from '../route/route.ts';
+import { ClientId } from '../sync/client-id.ts';
 import { Ref } from '../typedefs.ts';
-
 
 // InsertHistory
 // .............................................................................
@@ -20,8 +20,9 @@ export type InsertHistoryRow<Str extends string> = {
 } & {
   timeId: InsertHistoryTimeId; //Unique row id in the insertHistory table
   route: RouteRef; //Route to the edited object
-  origin?: Ref; //Custom origin of the insert or edit
+  origin?: ClientId | Ref; //Custom origin of the insert or edit (ClientId or legacy Ref)
   previous?: InsertHistoryTimeId[]; //Merge --> multiple previous edits or inserts
+  clientTimestamp?: number; //Client-side wall-clock timestamp (ms since epoch)
 };
 
 export type InsertHistoryTable<Str extends string> = RljsonTable<
@@ -68,6 +69,12 @@ export const createInsertHistoryTableCfg = (tableCfg: TableCfg): TableCfg => ({
       type: 'jsonArray',
       titleLong: 'Previous',
       titleShort: 'Previous',
+    },
+    {
+      key: 'clientTimestamp',
+      type: 'number',
+      titleLong: 'Client Timestamp',
+      titleShort: 'Timestamp',
     },
   ],
   isHead: false,
