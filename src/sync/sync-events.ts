@@ -28,6 +28,8 @@ export type SyncEventNames = {
   gapFillReq: string;
   /** Server → Client: supply missing refs. */
   gapFillRes: string;
+  /** Server → Client: bootstrap latest ref on connect / heartbeat. */
+  bootstrap: string;
 };
 
 // .............................................................................
@@ -42,4 +44,5 @@ export const syncEvents = (route: string): SyncEventNames => ({
   ackClient: `${route}:ack:client`,
   gapFillReq: `${route}:gapfill:req`,
   gapFillRes: `${route}:gapfill:res`,
+  bootstrap: `${route}:bootstrap`,
 });

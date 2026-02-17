@@ -653,18 +653,22 @@ Feature flags for hardened sync behavior:
 | `maxDedupSetSize`       | Memory bounds     | Max refs per dedup generation         |
 |                         |                   | (default 10 000; two-generation       |
 |                         |                   | eviction caps memory usage)           |
+| `bootstrapHeartbeatMs`  | Bootstrap         | Periodic heartbeat interval (ms);     |
+|                         |                   | server sends latest ref to all        |
+|                         |                   | clients at this interval              |
 
 ### SyncEventNames
 
 Helper to generate typed socket event names from a route:
 
-| Event Name             | Direction       | Purpose                  |
-| ---------------------- | --------------- | ------------------------ |
-| `${route}`             | bidirectional   | Ref broadcast (existing) |
-| `${route}:ack`         | server → client | Delivery acknowledgment  |
-| `${route}:ack:client`  | client → server | Individual client ACK    |
-| `${route}:gapfill:req` | client → server | Request missing refs     |
-| `${route}:gapfill:res` | server → client | Supply missing refs      |
+| Event Name             | Direction       | Purpose                           |
+| ---------------------- | --------------- | --------------------------------- |
+| `${route}`             | bidirectional   | Ref broadcast (existing)          |
+| `${route}:ack`         | server → client | Delivery acknowledgment           |
+| `${route}:ack:client`  | client → server | Individual client ACK             |
+| `${route}:gapfill:req` | client → server | Request missing refs              |
+| `${route}:gapfill:res` | server → client | Supply missing refs               |
+| `${route}:bootstrap`   | server → client | Latest ref on connect / heartbeat |
 
 ### ClientId
 

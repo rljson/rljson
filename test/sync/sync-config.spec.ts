@@ -27,6 +27,7 @@ describe('SyncConfig', () => {
       expect(config.ackTimeoutMs).toBeUndefined();
       expect(config.includeClientIdentity).toBeUndefined();
       expect(config.maxDedupSetSize).toBeUndefined();
+      expect(config.bootstrapHeartbeatMs).toBeUndefined();
     });
   });
 
@@ -79,6 +80,11 @@ describe('SyncConfig', () => {
     it('supports ackTimeoutMs of zero (immediate)', () => {
       const immediate: SyncConfig = { requireAck: true, ackTimeoutMs: 0 };
       expect(immediate.ackTimeoutMs).toBe(0);
+    });
+
+    it('supports bootstrapHeartbeatMs', () => {
+      const config: SyncConfig = { bootstrapHeartbeatMs: 30_000 };
+      expect(config.bootstrapHeartbeatMs).toBe(30_000);
     });
   });
 });

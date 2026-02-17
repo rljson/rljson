@@ -55,6 +55,18 @@ export type SyncConfig = {
    * Defaults to `10_000` when not specified.
    */
   maxDedupSetSize?: number;
+
+  /**
+   * Interval in milliseconds for the server to broadcast its latest ref
+   * to all connected clients as a heartbeat. This acts as a fallback
+   * in case the initial bootstrap message on connect was missed.
+   *
+   * When `undefined` or `0`, no periodic heartbeat is sent — only the
+   * immediate bootstrap on `addSocket()` is active.
+   *
+   * Recommended value: `30_000` (30 seconds) or higher.
+   */
+  bootstrapHeartbeatMs?: number;
 };
 
 // .............................................................................

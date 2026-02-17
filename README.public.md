@@ -325,8 +325,9 @@ const config: SyncConfig = {
   causalOrdering: true,        // track predecessors + detect gaps
   requireAck: true,            // wait for server ACK after send
   ackTimeoutMs: 5_000,         // ACK timeout
-  includeClientIdentity: true, // attach clientId + timestamp
-  maxDedupSetSize: 10_000,     // max refs per dedup generation (default: 10 000)
+  includeClientIdentity: true,    // attach clientId + timestamp
+  maxDedupSetSize: 10_000,        // max refs per dedup generation (default: 10 000)
+  bootstrapHeartbeatMs: 30_000,   // periodic bootstrap heartbeat interval (optional)
 };
 ```
 
@@ -343,6 +344,7 @@ const events = syncEvents('/sharedTree');
 // events.ackClient  → '/sharedTree:ack:client'
 // events.gapFillReq → '/sharedTree:gapfill:req'
 // events.gapFillRes → '/sharedTree:gapfill:res'
+// events.bootstrap  → '/sharedTree:bootstrap'
 ```
 
 ### ClientId
