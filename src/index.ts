@@ -24,6 +24,7 @@ export * from './rljson.ts';
 export * from './route/route.ts';
 export * from './sync/ack-payload.ts';
 export * from './sync/client-id.ts';
+export * from './sync/conflict.ts';
 export * from './sync/connector-payload.ts';
 export * from './sync/gap-fill.ts';
 export * from './sync/sync-config.ts';
