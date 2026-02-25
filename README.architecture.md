@@ -678,6 +678,32 @@ ephemeral Connector `origin` (which changes on every instantiation), a
 
 Format: `"client_"` + 12-character nanoid (e.g. `"client_V1StGXR8_Z5j"`).
 
+### Conflict Detection Types
+
+The sync protocol includes types for detecting DAG branch conflicts in the
+InsertHistory. A **DAG branch** occurs when two or more InsertHistory rows
+share the same predecessor, creating divergent branches from concurrent
+writes by different clients.
+
+| Type               | Description                                                           |
+| ------------------ | --------------------------------------------------------------------- |
+| `ConflictType`     | String literal union — currently `'dagBranch'`                        |
+| `Conflict`         | Interface describing a detected conflict: table, type, time, branches |
+| `ConflictCallback` | `(conflict: Conflict) => void` — callback type for observers          |
+
+**Conflict interface fields:**
+
+| Field        | Type                    | Description                                           |
+| ------------ | ----------------------- | ----------------------------------------------------- |
+| `table`      | `string`                | Table where the conflict was detected (no suffix)     |
+| `type`       | `ConflictType`          | `'dagBranch'`                                         |
+| `detectedAt` | `number`                | Timestamp (ms since epoch) of detection               |
+| `branches`   | `InsertHistoryTimeId[]` | Tip timeIds forming the DAG fork (always ≥ 2 entries) |
+
+Detection is protocol-level only — no resolution logic. Upper layers
+(application code or `@rljson/db`) use these types to signal and react
+to conflicts.
+
 ## Package Structure
 
 ```
