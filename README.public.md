@@ -360,6 +360,32 @@ isClientId(id);                // true
 isClientId('not-a-client-id'); // false
 ```
 
+### Conflict Detection Types
+
+Protocol-level types for DAG branch conflict detection. A conflict occurs when the InsertHistory for a table has diverged into multiple branches (multiple "tips" that are not ancestors of each other), indicating concurrent writes from different clients.
+
+Detection only — no resolution: these types signal that a conflict exists. Resolution logic is left to upper layers (application code).
+
+```typescript
+import type { Conflict, ConflictCallback, ConflictType } from '@rljson/rljson';
+
+// ConflictType — currently only 'dagBranch'
+const type: ConflictType = 'dagBranch';
+
+// Conflict — describes a detected fork in InsertHistory
+const conflict: Conflict = {
+  table: 'cars',                           // Table where the conflict was detected
+  type: 'dagBranch',                       // Type of conflict
+  detectedAt: Date.now(),                  // Detection timestamp (ms since epoch)
+  branches: ['17000…:AbCd', '17000…:EfGh'] // InsertHistory tip timeIds forming the fork
+};
+
+// ConflictCallback — fires when a conflict is detected
+const onConflict: ConflictCallback = (conflict: Conflict) => {
+  console.log(`Conflict in ${conflict.table}:`, conflict.branches);
+};
+```
+
 ## Utilities
 
 ### TimeId
