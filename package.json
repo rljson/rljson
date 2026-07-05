@@ -23,7 +23,7 @@
   "scripts": {
     "build": "pnpm test && vite build && tsc && cp README* dist && mkdir dist/src && cp src/example.ts dist/src",
     "test": "vitest run --coverage && npm run lint",
-    "prepublishOnly": "npm run build && npm run test",
+    "prepublishOnly": "npm run build",
     "lint": "eslint",
     "updateGoldens": "cross-env UPDATE_GOLDENS=true npm test"
   },
