@@ -9,10 +9,10 @@ importers:
   .:
     dependencies:
       '@rljson/hash':
-        specifier: ^0.0.19
+        specifier: 0.0.19
         version: 0.0.19
       '@rljson/json':
-        specifier: ^0.0.23
+        specifier: 0.0.23
         version: 0.0.23
       nanoid:
         specifier: ^5.1.16
