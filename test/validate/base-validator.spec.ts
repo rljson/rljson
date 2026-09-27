@@ -14,9 +14,11 @@ import { Layer, LayersTable } from '../../src/content/layer.ts';
 import { ColumnCfg, TableCfg } from '../../src/content/table-cfg.ts';
 import { Example } from '../../src/example.ts';
 import { Rljson, RljsonPrivate } from '../../src/rljson.ts';
-import { BaseValidator, isValidFieldName } from '../../src/validate/base-validator.ts';
+import {
+  BaseValidator,
+  isValidFieldName,
+} from '../../src/validate/base-validator.ts';
 import { Errors } from '../../src/validate/validate.ts';
-
 
 describe('BaseValidator', async () => {
   const validate = (rljson: any): Errors => {
@@ -1293,6 +1295,32 @@ describe('BaseValidator', async () => {
           },
           hasErrors: true,
         });
+      });
+    });
+  });
+
+  describe('cakeLayerSliceIdsDoNotMatch', () => {
+    it('returns an error when a layer does not use the slice ids of the cake', () => {
+      const rljson = Example.broken.cakes.layerWithOtherSliceIds();
+      const cake = rljson.cakes._data[0];
+      const layer = rljson.abLayers._data[1];
+      expect(validate(rljson)).toEqual({
+        cakeLayerSliceIdsDoNotMatch: {
+          brokenCakes: [
+            {
+              brokenCake: cake._hash,
+              brokenLayer: layer._hash,
+              cakeSliceIdsRow: rljson.sliceIds._data[1]._hash,
+              cakeSliceIdsTable: 'sliceIds',
+              cakeTable: 'cakes',
+              layerSliceIdsRow: rljson.sliceIds._data[0]._hash,
+              layerSliceIdsTable: 'sliceIds',
+              layersTable: 'abLayers',
+            },
+          ],
+          error: 'Layers of cakes do not use the slice ids of the cake',
+        },
+        hasErrors: true,
       });
     });
   });

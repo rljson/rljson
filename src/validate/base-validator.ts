@@ -19,7 +19,6 @@ import { iterateTablesSync, Rljson, RljsonTable } from '../rljson.ts';
 
 import { Errors, Validator } from './validate.ts';
 
-
 // .............................................................................
 export interface BaseErrors extends Errors {
   // Base errors
@@ -63,6 +62,7 @@ export interface BaseErrors extends Errors {
   cakeSliceIdsNotFound?: Json;
   cakeLayerTablesNotFound?: Json;
   cakeLayersNotFound?: Json;
+  cakeLayerSliceIdsDoNotMatch?: Json;
 
   // Buffet errors
   buffetReferencedTablesNotFound?: Json;
@@ -140,6 +140,7 @@ class _BaseValidator {
       () => this._cakeSliceIdsTableNotFound(),
       () => this._cakeSliceIdsNotFound(),
       () => this._cakeLayerTablesNotFound(),
+      () => this._cakeLayerSliceIdsDoNotMatch(),
 
       // Check buffets
       () => this._buffetReferencedTableNotFound(),
@@ -1138,6 +1139,54 @@ class _BaseValidator {
       this.errors.cakeLayersNotFound = {
         error: 'Layer layers of cakes are missing',
         brokenCakes: missingCakeLayers,
+      };
+    }
+  }
+
+  private _cakeLayerSliceIdsDoNotMatch(): void {
+    const brokenCakes: Json[] = [];
+
+    iterateTablesSync(this.rljson, (tableKey, table) => {
+      if (table._type !== 'cakes') {
+        return;
+      }
+
+      const cakesTable: CakesTable = table as CakesTable;
+      for (const cake of cakesTable._data) {
+        for (const layersTableKey in cake.layers) {
+          if (layersTableKey.startsWith('_')) {
+            continue;
+          }
+
+          // Missing layers are reported by _cakeLayerTablesNotFound
+          const layersTable = this.rljsonIndexed[layersTableKey];
+          const layerRef = cake.layers[layersTableKey];
+          const layer = layersTable._data[layerRef];
+
+          // The layer must use the slice ids of the cake
+          if (
+            layer.sliceIdsTable !== cake.sliceIdsTable ||
+            layer.sliceIdsTableRow !== cake.sliceIdsRow
+          ) {
+            brokenCakes.push({
+              cakeTable: tableKey,
+              brokenCake: cake._hash,
+              layersTable: layersTableKey,
+              brokenLayer: layerRef,
+              cakeSliceIdsTable: cake.sliceIdsTable,
+              cakeSliceIdsRow: cake.sliceIdsRow,
+              layerSliceIdsTable: layer.sliceIdsTable,
+              layerSliceIdsRow: layer.sliceIdsTableRow,
+            });
+          }
+        }
+      }
+    });
+
+    if (brokenCakes.length > 0) {
+      this.errors.cakeLayerSliceIdsDoNotMatch = {
+        error: 'Layers of cakes do not use the slice ids of the cake',
+        brokenCakes,
       };
     }
   }

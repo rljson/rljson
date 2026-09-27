@@ -2,4 +2,4 @@
 // Kept in sync by test/rljson_version.test.ts.
 
 /** The version of the `@rljson/rljson` package. */
-export const rljsonVersion = '0.0.83';
+export const rljsonVersion = '0.0.84';
