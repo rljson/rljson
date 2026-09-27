@@ -11,8 +11,8 @@
     {
       "key": "base",
       "type": "string",
-      "titleLong": "Base SliceId",
-      "titleShort": "Base SliceId"
+      "titleLong": "Base SliceIds",
+      "titleShort": "Base"
     },
     {
       "key": "add",
