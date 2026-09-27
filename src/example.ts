@@ -17,7 +17,6 @@ import { exampleTreesTable, TreesTable } from './content/tree.ts';
 import { bakeryExample } from './example/bakery-example.ts';
 import { Rljson } from './rljson.ts';
 
-
 export class Example {
   static readonly ok = {
     bakery: (): Rljson => bakeryExample(),
@@ -885,6 +884,32 @@ export class Example {
         const result = Example.ok.complete();
         result.cakes._data[0].layers['abLayers'] = 'MISSING0';
         hip(result.cakes, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
+        return result;
+      },
+
+      layerWithOtherSliceIds: (): Rljson => {
+        const result = Example.ok.complete();
+
+        // Let the cake use another row of slice ids than its layers
+        result.sliceIds._data.push({ add: ['id0', 'id1', 'id2'] });
+        hip(result.sliceIds, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
+
+        const cake = result.cakes._data[0];
+        cake.sliceIdsRow = result.sliceIds._data[1]._hash;
+        hip(result.cakes, {
+          updateExistingHashes: true,
+          throwOnWrongHashes: false,
+        });
+
+        // Let the buffet refer to the changed cake
+        result.buffets._data[0].items[0].ref = cake._hash;
+        hip(result.buffets, {
           updateExistingHashes: true,
           throwOnWrongHashes: false,
         });
