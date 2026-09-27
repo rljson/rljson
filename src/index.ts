@@ -29,6 +29,7 @@ export * from './sync/connector-payload.ts';
 export * from './sync/gap-fill.ts';
 export * from './sync/sync-config.ts';
 export * from './sync/sync-events.ts';
+export * from './tools/ref.ts';
 export * from './tools/remove-duplicates.ts';
 export * from './tools/time-id.ts';
 export * from './typedefs.ts';
