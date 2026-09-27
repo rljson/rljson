@@ -504,7 +504,8 @@ objects:
 - **References**: All `*Ref` columns must point to existing rows
 - **Trees**: No cycles, all child hashes must resolve, correct node types
 - **Layers**: Component and SliceId tables must exist
-- **Cakes**: Layer tables must exist and share the same slice structure
+- **Cakes**: Layer tables and layers must exist, and every layer must use the
+  slice ids table and row of its cake
 - **Buffets**: Referenced items must exist in their declared tables
 
 The `BaseValidator` provides an extensible validator framework — multiple
