@@ -25,7 +25,7 @@ export interface Row extends Json {
 }
 
 /**
- * An `id` is a *user defined* name or identifier of an slice.
+ * An `id` is a *user defined* name or identifier of a slice.
  * It exists in parallel with the auto generated `_hash`.
  */
 export type SliceId = string;

@@ -14,46 +14,61 @@ import { TableCfg } from './table-cfg.ts';
 
 // .............................................................................
 /**
- * An SliceIdsRef is a hash pointing to an Ids
+ * A reference to a row of type `SliceIds`: the hash of that row
  */
 export type SliceIdsRef = Ref;
 
 // .............................................................................
 /**
- * A list of slice ids
+ * A set of slice ids, e.g. the cars of a catalog.
+ *
+ * A row can extend a base row. Its slice ids are then the slice ids of the
+ * base, plus `add`, minus `remove`. So a derived row stores only the
+ * difference.
+ * @example
+ * ```ts
+ * const cars2025 = hip<SliceIds>({ add: ['taycan', 'macan', 'ex30'] });
+ *
+ * // The cars of 2026: taycan, ex30, ex90
+ * const cars2026 = hip<SliceIds>({
+ *   base: ref(cars2025),
+ *   add: ['ex90'],
+ *   remove: ['macan'],
+ * });
+ * ```
  */
 export interface SliceIds extends Json {
   /**
-   * The base list of slice ids
+   * Optional: the reference to the row of slice ids that this row extends
    */
   base?: SliceIdsRef;
 
   /**
-   * The slice ids added to base
+   * The slice ids added to the base
    */
   add: SliceId[];
 
   /**
-   * The slice ids removed from base
+   * Optional: the slice ids removed from the base
    */
   remove?: SliceId[];
 }
 
 // .............................................................................
 /**
- * A table containing slice ids
+ * A table of type `sliceIds` whose rows are sets of slice ids
  */
 export type SliceIdsTable = RljsonTable<SliceIds, 'sliceIds'>;
 
 // .............................................................................
 /**
- * Returns one of the layers of the example cake
+ * Returns the slice ids table of the bakery example
  */
 export const exampleSliceIdsTable = (): SliceIdsTable => bakeryExample().slices;
 
 // .............................................................................
 /**
- * Creates a table configuration for slice ids table
+ * Creates the table configuration of a slice ids table
  * @param tableKey - the table key
  * @returns the table configuration
  */
