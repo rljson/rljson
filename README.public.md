@@ -37,6 +37,7 @@ Core types, validation, and sync protocol for the RLJSON data format.
   - [SyncEventNames](#synceventnames)
   - [ClientId](#clientid)
 - [Utilities](#utilities)
+  - [Row, ref and rowOf](#row-ref-and-rowof)
   - [TimeId](#timeid)
   - [RemoveDuplicates](#removeduplicates)
 - [Ecosystem](#ecosystem)
@@ -387,6 +388,28 @@ const onConflict: ConflictCallback = (conflict: Conflict) => {
 ```
 
 ## Utilities
+
+### Row, ref and rowOf
+
+A `Row` is a row of an Rljson table: a JSON object whose `_hash` is written by
+`hip`. `ref(row)` returns that hash, the reference other rows store to point to
+the row. `rowOf(table, hash)` follows a reference back to its row. Both throw
+when there is nothing to return: `ref` for a row that has not been hashed,
+`rowOf` for a hash the table does not contain.
+
+```typescript
+import { hip } from '@rljson/hash';
+import { ComponentsTable, ref, rowOf } from '@rljson/rljson';
+
+const ingredients = hip<ComponentsTable<{ id: string }>>({
+  _type: 'components',
+  _data: [{ id: 'flour' }, { id: 'sugar' }],
+});
+
+const [flour] = ingredients._data;
+const recipe = { ingredientsRef: ref(flour) }; // refers to the flour row
+rowOf(ingredients, recipe.ingredientsRef); // returns the flour row
+```
 
 ### TimeId
 

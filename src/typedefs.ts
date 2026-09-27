@@ -13,6 +13,18 @@ import { Json, JsonKey } from '@rljson/json';
 export type Ref = string;
 
 /**
+ * A row of an Rljson table: a JSON object that maps column names to values.
+ *
+ * `hip` from `@rljson/hash` writes the hash of the row into `_hash`. The hash
+ * is the primary key of the row: other rows refer to the row by it. `ref(row)`
+ * reads it.
+ */
+export interface Row extends Json {
+  /** The hash of the row, written by `hip` */
+  _hash?: Ref;
+}
+
+/**
  * An `id` is a *user defined* name or identifier of an slice.
  * It exists in parallel with the auto generated `_hash`.
  */
