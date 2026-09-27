@@ -140,6 +140,9 @@ German (`de`):
 }
 ```
 
+In TypeScript, the interface `Row` describes a row. Once hashed, a row carries
+its hash in the field `_hash`.
+
 ### Column Data Types
 
 Columns can contain any of the Rljson-supported data types: `string | number |
@@ -189,6 +192,19 @@ table `b` references table `a` using `aRef`:
 ```
 
 This reference structure enables automated denormalization of JSON data.
+
+In TypeScript, `ref(row)` returns the hash that `hip` has written into a row,
+ready to be stored in a reference column. `rowOf(table, hash)` follows the
+reference back to the row:
+
+```typescript
+import { hip } from '@rljson/hash';
+import { ref, rowOf } from '@rljson/rljson';
+
+const tableA = hip({ _type: 'components', _data: [{ a: 10 }] });
+const rowB = { tableARef: ref(tableA._data[0]) };
+rowOf(tableA, rowB.tableARef); // returns the row { a: 10, _hash: '...' }
+```
 
 ## Data Types
 
