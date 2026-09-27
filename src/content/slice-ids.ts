@@ -81,8 +81,8 @@ export const createSliceIdsTableCfg = (tableKey: string): TableCfg =>
       {
         key: 'base',
         type: 'string',
-        titleLong: 'Base SliceIds',
-        titleShort: 'Base',
+        titleLong: 'Base SliceId',
+        titleShort: 'Base SliceId',
       },
       {
         key: 'add',
