@@ -37,6 +37,7 @@ Core types, validation, and sync protocol for the RLJSON data format.
   - [SyncEventNames](#synceventnames)
   - [ClientId](#clientid)
 - [Utilities](#utilities)
+  - [Tables](#tables)
   - [Row, ref and rowOf](#row-ref-and-rowof)
   - [TimeId](#timeid)
   - [RemoveDuplicates](#removeduplicates)
@@ -388,6 +389,27 @@ const onConflict: ConflictCallback = (conflict: Conflict) => {
 ```
 
 ## Utilities
+
+### Tables
+
+`Tables` is a read-only view on the tables of an Rljson dump. By default it
+hides insert history tables and tables whose key starts with `_`.
+
+```ts
+import { Tables } from '@rljson/rljson';
+
+const tables = new Tables(rljson);
+tables.ls(); // ['cars', 'tableCfgs'] — sorted table keys
+tables.ls({ internal: true }); // also insert history and `_` tables
+tables.ls({ long: true }); // aligned lines: 'cars      components 2'
+tables.all; // the visible tables in ls() order
+tables.count; // number of visible tables
+tables.get('cars'); // the table or undefined
+tables.has('carsInsertHistory'); // true, also for internal tables
+tables.ofType('components'); // sorted keys of that type, internal included
+tables.cfg('cars'); // the latest TableCfg of the table
+tables.rowCount('cars'); // 2
+```
 
 ### Row, ref and rowOf
 
