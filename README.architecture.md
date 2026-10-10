@@ -633,6 +633,7 @@ The payload transmitted on the wire between Connector and Server:
 | `seq`   | `number`                | Predecessor chain | Monotonic counter per (client, route) |
 | `p`     | `InsertHistoryTimeId[]` | Predecessor chain | Causal predecessor timeIds            |
 | `cksum` | `string`                | Acknowledgment    | Content checksum for ACK verification |
+| `stamp` | `RefStamp`              | Hub order         | Where a stamping hub placed the ref   |
 
 ### AckPayload
 
@@ -645,6 +646,14 @@ received and processed a ref:
 | `ok`           | `boolean` | All clients confirmed?              |
 | `receivedBy`   | `number`  | Count of confirming clients         |
 | `totalClients` | `number`  | Total receiver clients at broadcast |
+
+### RefStamp
+
+`(domain, epoch, hub, n)`, set by the first hub that relays a ref and forwarded
+unchanged by every hub after it. Ordered lexicographically by
+`compareRefStamp`, a total order computed from no clock. The sender of a ref is
+excluded from the hub's fan-out, so it receives its stamp as a `StampPayload`
+(`{ r, stamp }`) on `${route}:stamp`.
 
 ### GapFill
 
@@ -686,6 +695,7 @@ Helper to generate typed socket event names from a route:
 | `${route}:gapfill:req` | client → server | Request missing refs              |
 | `${route}:gapfill:res` | server → client | Supply missing refs               |
 | `${route}:bootstrap`   | server → client | Latest ref on connect / heartbeat |
+| `${route}:stamp`       | server → sender | The stamp its announced ref got   |
 
 ### ClientId
 

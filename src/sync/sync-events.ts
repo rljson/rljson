@@ -30,6 +30,8 @@ export type SyncEventNames = {
   gapFillRes: string;
   /** Server → Client: bootstrap latest ref on connect / heartbeat. */
   bootstrap: string;
+  /** Server → Client (sender only): the stamp its announced ref received. */
+  stamp: string;
 };
 
 // .............................................................................
@@ -45,4 +47,5 @@ export const syncEvents = (route: string): SyncEventNames => ({
   gapFillReq: `${route}:gapfill:req`,
   gapFillRes: `${route}:gapfill:res`,
   bootstrap: `${route}:bootstrap`,
+  stamp: `${route}:stamp`,
 });
