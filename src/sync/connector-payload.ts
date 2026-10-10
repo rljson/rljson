@@ -7,6 +7,7 @@
 import { InsertHistoryTimeId } from '../insertHistory/insertHistory.ts';
 
 import { ClientId } from './client-id.ts';
+import { RefStamp } from './ref-stamp.ts';
 
 // .............................................................................
 /**
@@ -26,6 +27,7 @@ import { ClientId } from './client-id.ts';
  * | `seq`   | Predecessor chain      | Monotonic counter per (client, route)  |
  * | `p`     | Predecessor chain      | Causal predecessor timeIds             |
  * | `cksum` | Acknowledgment         | Content checksum for ACK verification  |
+ * | `stamp` | Hub order              | Where a stamping hub placed the ref    |
  */
 export type ConnectorPayload = {
   /** The ref (InsertHistoryTimeId) being announced. */
@@ -48,6 +50,14 @@ export type ConnectorPayload = {
 
   /** Content checksum of the referenced data, for ACK verification. */
   cksum?: string;
+
+  /**
+   * Where a stamping hub placed the ref in the order it relays them.
+   *
+   * Set by the first hub that relays the ref; a hub that receives a payload
+   * already carrying a stamp forwards it unchanged.
+   */
+  stamp?: RefStamp;
 };
 
 // .............................................................................
@@ -71,4 +81,5 @@ export const connectorPayloadFullExample = (): ConnectorPayload => ({
   seq: 42,
   p: ['1700000000000:XyZw'],
   cksum: 'sha256:abc123def456',
+  stamp: { domain: 'example', epoch: 1, hub: 'hub_ExAmPlE', n: 1 },
 });

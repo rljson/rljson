@@ -27,6 +27,7 @@ describe('ConnectorPayload', () => {
       expect(payload.seq).toBeUndefined();
       expect(payload.p).toBeUndefined();
       expect(payload.cksum).toBeUndefined();
+      expect(payload.stamp).toBeUndefined();
     });
   });
 
@@ -40,6 +41,12 @@ describe('ConnectorPayload', () => {
       expect(payload.seq).toBe(42);
       expect(payload.p).toEqual(['1700000000000:XyZw']);
       expect(payload.cksum).toBe('sha256:abc123def456');
+      expect(payload.stamp).toEqual({
+        domain: 'example',
+        epoch: 1,
+        hub: 'hub_ExAmPlE',
+        n: 1,
+      });
     });
   });
 
@@ -77,6 +84,13 @@ describe('ConnectorPayload', () => {
         cksum: 'sha256:xyz',
       };
       expect(withChecksum.cksum).toBe('sha256:xyz');
+
+      const withStamp: ConnectorPayload = {
+        o: 'o',
+        r: 'r',
+        stamp: { domain: 'd', epoch: 0, hub: 'h', n: 0 },
+      };
+      expect(withStamp.stamp?.n).toBe(0);
     });
 
     it('supports empty predecessors array', () => {

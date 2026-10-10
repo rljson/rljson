@@ -32,6 +32,7 @@ Core types, validation, and sync protocol for the RLJSON data format.
 - [Sync Protocol](#sync-protocol)
   - [ConnectorPayload](#connectorpayload)
   - [AckPayload](#ackpayload)
+  - [RefStamp](#refstamp)
   - [GapFill](#gapfill)
   - [SyncConfig](#syncconfig)
   - [SyncEventNames](#synceventnames)
@@ -283,6 +284,7 @@ const enriched: ConnectorPayload = {
   seq: 42,                 // monotonic sequence number
   p: ['prev-timeId'],      // causal predecessors
   cksum: 'sha256:...',     // content checksum
+  stamp: { domain: 'office', epoch: 3, hub: 'node-7', n: 12 }, // hub order
 };
 ```
 
@@ -299,6 +301,39 @@ const ack: AckPayload = {
   receivedBy: 3,
   totalClients: 3,
 };
+```
+
+### RefStamp
+
+Where a stamping hub placed a ref in the order it relays them — a fact about
+what the fleet saw, read from no clock. The first hub that relays a ref stamps
+it; a hub that receives a payload already carrying a `stamp` forwards it
+unchanged.
+
+| Field    | Meaning                                              |
+| -------- | ---------------------------------------------------- |
+| `domain` | The network domain whose hub stamped the ref         |
+| `epoch`  | Advanced each time a hub takes office in that domain |
+| `hub`    | The node id of the stamping hub                      |
+| `n`      | Monotonic within `(domain, epoch, hub)`              |
+
+`compareRefStamp` orders stamps lexicographically on `(domain, epoch, hub, n)`.
+It is a total order, so every machine sorts the same stamps the same way, and
+`hub` keeps two hubs that both believe they hold one epoch distinct.
+
+A hub forwards an announcement to everyone except its sender, so the sender
+learns its own stamp from a `StampPayload` on the `${route}:stamp` event.
+`isRefStamp` checks a value received from the wire before anything orders by
+it.
+
+```typescript
+import { compareRefStamp, isRefStamp, RefStamp } from '@rljson/rljson';
+
+const a: RefStamp = { domain: 'office', epoch: 3, hub: 'node-7', n: 12 };
+const b: RefStamp = { domain: 'office', epoch: 4, hub: 'node-2', n: 1 };
+
+compareRefStamp(a, b); // < 0 — a later epoch orders after, whatever its n
+isRefStamp({ domain: 'office' }); // false
 ```
 
 ### GapFill
@@ -347,6 +382,7 @@ const events = syncEvents('/sharedTree');
 // events.gapFillReq → '/sharedTree:gapfill:req'
 // events.gapFillRes → '/sharedTree:gapfill:res'
 // events.bootstrap  → '/sharedTree:bootstrap'
+// events.stamp      → '/sharedTree:stamp'
 ```
 
 ### ClientId
