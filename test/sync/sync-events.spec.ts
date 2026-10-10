@@ -17,6 +17,7 @@ describe('syncEvents', () => {
     expect(events.gapFillReq).toBe('/sharedTree:gapfill:req');
     expect(events.gapFillRes).toBe('/sharedTree:gapfill:res');
     expect(events.bootstrap).toBe('/sharedTree:bootstrap');
+    expect(events.stamp).toBe('/sharedTree:stamp');
   });
 
   it('works with nested routes', () => {
@@ -27,6 +28,7 @@ describe('syncEvents', () => {
     expect(events.gapFillReq).toBe('/project/files/tree:gapfill:req');
     expect(events.gapFillRes).toBe('/project/files/tree:gapfill:res');
     expect(events.bootstrap).toBe('/project/files/tree:bootstrap');
+    expect(events.stamp).toBe('/project/files/tree:stamp');
   });
 
   it('works with simple single-segment routes', () => {
@@ -42,10 +44,10 @@ describe('syncEvents', () => {
     expect(eventsA.gapFillReq).not.toBe(eventsB.gapFillReq);
   });
 
-  it('returns distinct values for all six events', () => {
+  it('returns distinct values for all seven events', () => {
     const events = syncEvents('/tree');
     const values = Object.values(events);
     const unique = new Set(values);
-    expect(unique.size).toBe(6);
+    expect(unique.size).toBe(7);
   });
 });
