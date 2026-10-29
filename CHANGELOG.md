@@ -2,6 +2,15 @@
 
 ## [Unreleased]
 
+### Developed in gg tickets
+
+- **Developed in gg tickets.** The repo carries the rljson DNA (`@rljson/dna-rljson`): gg's `/gg-*` skills, the guides and the quick check (`.github/workflows/quick_check.yaml`).
+- **Pull requests are checked by the quick check** (`gg one did commit`: every commit went through gg's local lint, tests and coverage). `Build and Test` runs on `main` after the merge.
+- **`tsconfig.json` lists `node` in `types`:** TypeScript 6 includes no `@types` by default.
+- **vitest also runs `test/**/*.test.ts`,** where gg's release writes the version test.
+- **`minimumReleaseAgeExclude: ['@rljson/*']`:** pnpm 11 holds back packages younger than a day, and a release of the chain installs versions published minutes earlier.
+- **Dependencies raised to their newest versions** (TypeScript 6 among them).
+
 ### Releases go through gg
 
 **What changed for contributors.** A release happens only when the owner
