@@ -40,3 +40,5 @@ Thumbs.db
 
 # gg: the local ticket marker written by `gg one do create ticket`
 ticket.json
+.gg/*
+!.gg/gg.json
