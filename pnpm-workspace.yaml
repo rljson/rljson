@@ -1,4 +1,5 @@
 allowBuilds:
   esbuild: set this to true or false
 minimumReleaseAgeExclude:
-  - '@rljson/hash@0.0.19'
+  - '@rljson/*'
+  - '@ggdna/dna-gg@1.1.1'
