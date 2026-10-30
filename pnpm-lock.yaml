@@ -9,8 +9,8 @@ importers:
   .:
     dependencies:
       '@rljson/hash':
-        specifier: 0.0.20
-        version: 0.0.20
+        specifier: 0.0.21
+        version: 0.0.21
       '@rljson/json':
         specifier: 0.0.23
         version: 0.0.23
@@ -19,8 +19,8 @@ importers:
         version: 6.0.2
     devDependencies:
       '@rljson/dna-rljson':
-        specifier: ^0.3.1
-        version: 0.3.1
+        specifier: ^0.3.2
+        version: 0.3.2
       '@tssuite/helix-js':
         specifier: ^0.5.1
         version: 0.5.1
@@ -263,12 +263,12 @@ packages:
   '@oxc-project/types@0.155.0':
     resolution: {integrity: sha512-SeE8JPwW1xs1tHeNycjUtUBdhorRa8o4jlvjwk49R7/Z291i+4DQa7JJIgOm/TaYQZx+QrPQbVJ/9c8dMIZN8Q==}
 
-  '@rljson/dna-rljson@0.3.1':
-    resolution: {integrity: sha512-9cFuhq6EuQ6cYcsTgtHy+wGyQxOlg70+rrYkGhezJBOd1pIxYz4g4ZnXgohxYzSoxDvMAB1eINV60MyHTy72Xw==}
+  '@rljson/dna-rljson@0.3.2':
+    resolution: {integrity: sha512-WYR1D9xY3QtsPlm+yvVFnbIBo6eK5+H9WbKVPu3dQnOAHM5W2ZevfHCaCtqYOsM0VeubotvgMbbFSiT4EXrAIw==}
     engines: {node: '>=22'}
 
-  '@rljson/hash@0.0.20':
-    resolution: {integrity: sha512-YbNHOzquPrNfg2X89aHfJ7O3T1xWiTK+orz6d0LZrPikCHSIyQ7XULYjYqWUI2VngrQjMPOuskitjqZVj1pqYA==}
+  '@rljson/hash@0.0.21':
+    resolution: {integrity: sha512-mmvUH1JDI/GNIKZ2CXWe+NVp2GyXaQe0VLzsnqdwIRF1geWHUjA1ctGV1OPibz7KxE2/3RHut1hPREdduXaIPQ==}
     engines: {node: '>=22.14.0'}
 
   '@rljson/json@0.0.23':
@@ -648,8 +648,8 @@ packages:
   confbox@0.1.8:
     resolution: {integrity: sha512-RMtmw0iFkeR4YV+fUOSucriAQNb9g8zFR52MWCtl+cCZOFRNL6zeB395vPzFhEjjn4fMxXudmELnl/KF/WrK6w==}
 
-  confbox@0.3.1:
-    resolution: {integrity: sha512-cKUSoKa8YxFZZSmraVi7onONx3amu77ngK3kGpsYHDH7drPwCRkQE1RYMPlLRrMtnciRj274XNRxcHxnKmDSnA==}
+  confbox@0.3.2:
+    resolution: {integrity: sha512-ZUAKhKlkCOrIGKc8cj7zek9s9z1mveHif/25nUshI2BzCRzF7KH7KHa+Lnh2ubq+e1tIlaFuP763mzW4qVoehg==}
 
   cross-env@10.1.0:
     resolution: {integrity: sha512-GsYosgnACZTADcmEyJctkJIoqAhHjttw7RsFrVoJNXbsWWqaq6Ym+7kZjq6mS45O0jij6vtiReppKQEtqWy6Dw==}
@@ -1716,7 +1716,7 @@ snapshots:
 
   '@oxc-project/types@0.155.0': {}
 
-  '@rljson/dna-rljson@0.3.1':
+  '@rljson/dna-rljson@0.3.2':
     dependencies:
       '@ggdna/dna-blog': 0.3.0
       '@ggdna/dna-clean-code': 0.3.0
@@ -1727,7 +1727,7 @@ snapshots:
       '@ggdna/dna-readme': 0.3.1
       '@ggdna/dna-translate': 0.3.0
 
-  '@rljson/hash@0.0.20':
+  '@rljson/hash@0.0.21':
     dependencies:
       '@rljson/json': 0.0.23
 
@@ -2081,7 +2081,7 @@ snapshots:
 
   confbox@0.1.8: {}
 
-  confbox@0.3.1: {}
+  confbox@0.3.2: {}
 
   cross-env@10.1.0:
     dependencies:
@@ -2555,7 +2555,7 @@ snapshots:
 
   pkg-types@2.4.0:
     dependencies:
-      confbox: 0.3.1
+      confbox: 0.3.2
       exsolve: 1.2.0
       pathe: 2.0.3
 
