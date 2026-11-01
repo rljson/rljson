@@ -2,6 +2,13 @@
 
 ## [Unreleased]
 
+### `ConnectorPayload.src`: the node a ref came from
+
+- **New optional field `src`:** the node id of the client a hub received the
+  ref from. The hub sets it when it relays the ref; a sender never does. A
+  receiver may read the ref's data from that node first and fall back to the
+  hub. Old payloads without the field stay valid.
+
 ### CLAUDE.md keeps this repo's own rules
 
 - The rules every rljson repo shares (coverage, pinning, docs, releases,

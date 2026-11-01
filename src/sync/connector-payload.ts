@@ -28,6 +28,7 @@ import { RefStamp } from './ref-stamp.ts';
  * | `p`     | Predecessor chain      | Causal predecessor timeIds             |
  * | `cksum` | Acknowledgment         | Content checksum for ACK verification  |
  * | `stamp` | Hub order              | Where a stamping hub placed the ref    |
+ * | `src`   | Source node            | Node to read the ref's data from first |
  */
 export type ConnectorPayload = {
   /** The ref (InsertHistoryTimeId) being announced. */
@@ -58,6 +59,17 @@ export type ConnectorPayload = {
    * already carrying a stamp forwards it unchanged.
    */
   stamp?: RefStamp;
+
+  /**
+   * The node the relaying hub received the ref from, by its node id.
+   *
+   * Set by the hub when it relays the ref, never by the sender: a hub
+   * overwrites what arrives, and leaves the field out when it does not know
+   * the sending node. A receiver may read the ref's data from that node
+   * directly before it asks the hub. It is a hint, not a promise: the node
+   * may be gone or unreachable, and the hub can still serve the data.
+   */
+  src?: string;
 };
 
 // .............................................................................
@@ -82,4 +94,5 @@ export const connectorPayloadFullExample = (): ConnectorPayload => ({
   p: ['1700000000000:XyZw'],
   cksum: 'sha256:abc123def456',
   stamp: { domain: 'example', epoch: 1, hub: 'hub_ExAmPlE', n: 1 },
+  src: 'node_ExAmPlE',
 });

@@ -28,6 +28,7 @@ describe('ConnectorPayload', () => {
       expect(payload.p).toBeUndefined();
       expect(payload.cksum).toBeUndefined();
       expect(payload.stamp).toBeUndefined();
+      expect(payload.src).toBeUndefined();
     });
   });
 
@@ -47,6 +48,7 @@ describe('ConnectorPayload', () => {
         hub: 'hub_ExAmPlE',
         n: 1,
       });
+      expect(payload.src).toBe('node_ExAmPlE');
     });
   });
 
@@ -91,6 +93,9 @@ describe('ConnectorPayload', () => {
         stamp: { domain: 'd', epoch: 0, hub: 'h', n: 0 },
       };
       expect(withStamp.stamp?.n).toBe(0);
+
+      const withSource: ConnectorPayload = { o: 'o', r: 'r', src: 'node-a' };
+      expect(withSource.src).toBe('node-a');
     });
 
     it('supports empty predecessors array', () => {
