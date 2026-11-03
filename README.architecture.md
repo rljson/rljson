@@ -624,16 +624,21 @@ only when the corresponding `SyncConfig` flags are set.
 
 The payload transmitted on the wire between Connector and Server:
 
-| Field   | Type                    | Concept           | Purpose                               |
-| ------- | ----------------------- | ----------------- | ------------------------------------- |
-| `r`     | `string`                | existing          | The ref being announced               |
-| `o`     | `string`                | existing          | Ephemeral origin for self-echo filter |
-| `c`     | `ClientId`              | Client identity   | Stable client id across reconnections |
-| `t`     | `number`                | Client identity   | Client-side wall-clock timestamp (ms) |
-| `seq`   | `number`                | Predecessor chain | Monotonic counter per (client, route) |
-| `p`     | `InsertHistoryTimeId[]` | Predecessor chain | Causal predecessor timeIds            |
-| `cksum` | `string`                | Acknowledgment    | Content checksum for ACK verification |
-| `stamp` | `RefStamp`              | Hub order         | Where a stamping hub placed the ref   |
+| Field   | Type                    | Concept           | Purpose                                |
+| ------- | ----------------------- | ----------------- | -------------------------------------- |
+| `r`     | `string`                | existing          | The ref being announced                |
+| `o`     | `string`                | existing          | Ephemeral origin for self-echo filter  |
+| `c`     | `ClientId`              | Client identity   | Stable client id across reconnections  |
+| `t`     | `number`                | Client identity   | Client-side wall-clock timestamp (ms)  |
+| `seq`   | `number`                | Predecessor chain | Monotonic counter per (client, route)  |
+| `p`     | `InsertHistoryTimeId[]` | Predecessor chain | Causal predecessor timeIds             |
+| `cksum` | `string`                | Acknowledgment    | Content checksum for ACK verification  |
+| `stamp` | `RefStamp`              | Hub order         | Where a stamping hub placed the ref    |
+| `src`   | `string`                | Source node       | Node to read the ref's data from first |
+
+`src` is set by the relaying hub, never by the sender: the node id of the
+client it received the ref from, or nothing when it does not know that node.
+It is a hint for readers; the hub can always serve the data.
 
 ### AckPayload
 

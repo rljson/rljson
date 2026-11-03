@@ -285,8 +285,13 @@ const enriched: ConnectorPayload = {
   p: ['prev-timeId'],      // causal predecessors
   cksum: 'sha256:...',     // content checksum
   stamp: { domain: 'office', epoch: 3, hub: 'node-7', n: 12 }, // hub order
+  src: 'node-3',           // set by the relaying hub: the node it came from
 };
 ```
+
+A hub sets `src` when it relays a ref: the node id of the client it received
+the ref from. A receiver may read the ref's data from that node first; the
+field is a hint, and the hub can still serve the data.
 
 ### AckPayload
 
