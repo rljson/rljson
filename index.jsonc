@@ -33,7 +33,11 @@
       "db": "routes, table types, Connector wire types (ConnectorPayload, SyncConfig)",
       "server": "ConnectorPayload (src set by the hub), syncEvents, RefStamp",
       "fs-agent": "tree and edit types, routes",
-      "mongo-agent": "table types, routes"
+      "mongo-agent": "table types, routes",
+      "converter": "table types: SliceIds, Layers, MultiEdits, TableCfg",
+      "validate": "Rljson; re-exports BaseValidator, Validate, ValidationResult",
+      "io-sqlite-node": "TableCfg, ColumnCfg, TableKey",
+      "webcache": "Rljson, TableCfg"
     }
   }
 }
