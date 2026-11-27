@@ -4,13 +4,16 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+overrides:
+  '@rljson/hash': link:./.gg/ts_links/@rljson/hash
+
 importers:
 
   .:
     dependencies:
       '@rljson/hash':
-        specifier: 0.0.22
-        version: 0.0.22
+        specifier: link:.gg/ts_links/@rljson/hash
+        version: link:.gg/ts_links/@rljson/hash
       '@rljson/json':
         specifier: 0.0.23
         version: 0.0.23
@@ -269,10 +272,6 @@ packages:
   '@rljson/dna-rljson@0.4.0':
     resolution: {integrity: sha512-w5RpVjRv0719GBvotxmmMLyMgLF2UApbJx03ElkITJspjA9Prtf1y/mpPY3AqGpv0+q4UmxKesDUKRcGZpHGLA==}
     engines: {node: '>=22'}
-
-  '@rljson/hash@0.0.22':
-    resolution: {integrity: sha512-TP9TPKeE4ksyRy4q7EUOyETLrqH9Vbk7PzT8nCosDV6d8p+17TwPlL2tPqDqchBzSvKy8cRB9az7oZ27L6i9kg==}
-    engines: {node: '>=22.14.0'}
 
   '@rljson/json@0.0.23':
     resolution: {integrity: sha512-ViYo8zx0z/SomjpS2f+xK+tS7HTwZI1HzRarHpXO3spVjpaF+GKCa7HgDXoV/Wc+zsliDzo8wz7S5NFb0yZaow==}
@@ -1739,10 +1738,6 @@ snapshots:
       '@ggdna/dna-install': 0.5.0
       '@ggdna/dna-readme': 0.5.0
       '@ggdna/dna-translate': 0.6.0
-
-  '@rljson/hash@0.0.22':
-    dependencies:
-      '@rljson/json': 0.0.23
 
   '@rljson/json@0.0.23': {}
 

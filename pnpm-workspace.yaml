@@ -11,3 +11,5 @@ minimumReleaseAgeExclude:
   - '@ggdna/dna-install@0.5.0'
   - '@ggdna/dna-readme@0.5.0'
   - '@ggdna/dna-translate@0.6.0'
+overrides:
+  "@rljson/hash": link:./.gg/ts_links/@rljson/hash
