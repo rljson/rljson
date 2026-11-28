@@ -28,6 +28,7 @@ export * from './sync/conflict.ts';
 export * from './sync/connector-payload.ts';
 export * from './sync/gap-fill.ts';
 export * from './sync/ref-stamp.ts';
+export * from './sync/route-holders.ts';
 export * from './sync/sync-config.ts';
 export * from './sync/sync-events.ts';
 export * from './tables/tables.ts';

@@ -286,12 +286,18 @@ const enriched: ConnectorPayload = {
   cksum: 'sha256:...',     // content checksum
   stamp: { domain: 'office', epoch: 3, hub: 'node-7', n: 12 }, // hub order
   src: 'node-3',           // set by the relaying hub: the node it came from
+  holders: { 'node-3': 'ref', 'node-5': 'prev-timeId' }, // set by the hub
 };
 ```
 
 A hub sets `src` when it relays a ref: the node id of the client it received
 the ref from. A receiver may read the ref's data from that node first; the
 field is a hint, and the hub can still serve the data.
+
+A hub also sets `holders` on what it sends: per node, the newest ref that node
+holds completely (`RouteHolders`). A client says its node holds a ref by
+sending a `HeldPayload` (`{ r }`) on `syncEvents(route).held`. A reader may ask
+these nodes for the data before the hub.
 
 ### AckPayload
 

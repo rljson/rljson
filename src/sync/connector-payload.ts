@@ -8,6 +8,7 @@ import { InsertHistoryTimeId } from '../insertHistory/insertHistory.ts';
 
 import { ClientId } from './client-id.ts';
 import { RefStamp } from './ref-stamp.ts';
+import { RouteHolders, routeHoldersExample } from './route-holders.ts';
 
 // .............................................................................
 /**
@@ -18,17 +19,18 @@ import { RefStamp } from './ref-stamp.ts';
  * optional and activate only when the corresponding `SyncConfig`
  * flags are set.
  *
- * | Field   | Concept                | Purpose                                |
- * |---------|------------------------|----------------------------------------|
- * | `r`     | existing               | The ref being announced                |
- * | `o`     | existing               | Ephemeral origin for self-echo filter  |
- * | `c`     | Client identity        | Stable client id across reconnections  |
- * | `t`     | Client identity        | Client-side wall-clock timestamp (ms)  |
- * | `seq`   | Predecessor chain      | Monotonic counter per (client, route)  |
- * | `p`     | Predecessor chain      | Causal predecessor timeIds             |
- * | `cksum` | Acknowledgment         | Content checksum for ACK verification  |
- * | `stamp` | Hub order              | Where a stamping hub placed the ref    |
- * | `src`   | Source node            | Node to read the ref's data from first |
+ * | Field     | Concept           | Purpose                                 |
+ * |-----------|-------------------|-----------------------------------------|
+ * | `r`       | existing          | The ref being announced                 |
+ * | `o`       | existing          | Ephemeral origin for self-echo filter   |
+ * | `c`       | Client identity   | Stable client id across reconnections   |
+ * | `t`       | Client identity   | Client-side wall-clock timestamp (ms)   |
+ * | `seq`     | Predecessor chain | Monotonic counter per (client, route)   |
+ * | `p`       | Predecessor chain | Causal predecessor timeIds              |
+ * | `cksum`   | Acknowledgment    | Content checksum for ACK verification   |
+ * | `stamp`   | Hub order         | Where a stamping hub placed the ref     |
+ * | `src`     | Source node       | Node to read the ref's data from first  |
+ * | `holders` | Holders           | Which node holds which ref of the route |
  */
 export type ConnectorPayload = {
   /** The ref (InsertHistoryTimeId) being announced. */
@@ -70,6 +72,17 @@ export type ConnectorPayload = {
    * may be gone or unreachable, and the hub can still serve the data.
    */
   src?: string;
+
+  /**
+   * Which node holds which ref of the route, as the hub knows it: per node,
+   * the newest ref it holds completely.
+   *
+   * Set by a hub on what it sends its clients — relayed refs, the bootstrap,
+   * the state beacon — never by a sender: a hub overwrites what arrives. Only
+   * nodes the receiver may read from are named. A hint, like `src`: a reader
+   * may ask these nodes for the data before the hub.
+   */
+  holders?: RouteHolders;
 };
 
 // .............................................................................
@@ -95,4 +108,5 @@ export const connectorPayloadFullExample = (): ConnectorPayload => ({
   cksum: 'sha256:abc123def456',
   stamp: { domain: 'example', epoch: 1, hub: 'hub_ExAmPlE', n: 1 },
   src: 'node_ExAmPlE',
+  holders: routeHoldersExample(),
 });

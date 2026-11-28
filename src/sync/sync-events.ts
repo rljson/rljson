@@ -32,6 +32,8 @@ export type SyncEventNames = {
   bootstrap: string;
   /** Server → Client (sender only): the stamp its announced ref received. */
   stamp: string;
+  /** Client → Server: the client's node holds a ref completely. */
+  held: string;
 };
 
 // .............................................................................
@@ -48,4 +50,5 @@ export const syncEvents = (route: string): SyncEventNames => ({
   gapFillRes: `${route}:gapfill:res`,
   bootstrap: `${route}:bootstrap`,
   stamp: `${route}:stamp`,
+  held: `${route}:held`,
 });

@@ -635,10 +635,18 @@ The payload transmitted on the wire between Connector and Server:
 | `cksum` | `string`                | Acknowledgment    | Content checksum for ACK verification  |
 | `stamp` | `RefStamp`              | Hub order         | Where a stamping hub placed the ref    |
 | `src`   | `string`                | Source node       | Node to read the ref's data from first |
+| `holders` | `RouteHolders`        | Holders           | Which node holds which ref of the route |
 
 `src` is set by the relaying hub, never by the sender: the node id of the
 client it received the ref from, or nothing when it does not know that node.
 It is a hint for readers; the hub can always serve the data.
+
+`holders` is set by a hub on what it sends its clients — relayed refs, the
+bootstrap, the state beacon: per node id, the newest ref that node holds
+completely (`RouteHolders`). A node enters it as the sender of a ref, or by
+sending a `HeldPayload` (`{ r }`) on `${route}:held`, and leaves it when its
+last connection to the hub ends. Only nodes the receiver may read from are
+named. A hint like `src`.
 
 ### AckPayload
 
@@ -701,6 +709,7 @@ Helper to generate typed socket event names from a route:
 | `${route}:gapfill:res` | server → client | Supply missing refs               |
 | `${route}:bootstrap`   | server → client | Latest ref on connect / heartbeat |
 | `${route}:stamp`       | server → sender | The stamp its announced ref got   |
+| `${route}:held`        | client → server | Its node holds a ref completely   |
 
 ### ClientId
 
@@ -776,6 +785,7 @@ src/
 │   ├── client-id.ts            # ClientId, clientId(), isClientId()
 │   ├── connector-payload.ts    # ConnectorPayload
 │   ├── gap-fill.ts             # GapFillRequest, GapFillResponse
+│   ├── route-holders.ts        # RouteHolders, HeldPayload
 │   ├── sync-config.ts          # SyncConfig
 │   └── sync-events.ts          # SyncEventNames, syncEvents()
 │

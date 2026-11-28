@@ -29,6 +29,7 @@ describe('ConnectorPayload', () => {
       expect(payload.cksum).toBeUndefined();
       expect(payload.stamp).toBeUndefined();
       expect(payload.src).toBeUndefined();
+      expect(payload.holders).toBeUndefined();
     });
   });
 
@@ -49,6 +50,11 @@ describe('ConnectorPayload', () => {
         n: 1,
       });
       expect(payload.src).toBe('node_ExAmPlE');
+      expect(payload.holders).toEqual({
+        node_ExAmPlE: '1700000000001:EfGh',
+        node_OtHeR: '1700000000001:EfGh',
+        node_BeHiNd: '1700000000000:XyZw',
+      });
     });
   });
 
@@ -96,6 +102,13 @@ describe('ConnectorPayload', () => {
 
       const withSource: ConnectorPayload = { o: 'o', r: 'r', src: 'node-a' };
       expect(withSource.src).toBe('node-a');
+
+      const withHolders: ConnectorPayload = {
+        o: 'o',
+        r: 'r',
+        holders: { 'node-a': 'r', 'node-b': 'older' },
+      };
+      expect(withHolders.holders?.['node-b']).toBe('older');
     });
 
     it('supports empty predecessors array', () => {

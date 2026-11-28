@@ -2,6 +2,25 @@
 
 ## [Unreleased]
 
+### `ConnectorPayload.holders`: which node holds which ref
+
+- **New optional field `holders`** (`RouteHolders`): per node id, the newest
+  ref of the route that node holds completely. A hub sets it on what it sends
+  its clients; a sender never does. A hint for readers, like `src`. Old
+  payloads without the field stay valid.
+- **New event `held`** in `syncEvents(route)`: `${route}:held`, client →
+  server, with a `HeldPayload` (`{ r }`): the client's node holds that ref
+  completely.
+
+### The build runs on Windows
+
+- **`pnpm run build` copies with a node script:** the READMEs and
+  `src/example.ts` go into `dist` through `scripts/copy-readme-to-dist.js`
+  instead of `cp` and `mkdir`, which `cmd.exe` refuses. `dist` holds the same
+  files as before.
+
+## [0.0.90]
+
 ### The rljson DNA 0.4.0: docs language first, no prompts hook
 
 - `@rljson/dna-rljson` 0.4.0, on dna-gg 2.0: the guides and templates of the

@@ -9,7 +9,7 @@
   "name": "@rljson/rljson",
 
   // 1-2 sentence summary about this repo.
-  "summary": "Layer 0 of Rljson: the data format and its types. Tables (components, layers, cakes, sliceIds, trees, edits, insertHistory), TableCfg, Route, refs, validation, examples; sync wire types (ConnectorPayload incl. stamp/src, AckPayload, GapFill, SyncConfig, ClientId, RefStamp).",
+  "summary": "Layer 0 of Rljson: the data format and its types. Tables (components, layers, cakes, sliceIds, trees, edits, insertHistory), TableCfg, Route, refs, validation, examples; sync wire types (ConnectorPayload incl. stamp/src/holders, RouteHolders, HeldPayload, AckPayload, GapFill, SyncConfig, ClientId, RefStamp).",
 
   // 1-3 bullet points: the problem space.
   "domain": [
@@ -31,7 +31,7 @@
     "usedBy": {
       "io": "Rljson, TableCfg, ContentType for every Io",
       "db": "routes, table types, Connector wire types (ConnectorPayload, SyncConfig)",
-      "server": "ConnectorPayload (src set by the hub), syncEvents, RefStamp",
+      "server": "ConnectorPayload (src and holders set by the hub), syncEvents incl. held, RouteHolders, HeldPayload, RefStamp",
       "fs-agent": "tree and edit types, routes",
       "mongo-agent": "table types, routes",
       "converter": "table types: SliceIds, Layers, MultiEdits, TableCfg",
